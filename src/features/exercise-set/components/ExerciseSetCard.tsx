@@ -1,9 +1,7 @@
 import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { useAppDispatch } from 'src/store/hooks';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { ExerciseSetMode } from 'src/features/exercise-set/enums/ExerciseSetMode.enum';
 import type React from 'react';
 import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
 

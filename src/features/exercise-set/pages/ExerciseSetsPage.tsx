@@ -87,13 +87,10 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                     <p className="text-2xl font-bold">Exercise Sets</p>
                 </div>
                 <div
-                    className="w-full h-auto p-4 
+                    className="w-full h-auto p-4
                     flex flex-col justify-start items-start gap-10"
                 >
-                    {extendedSources.length === 0 ? (
-                        <LoadingPage />
-                    ) : (
-                        extendedSources.map((extendedSource) => (
+                    {extendedSources.map((extendedSource) => (
                             <>
                                 {extendedSource.exerciseSets &&
                                     extendedSource.exerciseSets.length > 0 && (
@@ -176,7 +173,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                 ))}
                             </>
                         ))
-                    )}
+                    }
                 </div>
             </div>
 

@@ -88,19 +88,14 @@ export function ProcessedSourcesPage({ className }: { className?: string }) {
                 >
                     <p className="text-2xl font-bold">Processed Sources</p>
                 </div>
-                {processedSources.length === 0 ? (
-                    <div className="col-span-1 sm:col-span-2 lg:col-span-3">
-                        <LoadingPage />
-                    </div>
-                ) : (
-                    processedSources.map((processedSources) => (
+                {processedSources.map((processedSources) => (
                         <ProcessedSourceCard
                             processedSource={processedSources}
                             fetchProcessedSources={updateProcessedSources}
                             toggleSourceActionMenu={toggleProcessedSourceActionMenu}
                         />
                     ))
-                )}
+                }
             </div>
 
             <BodyModal

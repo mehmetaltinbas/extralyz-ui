@@ -15,7 +15,6 @@ import type { Source } from 'src/features/source/types/source.interface';
 
 export function SourcesPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
-    const sidebar = useAppSelector((state) => state.sidebar);
     const sources = useAppSelector((state) => state.sources);
     const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
     const [isSourceCreateFormHidden, setIsSourceCreateFormHidden] = useState<boolean>(true);
@@ -27,7 +26,7 @@ export function SourcesPage({ className }: { className?: string }) {
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
 
-    async function updateSourcesState() {
+    function updateSourcesState() {
         dispatch(sourcesActions.fetchData());
     }
 
@@ -74,7 +73,7 @@ export function SourcesPage({ className }: { className?: string }) {
 
     async function deleteSource(): Promise<string> {
         const response = await sourceService.deleteById(actionMenuSourceId);
-        await updateSourcesState();
+        updateSourcesState();
         return response.message;
     }
 
@@ -100,17 +99,12 @@ export function SourcesPage({ className }: { className?: string }) {
                     className="relative w-full h-auto p-4 col-span-1 sm:col-span-2 lg:col-span-3
                     flex flex justify-center items-center gap-2"
                 >
-                    <p className="text-2xl">Sources</p>
+                    <p className="text-2xl font-bold">Sources</p>
                     <BlackButton onClick={toggleCreateSourceForm} className="absolute right-4">
                         new Source
                     </BlackButton>
                 </div>
-                {sources.length === 0 ? (
-                    <div className="w-full h-full col-span-1 sm:col-span-2 lg:col-span-3">
-                        <LoadingPage />
-                    </div>
-                ) : (
-                    sources.map((source) => (
+                {sources.map((source) => (
                         <div className="flex justify-center items-center">
                             <SourceCard
                                 source={source}
@@ -118,7 +112,7 @@ export function SourcesPage({ className }: { className?: string }) {
                             />
                         </div>
                     ))
-                )}
+                }
             </div>
 
             <BodyModal

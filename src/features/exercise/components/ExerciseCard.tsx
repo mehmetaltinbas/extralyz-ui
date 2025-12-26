@@ -1,11 +1,11 @@
 import type React from 'react';
-import { ExerciseType } from '../enums/exercise-types.enum';
+import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
+import { ExerciseType } from '../enum/exercise-types.enum';
 import type { Exercise } from '../types/exercise.interface';
 import { MCQExerciseCard } from './strategy-components/exercise-card/MCQExerciseCard';
-import { TrueFalseExerciseCard } from './strategy-components/exercise-card/TrueFalseExerciseCard';
 import { OpenEndedExerciseCard } from './strategy-components/exercise-card/OpenEndedExerciseCard';
 import { ShortExerciseCard } from './strategy-components/exercise-card/ShortExerciseCard';
-import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
+import { TrueFalseExerciseCard } from './strategy-components/exercise-card/TrueFalseExerciseCard';
 
 export function ExerciseCard({
     exercise,

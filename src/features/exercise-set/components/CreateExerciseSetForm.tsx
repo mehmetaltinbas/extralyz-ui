@@ -1,12 +1,13 @@
 import type React from 'react';
-import { BlackButton } from '../../../shared/components/buttons/BlackButton';
-import type { CreateExerciseSetDto } from '../types/dto/create-exercise-set.dto';
-import { exerciseSetService } from '../services/exercise-set.service';
-import { ExerciseType } from 'src/features/exercise/enums/exercise-types.enum';
 import { useEffect, useState } from 'react';
+import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
+import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
+import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
 import { useAppDispatch } from 'src/store/hooks';
-import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
+import { BlackButton } from '../../../shared/components/buttons/BlackButton';
+import { exerciseSetService } from '../services/exercise-set.service';
+import type { CreateExerciseSetDto } from '../types/dto/create-exercise-set.dto';
 
 export function CreateExerciseSetForm({
     isHidden,
@@ -26,15 +27,15 @@ export function CreateExerciseSetForm({
     const dispatch = useAppDispatch();
     const [createExerciseSetDto, setCreateExerciseSetDto] = useState<CreateExerciseSetDto>({
         count: 5,
-        type: '',
-        difficulty: '',
+        type: ExerciseSetType.OPEN_ENDED,
+        difficulty: ExerciseSetDifficulty.MEDIUM,
     });
 
     useEffect(() => {
         setCreateExerciseSetDto({
             count: 5,
-            type: '',
-            difficulty: '',
+            type: ExerciseSetType.OPEN_ENDED,
+            difficulty: ExerciseSetDifficulty.MEDIUM,
         });
     }, [isHidden]);
 
@@ -46,6 +47,16 @@ export function CreateExerciseSetForm({
         setIsLoadingPageHidden(true);
         alert(response.message);
         setIsPopUpActive(false);
+    }
+
+    function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
+        const selectElement = event.currentTarget;
+        if (!Object.keys(createExerciseSetDto).includes(selectElement.name)) return;
+        if (!(Object.values(ExerciseSetType) as string[]).includes(selectElement.value) && !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value)) return;
+        setCreateExerciseSetDto({
+            ...createExerciseSetDto,
+            [selectElement.name]: selectElement.value,
+        });
     }
 
     return (
@@ -73,38 +84,34 @@ export function CreateExerciseSetForm({
             <div className="flex justify-start items-center gap-2">
                 <p>type: </p>
                 <select
+                name='type'
                     value={createExerciseSetDto.type}
                     onChange={(e) =>
-                        setCreateExerciseSetDto({
-                            ...createExerciseSetDto,
-                            type: e.target.value,
-                        })
+                        onChangeForEnum(e)
                     }
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     <option value="">select</option>
-                    <option value={ExerciseType.MCQ}>Multiple Choice</option>
-                    <option value={ExerciseType.TRUE_FALSE}>True False</option>
-                    <option value={ExerciseType.OPEN_ENDED}>Open Ended</option>
-                    <option value={ExerciseType.SHORT}>Short Answer</option>
+                    <option value={ExerciseSetType.MCQ}>Multiple Choice</option>
+                    <option value={ExerciseSetType.TRUE_FALSE}>True False</option>
+                    <option value={ExerciseSetType.OPEN_ENDED}>Open Ended</option>
+                    <option value={ExerciseSetType.SHORT}>Short Answer</option>
                 </select>
             </div>
             <div className="flex justify-start items-center gap-2">
                 <p>difficulty: </p>
                 <select
+                    name='difficulty'
                     value={createExerciseSetDto.difficulty}
                     onChange={(e) =>
-                        setCreateExerciseSetDto({
-                            ...createExerciseSetDto,
-                            difficulty: e.target.value,
-                        })
+                        onChangeForEnum(e)
                     }
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     <option value="">select</option>
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
+                    <option value={ExerciseSetDifficulty.EASY}>Easy</option>
+                    <option value={ExerciseSetDifficulty.MEDIUM}>Medium</option>
+                    <option value={ExerciseSetDifficulty.HARD}>Hard</option>
                 </select>
             </div>
             <BlackButton

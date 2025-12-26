@@ -18,7 +18,7 @@ export function OpenEndedExerciseEvaluationCard({
             </p>
             <p>
                 <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-green-900">${exercise.solution}</span>
+                <span className="text-green-900">{exercise.solution}</span>
             </p>
             <p>
                 <span className="font-serif">Feedback</span>: {evaluation.feedback}

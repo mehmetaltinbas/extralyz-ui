@@ -1,9 +1,8 @@
 import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { sourceService } from 'src/features/source/services/source.service';
 import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
-import type { ResponseBase } from 'src/shared/types/response-base';
 
 export function SourceCreateForm({
     isHidden,
@@ -18,7 +17,7 @@ export function SourceCreateForm({
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     toggle: () => void;
-    updateSources: () => Promise<void>;
+    updateSources: () => void;
 }) {
     const [uploadedFile, setUploadedFile] = useState<File>();
     const [createSourceDto, setCreateSourceDto] = useState({

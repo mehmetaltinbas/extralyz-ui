@@ -1,15 +1,11 @@
 import type React from 'react';
-import { useState } from 'react';
-import { ExerciseSetMode } from 'src/features/exercise-set/enums/ExerciseSetMode.enum';
-import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
+import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { sourceService } from 'src/features/source/services/source.service';
-import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
 import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetActionMenu({
     isHidden,

@@ -6,12 +6,13 @@ import { SignUpPage } from './features/user/components/SignUpPage';
 import { WorkspacePage } from './features/workspace/pages/WorkspacePage';
 import { ProtectedRoute } from './ProtectedRoute';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { Home } from 'src/features/home/pages/Home';
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* <Route path="/" element={<LoadingPage />} /> */}
+                <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignInPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
                 <Route

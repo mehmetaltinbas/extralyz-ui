@@ -1,19 +1,21 @@
-import type { ExerciseSet } from '../types/exercise-set.interface';
-import { ExerciseCard } from '../../exercise/components/ExerciseCard';
-import type { Exercise } from '../../exercise/types/exercise.interface';
-import React, { useEffect, useState } from 'react';
-import { BlackButton } from '../../../shared/components/buttons/BlackButton';
-import { ExerciseSetMode } from 'src/features/exercise-set/enums/ExerciseSetMode.enum';
-import { Section } from 'src/features/workspace/enums/sections.enum';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import React, { useState } from 'react';
+import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { tabsActions } from 'src/features/workspace/features/tabs/store/tabsSlice';
-import { BodyModal } from 'src/shared/components/BodyModal';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
+import { Section } from 'src/features/workspace/enums/sections.enum';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabsSlice';
+import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
+import { BodyModal } from 'src/shared/components/BodyModal';
+import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { BlackButton } from '../../../shared/components/buttons/BlackButton';
+import { ExerciseCard } from '../../exercise/components/ExerciseCard';
+import type { Exercise } from '../../exercise/types/exercise.interface';
+import type { ExerciseSet } from '../types/exercise-set.interface';
 
 export function ExerciseSetPage({
     exerciseSet,
@@ -31,10 +33,14 @@ export function ExerciseSetPage({
     const [isExerciseActionMenuHidden, setIsExerciseActionMenuHidden] =
         useState<boolean>(true);
     const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
+    const [isCreateExerciseFormHidden, setIsCreateExerciseFormHidden] = useState<boolean>(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] =
         useState<boolean>(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] =
         useState<boolean>(true);
+    const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
+    const [localExerciseSet, setLocalExerciseSet] = useState<ExerciseSet>(exerciseSet!);
+    const [localExercises, setLocalExercises] = useState<Exercise[]>(exercises || []);
 
     function toggleExerciseActionMenu(
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -53,6 +59,29 @@ export function ExerciseSetPage({
         }
     }
 
+    async function refreshData() {
+        if (!exerciseSet?._id) return;
+        setIsPopUpActive(true);
+        setIsLoadingPageHidden(false);
+
+        try {
+            const updatedSet = (await exerciseSetService.readById(exerciseSet._id)).exerciseSet;
+            const updatedExercises = (await exerciseService.readAllByExerciseSetId(exerciseSet._id)).exercises;
+            if (updatedSet && updatedExercises) {
+                setLocalExerciseSet(updatedSet);
+                setLocalExercises(updatedExercises);
+            }
+        } finally {
+            setIsLoadingPageHidden(true);
+            setIsPopUpActive(false);
+        }
+    }
+
+    function toggleCreateExerciseForm() {
+        setIsPopUpActive(prev => !prev);
+        setIsCreateExerciseFormHidden(prev => !prev);
+    }
+
     function toggleAnswerVisibility() {
         setIsAnswersHidden((prev) => !prev);
     }
@@ -67,18 +96,20 @@ export function ExerciseSetPage({
         setIsExerciseDeleteApprovalHidden((prev) => !prev);
     }
 
-    async function deleteExerciseSet() {
-        const response = await exerciseSetService.deleteById(exerciseSet!._id!);
-        alert(response.message);
-        dispatch(tabsActions.subtract(tabs.activeTabIndex));
+    async function deleteExerciseSet(): Promise<string> {
+        const response = await exerciseSetService.deleteById(localExerciseSet!._id!);
+        dispatch(tabsActions.subtract(tabs.activeTabIndex));    
+        await refreshData();
+        return response.message;
     }
 
-    async function deleteExercise() {
+    async function deleteExercise(): Promise<string> {
         const response = await exerciseService.deleteById(actionMenuExerciseId);
-        alert(response.message);
+        await refreshData();
+        return response.message;
     }
 
-    return exerciseSet && exercises ? (
+    return localExerciseSet && localExercises ? (
         <div
             id="exercise-set-page-container"
             className={`relative w-full h-full ${className ?? ''}`}
@@ -99,9 +130,14 @@ export function ExerciseSetPage({
                     className="w-full h-auto
                     flex flex-col justif-center items-start gap-2"
                 >
-                    <p>Type: {exerciseSet.type}</p>
-                    <p>Count: {exerciseSet.count}</p>
-                    <p>Difficulty: {exerciseSet.difficulty}</p>
+                    <p>Type: {localExerciseSet.type}</p>
+                    <p>Count: {localExerciseSet.count}</p>
+                    <p>Difficulty: {localExerciseSet.difficulty}</p>
+                    <BlackButton
+                        onClick={toggleCreateExerciseForm}
+                    >
+                        Generate Additional Exercise
+                    </BlackButton>
                     <BlackButton onClick={toggleAnswerVisibility}>
                         {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
                     </BlackButton>
@@ -110,8 +146,8 @@ export function ExerciseSetPage({
                             event.stopPropagation();
                             openTab(dispatch, {
                                 section: Section.EXERCISE_SET_PRACTICE,
-                                id: exerciseSet._id,
-                                title: exerciseSet.title,
+                                id: localExerciseSet._id,
+                                title: localExerciseSet.title,
                                 mode: ExerciseSetMode.PRACTICE,
                             });
                         }}
@@ -126,7 +162,7 @@ export function ExerciseSetPage({
                     className="w-full h-full
                     grid grid-cols-3 gap-4"
                 >
-                    {exercises.map((exercise) => (
+                    {localExercises.map((exercise) => (
                         <ExerciseCard
                             exercise={exercise}
                             isAnswersHidden={isAnswersHidden}
@@ -139,16 +175,32 @@ export function ExerciseSetPage({
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 components={[
-                    <DeleteApproval
+                    <CreateExerciseForm
+                        isHidden={isCreateExerciseFormHidden}
+                        setIsHidden={setIsCreateExerciseFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        toggle={toggleCreateExerciseForm}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        refreshData={refreshData}
+                        exerciseSetId={localExerciseSet._id}
+                    />,
+                    <DeleteApproval // for exercise set
                         isHidden={isExerciseSetDeleteApprovalHidden}
+                        setIsHidden={setIsExerciseSetDeleteApprovalHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
                         toggle={toggleExerciseSetDeleteApproval}
                         onDelete={deleteExerciseSet}
                     />,
-                    <DeleteApproval
+                    <DeleteApproval // for selected exercise
                         isHidden={isExerciseDeleteApprovalHidden}
+                        setIsHidden={setIsExerciseDeleteApprovalHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
                         toggle={toggleExerciseDeleteApproval}
                         onDelete={deleteExercise}
                     />,
+                    <LoadingPage isHidden={isLoadingPageHidden} />,
                 ]}
             />
         </div>

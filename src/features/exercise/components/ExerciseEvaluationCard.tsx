@@ -4,7 +4,7 @@ import { MCQExerciseEvaluationCard } from 'src/features/exercise/components/stra
 import { OpenEndedExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/OpenEndedExerciseEvaluationCard';
 import { ShortExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/ShortExerciseEvaluationCard';
 import { TrueFalseExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/TrueFalseExerciseEvaluationCard';
-import { ExerciseType } from 'src/features/exercise/enums/exercise-types.enum';
+import { ExerciseType } from 'src/features/exercise/enum/exercise-types.enum';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExerciseEvaluationCard({

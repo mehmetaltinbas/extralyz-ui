@@ -3,9 +3,8 @@ import { MCQExercisePracticeCard } from 'src/features/exercise/components/strate
 import { OpenEndedExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/OpenEndedExercisePracticeCard';
 import { ShortExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/ShortExercisePracticeCard';
 import { TrueFalseExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/TrueFalseExercisePracticeCard';
-import { ExerciseType } from 'src/features/exercise/enums/exercise-types.enum';
+import { ExerciseType } from 'src/features/exercise/enum/exercise-types.enum';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 
 export function ExercisePracticeCard({
     exercise,

@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { exerciseSetService } from '../services/exercise-set.service';
-import { ExerciseSetCard } from '../components/ExerciseSetCard';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { LoadingPage } from 'src/shared/pages/LoadingPage';
-import { BodyModal } from 'src/shared/components/BodyModal';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
+import { BodyModal } from 'src/shared/components/BodyModal';
+import { Button } from 'src/shared/components/Button';
+import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { ExerciseSetCard } from '../components/ExerciseSetCard';
+import { exerciseSetService } from '../services/exercise-set.service';
 
 export function ExerciseSetsPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
     const extendedSources = useAppSelector((state) => state.extendedSources);
+    const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] = useState<boolean>(true);
     const [isExerciseSetActionMenuHidden, setIsExerciseSetActionMenuHidden] =
         useState<boolean>(true);
     const [actionMenuExerciseSet, setActionMenuExerciseSet] = useState<ExerciseSet>();
@@ -27,6 +31,11 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
     useEffect(() => {
         updateExtendedSources();
     }, []);
+
+    function toggleCreateExerciseSetForm() {
+        setIsCreateExerciseSetFormHidden((prev) => !prev);
+        setIsPopUpActive((prev) => !prev);
+    }
 
     function toggleExerciseSetActionMenu(
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -81,10 +90,13 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                 flex flex-col justify-start items-center`}
             >
                 <div
-                    className="w-full h-[auto]
+                    className="relative w-full h-[auto]
                     flex flex-col justify-center items-center p-4"
                 >
                     <p className="text-2xl font-bold">Exercise Sets</p>
+                    <div className='absolute right-0'>
+                        <Button variant={ButtonVariants.PRIMARY} onClick={toggleCreateExerciseSetForm}>new exercise set</Button>
+                    </div>
                 </div>
                 <div
                     className="w-full h-auto p-4
@@ -180,6 +192,14 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 components={[
+                    <CreateExerciseSetForm 
+                        isHidden={isCreateExerciseSetFormHidden}
+                        setIsHidden={setIsCreateExerciseSetFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        toggle={toggleCreateExerciseSetForm}
+                        sourceId={undefined}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                    />,
                     <DeleteApproval
                         isHidden={isDeleteApprovalHidden}
                         setIsHidden={setIsDeleteApprovalHidden}

@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import type { ProcessedSource } from '../types/processed-source.interface';
-import { processedSourceService } from '../services/processed-source.service';
-import { BlackButton } from '../../../shared/components/buttons/BlackButton';
-import { ProcessedSourceCard } from '../components/ProcessedSourceCard';
-import { LoadingPage } from 'src/shared/pages/LoadingPage';
-import { ProcessedSourceActionMenu } from 'src/features/processed-source/components/ProcessedSourceActionMenu';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
-import { BodyModal } from 'src/shared/components/BodyModal';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { ProcessedSourceActionMenu } from 'src/features/processed-source/components/ProcessedSourceActionMenu';
 import { processedSourcesActions } from 'src/features/processed-source/store/processed-sources.slice';
+import { BodyModal } from 'src/shared/components/BodyModal';
+import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { ProcessedSourceCard } from '../components/ProcessedSourceCard';
+import { processedSourceService } from '../services/processed-source.service';
 
 export function ProcessedSourcesPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();

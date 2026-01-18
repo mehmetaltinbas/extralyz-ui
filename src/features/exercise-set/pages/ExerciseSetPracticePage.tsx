@@ -4,13 +4,12 @@ import { exerciseSetService } from 'src/features/exercise-set/services/exercise-
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type {
-    EvaluateAnswersResponse,
-    ExerciseAnswerEvaluationResult,
+    EvaluateAnswersResponse
 } from 'src/features/exercise-set/types/response/evaluate-answers.response';
-import { ExerciseEvaluationCard } from 'src/features/exercise/components/ExerciseEvaluationCard';
 import { ExercisePracticeCard } from 'src/features/exercise/components/ExercisePracticeCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function ExerciseSetPracticePage({
@@ -99,7 +98,8 @@ export function ExerciseSetPracticePage({
                                 />
                             ))}
                             <div className="flex justify-start items-center gap-2">
-                                <BlackButton
+                                <Button
+                                    variant={ButtonVariants.SECONDARY}
                                     onClick={() =>
                                         setActiveExerciseIndex((prev) =>
                                             prev > 0 ? prev - 1 : prev
@@ -107,24 +107,26 @@ export function ExerciseSetPracticePage({
                                     }
                                 >
                                     Back
-                                </BlackButton>
+                                </Button>
                                 {!(activeExerciseIndex + 1 === exercises.length) ? (
-                                    <BlackButton
+                                    <Button
+                                        variant={ButtonVariants.SECONDARY}
                                         onClick={() =>
                                             setActiveExerciseIndex((prev) => prev + 1)
                                         }
                                     >
                                         Next
-                                    </BlackButton>
+                                    </Button>
                                 ) : (
-                                    <BlackButton
+                                    <Button
+                                        variant={ButtonVariants.PRIMARY}
                                         onClick={async () => {
                                             setActiveExerciseIndex((prev) => prev + 1);
                                             await evaluateAnswers();
                                         }}
                                     >
                                         Finish and Evaluate Answers
-                                    </BlackButton>
+                                    </Button>
                                 )}
                             </div>
                         </div>

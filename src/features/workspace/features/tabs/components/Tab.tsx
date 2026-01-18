@@ -1,8 +1,8 @@
 import type React from 'react';
-import { ClaretButton } from '../../../../../shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { tabsActions, type TabsStateElement } from '../store/tabsSlice';
-import { useEffect } from 'react';
 
 export function Tab({
     tab,
@@ -51,12 +51,13 @@ export function Tab({
                 </p>
             </div>
             <div className="w-[24px] flex justify-center items-center">
-                <ClaretButton
+                <Button
+                    variant={ButtonVariants.DANGER}
                     onClick={(event) => deleteTab(event)}
                     className="border-transparent !border-[1px] bg-transparent !text-black hover:border-[#a62637] !hover:text-white"
                 >
                     x
-                </ClaretButton>
+                </Button>
             </div>
         </div>
     );

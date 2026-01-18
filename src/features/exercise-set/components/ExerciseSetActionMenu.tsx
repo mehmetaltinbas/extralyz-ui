@@ -3,8 +3,8 @@ import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mo
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetActionMenu({
@@ -31,7 +31,8 @@ export function ExerciseSetActionMenu({
         >
             {exerciseSet && (
                 <>
-                    <BlackButton
+                    <Button
+                        variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             openTab(dispatch, {
@@ -43,8 +44,9 @@ export function ExerciseSetActionMenu({
                         }}
                     >
                         Start Practice
-                    </BlackButton>
-                    <ClaretButton
+                    </Button>
+                    <Button
+                        variant={ButtonVariants.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval(event);
@@ -53,7 +55,7 @@ export function ExerciseSetActionMenu({
                         }}
                     >
                         Delete
-                    </ClaretButton>
+                    </Button>
                 </>
             )}
         </div>

@@ -7,8 +7,8 @@ import { ProcessedSourceTone } from 'src/features/processed-source/enums/process
 import { processedSourceService } from 'src/features/processed-source/services/processed-source.service';
 import { processedSourcesActions } from 'src/features/processed-source/store/processed-sources.slice';
 import type { CreateProcessedSourceDto } from 'src/features/processed-source/types/dto/CreateProcessedSourceDto';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function ProcessSourceForm({
@@ -66,9 +66,11 @@ export function ProcessSourceForm({
             className={`${isHidden && 'hidden'} w-auto h-auto relative border px-2 py-4 bg-white rounded-[10px]
             flex flex-col justify-center items-center gap-2`}
         >
-            <ClaretButton className="absolute top-1 right-1" onClick={(event) => toggle()}>
+            <Button
+                variant={ButtonVariants.DANGER}
+                className="absolute top-1 right-1" onClick={(event) => toggle()}>
                 X
-            </ClaretButton>
+            </Button>
             <div className="flex justify-start items-center gap-2">
                 <p>title: </p>
                 <input
@@ -188,13 +190,14 @@ export function ProcessSourceForm({
                     <option value={ProcessedSourceLength.DETAILED}>Detailed</option>
                 </select>
             </div>
-            <BlackButton
+            <Button
+                variant={ButtonVariants.PRIMARY}
                 onClick={async (event) => {
                     await processSource();
                 }}
             >
                 Process the Source
-            </BlackButton>
+            </Button>
         </div>
     );
 }

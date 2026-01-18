@@ -1,11 +1,10 @@
-import { useEffect, useState, type HTMLAttributes, type HtmlHTMLAttributes } from 'react';
 import type React from 'react';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
-import { Section } from 'src/features/workspace/enums/sections.enum';
-import { useAppDispatch } from 'src/store/hooks';
 import type { Source } from 'src/features/source/types/source.interface';
-import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
-import type { DocumentNode } from 'src/features/source/types/document-node.interface';
+import { Section } from 'src/features/workspace/enums/sections.enum';
+import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function SourceCard({
     source,
@@ -30,7 +29,7 @@ export function SourceCard({
             }
             className="w-[300px] h-[250px] border cursor-pointer rounded-[10px]
             flex flex-col justify-center items-center
-            hover:bg-gray-100"
+            hover:border-2"
         >
             <div
                 className="w-full h-[60px]
@@ -50,12 +49,17 @@ export function SourceCard({
                     <p className="text-xs">{source.type}</p>
                 </div>
                 <div
+                    id='this is the button div'
                     className="w-[50px] h-full
                     flex justify-center items-center"
                 >
-                    <ActionMenuButton
+                    <Button
+                        variant={ButtonVariants.GHOST}
                         onClick={(event) => toggleSourceActionMenu(event, source._id)}
-                    />
+                        className='font-bold'
+                    >
+                        ...
+                    </Button>
                 </div>
             </div>
             <div className="w-full h-full p-2 flex-1 overflow-y-auto">

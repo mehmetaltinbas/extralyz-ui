@@ -4,8 +4,8 @@ import { ExerciseDifficulty } from "src/features/exercise/enum/exercise-difficul
 import { ExerciseType } from "src/features/exercise/enum/exercise-types.enum";
 import { exerciseService } from "src/features/exercise/services/exercise.service";
 import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-exercise.dto";
-import { BlackButton } from "src/shared/components/buttons/BlackButton";
-import { ClaretButton } from "src/shared/components/buttons/ClaretButton";
+import { Button } from "src/shared/components/Button";
+import { ButtonVariants } from "src/shared/enums/button-variants.enum";
 
 export function CreateExerciseForm({
     isHidden,
@@ -69,7 +69,11 @@ export function CreateExerciseForm({
             flex flex-col justify-center items-center gap-2`}
         >
             <div className="absolute top-1 right-1 w-full flex justify-end items-center">
-                <ClaretButton onClick={(event) => toggle()}>X</ClaretButton>
+                <Button
+                    variant={ButtonVariants.GHOST}
+                    onClick={(event) => toggle()}>
+                        X
+                </Button>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">
                 <p>type: </p>
@@ -171,9 +175,10 @@ export function CreateExerciseForm({
                     <input value={createExerciseDto.solution} onChange={e => setCreateExerciseDto({ ...createExerciseDto, solution: e.currentTarget.value })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
                 </div>
             )}
-            <BlackButton
+            <Button
+                variant={ButtonVariants.PRIMARY}
                 onClick={async (event) => await createExercise()}
-            >Generate</BlackButton>
+            >Generate</Button>
         </div>
     );
 }

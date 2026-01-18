@@ -1,15 +1,10 @@
-import type { ProcessedSource } from '../types/processed-source.interface';
-import { useEffect, useState } from 'react';
-import { ClaretButton } from '../../../shared/components/buttons/ClaretButton';
-import { processedSourceService } from '../services/processed-source.service';
 import type React from 'react';
-import { Section } from '../../workspace/enums/sections.enum';
-import {
-    tabsActions,
-    type TabsStateElement,
-} from '../../workspace/features/tabs/store/tabsSlice';
-import { useAppDispatch } from '../../../store/hooks';
-import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
+import { type ProcessedSource } from 'src/features/processed-source/types/processed-source.interface';
+import { Section } from 'src/features/workspace/enums/sections.enum';
+import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabsSlice';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function ProcessedSourceCard({
     processedSource,
@@ -73,9 +68,12 @@ export function ProcessedSourceCard({
                     className="w-[50px] h-full
                     flex justify-center items-center"
                 >
-                    <ActionMenuButton
+                    <Button
+                        variant={ButtonVariants.GHOST}
                         onClick={(event) => toggleSourceActionMenu(event, processedSource._id)}
-                    />
+                    >
+                        ...
+                    </Button>
                 </div>
             </div>
             <div className="w-full h-full p-2 flex-1 overflow-y-auto">

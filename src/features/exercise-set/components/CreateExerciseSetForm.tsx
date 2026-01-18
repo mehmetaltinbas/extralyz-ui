@@ -1,13 +1,14 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
+import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
+import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
-import { useAppDispatch } from 'src/store/hooks';
-import { BlackButton } from '../../../shared/components/buttons/BlackButton';
-import { exerciseSetService } from '../services/exercise-set.service';
-import type { CreateExerciseSetDto } from '../types/dto/create-exercise-set.dto';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function CreateExerciseSetForm({
     isHidden,
@@ -21,7 +22,7 @@ export function CreateExerciseSetForm({
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     toggle: () => void;
-    sourceId: string;
+    sourceId: string | undefined;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const dispatch = useAppDispatch();
@@ -30,6 +31,8 @@ export function CreateExerciseSetForm({
         type: ExerciseSetType.OPEN_ENDED,
         difficulty: ExerciseSetDifficulty.MEDIUM,
     });
+    const [selectedSourceId, setSelectedSourceId] = useState<string | undefined>(undefined);
+    const extendedSources = useAppSelector((state) => state.extendedSources);
 
     useEffect(() => {
         setCreateExerciseSetDto({
@@ -42,7 +45,7 @@ export function CreateExerciseSetForm({
     async function createExerciseSet() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
-        const response = await exerciseSetService.create(sourceId, createExerciseSetDto);
+        const response = await exerciseSetService.create(sourceId ?? (selectedSourceId === ExerciseSetSourceType.INDEPENDENT ? undefined : selectedSourceId) , createExerciseSetDto);
         dispatch(extendedSourcesActions.fetchData());
         setIsLoadingPageHidden(true);
         alert(response.message);
@@ -51,8 +54,8 @@ export function CreateExerciseSetForm({
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
         const selectElement = event.currentTarget;
-        if (!Object.keys(createExerciseSetDto).includes(selectElement.name)) return;
-        if (!(Object.values(ExerciseSetType) as string[]).includes(selectElement.value) && !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value)) return;
+        if (!Object.keys(createExerciseSetDto).includes(selectElement.name)) {return;}
+        if (!(Object.values(ExerciseSetType) as string[]).includes(selectElement.value) && !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value)) {return;}
         setCreateExerciseSetDto({
             ...createExerciseSetDto,
             [selectElement.name]: selectElement.value,
@@ -65,13 +68,15 @@ export function CreateExerciseSetForm({
             flex flex-col justify-center items-center gap-2`}
         >
             <div className="absolute top-1 right-1 w-full flex justify-end items-center">
-                <ClaretButton onClick={(event) => toggle()}>X</ClaretButton>
+                <Button
+                    variant={ButtonVariants.DANGER}
+                    onClick={(event) => toggle()}>X</Button>
             </div>
             <div className="flex justify-start items-center gap-2">
                 <p>count: </p>
                 <input
                     type="number"
-                    value={createExerciseSetDto.count}
+                    value={!selectedSourceId || selectedSourceId === ExerciseSetSourceType.INDEPENDENT ? 0 : createExerciseSetDto.count}
                     onChange={(e) =>
                         setCreateExerciseSetDto({
                             ...createExerciseSetDto,
@@ -114,13 +119,35 @@ export function CreateExerciseSetForm({
                     <option value={ExerciseSetDifficulty.HARD}>Hard</option>
                 </select>
             </div>
-            <BlackButton
+            {!sourceId &&
+                <div className="flex justify-start items-center gap-2">
+                    <p>source: </p>
+                    <select
+                        name='sourceId'
+                        value={selectedSourceId}
+                        onChange={e => setSelectedSourceId(e.currentTarget.value)}
+                        className="py-[2px] px-2 border rounded-[10px]"
+                    >
+                        <option value={ExerciseSetSourceType.INDEPENDENT}>Independent</option>
+                        {extendedSources.map(extendedSource => (
+                            <>
+                            <option value={extendedSource._id}>{extendedSource.title}</option>
+                            {extendedSource.processedSources?.map(processedSource => (
+                                <option value={processedSource._id}>{processedSource.title}</option>
+                            ))}
+                            </>
+                        ))}
+                    </select>
+                </div>
+            }
+            <Button
+                variant={ButtonVariants.PRIMARY}
                 onClick={async (event) => {
                     await createExerciseSet();
                 }}
             >
                 Generate
-            </BlackButton>
+            </Button>
         </div>
     );
 }

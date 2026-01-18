@@ -1,11 +1,6 @@
 import type React from 'react';
-import { useState } from 'react';
-import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
-import { sourceService } from 'src/features/source/services/source.service';
-import type { Source } from 'src/features/source/types/source.interface';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
-import { useAppSelector } from 'src/store/hooks';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function ExerciseActionMenu({
     isHidden,
@@ -27,7 +22,8 @@ export function ExerciseActionMenu({
         >
             {exerciseId && (
                 <>
-                    <ClaretButton
+                    <Button
+                        variant={ButtonVariants.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval(event);
@@ -35,7 +31,7 @@ export function ExerciseActionMenu({
                         }}
                     >
                         Delete
-                    </ClaretButton>
+                    </Button>
                 </>
             )}
         </div>

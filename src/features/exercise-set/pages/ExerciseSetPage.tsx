@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
+import { ExerciseCard } from 'src/features/exercise/components/ExerciseCard';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
+import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabsSlice';
 import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
 import { BodyModal } from 'src/shared/components/BodyModal';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { BlackButton } from '../../../shared/components/buttons/BlackButton';
-import { ExerciseCard } from '../../exercise/components/ExerciseCard';
-import type { Exercise } from '../../exercise/types/exercise.interface';
-import type { ExerciseSet } from '../types/exercise-set.interface';
 
 export function ExerciseSetPage({
     exerciseSet,
@@ -60,7 +60,7 @@ export function ExerciseSetPage({
     }
 
     async function refreshData() {
-        if (!exerciseSet?._id) return;
+        if (!exerciseSet?._id) {return;}
         setIsPopUpActive(true);
         setIsLoadingPageHidden(false);
 
@@ -133,15 +133,17 @@ export function ExerciseSetPage({
                     <p>Type: {localExerciseSet.type}</p>
                     <p>Count: {localExerciseSet.count}</p>
                     <p>Difficulty: {localExerciseSet.difficulty}</p>
-                    <BlackButton
+                    <Button
+                        variant={ButtonVariants.PRIMARY}
                         onClick={toggleCreateExerciseForm}
                     >
                         Generate Additional Exercise
-                    </BlackButton>
-                    <BlackButton onClick={toggleAnswerVisibility}>
+                    </Button>
+                    <Button variant={ButtonVariants.OUTLINE} onClick={toggleAnswerVisibility}>
                         {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
-                    </BlackButton>
-                    <BlackButton
+                    </Button>
+                    <Button
+                        variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             openTab(dispatch, {
@@ -153,10 +155,12 @@ export function ExerciseSetPage({
                         }}
                     >
                         Start Practice
-                    </BlackButton>
-                    <ClaretButton onClick={toggleExerciseSetDeleteApproval}>
+                    </Button>
+                    <Button
+                        variant={ButtonVariants.DANGER}
+                        onClick={toggleExerciseSetDeleteApproval}>
                         Delete Exercise Set
-                    </ClaretButton>
+                    </Button>
                 </div>
                 <div
                     className="w-full h-full

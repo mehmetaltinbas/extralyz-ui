@@ -1,9 +1,10 @@
-import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
-import { Section } from 'src/features/workspace/enums/sections.enum';
-import { useAppDispatch } from 'src/store/hooks';
-import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type React from 'react';
-import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
+import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
+import { Section } from 'src/features/workspace/enums/sections.enum';
+import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetCard({
     exerciseSet,
@@ -41,9 +42,12 @@ export function ExerciseSetCard({
                     </p>
                 </div>
                 <div className="w-[50px] h-auto">
-                    <ActionMenuButton
+                    <Button
+                        variant={ButtonVariants.GHOST}
                         onClick={(event) => toggleExerciseSetActionMenu(event, exerciseSet)}
-                    />
+                    >
+                        ...
+                    </Button>
                 </div>
             </div>
             <p>{exerciseSet.type}</p>

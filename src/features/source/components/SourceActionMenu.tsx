@@ -1,6 +1,6 @@
 import type React from 'react';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function SourceActionMenu({
     isHidden,
@@ -26,7 +26,8 @@ export function SourceActionMenu({
         >
             {sourceId && (
                 <>
-                    <BlackButton
+                    <Button
+                        variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleProcessSourceForm();
@@ -34,18 +35,19 @@ export function SourceActionMenu({
                         }}
                     >
                         Process
-                    </BlackButton>
-                    <BlackButton
+                    </Button>
+                    <Button
+                        variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleCreateExerciseSetForm();
                             setIsHidden((prev) => !prev);
                         }}
-                        className="text-xs"
                     >
                         Generate Exercises
-                    </BlackButton>
-                    <ClaretButton
+                    </Button>
+                    <Button
+                        variant={ButtonVariants.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval();
@@ -53,7 +55,7 @@ export function SourceActionMenu({
                         }}
                     >
                         Delete
-                    </ClaretButton>
+                    </Button>
                 </>
             )}
         </div>

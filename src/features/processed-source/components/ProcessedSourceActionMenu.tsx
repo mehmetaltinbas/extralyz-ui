@@ -1,11 +1,6 @@
 import type React from 'react';
-import { useState } from 'react';
-import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
-import { sourceService } from 'src/features/source/services/source.service';
-import type { Source } from 'src/features/source/types/source.interface';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
-import { useAppSelector } from 'src/store/hooks';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function ProcessedSourceActionMenu({
     isHidden,
@@ -33,17 +28,18 @@ export function ProcessedSourceActionMenu({
         >
             {processedSourceId && (
                 <>
-                    <BlackButton
+                    <Button
+                        variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleCreateExerciseSetForm(event);
                             setIsHidden((prev) => !prev);
                         }}
-                        className="text-xs"
                     >
                         Generate Exercises
-                    </BlackButton>
-                    <ClaretButton
+                    </Button>
+                    <Button
+                        variant={ButtonVariants.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval(event);
@@ -51,7 +47,7 @@ export function ProcessedSourceActionMenu({
                         }}
                     >
                         Delete
-                    </ClaretButton>
+                    </Button>
                 </>
             )}
         </div>

@@ -1,6 +1,4 @@
-import type React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 
 export function MCQExercisePracticeCard({
     exercise,

@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { userService } from 'src/features/user/services/user.service';
 import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function SignUpPage() {
     const [signUpDto, setSignUpDto] = useState<SignUpUserDto>({
@@ -56,11 +57,11 @@ export function SignUpPage() {
                 placeholder="password..."
                 className="p-2 border rounded-full"
             />
-            <BlackButton onClick={signUp}>sign up</BlackButton>
+            <Button variant={ButtonVariants.PRIMARY} onClick={signUp}>sign up</Button>
             <p>or</p>
-            <BlackButton onClick={(event) => (window.location.href = '/sign-in')}>
+            <Button variant={ButtonVariants.PRIMARY} onClick={(event) => (window.location.href = '/sign-in')}>
                 sign in
-            </BlackButton>
+            </Button>
         </div>
     );
 }

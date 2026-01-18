@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import type { Source } from '../types/source.interface';
-import type { DocumentNode } from 'src/features/source/types/document-node.interface';
-import { DocumentRenderer } from 'src/shared/components/document-render/DocumentRenderer';
-import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
-import { BodyModal } from 'src/shared/components/BodyModal';
-import { ProcessSourceForm } from 'src/features/processed-source/components/ProcessSourceForm';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
+import { ProcessSourceForm } from 'src/features/processed-source/components/ProcessSourceForm';
+import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
+import { sourceService } from 'src/features/source/services/source.service';
+import { sourcesActions } from 'src/features/source/store/sources.slice';
+import type { DocumentNode } from 'src/features/source/types/document-node.interface';
+import { type Source } from 'src/features/source/types/source.interface';
+import { BodyModal } from 'src/shared/components/BodyModal';
+import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { DocumentRenderer } from 'src/shared/components/document-render/DocumentRenderer';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
-import { sourcesActions } from 'src/features/source/store/sources.slice';
-import { sourceService } from 'src/features/source/services/source.service';
-import { ActionMenuButton } from 'src/shared/components/buttons/ActionMenuButton';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 
 export function SourcePage({ source, className }: { source: Source; className?: string }) {
     const [mode, setMode] = useState<'view' | 'edit'>('view');
@@ -94,10 +94,12 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                 flex flex-col justify-start items-center gap-4"
             >
                 <div className="absolute top-0 right-0 flex flex-col">
-                    <ActionMenuButton onClick={(event) => toggleSourceActionMenu(event)} />
-                    <BlackButton onClick={async () => await changeMode()}>
+                    <div className=''>
+                        <Button variant={ButtonVariants.GHOST} onClick={(event) => toggleSourceActionMenu(event)} >...</Button>
+                    </div>
+                    <Button variant={ButtonVariants.OUTLINE} onClick={async () => await changeMode()}>
                         change mode to: "{mode === 'view' ? 'edit' : 'view'}"
-                    </BlackButton>
+                    </Button>
                 </div>
                 <p>{source.title}</p>
                 <p>{source.type}</p>

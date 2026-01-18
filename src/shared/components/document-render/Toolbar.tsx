@@ -1,9 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
 import type { PaginatedDocument } from 'src/shared/types/paginated-document.interface';
 import type { SelectedInlineNodeIndices } from 'src/shared/types/selected-inline-node-indices.interface';
-import type { TextareaStyles } from 'src/shared/types/textarea-styles.interface';
 
 export function Toolbar({ 
     paginatedDocument,

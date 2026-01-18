@@ -1,6 +1,6 @@
 import type React from 'react';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function DeleteApproval({
     isHidden,
@@ -33,20 +33,22 @@ export function DeleteApproval({
         >
             <p>Are you sure?</p>
             <div className="flex justify-center items-center gap-2">
-                <BlackButton
+                <Button
+                    variant={ButtonVariants.SECONDARY}
                     onClick={(event) => {
                         toggle();
                     }}
                 >
                     Cancel
-                </BlackButton>
-                <ClaretButton
+                </Button>
+                <Button
+                    variant={ButtonVariants.DANGER}
                     onClick={async (event) => {
                         await handleOnclick();
                     }}
                 >
                     Delete
-                </ClaretButton>
+                </Button>
             </div>
         </div>
     );

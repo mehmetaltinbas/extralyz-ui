@@ -1,10 +1,10 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { sourceService } from 'src/features/source/services/source.service';
-import { BlackButton } from 'src/shared/components/buttons/BlackButton';
-import { ClaretButton } from 'src/shared/components/buttons/ClaretButton';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
-export function SourceCreateForm({
+export function CreateSourceForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
@@ -36,7 +36,7 @@ export function SourceCreateForm({
     async function createSource() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
-        let message: string = 'internal error';
+        let message = 'internal error';
         const formData = new FormData();
         if (uploadedFile) {
             formData.append('file', uploadedFile);
@@ -66,9 +66,11 @@ export function SourceCreateForm({
             className={`${isHidden && 'hidden'} w-[400px] h-auto relative border px-2 py-4 bg-white rounded-[10px]
             flex flex-col justify-center items-center gap-2`}
         >
-            <ClaretButton className="absolute top-1 right-1" onClick={(event) => toggle()}>
+            <Button
+                variant={ButtonVariants.GHOST}
+                className="absolute top-1 right-1" onClick={(event) => toggle()}>
                 X
-            </ClaretButton>
+            </Button>
             <div className="flex justify-start items-center gap-2">
                 <p>file: </p>
                 <input
@@ -96,13 +98,14 @@ export function SourceCreateForm({
                     className="px-2 py-[2px] border rounded-full"
                 />
             </div>
-            <BlackButton
+            <Button
+                variant={ButtonVariants.PRIMARY}
                 onClick={async (event) => {
                     await createSource();
                 }}
             >
                 Create
-            </BlackButton>
+            </Button>
         </div>
     );
 }

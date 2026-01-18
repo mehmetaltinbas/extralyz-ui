@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { BlackButton } from "src/shared/components/buttons/BlackButton";
+import { Button } from "src/shared/components/Button";
+import { ButtonVariants } from "src/shared/enums/button-variants.enum";
 
 export function Home() {
     const navigate = useNavigate();
@@ -32,10 +33,10 @@ export function Home() {
                 <div className="w-full h-auto
                     flex justify-center items-center gap-2"
                 >
-                    <BlackButton 
+                    <Button 
+                        variant={ButtonVariants.PRIMARY}
                         onClick={handleStartNowAction} 
-                        className="text-[16px]"
-                    >Start Now</BlackButton>
+                    >Start Now</Button>
                     {/*
                     <BlackButton 
                         onClick={handleTryDemoAction} 

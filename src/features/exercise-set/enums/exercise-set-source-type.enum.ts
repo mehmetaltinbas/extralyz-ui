@@ -1,5 +1,5 @@
 export enum ExerciseSetSourceType {
-    SOURCE = 'Source',
-    PROCESSED_SOURCE = 'ProcessedSource',
+    SOURCE = 'source',
+    PROCESSED_SOURCE = 'processedSource',
     INDEPENDENT = 'independent',
 }

@@ -1,11 +1,12 @@
+import type { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
+import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
+import type { ReadAllExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-all-exercise-sets.response';
+import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-set/types/response/read-all-exerise-sets-grouped-by-sources.response';
+import type { ReadSingleExerciseSetResponse } from 'src/features/exercise-set/types/response/read-single-exercise-set.response';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { ResponseBase } from '../../../shared/types/response-base';
-import type { CreateExerciseSetDto } from '../types/dto/create-exercise-set.dto';
-import type { ReadAllExerciseSetsResponse } from '../types/response/read-all-exercise-sets.response';
-import type { ReadAllExerciseSetsGroupedBySources } from '../types/response/read-all-exerise-sets-grouped-by-sources.response';
-import type { ReadSingleExerciseSetResponse } from '../types/response/read-single-exercise-set.response';
+import type { ResponseBase } from 'src/shared/types/response-base';
 
 const baseUrl = `/exercise-set`;
 
@@ -25,8 +26,8 @@ async function readById(id: string): Promise<ReadSingleExerciseSetResponse> {
     return response;
 }
 
-async function readAllByUserId(): Promise<ReadAllExerciseSetsResponse> {
-    const response = (await axiosInstance.get(`${baseUrl}/read-all-by-user-id`)).data;
+async function readAllByUserId(sourceType?: ExerciseSetSourceType): Promise<ReadAllExerciseSetsResponse> {
+    const response = (await axiosInstance.get(`${baseUrl}/read-all-by-user-id?sourceType=${sourceType}`)).data;
     return response;
 }
 

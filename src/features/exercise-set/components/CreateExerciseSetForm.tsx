@@ -28,10 +28,10 @@ export function CreateExerciseSetForm({
     const dispatch = useAppDispatch();
     const [createExerciseSetDto, setCreateExerciseSetDto] = useState<CreateExerciseSetDto>({
         count: 5,
-        type: ExerciseSetType.OPEN_ENDED,
+        type: ExerciseSetType.MCQ,
         difficulty: ExerciseSetDifficulty.MEDIUM,
     });
-    const [selectedSourceId, setSelectedSourceId] = useState<string | undefined>(undefined);
+    const [selectedSourceId, setSelectedSourceId] = useState<string | undefined>(sourceId);
     const extendedSources = useAppSelector((state) => state.extendedSources);
 
     useEffect(() => {
@@ -41,6 +41,10 @@ export function CreateExerciseSetForm({
             difficulty: ExerciseSetDifficulty.MEDIUM,
         });
     }, [isHidden]);
+
+    useEffect(() => {
+        setSelectedSourceId(sourceId);
+    }, [sourceId]);
 
     async function createExerciseSet() {
         setIsHidden(true);

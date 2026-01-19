@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
+import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
@@ -15,6 +16,7 @@ import { exerciseSetService } from '../services/exercise-set.service';
 export function ExerciseSetsPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
+    const independentExerciseSets = useAppSelector(state => state.independentExerciseSets);
     const extendedSources = useAppSelector((state) => state.extendedSources);
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] = useState<boolean>(true);
     const [isExerciseSetActionMenuHidden, setIsExerciseSetActionMenuHidden] =
@@ -24,13 +26,15 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
     const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
 
-    function updateExtendedSources() {
-        dispatch(extendedSourcesActions.fetchData());
-    }
-
     useEffect(() => {
         updateExtendedSources();
     }, []);
+
+    function updateExtendedSources() {
+        dispatch(extendedSourcesActions.fetchData());
+        dispatch(independentExerciseSetsActions.fetchData());
+    }
+
 
     function toggleCreateExerciseSetForm() {
         setIsCreateExerciseSetFormHidden((prev) => !prev);
@@ -98,41 +102,102 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                         <Button variant={ButtonVariants.PRIMARY} onClick={toggleCreateExerciseSetForm}>new exercise set</Button>
                     </div>
                 </div>
-                <div
+
+                <div // independents
                     className="w-full h-auto p-4
                     flex flex-col justify-start items-start gap-10"
                 >
+                    <div
+                        className="w-full h-auto p-4
+                        flex flex-col justify-start items-start gap-4"
+                    >
+                        <div className="w-full flex justify-start items-center gap-2 border-b-1">
+                            <p className="font-serif font-semibold">
+                                Independents
+                            </p>
+                        </div>
+                        <div
+                            className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
+                        >
+                            {independentExerciseSets.map(
+                                    (exerciseSet) => (
+                                        <ExerciseSetCard
+                                            exerciseSet={exerciseSet}
+                                            toggleExerciseSetActionMenu={
+                                                toggleExerciseSetActionMenu
+                                            }
+                                        />
+                                    )
+                                )}
+                        </div>
+                    </div>
+
                     {extendedSources.map((extendedSource) => (
                             <>
                                 {extendedSource.exerciseSets &&
                                     extendedSource.exerciseSets.length > 0 && (
-                                        <>
+                                        <div
+                                            className="w-full h-auto p-4
+                                            flex flex-col justify-start items-start gap-4"
+                                        >
+                                            <div className="w-full flex justify-start items-center gap-2 border-b-1">
+                                                <p className="font-serif font-semibold">
+                                                    Source:{' '}
+                                                </p>
+                                                <p>
+                                                    {extendedSource.title ||
+                                                    extendedSource.title.length > 0
+                                                        ? extendedSource.title
+                                                        : extendedSource._id}
+                                                </p>
+                                                <p className="font-serif italic">
+                                                    {extendedSource.type}
+                                                </p>
+                                            </div>
+                                            <div
+                                                className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
+                                            >
+                                                {extendedSource.exerciseSets &&
+                                                    extendedSource.exerciseSets.map(
+                                                        (exerciseSet) => (
+                                                            <ExerciseSetCard
+                                                                exerciseSet={exerciseSet}
+                                                                toggleExerciseSetActionMenu={
+                                                                    toggleExerciseSetActionMenu
+                                                                }
+                                                            />
+                                                        )
+                                                    )}
+                                            </div>
+                                        </div>
+                                    )}
+                                {extendedSource.processedSources?.map((processedSource) => (
+                                    processedSource.exerciseSets && processedSource.exerciseSets?.length > 0 && (
                                             <div
                                                 className="w-full h-auto p-4
-                                        flex flex-col justify-start items-start gap-4"
+                                                flex flex-col justify-start items-start gap-2"
                                             >
-                                                <div className="w-full flex justify-start items-center gap-2 border-b-1">
+                                                <div className="flex justify-start items-center gap-2">
                                                     <p className="font-serif font-semibold">
-                                                        Source:{' '}
+                                                        Processed Source:{' '}
                                                     </p>
                                                     <p>
-                                                        {extendedSource.title ||
-                                                        extendedSource.title.length > 0
-                                                            ? extendedSource.title
-                                                            : extendedSource._id}
-                                                    </p>
-                                                    <p className="font-serif italic">
-                                                        {extendedSource.type}
+                                                        {processedSource.title ||
+                                                        processedSource.title.length > 0
+                                                            ? processedSource.title
+                                                            : processedSource._id}
                                                     </p>
                                                 </div>
                                                 <div
                                                     className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
                                                 >
-                                                    {extendedSource.exerciseSets &&
-                                                        extendedSource.exerciseSets.map(
+                                                    {processedSource.exerciseSets &&
+                                                        processedSource.exerciseSets.map(
                                                             (exerciseSet) => (
                                                                 <ExerciseSetCard
-                                                                    exerciseSet={exerciseSet}
+                                                                    exerciseSet={
+                                                                        exerciseSet
+                                                                    }
                                                                     toggleExerciseSetActionMenu={
                                                                         toggleExerciseSetActionMenu
                                                                     }
@@ -141,47 +206,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                                         )}
                                                 </div>
                                             </div>
-                                        </>
-                                    )}
-                                {extendedSource.processedSources?.map((processedSource) => (
-                                    <>
-                                        {processedSource.exerciseSets &&
-                                            processedSource.exerciseSets?.length > 0 && (
-                                                <div
-                                                    className="w-full h-auto p-4
-                                            flex flex-col justify-start items-start gap-2"
-                                                >
-                                                    <div className="flex justify-start items-center gap-2">
-                                                        <p className="font-serif font-semibold">
-                                                            Processed Source:{' '}
-                                                        </p>
-                                                        <p>
-                                                            {processedSource.title ||
-                                                            processedSource.title.length > 0
-                                                                ? processedSource.title
-                                                                : processedSource._id}
-                                                        </p>
-                                                    </div>
-                                                    <div
-                                                        className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
-                                                    >
-                                                        {processedSource.exerciseSets &&
-                                                            processedSource.exerciseSets.map(
-                                                                (exerciseSet) => (
-                                                                    <ExerciseSetCard
-                                                                        exerciseSet={
-                                                                            exerciseSet
-                                                                        }
-                                                                        toggleExerciseSetActionMenu={
-                                                                            toggleExerciseSetActionMenu
-                                                                        }
-                                                                    />
-                                                                )
-                                                            )}
-                                                    </div>
-                                                </div>
-                                            )}
-                                    </>
+                                        )
                                 ))}
                             </>
                         ))

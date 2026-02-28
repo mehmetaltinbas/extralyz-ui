@@ -1,9 +1,8 @@
 import type React from 'react';
 import { MCQExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/MCQExercisePracticeCard';
 import { OpenEndedExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/OpenEndedExercisePracticeCard';
-import { ShortExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/ShortExercisePracticeCard';
 import { TrueFalseExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/TrueFalseExercisePracticeCard';
-import { ExerciseType } from 'src/features/exercise/enum/exercise-types.enum';
+import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExercisePracticeCard({
@@ -30,7 +29,6 @@ export function ExercisePracticeCard({
         [ExerciseType.MCQ, MCQExercisePracticeCard],
         [ExerciseType.TRUE_FALSE, TrueFalseExercisePracticeCard],
         [ExerciseType.OPEN_ENDED, OpenEndedExercisePracticeCard],
-        [ExerciseType.SHORT, ShortExercisePracticeCard],
     ]);
     const Component = componentsMap.get(exercise.type as ExerciseType);
 

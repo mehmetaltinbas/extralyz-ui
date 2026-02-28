@@ -2,9 +2,8 @@ import type React from 'react';
 import type { ExerciseAnswerEvaluationResult } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import { MCQExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/MCQExerciseEvaluationCard';
 import { OpenEndedExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/OpenEndedExerciseEvaluationCard';
-import { ShortExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/ShortExerciseEvaluationCard';
 import { TrueFalseExerciseEvaluationCard } from 'src/features/exercise/components/strategy-components/exercise-evaluation-card/TrueFalseExerciseEvaluationCard';
-import { ExerciseType } from 'src/features/exercise/enum/exercise-types.enum';
+import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExerciseEvaluationCard({
@@ -26,8 +25,7 @@ export function ExerciseEvaluationCard({
     > = new Map([
         [ExerciseType.MCQ, MCQExerciseEvaluationCard],
         [ExerciseType.TRUE_FALSE, TrueFalseExerciseEvaluationCard],
-        [ExerciseType.OPEN_ENDED, OpenEndedExerciseEvaluationCard],
-        [ExerciseType.SHORT, ShortExerciseEvaluationCard],
+        [ExerciseType.OPEN_ENDED, OpenEndedExerciseEvaluationCard]
     ]);
     const Component = componentsMap.get(exercise.type as ExerciseType);
 

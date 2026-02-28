@@ -104,7 +104,6 @@ export function CreateExerciseSetForm({
                     <option value={ExerciseSetType.MCQ}>Multiple Choice</option>
                     <option value={ExerciseSetType.TRUE_FALSE}>True False</option>
                     <option value={ExerciseSetType.OPEN_ENDED}>Open Ended</option>
-                    <option value={ExerciseSetType.SHORT}>Short Answer</option>
                 </select>
             </div>
             <div className="flex justify-start items-center gap-2">

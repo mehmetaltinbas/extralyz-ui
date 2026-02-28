@@ -1,11 +1,10 @@
 import type React from 'react';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
-import { ExerciseType } from '../enum/exercise-types.enum';
+import { ExerciseType } from '../enum/exercise-type.enum';
 import type { Exercise } from '../types/exercise.interface';
 import { MCQExerciseCard } from './strategy-components/exercise-card/MCQExerciseCard';
 import { OpenEndedExerciseCard } from './strategy-components/exercise-card/OpenEndedExerciseCard';
-import { ShortExerciseCard } from './strategy-components/exercise-card/ShortExerciseCard';
 import { TrueFalseExerciseCard } from './strategy-components/exercise-card/TrueFalseExerciseCard';
 
 export function ExerciseCard({
@@ -27,7 +26,6 @@ export function ExerciseCard({
         [ExerciseType.MCQ, MCQExerciseCard],
         [ExerciseType.TRUE_FALSE, TrueFalseExerciseCard],
         [ExerciseType.OPEN_ENDED, OpenEndedExerciseCard],
-        [ExerciseType.SHORT, ShortExerciseCard],
     ]);
     const Component = componentsMap.get(exercise.type as ExerciseType);
 

@@ -1,7 +1,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { ExerciseDifficulty } from "src/features/exercise/enum/exercise-difficulty.enum";
-import { ExerciseType } from "src/features/exercise/enum/exercise-types.enum";
+import { ExerciseType } from "src/features/exercise/enum/exercise-type.enum";
 import { exerciseService } from "src/features/exercise/services/exercise.service";
 import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-exercise.dto";
 import { Button } from "src/shared/components/Button";
@@ -88,7 +88,6 @@ export function CreateExerciseForm({
                     <option value={ExerciseType.MCQ}>Multiple Choice</option>
                     <option value={ExerciseType.TRUE_FALSE}>True False</option>
                     <option value={ExerciseType.OPEN_ENDED}>Open Ended</option>
-                    <option value={ExerciseType.SHORT}>Short Answer</option>
                 </select>
             </div>
             <div className="flex justify-start items-center gap-2">
@@ -169,7 +168,7 @@ export function CreateExerciseForm({
                     </div>
                 </>
             )}
-            {(createExerciseDto.type === ExerciseType.SHORT || createExerciseDto.type === ExerciseType.OPEN_ENDED) && (
+            {createExerciseDto.type === ExerciseType.OPEN_ENDED && (
                 <div className="flex justify-start items-center gap-2">
                     <p>solution: </p>
                     <input value={createExerciseDto.solution} onChange={e => setCreateExerciseDto({ ...createExerciseDto, solution: e.currentTarget.value })} className="w-64 py-[2px] px-2 border rounded-[10px]" />

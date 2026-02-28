@@ -1,5 +1,5 @@
 import type { ExerciseDifficulty } from "src/features/exercise/enum/exercise-difficulty.enum";
-import type { ExerciseType } from "src/features/exercise/enum/exercise-types.enum";
+import type { ExerciseType } from "src/features/exercise/enum/exercise-type.enum";
 
 export interface CreateExerciseDto {
     type: ExerciseType;

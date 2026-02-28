@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
-import { ProcessSourceForm } from 'src/features/processed-source/components/ProcessSourceForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { sourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
@@ -21,7 +20,6 @@ export function SourcePage({ source, className }: { source: Source; className?: 
     const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
         useState<boolean>(true);
-    const [isProcessSourceFormHidden, setIsProcessSourceFormHidden] = useState<boolean>(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
     const mainDivRef = useRef<HTMLDivElement>(null);
@@ -53,11 +51,6 @@ export function SourcePage({ source, className }: { source: Source; className?: 
         dispatch(sourcesActions.fetchData());
     }
 
-    function toggleProcessSourceForm() {
-        setIsProcessSourceFormHidden((prev) => !prev);
-        setIsPopUpActive((prev) => !prev);
-    }
-
     function toggleCreateExerciseSetForm() {
         setIsCreateExerciseSetFormHidden((prev) => !prev);
         setIsPopUpActive((prev) => !prev);
@@ -84,7 +77,6 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                 setIsHidden={setIsActionMenuHidden}
                 sourceId={source._id}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
-                toggleProcessSourceForm={toggleProcessSourceForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 
@@ -113,14 +105,6 @@ export function SourcePage({ source, className }: { source: Source; className?: 
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 components={[
-                    <ProcessSourceForm
-                        isHidden={isProcessSourceFormHidden}
-                        setIsHidden={setIsProcessSourceFormHidden}
-                        setIsPopUpActive={setIsPopUpActive}
-                        setIsLoadingPageHidden={setIsLoadingPageHidden}
-                        toggle={toggleProcessSourceForm}
-                        sourceId={source._id}
-                    />,
                     <CreateExerciseSetForm
                         isHidden={isCreateExerciseSetFormHidden}
                         setIsHidden={setIsCreateExerciseSetFormHidden}

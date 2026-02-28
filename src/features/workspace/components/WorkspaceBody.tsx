@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState, type JSX, type ReactNode } from 're
 import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
 import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/ExerciseSetPracticePage';
 import { SourcePage } from 'src/features/source/pages/SourcePage';
-import { ProcessedSourcePage } from 'src/features/processed-source/pages/ProcessedSourcePage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { SourcesPage } from 'src/features/source/pages/SourcesPage';
-import { ProcessedSourcesPage } from 'src/features/processed-source/pages/ProcessedSourcesPage';
 import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPage';
 import { ExerciseSetPage } from 'src/features/exercise-set/pages/ExerciseSetPage';
 import { Section } from 'src/features/workspace/enums/sections.enum';
@@ -24,8 +22,6 @@ export function WorkspaceBody() {
     const componentsMap: Map<string, React.ComponentType<any>> = new Map([
         [Section.SOURCES, SourcesPage],
         [Section.SOURCE, SourcePage],
-        [Section.PROCESSED_SOURCES, ProcessedSourcesPage],
-        [Section.PROCESSED_SOURCE, ProcessedSourcePage],
         [Section.EXERCISE_SETS, ExerciseSetsPage],
         [Section.EXERCISE_SET, ExerciseSetPage],
         [Section.EXERCISE_SET_PRACTICE, ExerciseSetPracticePage],

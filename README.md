@@ -1,1 +1,5 @@
-This repository is for reference only. No license is granted for use, modification, or distribution.
+# ENV Variables
+
+VITE_PORT=
+VITE_API_URL=
+VITE_DPI=96

@@ -7,14 +7,12 @@ export function SourceActionMenu({
     setIsHidden,
     sourceId,
     toggleCreateExerciseSetForm,
-    toggleProcessSourceForm,
     toggleDeleteApproval,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     sourceId?: string;
     toggleCreateExerciseSetForm: () => void;
-    toggleProcessSourceForm: () => void;
     toggleDeleteApproval: () => void;
 }) {
     return (
@@ -26,16 +24,6 @@ export function SourceActionMenu({
         >
             {sourceId && (
                 <>
-                    <Button
-                        variant={ButtonVariants.PRIMARY}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            toggleProcessSourceForm();
-                            setIsHidden((prev) => !prev);
-                        }}
-                    >
-                        Process
-                    </Button>
                     <Button
                         variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {

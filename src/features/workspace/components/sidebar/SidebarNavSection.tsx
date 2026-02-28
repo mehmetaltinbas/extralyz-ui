@@ -2,7 +2,6 @@ import type React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../../../store/hooks';
 import type { Source } from '../../../source/types/source.interface';
-import type { ProcessedSource } from '../../../processed-source/types/processed-source.interface';
 import type { ExerciseSet } from '../../../exercise-set/types/exercise-set.interface';
 import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
 import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabsSlice';
@@ -13,7 +12,7 @@ export function SidebarNavSection({
     items,
 }: {
     section: Section;
-    items: Source[] | ProcessedSource[] | ExerciseSet[];
+    items: Source[] | ExerciseSet[];
 }) {
     const dispatch = useAppDispatch();
     const sidebar = useAppSelector((state) => state.sidebar);

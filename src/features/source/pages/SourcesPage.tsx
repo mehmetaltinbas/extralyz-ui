@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
-import { ProcessSourceForm } from 'src/features/processed-source/components/ProcessSourceForm';
 import { CreateSourceForm } from 'src/features/source/components/CreateSourceForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
@@ -22,7 +21,6 @@ export function SourcesPage({ className }: { className?: string }) {
     const [isSourceActionMenuHidden, setIsSourceActionMenuHidden] = useState<boolean>(true);
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
         useState<boolean>(true);
-    const [isProcessSourceFormHidden, setIsProcessSourceFormHidden] = useState<boolean>(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
 
@@ -56,11 +54,6 @@ export function SourcesPage({ className }: { className?: string }) {
         setIsPopUpActive((prev) => !prev);
     }
 
-    function toggleProcessSourceForm() {
-        setIsProcessSourceFormHidden((prev) => !prev);
-        setIsPopUpActive((prev) => !prev);
-    }
-
     function toggleCreateExerciseSetForm() {
         setIsCreateExerciseSetFormHidden((prev) => !prev);
         setIsPopUpActive((prev) => !prev);
@@ -87,7 +80,6 @@ export function SourcesPage({ className }: { className?: string }) {
                 setIsHidden={setIsSourceActionMenuHidden}
                 sourceId={actionMenuSourceId}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
-                toggleProcessSourceForm={toggleProcessSourceForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 
@@ -125,14 +117,6 @@ export function SourcesPage({ className }: { className?: string }) {
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         toggle={toggleCreateSourceForm}
                         updateSources={updateSourcesState}
-                    />,
-                    <ProcessSourceForm
-                        isHidden={isProcessSourceFormHidden}
-                        setIsHidden={setIsProcessSourceFormHidden}
-                        setIsPopUpActive={setIsPopUpActive}
-                        setIsLoadingPageHidden={setIsLoadingPageHidden}
-                        toggle={toggleProcessSourceForm}
-                        sourceId={actionMenuSourceId}
                     />,
                     <CreateExerciseSetForm
                         isHidden={isCreateExerciseSetFormHidden}

@@ -3,17 +3,13 @@ import type { SectionBuilderStrategy } from 'src/features/workspace/strategies/s
 import { ExerciseSetPracticePropsBuilderStrategy } from './strategies/exercise-set-practice-props-builder.strategy';
 import { ExerciseSetPropsBuilderStrategy } from './strategies/exercise-set-props-builder.strategy';
 import { ExerciseSetsPropsBuilderStrategy } from './strategies/exercise-sets-props-builder.strategy';
-import { ProcessedSourcePropsBuilderStrategy } from './strategies/processed-source-props-builder.strategy';
-import { ProcessedSourcesPropsBuilderStrategy } from './strategies/processed-sources-props-builder.strategy';
 import { SourcePropsBuilderStrategy } from './strategies/source-props-builder.strategy';
 import { SourcesPropsBuilderStrategy } from './strategies/sources-props-builder.strategy';
 
 const map: Map<string, SectionBuilderStrategy> = new Map([
     [Section.SOURCES, SourcesPropsBuilderStrategy],
     [Section.SOURCE, SourcePropsBuilderStrategy],
-    [Section.PROCESSED_SOURCES, ProcessedSourcesPropsBuilderStrategy],
-    [Section.PROCESSED_SOURCE, ProcessedSourcePropsBuilderStrategy],
-    [Section.PROCESSED_SOURCES, ExerciseSetsPropsBuilderStrategy],
+    [Section.EXERCISE_SETS, ExerciseSetsPropsBuilderStrategy],
     [Section.EXERCISE_SET, ExerciseSetPropsBuilderStrategy],
     [Section.EXERCISE_SET_PRACTICE, ExerciseSetPracticePropsBuilderStrategy],
 ]);

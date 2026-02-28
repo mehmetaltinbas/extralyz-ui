@@ -4,27 +4,22 @@ import { Section } from '../../enums/sections.enum';
 import { sidebarActions } from '../../store/sidebar.slice';
 import { SidebarNavSection } from './SidebarNavSection';
 import type { Source } from '../../../source/types/source.interface';
-import type { ProcessedSource } from '../../../processed-source/types/processed-source.interface';
 import type { ExerciseSet } from '../../../exercise-set/types/exercise-set.interface';
 import { sourceService } from '../../../source/services/source.service';
-import { processedSourceService } from '../../../processed-source/services/processed-source.service';
 import { exerciseSetService } from '../../../exercise-set/services/exercise-set.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
-import { processedSourcesActions } from 'src/features/processed-source/store/processed-sources.slice';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
 
 export function Sidebar() {
     const dispatch = useAppDispatch();
     const sidebar = useAppSelector((state) => state.sidebar);
     const sources = useAppSelector((state) => state.sources);
-    const processedSources = useAppSelector((state) => state.processedSources);
     const exerciseSets = useAppSelector((state) => state.exerciseSets);
     const isResizing = useRef(false);
 
     useEffect(() => {
         async function fetchItems() {
             dispatch(sourcesActions.fetchData());
-            dispatch(processedSourcesActions.fetchData());
             dispatch(exerciseSetsActions.fetchData());
         }
         fetchItems();
@@ -107,10 +102,6 @@ export function Sidebar() {
                 {sidebar.isOpen && (
                     <>
                         <SidebarNavSection section={Section.SOURCES} items={sources} />
-                        <SidebarNavSection
-                            section={Section.PROCESSED_SOURCES}
-                            items={processedSources}
-                        />
                         <SidebarNavSection
                             section={Section.EXERCISE_SETS}
                             items={exerciseSets}

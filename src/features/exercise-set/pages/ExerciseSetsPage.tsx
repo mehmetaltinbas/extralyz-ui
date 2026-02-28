@@ -171,43 +171,6 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                             </div>
                                         </div>
                                     )}
-                                {extendedSource.processedSources?.map((processedSource) => (
-                                    processedSource.exerciseSets && processedSource.exerciseSets?.length > 0 && (
-                                            <div
-                                                className="w-full h-auto p-4
-                                                flex flex-col justify-start items-start gap-2"
-                                            >
-                                                <div className="flex justify-start items-center gap-2">
-                                                    <p className="font-serif font-semibold">
-                                                        Processed Source:{' '}
-                                                    </p>
-                                                    <p>
-                                                        {processedSource.title ||
-                                                        processedSource.title.length > 0
-                                                            ? processedSource.title
-                                                            : processedSource._id}
-                                                    </p>
-                                                </div>
-                                                <div
-                                                    className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
-                                                >
-                                                    {processedSource.exerciseSets &&
-                                                        processedSource.exerciseSets.map(
-                                                            (exerciseSet) => (
-                                                                <ExerciseSetCard
-                                                                    exerciseSet={
-                                                                        exerciseSet
-                                                                    }
-                                                                    toggleExerciseSetActionMenu={
-                                                                        toggleExerciseSetActionMenu
-                                                                    }
-                                                                />
-                                                            )
-                                                        )}
-                                                </div>
-                                            </div>
-                                        )
-                                ))}
                             </>
                         ))
                     }

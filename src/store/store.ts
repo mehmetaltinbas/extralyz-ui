@@ -4,7 +4,6 @@ import { sidebarReducer } from 'src/features/workspace/store/sidebar.slice';
 import { layoutDimensionsReducer } from 'src/features/workspace/store/layout-dimensions.slice';
 import { sourcesReducer } from 'src/features/source/store/sources.slice';
 import { extendedSourcesReducer } from 'src/features/source/store/extended-sources.slice';
-import { processedSourcesReducer } from 'src/features/processed-source/store/processed-sources.slice';
 import { exerciseSetsReducer } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { independentExerciseSetsReducer } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
 
@@ -15,7 +14,6 @@ export const store = configureStore({
         layoutDimensions: layoutDimensionsReducer,
         sources: sourcesReducer,
         extendedSources: extendedSourcesReducer,
-        processedSources: processedSourcesReducer,
         independentExerciseSets: independentExerciseSetsReducer,
         exerciseSets: exerciseSetsReducer,
     },

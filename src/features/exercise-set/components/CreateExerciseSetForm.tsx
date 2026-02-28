@@ -134,12 +134,7 @@ export function CreateExerciseSetForm({
                     >
                         <option value={ExerciseSetSourceType.INDEPENDENT}>Independent</option>
                         {extendedSources.map(extendedSource => (
-                            <>
-                            <option value={extendedSource._id}>{extendedSource.title}</option>
-                            {extendedSource.processedSources?.map(processedSource => (
-                                <option value={processedSource._id}>{processedSource.title}</option>
-                            ))}
-                            </>
+                            <option key={extendedSource._id} value={extendedSource._id}>{extendedSource.title}</option>
                         ))}
                     </select>
                 </div>

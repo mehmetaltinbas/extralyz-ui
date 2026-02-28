@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { sourceService } from 'src/features/source/services/source.service';
@@ -14,7 +14,6 @@ import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function SourcePage({ source, className }: { source: Source; className?: string }) {
-    const [mode, setMode] = useState<'view' | 'edit'>('view');
     const dispatch = useAppDispatch();
     const [isActionMenuHidden, setIsActionMenuHidden] = useState<boolean>(true);
     const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
@@ -22,17 +21,8 @@ export function SourcePage({ source, className }: { source: Source; className?: 
         useState<boolean>(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
-    const mainDivRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {}, []);
-
-    async function changeMode() {
-        setIsPopUpActive(true);
-        setIsLoadingPageHidden(false);
-        setMode((prev) => (prev === 'view' ? 'edit' : 'view'));
-        setIsLoadingPageHidden(true);
-        setIsPopUpActive(false);
-    }
 
     function toggleSourceActionMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
@@ -80,8 +70,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 
-            <div // main
-                ref={mainDivRef}
+            <div
                 className="w-full h-auto absolute
                 flex flex-col justify-start items-center gap-4"
             >
@@ -89,16 +78,11 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                     <div className=''>
                         <Button variant={ButtonVariants.GHOST} onClick={(event) => toggleSourceActionMenu(event)} >...</Button>
                     </div>
-                    <Button variant={ButtonVariants.OUTLINE} onClick={async () => await changeMode()}>
-                        change mode to: "{mode === 'view' ? 'edit' : 'view'}"
-                    </Button>
                 </div>
                 <p>{source.title}</p>
                 <p>{source.type}</p>
                 <DocumentRenderer
-                    mode={mode}
                     docNode={JSON.parse(source.rawText) as DocumentNode}
-                    mainDiv={mainDivRef.current!}
                 />
             </div>
 

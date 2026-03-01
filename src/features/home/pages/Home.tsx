@@ -1,80 +1,119 @@
 import { useNavigate } from "react-router-dom";
+import { features } from "src/features/home/constants/features.constant";
 import { Button } from "src/shared/components/Button";
+import { APP_NAME } from "src/shared/constants/app-name.constant";
 import { ButtonVariants } from "src/shared/enums/button-variants.enum";
 
 export function Home() {
     const navigate = useNavigate();
 
-    function handleStartNowAction() {
-        navigate('/sign-up');
+    function handleGetStarted() {
+        navigate("/sign-up");
     }
 
-    function handleTryDemoAction() {
-
+    function handleSignIn() {
+        navigate("/sign-in");
     }
 
     return (
-        <div className="w-full h-full flex flex-col text-center">
-            <header className="w-full h-[52px] bg-black">
+        <div className="w-full min-h-screen flex flex-col">
+            {/* Navigation Header */}
+            <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
+                <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
+                    <span className="text-lg font-bold tracking-tight">
+                        {APP_NAME}
+                    </span>
 
+                    <div className="flex items-center gap-3">
+                        <Button
+                            variant={ButtonVariants.SECONDARY}
+                            onClick={handleSignIn}
+                        >
+                            Sign In
+                        </Button>
+
+                        <Button
+                            variant={ButtonVariants.PRIMARY}
+                            onClick={handleGetStarted}
+                        >
+                            Get Started
+                        </Button>
+                    </div>
+                </div>
             </header>
 
-            <section // hero section
-                className="w-full h-auto bg-gray-100 p-4
-                flex flex-col justify-center items-center gap-4"
-            >
-                <p className="text-3xl font-bold">Master Learning. Effortlessly.</p>
-                <div className="w-full h-auto
-                    flex flex-col justify-center items-center gap-1"
-                >
-                    <p className="text-2xl">Extralyz transforms your documents into interactive, study-ready content in seconds.</p>
-                    <p className="text-lg">Study smarter, not harder.</p>
+            {/* Hero Section */}
+            <section className="w-full flex flex-col justify-center items-center px-8 py-20">
+                <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
+                    <h1 className="text-5xl font-bold leading-tight tracking-tight">
+                        Turn Your Documents Into
+                        <br />
+                        Practice Exercises
+                    </h1>
+
+                    <p className="text-xl text-gray-500 max-w-2xl">
+                        AI-powered platform that converts your study materials
+                        into custom exercise sets for active recall — then
+                        grades your answers automatically.
+                    </p>
+
+                    <div className="flex items-center gap-4 mt-4">
+                        <Button
+                            variant={ButtonVariants.PRIMARY}
+                            onClick={handleGetStarted}
+                            className="!text-sm !px-4 !py-1"
+                        >
+                            Get Started
+                        </Button>
+
+                        <Button
+                            variant={ButtonVariants.SECONDARY}
+                            onClick={handleSignIn}
+                            className="!text-sm !px-4 !py-1"
+                        >
+                            Sign In
+                        </Button>
+                    </div>
                 </div>
-                <div className="w-full h-auto
-                    flex justify-center items-center gap-2"
-                >
-                    <Button 
-                        variant={ButtonVariants.PRIMARY}
-                        onClick={handleStartNowAction} 
-                    >Start Now</Button>
-                    {/*
-                    <BlackButton 
-                        onClick={handleTryDemoAction} 
-                        className="text-[16px]"
-                    >Try Demo</BlackButton>
-                    */}
+            </section>
+
+            {/* Features Section */}
+            <section className="w-full flex flex-col items-center px-8 py-16 bg-white">
+                <div className="max-w-5xl w-full">
+                    <h2 className="text-3xl font-bold text-center pb-12 tracking-tight">
+                        Features
+                    </h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {features.map((feature) => (
+                            <div
+                                key={feature.title}
+                                className="rounded-[10px] p-8 bg-gray-50 hover:bg-gray-100 transition-colors"
+                            >
+                                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-600">
+                                    {feature.icon}
+                                </div>
+
+                                <h3 className="text-xl font-bold mb-3">
+                                    {feature.title}
+                                </h3>
+
+                                <p className="text-gray-600 leading-relaxed">
+                                    {feature.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
-            <section // feature 1: abstractive summarization
-                className="w-full h-auto bg-gray-200 p-4
-                    flex flex-col justify-center items-center gap-2"
-            >
-                <p className="text-xl">Concise Synthesis</p>
-                <p className="text-lg">Transform sources into clear and compact formats, makingt he contentr easier to read, understand, and work with.</p>
-            </section>
-
-            <section // feature 2: interactive practical exercise set generation
-                className="w-full h-auto bg-gray-100 p-4
-                    flex flex-col justify-center items-center gap-2"
-            >
-                <p className="text-xl">Interactive Exercises</p>
-                <p className="text-lg">Automatically create exercise sets in the form of multiple choice, true or false, and open ended questions directly from your sources.</p>
-            </section>
-
-            <section // feature 3: downloadable pdf documents
-                className="w-full h-auto bg-gray-200 p-4
-                    flex flex-col justify-center items-center gap-2"
-            >
-                <p className="text-xl">Edit & Export</p>
-                <p className="text-lg">Edit content directly in Extralyz and export print-ready PDFs for offline study.</p>
-            </section>
-
-            <footer
-                className="w-full h-auto bg-gray-400 p-4
-                    "
-            >
-                <p>Copyright © 2025 Extralyz. All rights reserved.</p>
+            {/* Footer */}
+            <footer className="w-full flex flex-col items-center bg-gray-50 py-8 mt-auto">
+                <div className="max-w-6xl w-full px-8">
+                    <p className="text-sm text-gray-400 text-center">
+                        Copyright © 2025 {APP_NAME}. All rights reserved.
+                    </p>
+                </div>
             </footer>
         </div>
     );

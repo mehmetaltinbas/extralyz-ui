@@ -15,7 +15,11 @@ export function SignUpPage() {
 
     async function signUp() {
         const response = await userService.signUp(signUpDto);
-        alert(response.message);
+
+        if (!response.isSuccess) {
+            alert(response.message);
+        }
+
         setIsSignedUp(response.isSuccess);
     }
 

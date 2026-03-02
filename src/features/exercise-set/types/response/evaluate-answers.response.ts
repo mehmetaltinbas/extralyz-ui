@@ -11,6 +11,6 @@ export interface ExerciseAnswerEvaluationResult {
 }
 
 export interface EvaluateAnswersResponse extends ResponseBase {
-    overallScore: number;
-    exerciseAnswerEvaluationResults: ExerciseAnswerEvaluationResult[];
+    overallScore?: number;
+    exerciseAnswerEvaluationResults?: ExerciseAnswerEvaluationResult[];
 }

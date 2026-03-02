@@ -8,7 +8,8 @@
         "build": "tsc -b && vite build",
         "lint": "eslint \"src/**/*.ts\" --fix",
         "preview": "vite preview",
-        "format": "npx prettier --write ."
+        "format": "npx prettier --write .",
+        "check:types": "tsc --noEmit"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.8.2",

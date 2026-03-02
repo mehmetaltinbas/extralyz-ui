@@ -49,14 +49,14 @@ export function SourceCard({
                     <p className="text-xs">{source.type}</p>
                 </div>
                 <div
-                    id='this is the button div'
+                    id="this is the button div"
                     className="w-[50px] h-full
                     flex justify-center items-center"
                 >
                     <Button
                         variant={ButtonVariants.GHOST}
                         onClick={(event) => toggleSourceActionMenu(event, source._id)}
-                        className='font-bold'
+                        className="font-bold"
                     >
                         ...
                     </Button>

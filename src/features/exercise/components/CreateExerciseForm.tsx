@@ -1,11 +1,10 @@
-import type React from "react";
-import { useEffect, useState } from "react";
-import { ExerciseDifficulty } from "src/features/exercise/enum/exercise-difficulty.enum";
-import { ExerciseType } from "src/features/exercise/enum/exercise-type.enum";
-import { exerciseService } from "src/features/exercise/services/exercise.service";
-import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-exercise.dto";
-import { Button } from "src/shared/components/Button";
-import { ButtonVariants } from "src/shared/enums/button-variants.enum";
+import React from 'react';
+import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
+import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
+import { exerciseService } from 'src/features/exercise/services/exercise.service';
+import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function CreateExerciseForm({
     isHidden,
@@ -14,7 +13,7 @@ export function CreateExerciseForm({
     toggle,
     setIsLoadingPageHidden,
     refreshData,
-    exerciseSetId
+    exerciseSetId,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,29 +23,32 @@ export function CreateExerciseForm({
     refreshData: () => Promise<void>;
     exerciseSetId: string;
 }) {
-    const [createExerciseDto, setCreateExerciseDto] = useState<CreateExerciseDto>({
+    const [createExerciseDto, setCreateExerciseDto] = React.useState<CreateExerciseDto>({
         type: ExerciseType.OPEN_ENDED,
         difficulty: ExerciseDifficulty.MEDIUM,
         prompt: '',
         solution: '',
         choices: ['', '', '', '', ''],
-        correctChoiceIndex: 0
+        correctChoiceIndex: 0,
     });
 
-    useEffect(() => {
+    React.useEffect(() => {
         setCreateExerciseDto({
             ...createExerciseDto,
             prompt: '',
             solution: '',
             choices: ['', '', '', '', ''],
-            correctChoiceIndex: 0
+            correctChoiceIndex: 0,
         });
     }, [isHidden, createExerciseDto.type]);
 
     async function createExercise() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
-        const response = await exerciseService.createByExerciseSetId(exerciseSetId, createExerciseDto);
+        const response = await exerciseService.createByExerciseSetId(
+            exerciseSetId,
+            createExerciseDto
+        );
         await refreshData();
         setIsLoadingPageHidden(true);
         alert(response.message);
@@ -55,8 +57,15 @@ export function CreateExerciseForm({
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
         const selectElement = event.currentTarget;
-        if (!Object.keys(createExerciseDto).includes(selectElement.name)) {return;}
-        if (!(Object.values(ExerciseType) as string[]).includes(selectElement.value) && !(Object.values(ExerciseDifficulty) as string[]).includes(selectElement.value)) {return;}
+        if (!Object.keys(createExerciseDto).includes(selectElement.name)) {
+            return;
+        }
+        if (
+            !(Object.values(ExerciseType) as string[]).includes(selectElement.value) &&
+            !(Object.values(ExerciseDifficulty) as string[]).includes(selectElement.value)
+        ) {
+            return;
+        }
         setCreateExerciseDto({
             ...createExerciseDto,
             [selectElement.name]: selectElement.value,
@@ -69,20 +78,16 @@ export function CreateExerciseForm({
             flex flex-col justify-center items-center gap-2`}
         >
             <div className="absolute top-1 right-1 w-full flex justify-end items-center">
-                <Button
-                    variant={ButtonVariants.GHOST}
-                    onClick={(event) => toggle()}>
-                        X
+                <Button variant={ButtonVariants.GHOST} onClick={(event) => toggle()}>
+                    X
                 </Button>
             </div>
             <div className="flex justify-start items-center gap-2 pt-4">
                 <p>type: </p>
                 <select
-                name='type'
+                    name="type"
                     value={createExerciseDto.type}
-                    onChange={(e) =>
-                        onChangeForEnum(e)
-                    }
+                    onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     <option value={ExerciseType.MCQ}>Multiple Choice</option>
@@ -93,11 +98,9 @@ export function CreateExerciseForm({
             <div className="flex justify-start items-center gap-2">
                 <p>difficulty: </p>
                 <select
-                    name='difficulty'
+                    name="difficulty"
                     value={createExerciseDto.difficulty}
-                    onChange={(e) =>
-                        onChangeForEnum(e)
-                    }
+                    onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     <option value={ExerciseDifficulty.EASY}>Easy</option>
@@ -107,37 +110,112 @@ export function CreateExerciseForm({
             </div>
             <div className="flex justify-start items-center gap-2">
                 <p>prompt: </p>
-                <input value={createExerciseDto.prompt} onChange={e => setCreateExerciseDto({ ...createExerciseDto, prompt: e.currentTarget.value })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                <input
+                    value={createExerciseDto.prompt}
+                    onChange={(e) =>
+                        setCreateExerciseDto({
+                            ...createExerciseDto,
+                            prompt: e.currentTarget.value,
+                        })
+                    }
+                    className="w-64 py-[2px] px-2 border rounded-[10px]"
+                />
             </div>
             {createExerciseDto.type === ExerciseType.MCQ && (
                 <>
                     <div className="flex justify-start items-center gap-2">
                         <p>A: </p>
-                        <input value={createExerciseDto.choices![0]} onChange={e => setCreateExerciseDto({ ...createExerciseDto, choices: [e.currentTarget.value, ...createExerciseDto.choices!.slice(1)] })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                        <input
+                            value={createExerciseDto.choices![0]}
+                            onChange={(e) =>
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    choices: [
+                                        e.currentTarget.value,
+                                        ...createExerciseDto.choices!.slice(1),
+                                    ],
+                                })
+                            }
+                            className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        />
                     </div>
                     <div className="flex justify-start items-center gap-2">
                         <p>B: </p>
-                        <input value={createExerciseDto.choices![1]} onChange={e => setCreateExerciseDto({ ...createExerciseDto, choices: [...createExerciseDto.choices!.slice(0, 1), e.currentTarget.value, ...createExerciseDto.choices!.slice(2)] })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                        <input
+                            value={createExerciseDto.choices![1]}
+                            onChange={(e) =>
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    choices: [
+                                        ...createExerciseDto.choices!.slice(0, 1),
+                                        e.currentTarget.value,
+                                        ...createExerciseDto.choices!.slice(2),
+                                    ],
+                                })
+                            }
+                            className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        />
                     </div>
                     <div className="flex justify-start items-center gap-2">
                         <p>C: </p>
-                        <input value={createExerciseDto.choices![2]} onChange={e => setCreateExerciseDto({ ...createExerciseDto, choices: [...createExerciseDto.choices!.slice(0, 2) ,e.currentTarget.value, ...createExerciseDto.choices!.slice(3)] })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                        <input
+                            value={createExerciseDto.choices![2]}
+                            onChange={(e) =>
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    choices: [
+                                        ...createExerciseDto.choices!.slice(0, 2),
+                                        e.currentTarget.value,
+                                        ...createExerciseDto.choices!.slice(3),
+                                    ],
+                                })
+                            }
+                            className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        />
                     </div>
                     <div className="flex justify-start items-center gap-2">
                         <p>D: </p>
-                        <input value={createExerciseDto.choices![3]} onChange={e => setCreateExerciseDto({ ...createExerciseDto, choices: [...createExerciseDto.choices!.slice(0, 3), e.currentTarget.value, ...createExerciseDto.choices!.slice(4)] })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                        <input
+                            value={createExerciseDto.choices![3]}
+                            onChange={(e) =>
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    choices: [
+                                        ...createExerciseDto.choices!.slice(0, 3),
+                                        e.currentTarget.value,
+                                        ...createExerciseDto.choices!.slice(4),
+                                    ],
+                                })
+                            }
+                            className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        />
                     </div>
                     <div className="flex justify-start items-center gap-2">
                         <p>E: </p>
-                        <input value={createExerciseDto.choices![4]} onChange={e => setCreateExerciseDto({ ...createExerciseDto, choices: [...createExerciseDto.choices!.slice(0, 4), e.currentTarget.value] })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                        <input
+                            value={createExerciseDto.choices![4]}
+                            onChange={(e) =>
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    choices: [
+                                        ...createExerciseDto.choices!.slice(0, 4),
+                                        e.currentTarget.value,
+                                    ],
+                                })
+                            }
+                            className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        />
                     </div>
                     <div className="flex justify-start items-center gap-2">
                         <p>correct choice: </p>
                         <select
-                            name='correctChoiceIndex'
+                            name="correctChoiceIndex"
                             value={createExerciseDto.correctChoiceIndex}
                             onChange={(e) =>
-                                setCreateExerciseDto({ ...createExerciseDto, correctChoiceIndex: Number(e.currentTarget.value)})
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    correctChoiceIndex: Number(e.currentTarget.value),
+                                })
                             }
                             className="py-[2px] px-2 border rounded-[10px]"
                         >
@@ -155,10 +233,13 @@ export function CreateExerciseForm({
                     <div className="flex justify-start items-center gap-2">
                         <p>correct choice: </p>
                         <select
-                            name='correctChoiceIndex'
+                            name="correctChoiceIndex"
                             value={createExerciseDto.correctChoiceIndex}
                             onChange={(e) =>
-                                setCreateExerciseDto({ ...createExerciseDto, correctChoiceIndex: Number(e.currentTarget.value)})
+                                setCreateExerciseDto({
+                                    ...createExerciseDto,
+                                    correctChoiceIndex: Number(e.currentTarget.value),
+                                })
                             }
                             className="py-[2px] px-2 border rounded-[10px]"
                         >
@@ -171,13 +252,24 @@ export function CreateExerciseForm({
             {createExerciseDto.type === ExerciseType.OPEN_ENDED && (
                 <div className="flex justify-start items-center gap-2">
                     <p>solution: </p>
-                    <input value={createExerciseDto.solution} onChange={e => setCreateExerciseDto({ ...createExerciseDto, solution: e.currentTarget.value })} className="w-64 py-[2px] px-2 border rounded-[10px]" />
+                    <input
+                        value={createExerciseDto.solution}
+                        onChange={(e) =>
+                            setCreateExerciseDto({
+                                ...createExerciseDto,
+                                solution: e.currentTarget.value,
+                            })
+                        }
+                        className="w-64 py-[2px] px-2 border rounded-[10px]"
+                    />
                 </div>
             )}
             <Button
                 variant={ButtonVariants.PRIMARY}
                 onClick={async (event) => await createExercise()}
-            >Generate</Button>
+            >
+                Generate
+            </Button>
         </div>
     );
 }

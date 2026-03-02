@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import rough from 'roughjs';
 import type { RoughCanvas } from 'roughjs/bin/canvas';
 
 export function LoadingPage({ isHidden, message }: { isHidden?: boolean; message?: string }) {
-    const roughCanvas = useRef<RoughCanvas>(null);
-    const canvasElement = useRef<HTMLCanvasElement>(null);
-    const [dotCount, setDotCount] = useState<number>(1);
+    const roughCanvas = React.useRef<RoughCanvas>(null);
+    const canvasElement = React.useRef<HTMLCanvasElement>(null);
+    const [dotCount, setDotCount] = React.useState<number>(1);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const canvas = canvasElement.current as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
         if (canvas) {
@@ -31,7 +31,7 @@ export function LoadingPage({ isHidden, message }: { isHidden?: boolean; message
         return () => clearInterval(interval);
     }, [canvasElement]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const textInterval = setInterval(() => {
             setDotCount((prev) => (prev % 3) + 1);
         }, 1000);

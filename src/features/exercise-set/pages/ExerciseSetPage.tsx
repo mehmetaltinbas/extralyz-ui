@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
@@ -28,19 +28,20 @@ export function ExerciseSetPage({
 }) {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
-    const [isAnswersHidden, setIsAnswersHidden] = useState<boolean>(true);
-    const [actionMenuExerciseId, setActionMenuExerciseId] = useState<string>('');
+    const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
+    const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string>('');
     const [isExerciseActionMenuHidden, setIsExerciseActionMenuHidden] =
-        useState<boolean>(true);
-    const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
-    const [isCreateExerciseFormHidden, setIsCreateExerciseFormHidden] = useState<boolean>(true);
+        React.useState<boolean>(true);
+    const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
+    const [isCreateExerciseFormHidden, setIsCreateExerciseFormHidden] =
+        React.useState<boolean>(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] =
-        useState<boolean>(true);
+        React.useState<boolean>(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] =
-        useState<boolean>(true);
-    const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
-    const [localExerciseSet, setLocalExerciseSet] = useState<ExerciseSet>(exerciseSet!);
-    const [localExercises, setLocalExercises] = useState<Exercise[]>(exercises || []);
+        React.useState<boolean>(true);
+    const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
+    const [localExerciseSet, setLocalExerciseSet] = React.useState<ExerciseSet>(exerciseSet!);
+    const [localExercises, setLocalExercises] = React.useState<Exercise[]>(exercises || []);
 
     function toggleExerciseActionMenu(
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -60,13 +61,18 @@ export function ExerciseSetPage({
     }
 
     async function refreshData() {
-        if (!exerciseSet?._id) {return;}
+        if (!exerciseSet?._id) {
+            return;
+        }
         setIsPopUpActive(true);
         setIsLoadingPageHidden(false);
 
         try {
-            const updatedSet = (await exerciseSetService.readById(exerciseSet._id)).exerciseSet;
-            const updatedExercises = (await exerciseService.readAllByExerciseSetId(exerciseSet._id)).exercises;
+            const updatedSet = (await exerciseSetService.readById(exerciseSet._id))
+                .exerciseSet;
+            const updatedExercises = (
+                await exerciseService.readAllByExerciseSetId(exerciseSet._id)
+            ).exercises;
             if (updatedSet && updatedExercises) {
                 setLocalExerciseSet(updatedSet);
                 setLocalExercises(updatedExercises);
@@ -78,8 +84,8 @@ export function ExerciseSetPage({
     }
 
     function toggleCreateExerciseForm() {
-        setIsPopUpActive(prev => !prev);
-        setIsCreateExerciseFormHidden(prev => !prev);
+        setIsPopUpActive((prev) => !prev);
+        setIsCreateExerciseFormHidden((prev) => !prev);
     }
 
     function toggleAnswerVisibility() {
@@ -98,7 +104,7 @@ export function ExerciseSetPage({
 
     async function deleteExerciseSet(): Promise<string> {
         const response = await exerciseSetService.deleteById(localExerciseSet!._id!);
-        dispatch(tabsActions.subtract(tabs.activeTabIndex));    
+        dispatch(tabsActions.subtract(tabs.activeTabIndex));
         await refreshData();
         return response.message;
     }
@@ -158,7 +164,8 @@ export function ExerciseSetPage({
                     </Button>
                     <Button
                         variant={ButtonVariants.DANGER}
-                        onClick={toggleExerciseSetDeleteApproval}>
+                        onClick={toggleExerciseSetDeleteApproval}
+                    >
                         Delete Exercise Set
                     </Button>
                 </div>

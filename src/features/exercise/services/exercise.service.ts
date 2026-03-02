@@ -1,13 +1,21 @@
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { ResponseBase } from '../../../shared/types/response-base';
-import type { ReadAllExercisesResponse } from '../types/response/read-all-exercises.response';
+import type { ResponseBase } from 'src/shared/types/response-base';
+import type { ReadAllExercisesResponse } from 'src/features/exercise/types/response/read-all-exercises.response';
 
 const baseUrl = `/exercise`;
 
-async function createByExerciseSetId(exerciseSetId: string, createExerciseDto: CreateExerciseDto): Promise<ResponseBase> {
+async function createByExerciseSetId(
+    exerciseSetId: string,
+    createExerciseDto: CreateExerciseDto
+): Promise<ResponseBase> {
     console.log(createExerciseDto);
-    const response = (await axiosInstance.post(`${baseUrl}/create-by-exercise-set-id/${exerciseSetId}`, createExerciseDto)).data;
+    const response = (
+        await axiosInstance.post(
+            `${baseUrl}/create-by-exercise-set-id/${exerciseSetId}`,
+            createExerciseDto
+        )
+    ).data;
     return response;
 }
 

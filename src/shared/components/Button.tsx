@@ -6,7 +6,7 @@ export function Button({
     children,
     variant,
     onClick,
-    className
+    className,
 }: {
     children: React.ReactNode;
     variant: ButtonVariants;

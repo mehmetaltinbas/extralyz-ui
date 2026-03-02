@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { sourceService } from 'src/features/source/services/source.service';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
@@ -19,13 +18,13 @@ export function CreateSourceForm({
     toggle: () => void;
     updateSources: () => void;
 }) {
-    const [uploadedFile, setUploadedFile] = useState<File>();
-    const [createSourceDto, setCreateSourceDto] = useState({
+    const [uploadedFile, setUploadedFile] = React.useState<File>();
+    const [createSourceDto, setCreateSourceDto] = React.useState({
         title: '',
     });
-    const [fileInputKey, setFileInputKey] = useState(0); // will force file input to re-mount
+    const [fileInputKey, setFileInputKey] = React.useState(0); // will force file input to re-mount
 
-    useEffect(() => {
+    React.useEffect(() => {
         setUploadedFile(undefined);
         setCreateSourceDto({
             title: '',
@@ -68,7 +67,9 @@ export function CreateSourceForm({
         >
             <Button
                 variant={ButtonVariants.GHOST}
-                className="absolute top-1 right-1" onClick={(event) => toggle()}>
+                className="absolute top-1 right-1"
+                onClick={(event) => toggle()}
+            >
                 X
             </Button>
             <div className="flex justify-start items-center gap-2">

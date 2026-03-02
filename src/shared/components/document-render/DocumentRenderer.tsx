@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import type { DocumentNode } from 'src/features/source/types/document-node.interface';
 import type { Styles } from 'src/features/source/types/styles.interface';
 import { DocumentMeasurer } from 'src/shared/components/document-render/DocumentMeasurer';
@@ -6,25 +6,22 @@ import { DocumentViewMode } from 'src/shared/components/document-render/Document
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import type { PaginatedDocument } from 'src/shared/types/paginated-document.interface';
 
-export function DocumentRenderer({
-    docNode,
-}: {
-    docNode: DocumentNode;
-}) {
-    const [isPreRender, setIsPreRender] = useState<boolean>(true);
-    const [documentNode, setDocumentNode] = useState<DocumentNode>(docNode);
-    const [pagePadding, setPagePadding] = useState<{ x: number, y: number }>({
+export function DocumentRenderer({ docNode }: { docNode: DocumentNode }) {
+    const [isPreRender, setIsPreRender] = React.useState<boolean>(true);
+    const [documentNode, setDocumentNode] = React.useState<DocumentNode>(docNode);
+    const [pagePadding, setPagePadding] = React.useState<{ x: number; y: number }>({
         x: 32,
-        y: 24
+        y: 24,
     });
-    const [pageDimensions, setPageDimensons] = useState({
+    const [pageDimensions, setPageDimensons] = React.useState({
         width: Math.floor((210 / 25.4) * import.meta.env.VITE_DPI),
         height: Math.floor((297 / 25.4) * import.meta.env.VITE_DPI),
     });
-    const [paginatedDocument, setPaginatedDocument] = useState<PaginatedDocument>();
-    const blockNodesRef = useRef<(HTMLParagraphElement | null)[]>([]);
+    const [paginatedDocument, setPaginatedDocument] = React.useState<PaginatedDocument>();
+    const blockNodesRef = React.useRef<(HTMLParagraphElement | null)[]>([]);
 
-    useEffect(() => { // initial pagination construction
+    React.useEffect(() => {
+        // initial pagination construction
         // console.log(documentNode);
         let pageIndex = 0;
         let totalHeights = 0;
@@ -41,9 +38,13 @@ export function DocumentRenderer({
                 totalHeights = elementHeight;
             }
             if (!localPaginatedDocument.pages[pageIndex]) {
-                localPaginatedDocument.pages[pageIndex] = { blockNodes: [ documentNode.content[index], ] };
+                localPaginatedDocument.pages[pageIndex] = {
+                    blockNodes: [documentNode.content[index]],
+                };
             } else if (localPaginatedDocument.pages[pageIndex]) {
-                localPaginatedDocument.pages[pageIndex].blockNodes.push(documentNode.content[index]);
+                localPaginatedDocument.pages[pageIndex].blockNodes.push(
+                    documentNode.content[index]
+                );
             }
         });
         setPaginatedDocument(localPaginatedDocument);
@@ -64,24 +65,24 @@ export function DocumentRenderer({
     }
 
     return documentNode ? (
-            isPreRender ?
-                <DocumentMeasurer
-                    documentNode={documentNode}
-                    blockNodesRef={blockNodesRef}
-                    constructTailwindClassNames={constructTailwindClassNames}
-                    pageDimensions={pageDimensions}
-                    padding={pagePadding}
-                />
-            :
-                paginatedDocument ?
-                    <DocumentViewMode
-                        paginatedDocument={paginatedDocument}
-                        pageDimensions={pageDimensions}
-                        constructTailwindClassNames={constructTailwindClassNames}
-                        padding={pagePadding}
-                    />
-                :
-                <></>
+        isPreRender ? (
+            <DocumentMeasurer
+                documentNode={documentNode}
+                blockNodesRef={blockNodesRef}
+                constructTailwindClassNames={constructTailwindClassNames}
+                pageDimensions={pageDimensions}
+                padding={pagePadding}
+            />
+        ) : paginatedDocument ? (
+            <DocumentViewMode
+                paginatedDocument={paginatedDocument}
+                pageDimensions={pageDimensions}
+                constructTailwindClassNames={constructTailwindClassNames}
+                padding={pagePadding}
+            />
+        ) : (
+            <></>
+        )
     ) : (
         <LoadingPage />
     );

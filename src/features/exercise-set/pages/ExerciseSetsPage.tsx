@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
@@ -10,23 +10,24 @@ import { DeleteApproval } from 'src/shared/components/DeleteApproval';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { ExerciseSetCard } from '../components/ExerciseSetCard';
-import { exerciseSetService } from '../services/exercise-set.service';
+import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
+import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 
 export function ExerciseSetsPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
-    const independentExerciseSets = useAppSelector(state => state.independentExerciseSets);
+    const independentExerciseSets = useAppSelector((state) => state.independentExerciseSets);
     const extendedSources = useAppSelector((state) => state.extendedSources);
-    const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] = useState<boolean>(true);
+    const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
+        React.useState<boolean>(true);
     const [isExerciseSetActionMenuHidden, setIsExerciseSetActionMenuHidden] =
-        useState<boolean>(true);
-    const [actionMenuExerciseSet, setActionMenuExerciseSet] = useState<ExerciseSet>();
-    const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
-    const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
-    const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
+        React.useState<boolean>(true);
+    const [actionMenuExerciseSet, setActionMenuExerciseSet] = React.useState<ExerciseSet>();
+    const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
+    const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
+    const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
-    useEffect(() => {
+    React.useEffect(() => {
         updateExtendedSources();
     }, []);
 
@@ -34,7 +35,6 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
         dispatch(extendedSourcesActions.fetchData());
         dispatch(independentExerciseSetsActions.fetchData());
     }
-
 
     function toggleCreateExerciseSetForm() {
         setIsCreateExerciseSetFormHidden((prev) => !prev);
@@ -98,8 +98,13 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                     flex flex-col justify-center items-center p-4"
                 >
                     <p className="text-2xl font-bold">Exercise Sets</p>
-                    <div className='absolute right-0'>
-                        <Button variant={ButtonVariants.PRIMARY} onClick={toggleCreateExerciseSetForm}>new exercise set</Button>
+                    <div className="absolute right-0">
+                        <Button
+                            variant={ButtonVariants.PRIMARY}
+                            onClick={toggleCreateExerciseSetForm}
+                        >
+                            new exercise set
+                        </Button>
                     </div>
                 </div>
 
@@ -112,75 +117,68 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                         flex flex-col justify-start items-start gap-4"
                     >
                         <div className="w-full flex justify-start items-center gap-2 border-b-1">
-                            <p className="font-serif font-semibold">
-                                Independents
-                            </p>
+                            <p className="font-serif font-semibold">Independents</p>
                         </div>
                         <div
                             className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
                         >
-                            {independentExerciseSets.map(
-                                    (exerciseSet) => (
-                                        <ExerciseSetCard
-                                            exerciseSet={exerciseSet}
-                                            toggleExerciseSetActionMenu={
-                                                toggleExerciseSetActionMenu
-                                            }
-                                        />
-                                    )
-                                )}
+                            {independentExerciseSets.map((exerciseSet) => (
+                                <ExerciseSetCard
+                                    exerciseSet={exerciseSet}
+                                    toggleExerciseSetActionMenu={toggleExerciseSetActionMenu}
+                                />
+                            ))}
                         </div>
                     </div>
 
                     {extendedSources.map((extendedSource) => (
-                            <>
-                                {extendedSource.exerciseSets &&
-                                    extendedSource.exerciseSets.length > 0 && (
-                                        <div
-                                            className="w-full h-auto p-4
+                        <>
+                            {extendedSource.exerciseSets &&
+                                extendedSource.exerciseSets.length > 0 && (
+                                    <div
+                                        className="w-full h-auto p-4
                                             flex flex-col justify-start items-start gap-4"
-                                        >
-                                            <div className="w-full flex justify-start items-center gap-2 border-b-1">
-                                                <p className="font-serif font-semibold">
-                                                    Source:{' '}
-                                                </p>
-                                                <p>
-                                                    {extendedSource.title ||
-                                                    extendedSource.title.length > 0
-                                                        ? extendedSource.title
-                                                        : extendedSource._id}
-                                                </p>
-                                                <p className="font-serif italic">
-                                                    {extendedSource.type}
-                                                </p>
-                                            </div>
-                                            <div
-                                                className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
-                                            >
-                                                {extendedSource.exerciseSets &&
-                                                    extendedSource.exerciseSets.map(
-                                                        (exerciseSet) => (
-                                                            <ExerciseSetCard
-                                                                exerciseSet={exerciseSet}
-                                                                toggleExerciseSetActionMenu={
-                                                                    toggleExerciseSetActionMenu
-                                                                }
-                                                            />
-                                                        )
-                                                    )}
-                                            </div>
+                                    >
+                                        <div className="w-full flex justify-start items-center gap-2 border-b-1">
+                                            <p className="font-serif font-semibold">
+                                                Source:{' '}
+                                            </p>
+                                            <p>
+                                                {extendedSource.title ||
+                                                extendedSource.title.length > 0
+                                                    ? extendedSource.title
+                                                    : extendedSource._id}
+                                            </p>
+                                            <p className="font-serif italic">
+                                                {extendedSource.type}
+                                            </p>
                                         </div>
-                                    )}
-                            </>
-                        ))
-                    }
+                                        <div
+                                            className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
+                                        >
+                                            {extendedSource.exerciseSets &&
+                                                extendedSource.exerciseSets.map(
+                                                    (exerciseSet) => (
+                                                        <ExerciseSetCard
+                                                            exerciseSet={exerciseSet}
+                                                            toggleExerciseSetActionMenu={
+                                                                toggleExerciseSetActionMenu
+                                                            }
+                                                        />
+                                                    )
+                                                )}
+                                        </div>
+                                    </div>
+                                )}
+                        </>
+                    ))}
                 </div>
             </div>
 
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 components={[
-                    <CreateExerciseSetForm 
+                    <CreateExerciseSetForm
                         isHidden={isCreateExerciseSetFormHidden}
                         setIsHidden={setIsCreateExerciseSetFormHidden}
                         setIsPopUpActive={setIsPopUpActive}

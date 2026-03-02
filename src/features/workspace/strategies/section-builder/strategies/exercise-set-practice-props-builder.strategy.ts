@@ -1,5 +1,5 @@
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import type { SectionBuilderStrategy } from '../section-builder-strategy.interface';
+import type { SectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/section-builder-strategy.interface';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
 
 export const ExerciseSetPracticePropsBuilderStrategy: SectionBuilderStrategy = {

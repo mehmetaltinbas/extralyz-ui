@@ -14,7 +14,7 @@ export function DocumentViewMode({
         height: number;
     };
     constructTailwindClassNames(styles: Styles): string;
-    padding: { x: number, y: number };
+    padding: { x: number; y: number };
 }) {
     return (
         <div className="flex flex-col justify-start items-center gap-4">

@@ -1,7 +1,7 @@
 import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { ReadAllSourcesResponse } from '../types/response/read-all-sources.response';
-import type { ResponseBase } from '../../../shared/types/response-base';
-import type { ReadSingleSourceResponse } from '../types/response/read-single-source.response';
+import type { ReadAllSourcesResponse } from 'src/features/source/types/response/read-all-sources.response';
+import type { ResponseBase } from 'src/shared/types/response-base';
+import type { ReadSingleSourceResponse } from 'src/features/source/types/response/read-single-source.response';
 
 const baseUrl = `/source`;
 

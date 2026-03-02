@@ -1,10 +1,10 @@
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import type { SectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/section-builder-strategy.interface';
-import { ExerciseSetPracticePropsBuilderStrategy } from './strategies/exercise-set-practice-props-builder.strategy';
-import { ExerciseSetPropsBuilderStrategy } from './strategies/exercise-set-props-builder.strategy';
-import { ExerciseSetsPropsBuilderStrategy } from './strategies/exercise-sets-props-builder.strategy';
-import { SourcePropsBuilderStrategy } from './strategies/source-props-builder.strategy';
-import { SourcesPropsBuilderStrategy } from './strategies/sources-props-builder.strategy';
+import { ExerciseSetPracticePropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/exercise-set-practice-props-builder.strategy';
+import { ExerciseSetPropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/exercise-set-props-builder.strategy';
+import { ExerciseSetsPropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/exercise-sets-props-builder.strategy';
+import { SourcePropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/source-props-builder.strategy';
+import { SourcesPropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/sources-props-builder.strategy';
 
 const map: Map<string, SectionBuilderStrategy> = new Map([
     [Section.SOURCES, SourcesPropsBuilderStrategy],

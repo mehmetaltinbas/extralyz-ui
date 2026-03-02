@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { CreateSourceForm } from 'src/features/source/components/CreateSourceForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
@@ -8,27 +8,29 @@ import { DeleteApproval } from 'src/shared/components/DeleteApproval';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { Button } from '../../../shared/components/Button';
-import { SourceCard } from '../components/SourceCard';
-import { sourceService } from '../services/source.service';
+import { Button } from 'src/shared/components/Button';
+import { SourceCard } from 'src/features/source/components/SourceCard';
+import { sourceService } from 'src/features/source/services/source.service';
 
 export function SourcesPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
     const sources = useAppSelector((state) => state.sources);
-    const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
-    const [isSourceCreateFormHidden, setIsSourceCreateFormHidden] = useState<boolean>(true);
-    const [actionMenuSourceId, setActionMenuSourceId] = useState<string>('');
-    const [isSourceActionMenuHidden, setIsSourceActionMenuHidden] = useState<boolean>(true);
+    const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
+    const [isSourceCreateFormHidden, setIsSourceCreateFormHidden] =
+        React.useState<boolean>(true);
+    const [actionMenuSourceId, setActionMenuSourceId] = React.useState<string>('');
+    const [isSourceActionMenuHidden, setIsSourceActionMenuHidden] =
+        React.useState<boolean>(true);
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
-        useState<boolean>(true);
-    const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = useState<boolean>(true);
-    const [isLoadingPageHidden, setIsLoadingPageHidden] = useState<boolean>(true);
+        React.useState<boolean>(true);
+    const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
+    const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
     function updateSourcesState() {
         dispatch(sourcesActions.fetchData());
     }
 
-    useEffect(() => {
+    React.useEffect(() => {
         updateSourcesState();
     }, []);
 
@@ -97,14 +99,13 @@ export function SourcesPage({ className }: { className?: string }) {
                     </Button>
                 </div>
                 {sources.map((source) => (
-                        <div className="flex justify-center items-center">
-                            <SourceCard
-                                source={source}
-                                toggleSourceActionMenu={toggleSourceActionMenu}
-                            />
-                        </div>
-                    ))
-                }
+                    <div className="flex justify-center items-center">
+                        <SourceCard
+                            source={source}
+                            toggleSourceActionMenu={toggleSourceActionMenu}
+                        />
+                    </div>
+                ))}
             </div>
 
             <BodyModal

@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Sidebar } from '../components/sidebar/Sidebar';
-import { WorkspaceBody } from '../components/WorkspaceBody';
-import { WorkspaceTabsBar } from '../features/tabs/components/WorkspaceTabsBar';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { layoutDimensionsActions } from '../store/layout-dimensions.slice';
+import React from 'react';
+import { Sidebar } from 'src/features/workspace/components/sidebar/Sidebar';
+import { WorkspaceBody } from 'src/features/workspace/components/WorkspaceBody';
+import { WorkspaceTabsBar } from 'src/features/workspace/features/tabs/components/WorkspaceTabsBar';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
 
 export function WorkspacePage() {
     const dispatch = useAppDispatch();
     const sidebar = useAppSelector((state) => state.sidebar);
 
-    useEffect(() => {
+    React.useEffect(() => {
         function handleResize() {
             dispatch(layoutDimensionsActions.updateWidthsBySidebarWidth(sidebar.width));
         }

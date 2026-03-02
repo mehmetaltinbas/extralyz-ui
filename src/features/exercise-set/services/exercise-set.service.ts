@@ -15,9 +15,7 @@ async function create(
     createExerciseSetDto: CreateExerciseSetDto
 ): Promise<ResponseBase> {
     const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
-    const response = (
-        await axiosInstance.post(requestURL, createExerciseSetDto)
-    ).data;
+    const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
     return response;
 }
 
@@ -26,8 +24,14 @@ async function readById(id: string): Promise<ReadSingleExerciseSetResponse> {
     return response;
 }
 
-async function readAllByUserId(sourceType?: ExerciseSetSourceType): Promise<ReadAllExerciseSetsResponse> {
-    const response = (await axiosInstance.get(`${baseUrl}/read-all-by-user-id?sourceType=${sourceType}`)).data;
+async function readAllByUserId(
+    sourceType?: ExerciseSetSourceType
+): Promise<ReadAllExerciseSetsResponse> {
+    const response = (
+        await axiosInstance.get(
+            `${baseUrl}/read-all-by-user-id${sourceType ? `?sourceType=${sourceType}` : ''}`
+        )
+    ).data;
     return response;
 }
 

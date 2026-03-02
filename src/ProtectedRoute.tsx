@@ -1,12 +1,12 @@
-import { useEffect, useState, type JSX } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { authService } from './features/auth/services/auth.service';
+import { authService } from 'src/features/auth/services/auth.service';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
-export function ProtectedRoute({ element }: { element: JSX.Element }) {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+export function ProtectedRoute({ element }: { element: React.JSX.Element }) {
+    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
 
-    useEffect(() => {
+    React.useEffect(() => {
         authService
             .authorize()
             .then((response) => {

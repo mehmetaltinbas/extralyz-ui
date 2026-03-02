@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { authService } from 'src/features/auth/services/auth.service';
 import type { SignInDto } from 'src/features/auth/types/auth-dtos';
@@ -6,19 +6,19 @@ import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function SignInPage() {
-    const [signInDto, setSignInDto] = useState<SignInDto>({
+    const [signInDto, setSignInDto] = React.useState<SignInDto>({
         userName: '',
         password: '',
     });
-    const [isSignedIn, setIsSignedIn] = useState<boolean>(false);
+    const [isSignedIn, setIsSignedIn] = React.useState<boolean>(false);
 
     async function handleSignInSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         const response = await authService.signIn(signInDto);
-        
+
         if (!response.isSuccess) {
             alert(response.message);
         }
-        
+
         setIsSignedIn(response.isSuccess);
     }
 
@@ -51,9 +51,14 @@ export function SignInPage() {
                 placeholder="password..."
                 className="p-2 border rounded-full"
             />
-            <Button variant={ButtonVariants.PRIMARY} onClick={handleSignInSubmit}>sign in</Button>
+            <Button variant={ButtonVariants.PRIMARY} onClick={handleSignInSubmit}>
+                sign in
+            </Button>
             <p>or</p>
-            <Button variant={ButtonVariants.PRIMARY} onClick={(event) => (window.location.href = '/sign-up')}>
+            <Button
+                variant={ButtonVariants.PRIMARY}
+                onClick={(event) => (window.location.href = '/sign-up')}
+            >
                 sign up
             </Button>
         </div>

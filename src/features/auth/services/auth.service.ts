@@ -1,6 +1,6 @@
 import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { SignInDto } from '../types/auth-dtos';
-import type { ResponseBase } from '../../../shared/types/response-base';
+import type { SignInDto } from 'src/features/auth/types/auth-dtos';
+import type { ResponseBase } from 'src/shared/types/response-base';
 
 const baseUrl = `/auth`;
 

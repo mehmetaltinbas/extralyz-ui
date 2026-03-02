@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { userService } from 'src/features/user/services/user.service';
 import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
@@ -6,12 +6,12 @@ import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function SignUpPage() {
-    const [signUpDto, setSignUpDto] = useState<SignUpUserDto>({
+    const [signUpDto, setSignUpDto] = React.useState<SignUpUserDto>({
         userName: '',
         email: '',
         password: '',
     });
-    const [isSignedUp, setIsSignedUp] = useState<boolean>(false);
+    const [isSignedUp, setIsSignedUp] = React.useState<boolean>(false);
 
     async function signUp() {
         const response = await userService.signUp(signUpDto);
@@ -61,9 +61,14 @@ export function SignUpPage() {
                 placeholder="password..."
                 className="p-2 border rounded-full"
             />
-            <Button variant={ButtonVariants.PRIMARY} onClick={signUp}>sign up</Button>
+            <Button variant={ButtonVariants.PRIMARY} onClick={signUp}>
+                sign up
+            </Button>
             <p>or</p>
-            <Button variant={ButtonVariants.PRIMARY} onClick={(event) => (window.location.href = '/sign-in')}>
+            <Button
+                variant={ButtonVariants.PRIMARY}
+                onClick={(event) => (window.location.href = '/sign-in')}
+            >
                 sign in
             </Button>
         </div>

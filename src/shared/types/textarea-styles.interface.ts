@@ -1,5 +1,5 @@
 export interface TextareaStyles {
-    fontSize: number,
-    fontWeight: number,
-    fontStyle: string,
+    fontSize: number;
+    fontWeight: number;
+    fontStyle: string;
 }

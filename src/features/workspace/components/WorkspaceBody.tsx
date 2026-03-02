@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, type JSX, type ReactNode } from 'react';
+import React from 'react';
 import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
 import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/ExerciseSetPracticePage';
 import { SourcePage } from 'src/features/source/pages/SourcePage';
@@ -14,11 +14,11 @@ export function WorkspaceBody() {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
-    const [builtPropsRecord, setBuiltPropsRecord] = useState<
+    const [builtPropsRecord, setBuiltPropsRecord] = React.useState<
         Record<string, object | undefined>
     >({});
     // const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
-    const containerDiv = useRef<HTMLDivElement | null>(null);
+    const containerDiv = React.useRef<HTMLDivElement | null>(null);
     const componentsMap: Map<string, React.ComponentType<any>> = new Map([
         [Section.SOURCES, SourcesPage],
         [Section.SOURCE, SourcePage],
@@ -27,7 +27,7 @@ export function WorkspaceBody() {
         [Section.EXERCISE_SET_PRACTICE, ExerciseSetPracticePage],
     ] as [string, React.ComponentType<any>][]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!containerDiv.current) return;
 
         const observer = new ResizeObserver((entries) => {
@@ -50,7 +50,7 @@ export function WorkspaceBody() {
         };
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         async function buildProps(tab: TabsStateElement) {
             const strategy = selectSectionBuilderStrategy(tab.section);
             let builtProps = {};

@@ -25,7 +25,7 @@ export function ExerciseEvaluationCard({
     > = new Map([
         [ExerciseType.MCQ, MCQExerciseEvaluationCard],
         [ExerciseType.TRUE_FALSE, TrueFalseExerciseEvaluationCard],
-        [ExerciseType.OPEN_ENDED, OpenEndedExerciseEvaluationCard]
+        [ExerciseType.OPEN_ENDED, OpenEndedExerciseEvaluationCard],
     ]);
     const Component = componentsMap.get(exercise.type as ExerciseType);
 

@@ -1,5 +1,4 @@
-import type React from 'react';
-import { useState } from 'react';
+import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function OpenEndedExercisePracticeCard({
@@ -13,7 +12,7 @@ export function OpenEndedExercisePracticeCard({
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
 }) {
-    const [answer, setAnswer] = useState<string>('');
+    const [answer, setAnswer] = React.useState<string>('');
 
     function onChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
         setAnswer(event.currentTarget.value);

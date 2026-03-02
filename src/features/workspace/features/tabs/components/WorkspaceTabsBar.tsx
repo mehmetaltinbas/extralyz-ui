@@ -1,8 +1,10 @@
-import type React from 'react';
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks';
-import { tabsActions, type TabsStateElement } from '../store/tabsSlice';
-import { useEffect, useState } from 'react';
-import { Tab } from './Tab';
+import React from 'react';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import {
+    tabsActions,
+    type TabsStateElement,
+} from 'src/features/workspace/features/tabs/store/tabsSlice';
+import { Tab } from 'src/features/workspace/features/tabs/components/Tab';
 
 export function WorkspaceTabsBar() {
     const dispatch = useAppDispatch();

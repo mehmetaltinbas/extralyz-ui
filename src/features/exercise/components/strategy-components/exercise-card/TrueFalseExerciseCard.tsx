@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import type { Exercise } from '../../../types/exercise.interface';
+import React from 'react';
+import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function TrueFalseExerciseCard({
     exercise,

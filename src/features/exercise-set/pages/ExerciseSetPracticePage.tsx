@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { ExerciseSetEvaluationPage } from 'src/features/exercise-set/pages/ExerciseSetEvaluationPage';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import type {
-    EvaluateAnswersResponse
-} from 'src/features/exercise-set/types/response/evaluate-answers.response';
+import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import { ExercisePracticeCard } from 'src/features/exercise/components/ExercisePracticeCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
@@ -21,13 +19,13 @@ export function ExerciseSetPracticePage({
     exercises?: Exercise[];
     className?: string;
 }) {
-    const [activeExerciseIndex, setActiveExerciseIndex] = useState<number>(0);
-    const [evaluateAnswersDto, setEvaluateAnswersDto] = useState<EvaluateAnswersDto>({
+    const [activeExerciseIndex, setActiveExerciseIndex] = React.useState<number>(0);
+    const [evaluateAnswersDto, setEvaluateAnswersDto] = React.useState<EvaluateAnswersDto>({
         exercises: [],
     });
-    const [evaluation, setEvaluation] = useState<EvaluateAnswersResponse>();
+    const [evaluation, setEvaluation] = React.useState<EvaluateAnswersResponse>();
 
-    useEffect(() => {
+    React.useEffect(() => {
         const dto = { ...evaluateAnswersDto };
         exercises?.map((exercise) => {
             if (!dto.exercises.some((element) => element.id === exercise._id)) {
@@ -37,11 +35,11 @@ export function ExerciseSetPracticePage({
         setEvaluateAnswersDto(dto);
     }, [exercises]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         console.log(evaluateAnswersDto);
     }, [evaluateAnswersDto]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         console.log(evaluation?.exerciseAnswerEvaluationResults);
     }, [evaluation?.exerciseAnswerEvaluationResults]);
 

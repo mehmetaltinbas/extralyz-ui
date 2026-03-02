@@ -1,5 +1,5 @@
 export interface SelectedInlineNodeIndices {
-    pageIndex: number,
-    blockNodeIndex: number,
-    inlineNodeIndex: number,
+    pageIndex: number;
+    blockNodeIndex: number;
+    inlineNodeIndex: number;
 }

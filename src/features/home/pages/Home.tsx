@@ -1,18 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { features } from "src/features/home/constants/features.constant";
-import { Button } from "src/shared/components/Button";
-import { APP_NAME } from "src/shared/constants/app-name.constant";
-import { ButtonVariants } from "src/shared/enums/button-variants.enum";
+import { useNavigate } from 'react-router-dom';
+import { features } from 'src/features/home/constants/features.constant';
+import { Button } from 'src/shared/components/Button';
+import { APP_NAME } from 'src/shared/constants/app-name.constant';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function Home() {
     const navigate = useNavigate();
 
     function handleGetStarted() {
-        navigate("/sign-up");
+        navigate('/sign-up');
     }
 
     function handleSignIn() {
-        navigate("/sign-in");
+        navigate('/sign-in');
     }
 
     return (
@@ -20,22 +20,14 @@ export function Home() {
             {/* Navigation Header */}
             <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
                 <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
-                    <span className="text-lg font-bold tracking-tight">
-                        {APP_NAME}
-                    </span>
+                    <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
 
                     <div className="flex items-center gap-3">
-                        <Button
-                            variant={ButtonVariants.SECONDARY}
-                            onClick={handleSignIn}
-                        >
+                        <Button variant={ButtonVariants.SECONDARY} onClick={handleSignIn}>
                             Sign In
                         </Button>
 
-                        <Button
-                            variant={ButtonVariants.PRIMARY}
-                            onClick={handleGetStarted}
-                        >
+                        <Button variant={ButtonVariants.PRIMARY} onClick={handleGetStarted}>
                             Get Started
                         </Button>
                     </div>
@@ -52,9 +44,9 @@ export function Home() {
                     </h1>
 
                     <p className="text-xl text-gray-500 max-w-2xl">
-                        AI-powered platform that converts your study materials
-                        into custom exercise sets for active recall — then
-                        grades your answers automatically.
+                        AI-powered platform that converts your study materials into custom
+                        exercise sets for active recall — then grades your answers
+                        automatically.
                     </p>
 
                     <div className="flex items-center gap-4 mt-4">
@@ -94,9 +86,7 @@ export function Home() {
                                     {feature.icon}
                                 </div>
 
-                                <h3 className="text-xl font-bold mb-3">
-                                    {feature.title}
-                                </h3>
+                                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
 
                                 <p className="text-gray-600 leading-relaxed">
                                     {feature.description}

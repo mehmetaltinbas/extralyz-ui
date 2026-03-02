@@ -1,8 +1,8 @@
 export const features = [
     {
-        title: "Smart Exercise Generation",
+        title: 'Smart Exercise Generation',
         description:
-            "Convert study documents into custom practice exercise sets — multiple choice, true/false, and open-ended questions — powered by AI for active recalling.",
+            'Convert study documents into custom practice exercise sets — multiple choice, true/false, and open-ended questions — powered by AI for active recalling.',
         icon: (
             <svg
                 width="20"
@@ -21,9 +21,9 @@ export const features = [
         ),
     },
     {
-        title: "AI-Powered Grading",
+        title: 'AI-Powered Grading',
         description:
-            "Automated AI grading evaluates your open-ended answers instantly, giving detailed feedback without manual review.",
+            'Automated AI grading evaluates your open-ended answers instantly, giving detailed feedback without manual review.',
         icon: (
             <svg
                 width="20"
@@ -41,9 +41,9 @@ export const features = [
         ),
     },
     {
-        title: "PDF Export",
+        title: 'PDF Export',
         description:
-            "Export print-ready PDFs of your exercise sets for offline study. Take your exercises anywhere.",
+            'Export print-ready PDFs of your exercise sets for offline study. Take your exercises anywhere.',
         icon: (
             <svg
                 width="20"
@@ -62,9 +62,9 @@ export const features = [
         ),
     },
     {
-        title: "Offline Answer Evaluation",
+        title: 'Offline Answer Evaluation',
         description:
-            "Print your exercises, answer on paper, then upload photos of your answered sheets — AI evaluates your handwritten responses and provides grading and feedback.",
+            'Print your exercises, answer on paper, then upload photos of your answered sheets — AI evaluates your handwritten responses and provides grading and feedback.',
         icon: (
             <svg
                 width="20"

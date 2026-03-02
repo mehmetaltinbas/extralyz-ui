@@ -1,4 +1,4 @@
-import type { Exercise } from '../../../types/exercise.interface';
+import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function MCQExerciseCard({
     exercise,

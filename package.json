@@ -9,7 +9,7 @@
         "lint": "eslint \"src/**/*.ts\" --fix",
         "preview": "vite preview",
         "format": "npx prettier --write .",
-        "check:types": "tsc --noEmit"
+        "check:types": "tsc --noEmit -p tsconfig.app.json"
     },
     "dependencies": {
         "@reduxjs/toolkit": "^2.8.2",

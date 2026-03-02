@@ -14,7 +14,7 @@ export function ExerciseSetEvaluationPage({
             <p className="font-serif font-bold text-lg">
                 Overall Score: {evaluation?.overallScore}
             </p>
-            {evaluation.exerciseAnswerEvaluationResults.map((element, index) => {
+            {evaluation.exerciseAnswerEvaluationResults?.map((element, index) => {
                 const matchingExercise = exercises.find(
                     (exercise) => exercise._id === element.exerciseId
                 );

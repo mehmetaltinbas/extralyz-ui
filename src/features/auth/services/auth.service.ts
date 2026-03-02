@@ -1,22 +1,31 @@
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { SignInDto } from 'src/features/auth/types/auth-dtos';
 import type { ResponseBase } from 'src/shared/types/response-base';
+import { handleServiceError } from 'src/shared/utilities/handle-service-error.util';
 
 const baseUrl = `/auth`;
 
 async function signIn(signInDto: SignInDto): Promise<ResponseBase> {
-    const signInResponse: ResponseBase = (
-        await axiosInstance.post(`${baseUrl}/sign-in`, signInDto)
-    ).data;
+    try {
+        const signInResponse: ResponseBase = (
+            await axiosInstance.post(`${baseUrl}/sign-in`, signInDto)
+        ).data;
 
-    return signInResponse;
+        return signInResponse;
+    } catch (error) {
+        return handleServiceError(error);
+    }
 }
 
 async function authorize() {
-    const authorizeResponse: ResponseBase = (await axiosInstance.get(`${baseUrl}/authorize`))
-        .data;
+    try {
+        const authorizeResponse: ResponseBase = (await axiosInstance.get(`${baseUrl}/authorize`))
+            .data;
 
-    return authorizeResponse;
+        return authorizeResponse;
+    } catch (error) {
+        return handleServiceError(error);
+    }
 }
 
 export const authService = {

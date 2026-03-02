@@ -2,6 +2,7 @@ import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-e
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
 import type { ReadAllExercisesResponse } from 'src/features/exercise/types/response/read-all-exercises.response';
+import { handleServiceError } from 'src/shared/utilities/handle-service-error.util';
 
 const baseUrl = `/exercise`;
 
@@ -9,21 +10,29 @@ async function createByExerciseSetId(
     exerciseSetId: string,
     createExerciseDto: CreateExerciseDto
 ): Promise<ResponseBase> {
-    console.log(createExerciseDto);
-    const response = (
-        await axiosInstance.post(
-            `${baseUrl}/create-by-exercise-set-id/${exerciseSetId}`,
-            createExerciseDto
-        )
-    ).data;
+    try {
+        console.log(createExerciseDto);
+        const response = (
+            await axiosInstance.post(
+                `${baseUrl}/create-by-exercise-set-id/${exerciseSetId}`,
+                createExerciseDto
+            )
+        ).data;
 
-    return response;
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
 }
 
 async function readAll(): Promise<ReadAllExercisesResponse> {
-    const response = (await axiosInstance.get(`${baseUrl}/read-all`)).data;
+    try {
+        const response = (await axiosInstance.get(`${baseUrl}/read-all`)).data;
 
-    return response;
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
 }
 
 async function readById() {}
@@ -31,17 +40,25 @@ async function readById() {}
 async function readAllByExerciseSetId(
     exerciseSetId: string
 ): Promise<ReadAllExercisesResponse> {
-    const response = (
-        await axiosInstance.get(`${baseUrl}/read-all-by-exercise-set-id/${exerciseSetId}`)
-    ).data;
+    try {
+        const response = (
+            await axiosInstance.get(`${baseUrl}/read-all-by-exercise-set-id/${exerciseSetId}`)
+        ).data;
 
-    return response;
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
 }
 
 async function deleteById(id: string): Promise<ResponseBase> {
-    const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
+    try {
+        const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
 
-    return response;
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
 }
 
 export const exerciseService = {

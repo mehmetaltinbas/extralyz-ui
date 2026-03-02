@@ -27,43 +27,35 @@ export function SourceCard({
                     title: source.title,
                 })
             }
-            className="w-[300px] h-[250px] border cursor-pointer rounded-[10px]
+            className="relative w-[175px] h-[175px] border border-gray-400 cursor-pointer rounded-[10px]
             flex flex-col justify-center items-center
-            hover:border-2"
+            hover:border-1 hover:border-black"
         >
             <div
-                className="w-full h-[60px]
-                flex justify-center items-center
-                border-b"
+                className="w-[150px] h-full px-2
+                flex flex-col justify-center items-center"
             >
-                <div
-                    className="w-[250px] h-full px-2
-                    flex flex-col justify-center items-center"
+                <p
+                    className="max-w-[150px] font-serif font-semibold truncate"
+                    title={source.title ? source.title : source._id}
                 >
-                    <p
-                        className="max-w-[200px] font-serif font-semibold truncate"
-                        title={source.title ? source.title : source._id}
-                    >
-                        {source.title ? source.title : source._id}
-                    </p>
-                    <p className="text-xs">{source.type}</p>
-                </div>
-                <div
-                    id="this is the button div"
-                    className="w-[50px] h-full
-                    flex justify-center items-center"
-                >
-                    <Button
-                        variant={ButtonVariants.GHOST}
-                        onClick={(event) => toggleSourceActionMenu(event, source._id)}
-                        className="font-bold"
-                    >
-                        ...
-                    </Button>
-                </div>
+                    {source.title ? source.title : source._id}
+                </p>
+
+                <p className="text-sm italic">{source.type}</p>
             </div>
-            <div className="w-full h-full p-2 flex-1 overflow-y-auto">
-                <div className="text-gray-500">{source.rawText}</div>
+
+            <div
+                className="absolute w-auto h-auto right-1 top-1
+                flex justify-center items-center"
+            >
+                <Button
+                    variant={ButtonVariants.GHOST}
+                    onClick={(event) => toggleSourceActionMenu(event, source._id)}
+                    className="font-bold"
+                >
+                    ...
+                </Button>
             </div>
         </div>
     );

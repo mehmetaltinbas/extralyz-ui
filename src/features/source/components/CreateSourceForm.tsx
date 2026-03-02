@@ -1,5 +1,7 @@
 import React from 'react';
+import { SourceType } from 'src/features/source/enums/source-type.enum';
 import { sourceService } from 'src/features/source/services/source.service';
+import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
@@ -19,37 +21,43 @@ export function CreateSourceForm({
     updateSources: () => void;
 }) {
     const [uploadedFile, setUploadedFile] = React.useState<File>();
-    const [createSourceDto, setCreateSourceDto] = React.useState({
+    const initialDto: CreateSourceDto = {
         title: '',
-    });
+        type: SourceType.DOCUMENT
+    };
+    const [dto, setDto] = React.useState<CreateSourceDto>(initialDto);
     const [fileInputKey, setFileInputKey] = React.useState(0); // will force file input to re-mount
 
     React.useEffect(() => {
         setUploadedFile(undefined);
-        setCreateSourceDto({
-            title: '',
-        });
+        setDto(initialDto);
         setFileInputKey((prev) => prev + 1);
     }, [isHidden]);
 
     async function createSource() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
-        let message = 'internal error';
+
         const formData = new FormData();
+
         if (uploadedFile) {
             formData.append('file', uploadedFile);
-            Object.keys(createSourceDto).forEach((key) => {
-                const value = createSourceDto[key as keyof typeof createSourceDto];
+
+            Object.keys(dto).forEach((key) => {
+                const value = dto[key as keyof typeof dto];
+
                 if (value !== undefined && value !== null) {
                     formData.append(key, value);
                 }
             });
-            message = (await sourceService.create(formData)).message;
+
+            const response = await sourceService.create(formData);
+
+            if (!response.isSuccess) alert(response.message);
         }
+
         updateSources();
         setIsLoadingPageHidden(true);
-        alert(message);
         setIsPopUpActive(false);
     }
 
@@ -72,6 +80,7 @@ export function CreateSourceForm({
             >
                 X
             </Button>
+
             <div className="flex justify-start items-center gap-2">
                 <p>file: </p>
                 <input
@@ -83,22 +92,24 @@ export function CreateSourceForm({
                     hover:bg-gray-100"
                 />
             </div>
+
             <div className="flex justify-start items-center gap-2">
                 <p>title: </p>
                 <input
                     data-key="title"
                     onChange={(event) =>
-                        setCreateSourceDto({
-                            ...createSourceDto,
+                        setDto({
+                            ...dto,
                             title: event.target.value,
                         })
                     }
                     type="text"
-                    value={createSourceDto.title}
+                    value={dto.title}
                     placeholder="title..."
                     className="px-2 py-[2px] border rounded-full"
                 />
             </div>
+
             <Button
                 variant={ButtonVariants.PRIMARY}
                 onClick={async (event) => {

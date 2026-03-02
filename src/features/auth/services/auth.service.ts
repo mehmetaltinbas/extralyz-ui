@@ -8,12 +8,14 @@ async function signIn(signInDto: SignInDto): Promise<ResponseBase> {
     const signInResponse: ResponseBase = (
         await axiosInstance.post(`${baseUrl}/sign-in`, signInDto)
     ).data;
+
     return signInResponse;
 }
 
 async function authorize() {
     const authorizeResponse: ResponseBase = (await axiosInstance.get(`${baseUrl}/authorize`))
         .data;
+
     return authorizeResponse;
 }
 

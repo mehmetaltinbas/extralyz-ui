@@ -24,6 +24,7 @@ const sidebarSlice = createSlice({
         },
         resize: (state, action: PayloadAction<number>) => {
             const payload = action.payload;
+
             if (payload > 200 && payload < 400) {
                 state.width = payload;
             } else if (payload < 200) {

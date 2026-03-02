@@ -4,6 +4,7 @@ import type { Source } from 'src/features/source/types/source.interface';
 
 const fetchData = createAsyncThunk('sources/fetch-data', async () => {
     const response = await sourceService.readAllByUserId();
+
     return response.sources;
 });
 
@@ -16,6 +17,7 @@ const sourcesSlice = createSlice({
     extraReducers(builder) {
         builder.addCase(fetchData.fulfilled, (state, action) => {
             if (state.length === 1 && action.payload === undefined) return [];
+
             return action.payload;
         });
     },

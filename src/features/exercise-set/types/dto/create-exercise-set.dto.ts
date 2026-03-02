@@ -2,6 +2,7 @@ import type { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-s
 import type { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
 
 export interface CreateExerciseSetDto {
+    title: string;
     count: number;
     type: ExerciseSetType;
     difficulty: ExerciseSetDifficulty;

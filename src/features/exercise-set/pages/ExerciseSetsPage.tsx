@@ -1,6 +1,9 @@
 import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
+import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
+import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
@@ -10,8 +13,6 @@ import { DeleteApproval } from 'src/shared/components/DeleteApproval';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 
 export function ExerciseSetsPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
@@ -65,9 +66,18 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
 
     async function deleteExerciseSet(): Promise<string> {
         let responseMessage;
+        
         if (actionMenuExerciseSet) {
-            responseMessage = (await exerciseSetService.deleteById(actionMenuExerciseSet?._id))
-                .message;
+            const response = await exerciseSetService.deleteById(actionMenuExerciseSet?._id);
+            responseMessage = response.message;
+
+            if (!response.isSuccess) alert(response.message);
+            else {
+                dispatch(extendedSourcesActions.fetchData());
+                dispatch(independentExerciseSetsActions.fetchData());
+                dispatch(exerciseSetsActions.fetchData());
+            }
+
             updateExtendedSources();
         } else {
             responseMessage = 'no exercise set found to delete';

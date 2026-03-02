@@ -16,11 +16,13 @@ async function create(
 ): Promise<ResponseBase> {
     const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
     const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
+
     return response;
 }
 
 async function readById(id: string): Promise<ReadSingleExerciseSetResponse> {
     const response = (await axiosInstance.get(`${baseUrl}/read-by-id/${id}`)).data;
+
     return response;
 }
 
@@ -32,6 +34,7 @@ async function readAllByUserId(
             `${baseUrl}/read-all-by-user-id${sourceType ? `?sourceType=${sourceType}` : ''}`
         )
     ).data;
+
     return response;
 }
 
@@ -39,11 +42,13 @@ async function readAllByUserIdGroupedBySources(): Promise<ReadAllExerciseSetsGro
     const response = (
         await axiosInstance.get(`${baseUrl}/read-all-by-user-id-grouped-by-sources`)
     ).data;
+
     return response;
 }
 
 async function deleteById(id: string): Promise<ResponseBase> {
     const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
+
     return response;
 }
 
@@ -53,6 +58,7 @@ async function evaluateAnswers(
     const response = (
         await axiosInstance.post(`${baseUrl}/evaluate-answers`, evaluateAnswersDto)
     ).data;
+
     return response;
 }
 

@@ -4,6 +4,7 @@ import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-ty
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
+import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Button } from 'src/shared/components/Button';
@@ -28,6 +29,7 @@ export function CreateExerciseSetForm({
     const dispatch = useAppDispatch();
     const [createExerciseSetDto, setCreateExerciseSetDto] =
         React.useState<CreateExerciseSetDto>({
+            title: '',
             count: 5,
             type: ExerciseSetType.MCQ,
             difficulty: ExerciseSetDifficulty.MEDIUM,
@@ -39,6 +41,7 @@ export function CreateExerciseSetForm({
 
     React.useEffect(() => {
         setCreateExerciseSetDto({
+            title: '',
             count: 5,
             type: ExerciseSetType.OPEN_ENDED,
             difficulty: ExerciseSetDifficulty.MEDIUM,
@@ -60,7 +63,9 @@ export function CreateExerciseSetForm({
                     : selectedSourceId),
             createExerciseSetDto
         );
+
         dispatch(extendedSourcesActions.fetchData());
+        dispatch(independentExerciseSetsActions.fetchData());
         dispatch(exerciseSetsActions.fetchData());
 
         setIsLoadingPageHidden(true);
@@ -70,15 +75,18 @@ export function CreateExerciseSetForm({
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
         const selectElement = event.currentTarget;
+
         if (!Object.keys(createExerciseSetDto).includes(selectElement.name)) {
             return;
         }
+
         if (
             !(Object.values(ExerciseSetType) as string[]).includes(selectElement.value) &&
             !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value)
         ) {
             return;
         }
+
         setCreateExerciseSetDto({
             ...createExerciseSetDto,
             [selectElement.name]: selectElement.value,
@@ -94,6 +102,16 @@ export function CreateExerciseSetForm({
                 <Button variant={ButtonVariants.DANGER} onClick={(event) => toggle()}>
                     X
                 </Button>
+            </div>
+
+            <div className="flex justify-start items-center gap-2">
+                <p>title: </p>
+                <input
+                    name="title"
+                    value={createExerciseSetDto.title}
+                    onChange={(e) => setCreateExerciseSetDto({ ...createExerciseSetDto, title: e.currentTarget.value })}
+                    className="py-[2px] px-2 border rounded-[10px]"
+                />
             </div>
 
             {selectedSourceId !== ExerciseSetSourceType.INDEPENDENT && (

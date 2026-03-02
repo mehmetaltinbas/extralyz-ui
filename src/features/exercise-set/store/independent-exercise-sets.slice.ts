@@ -7,6 +7,7 @@ const fetchData = createAsyncThunk('independent-exercise-sets/fetch-data', async
     const response = await exerciseSetService.readAllByUserId(
         ExerciseSetSourceType.INDEPENDENT
     );
+
     return response.exerciseSets;
 });
 
@@ -21,6 +22,7 @@ const independentExerciseSetsSlice = createSlice({
             if (state.length === 1 && action.payload === undefined) {
                 return [];
             }
+
             return action.payload;
         });
     },

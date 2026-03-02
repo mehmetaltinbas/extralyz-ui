@@ -20,9 +20,10 @@ export function DeleteApproval({
     async function handleOnclick() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
-        const message = await onDelete();
+
+        await onDelete();
+
         setIsLoadingPageHidden(true);
-        alert(message);
         setIsPopUpActive(false);
     }
 

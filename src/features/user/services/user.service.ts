@@ -6,6 +6,7 @@ const baseUrl = `/user`;
 
 async function signUp(signUpUserDto: SignUpUserDto): Promise<ResponseBase> {
     const response = (await axiosInstance.post(`${baseUrl}/signup`, signUpUserDto)).data;
+
     return response;
 }
 

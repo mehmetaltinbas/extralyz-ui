@@ -19,6 +19,7 @@ instance.interceptors.response.use(
         } else if (error.status === 403) {
             alert('forbidden');
         }
+
         return Promise.reject(error);
     }
 );

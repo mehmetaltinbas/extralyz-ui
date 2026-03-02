@@ -23,6 +23,7 @@ const layoutDimensions = createSlice({
     reducers: {
         updateWidthsBySidebarWidth: (state, action: PayloadAction<number>) => {
             const sidebarWidth = action.payload;
+
             state.mainColumn.width = window.innerWidth - sidebarWidth;
             state.exerciseSetsContainer.width = (window.innerWidth - sidebarWidth) * 0.9 - 64;
         },
@@ -35,6 +36,7 @@ const layoutDimensions = createSlice({
             }>
         ) => {
             const { layout, dimension, value } = action.payload;
+
             state[layout][dimension] = value;
         },
     },

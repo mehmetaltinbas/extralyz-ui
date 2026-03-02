@@ -11,13 +11,11 @@ export function ExerciseSetActionMenu({
     isHidden,
     setIsHidden,
     exerciseSet,
-    fetchExerciseSets,
     toggleDeleteApproval,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseSet?: ExerciseSet;
-    fetchExerciseSets?: () => void;
     toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
     const dispatch = useAppDispatch();
@@ -45,13 +43,13 @@ export function ExerciseSetActionMenu({
                     >
                         Start Practice
                     </Button>
+
                     <Button
                         variant={ButtonVariants.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval(event);
                             setIsHidden((prev) => !prev);
-                            // fetchExerciseSets();
                         }}
                     >
                         Delete

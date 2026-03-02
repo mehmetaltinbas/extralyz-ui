@@ -4,6 +4,7 @@ import type { ExtendedSource } from 'src/features/source/types/extended-source.i
 
 const fetchData = createAsyncThunk('extended-sources/fetch-data', async () => {
     const response = await exerciseSetService.readAllByUserIdGroupedBySources();
+
     return response.sources;
 });
 

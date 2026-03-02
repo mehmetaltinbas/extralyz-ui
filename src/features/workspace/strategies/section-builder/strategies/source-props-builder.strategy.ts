@@ -4,11 +4,13 @@ import type { SectionBuilderStrategy } from 'src/features/workspace/strategies/s
 export const SourcePropsBuilderStrategy: SectionBuilderStrategy = {
     buildProps: async (tab) => {
         const response = await sourceService.readById(tab.id!);
+
         if (response.source) {
             return {
                 source: response.source,
             };
         }
+
         return {};
     },
 };

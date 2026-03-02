@@ -57,9 +57,11 @@ const tabsSlice = createSlice({
                     // if newIndex is given
                     payload.element.index = payload.newIndex;
                     state.elements.splice(payload.newIndex, 0, payload.element);
+
                     for (let i = payload.newIndex + 1; i < state.elements.length; i++) {
                         state.elements[i].index!++;
                     }
+
                     state.activeTabIndex = payload.newIndex;
                 } else {
                     // if newIndex isn't given
@@ -74,38 +76,48 @@ const tabsSlice = createSlice({
                 if (payload.newIndex || payload.newIndex === 0) {
                     // if newIndex is given
                     const prevIndex = payload.element.index!;
+
                     if (prevIndex !== payload.newIndex) {
                         state.elements.splice(prevIndex, 1);
+
                         for (let i = prevIndex; i < state.elements.length; i++) {
                             state.elements[i].index!--;
                         }
+
                         payload.element.index = payload.newIndex;
                         state.elements.splice(payload.newIndex, 0, payload.element);
+
                         for (let i = payload.newIndex + 1; i < state.elements.length; i++) {
                             state.elements[i].index!++;
                         }
                     }
+
                     state.activeTabIndex = payload.newIndex;
                 } else {
                     // if newIndex isn't given
                     const currentElement = state.elements.find(
                         (element) => element.tabTitle === payload.element.tabTitle
                     )!;
+
                     state.activeTabIndex = currentElement.index!;
                 }
             }
         },
         subtract: (state, action: PayloadAction<number>) => {
             const indexToDelete = action.payload;
+
             state.elements = state.elements.filter(
                 (element, index) => index !== indexToDelete
             );
+
             for (let i = indexToDelete; i < state.elements.length; i++) {
                 state.elements[i].index!--;
             }
+
             const activeTab = state.elements.find(
                 (element) => element.index! + 1 === state.activeTabIndex
             );
+
             if (activeTab && activeTab.index !== undefined) {
                 if (indexToDelete < activeTab.index) {
                     state.activeTabIndex--;
@@ -115,6 +127,7 @@ const tabsSlice = createSlice({
         changePosition: (state, action: PayloadAction<number>) => {},
         setActiveTabIndex: (state, action: PayloadAction<number>) => {
             const payload = action.payload;
+
             state.activeTabIndex = payload;
         },
     },

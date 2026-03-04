@@ -1,19 +1,21 @@
 import React from 'react';
-import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
-import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/ExerciseSetPracticePage';
-import { SourcePage } from 'src/features/source/pages/SourcePage';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { SourcesPage } from 'src/features/source/pages/SourcesPage';
-import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPage';
 import { ExerciseSetPage } from 'src/features/exercise-set/pages/ExerciseSetPage';
+import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/ExerciseSetPracticePage';
+import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPage';
+import { SourcePage } from 'src/features/source/pages/SourcePage';
+import { SourcesPage } from 'src/features/source/pages/SourcesPage';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
 import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabsSlice';
+import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
+import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function WorkspaceBody() {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
+
     const [builtPropsRecord, setBuiltPropsRecord] = React.useState<
         Record<string, object | undefined>
     >({});
@@ -33,6 +35,7 @@ export function WorkspaceBody() {
         const observer = new ResizeObserver((entries) => {
             for (const entry of entries) {
                 const newHeight = entry.contentRect.height;
+
                 dispatch(
                     layoutDimensionsActions.updateDimension({
                         layout: 'mainColumn',
@@ -53,15 +56,33 @@ export function WorkspaceBody() {
     React.useEffect(() => {
         async function buildProps(tab: TabsStateElement) {
             const strategy = selectSectionBuilderStrategy(tab.section);
+
             let builtProps = {};
+
             if (strategy) {
                 builtProps = await strategy.buildProps(tab);
             }
+
             return builtProps;
         }
 
-        tabs.elements.forEach(async (tab, index) => {
+        const activeTabTitles = new Set(tabs.elements.map((tab) => String(tab.tabTitle)));
+
+        setBuiltPropsRecord((prev) => {
+            const cleaned: Record<string, object | undefined> = {};
+
+            for (const key of Object.keys(prev)) {
+                if (activeTabTitles.has(key)) cleaned[key] = prev[key];
+            }
+            
+            return cleaned;
+        });
+
+        tabs.elements.forEach(async (tab) => {
+            if (builtPropsRecord[String(tab.tabTitle)]) return;
+
             const builtProps = await buildProps(tab);
+
             setBuiltPropsRecord((prev) => ({
                 ...prev,
                 [String(tab.tabTitle)]: builtProps,
@@ -77,15 +98,21 @@ export function WorkspaceBody() {
         >
             {tabs.elements?.map((element) => {
                 const Component = componentsMap.get(element.section);
-                let builtProps;
-                let isActiveComponent: boolean = false;
-                if (element.index === tabs.activeTabIndex) isActiveComponent = true;
-                if (element.tabTitle) builtProps = builtPropsRecord[element.tabTitle];
-                builtProps = {
-                    ...builtProps,
-                    className: `${isActiveComponent ? 'block' : 'hidden'}`,
-                };
-                return Component ? <Component key={element.tabTitle} {...builtProps} /> : null;
+
+                const isActiveComponent = element.index === tabs.activeTabIndex ? true : false;
+                const builtProps = element.tabTitle ? builtPropsRecord[element.tabTitle] : undefined;
+
+                return Component && builtProps ? (
+                    <Component
+                        key={element.tabTitle}
+                        {...builtProps}
+                        className={isActiveComponent ? 'block' : 'hidden'}
+                    />
+                ) : (
+                    <div key={element.tabTitle} className={isActiveComponent ? 'block w-full h-full' : 'hidden'}>
+                        <LoadingPage />
+                    </div>
+                );
             })}
         </div>
     );

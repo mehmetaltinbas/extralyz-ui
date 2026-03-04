@@ -33,6 +33,7 @@ export function ExerciseSetActionMenu({
                         variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
+                            setIsHidden(true);
                             openTab(dispatch, {
                                 section: Section.EXERCISE_SET_PRACTICE,
                                 id: exerciseSet._id,

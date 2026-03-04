@@ -130,7 +130,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                             <p className="font-serif font-semibold">Independents</p>
                         </div>
                         <div
-                            className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
+                            className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto pb-1`} 
                         >
                             {independentExerciseSets.map((exerciseSet) => (
                                 <ExerciseSetCard
@@ -164,7 +164,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                             </p>
                                         </div>
                                         <div
-                                            className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto`}
+                                            className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto pb-1`}
                                         >
                                             {extendedSource.exerciseSets &&
                                                 extendedSource.exerciseSets.map(

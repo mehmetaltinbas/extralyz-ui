@@ -29,22 +29,24 @@ export function ExerciseSetCard({
             }
             className="relative w-[250px] h-[150px] cursor-pointer rounded-[10px]
             flex-shrink-0 flex flex-col justify-start items-center gap-1
-            border p-1
-            hover:bg-gray-100"
+            border border-gray-400 p-1
+            hover:border-black"
         >
             <div
-                className="w-[250px] h-auto border-b-1
+                className="w-[250px] h-[35px] border-b-1 border-gray-400
                 flex justify-center items-center"
             >
-                <div className="w-[200px] h-auto flex justify-center items-center">
+                <div className="w-[200px] h-full flex justify-center items-center">
                     <p className="max-w-[200px] px-2 font-serif font-semibold truncate ">
-                        {exerciseSet.title ? exerciseSet.title : exerciseSet._id}
+                        {exerciseSet.title}
                     </p>
                 </div>
+
                 <div className="w-[50px] h-auto">
                     <Button
                         variant={ButtonVariants.GHOST}
                         onClick={(event) => toggleExerciseSetActionMenu(event, exerciseSet)}
+                        className='font-bold'
                     >
                         ...
                     </Button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';

@@ -27,25 +27,23 @@ export function CreateExerciseSetForm({
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const dispatch = useAppDispatch();
+
+    const initialDto: CreateExerciseSetDto = {
+        title: '',
+        count: 5,
+        type: ExerciseSetType.MCQ,
+        difficulty: ExerciseSetDifficulty.MEDIUM,
+    };
+
     const [createExerciseSetDto, setCreateExerciseSetDto] =
-        React.useState<CreateExerciseSetDto>({
-            title: '',
-            count: 5,
-            type: ExerciseSetType.MCQ,
-            difficulty: ExerciseSetDifficulty.MEDIUM,
-        });
+        React.useState<CreateExerciseSetDto>(initialDto);
     const [selectedSourceId, setSelectedSourceId] = React.useState<string | undefined>(
         sourceId
     );
     const extendedSources = useAppSelector((state) => state.extendedSources);
 
     React.useEffect(() => {
-        setCreateExerciseSetDto({
-            title: '',
-            count: 5,
-            type: ExerciseSetType.OPEN_ENDED,
-            difficulty: ExerciseSetDifficulty.MEDIUM,
-        });
+        setCreateExerciseSetDto(initialDto);
     }, [isHidden]);
 
     React.useEffect(() => {
@@ -118,6 +116,7 @@ export function CreateExerciseSetForm({
                 <div className="flex justify-start items-center gap-2">
                     <p>count: </p>
                     <input
+                        name="count"
                         type="number"
                         value={
                             !selectedSourceId ||
@@ -144,7 +143,6 @@ export function CreateExerciseSetForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    <option value="">select</option>
                     <option value={ExerciseSetType.MCQ}>Multiple Choice</option>
                     <option value={ExerciseSetType.TRUE_FALSE}>True False</option>
                     <option value={ExerciseSetType.OPEN_ENDED}>Open Ended</option>
@@ -159,7 +157,6 @@ export function CreateExerciseSetForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    <option value="">select</option>
                     <option value={ExerciseSetDifficulty.EASY}>Easy</option>
                     <option value={ExerciseSetDifficulty.MEDIUM}>Medium</option>
                     <option value={ExerciseSetDifficulty.HARD}>Hard</option>

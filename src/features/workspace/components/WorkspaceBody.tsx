@@ -93,27 +93,32 @@ export function WorkspaceBody() {
     React.useEffect(() => {
         if (tabs.propsInvalidatedTabIds.length === 0) return;
 
-        // Compute invalidated tabs OUTSIDE the setState updater
+        // compute invalidated tabs outside the setState updater
         const invalidatedTabs: TabsStateElement[] = [];
+
         for (const invalidatedId of tabs.propsInvalidatedTabIds) {
             const tab = tabs.elements.find((el) => el.id === invalidatedId);
+
             if (tab?.tabTitle) {
                 invalidatedTabs.push(tab);
             }
         }
 
-        // Delete old props
+        // delete old props
         setBuiltPropsRecord((prev) => {
             const updated = { ...prev };
+
             for (const tab of invalidatedTabs) {
                 delete updated[tab.tabTitle!];
             }
+
             return updated;
         });
 
-        // Rebuild props for invalidated tabs
+        // rebuild props for invalidated tabs
         invalidatedTabs.forEach(async (tab) => {
             const builtProps = await buildProps(tab);
+
             setBuiltPropsRecord((prev) => ({
                 ...prev,
                 [String(tab.tabTitle)]: builtProps,

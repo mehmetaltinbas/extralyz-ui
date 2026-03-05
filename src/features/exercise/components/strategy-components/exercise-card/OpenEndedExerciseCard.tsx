@@ -11,7 +11,7 @@ export function OpenEndedExerciseCard({
         <div className="w-full h-full flex flex-col gap-2">
             <p>{exercise.prompt}</p>
 
-            {isAnswersHidden && (
+            {!isAnswersHidden && (
                 <p className="text-green-900">
                     <span className='font-bold'>Answer:</span> {exercise.solution}
                 </p>

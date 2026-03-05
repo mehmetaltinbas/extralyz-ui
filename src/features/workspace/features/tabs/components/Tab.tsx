@@ -1,11 +1,11 @@
 import type React from 'react';
-import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import {
     tabsActions,
     type TabsStateElement,
-} from 'src/features/workspace/features/tabs/store/tabsSlice';
+} from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function Tab({
     tab,

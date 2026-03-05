@@ -1,15 +1,15 @@
 import type React from 'react';
 import { buttonVariantStylesMap } from 'src/shared/constants/button-variant-styles-map.constant';
-import type { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function Button({
     children,
-    variant,
+    variant = ButtonVariants.PRIMARY,
     onClick,
     className,
 }: {
     children: React.ReactNode;
-    variant: ButtonVariants;
+    variant?: ButtonVariants;
     onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     className?: string;
 }) {

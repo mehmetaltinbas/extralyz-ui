@@ -12,11 +12,13 @@ export interface TabsStateElement {
 export interface TabsState {
     elements: TabsStateElement[];
     activeTabIndex: number;
+    propsInvalidatedTabIds: string[];
 }
 
 const initialState: TabsState = {
     elements: [],
     activeTabIndex: -1,
+    propsInvalidatedTabIds: [],
 };
 
 const tabsSlice = createSlice({
@@ -129,6 +131,12 @@ const tabsSlice = createSlice({
             const payload = action.payload;
 
             state.activeTabIndex = payload;
+        },
+        invalidateTabPropsById: (state, action: PayloadAction<string>) => {
+            state.propsInvalidatedTabIds.push(action.payload);
+        },
+        clearPropsInvalidations: (state) => {
+            state.propsInvalidatedTabIds = [];
         },
     },
 });

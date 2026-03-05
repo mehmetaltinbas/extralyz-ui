@@ -1,15 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
+import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
 import { ExerciseCard } from 'src/features/exercise/components/ExerciseCard';
+import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import { tabsActions } from 'src/features/workspace/features/tabs/store/tabsSlice';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { openTab } from 'src/features/workspace/features/tabs/utilities/open-tab.utility';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
@@ -30,11 +34,13 @@ export function ExerciseSetPage({
     const tabs = useAppSelector((state) => state.tabs);
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string>('');
+
     const [isExerciseActionMenuHidden, setIsExerciseActionMenuHidden] =
         React.useState<boolean>(true);
     const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
     const [isCreateExerciseFormHidden, setIsCreateExerciseFormHidden] =
         React.useState<boolean>(true);
+    const [isTransferExerciseFormHidden, setIsTransferExerciseFormHidden] = React.useState<boolean>(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] =
         React.useState<boolean>(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] =
@@ -64,15 +70,18 @@ export function ExerciseSetPage({
         if (!exerciseSet?._id) {
             return;
         }
+
         setIsPopUpActive(true);
         setIsLoadingPageHidden(false);
 
         try {
             const updatedSet = (await exerciseSetService.readById(exerciseSet._id))
                 .exerciseSet;
+
             const updatedExercises = (
                 await exerciseService.readAllByExerciseSetId(exerciseSet._id)
             ).exercises;
+
             if (updatedSet && updatedExercises) {
                 setLocalExerciseSet(updatedSet);
                 setLocalExercises(updatedExercises);
@@ -97,6 +106,11 @@ export function ExerciseSetPage({
         setIsExerciseSetDeleteApprovalHidden((prev) => !prev);
     }
 
+    function toggleTransferExerciseForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsTransferExerciseFormHidden((prev) => !prev);
+    }
+
     function toggleExerciseDeleteApproval() {
         setIsPopUpActive((prev) => !prev);
         setIsExerciseDeleteApprovalHidden((prev) => !prev);
@@ -104,14 +118,24 @@ export function ExerciseSetPage({
 
     async function deleteExerciseSet(): Promise<string> {
         const response = await exerciseSetService.deleteById(localExerciseSet!._id!);
-        dispatch(tabsActions.subtract(tabs.activeTabIndex));
-        await refreshData();
+
+        if (!response.isSuccess) alert(response.message);
+        else {
+            dispatch(extendedSourcesActions.fetchData());
+            dispatch(independentExerciseSetsActions.fetchData());
+            dispatch(exerciseSetsActions.fetchData());
+        }
+
         return response.message;
     }
 
     async function deleteExercise(): Promise<string> {
         const response = await exerciseService.deleteById(actionMenuExerciseId);
+
+        dispatch(tabsActions.subtract(tabs.activeTabIndex));
+
         await refreshData();
+
         return response.message;
     }
 
@@ -124,6 +148,7 @@ export function ExerciseSetPage({
                 isHidden={isExerciseActionMenuHidden}
                 setIsHidden={setIsExerciseActionMenuHidden}
                 exerciseId={actionMenuExerciseId}
+                toggleTransferExerciseForm={toggleTransferExerciseForm}
                 toggleDeleteApproval={toggleExerciseDeleteApproval}
             />
 
@@ -175,6 +200,7 @@ export function ExerciseSetPage({
                 >
                     {localExercises.map((exercise) => (
                         <ExerciseCard
+                            key={exercise._id}
                             exercise={exercise}
                             isAnswersHidden={isAnswersHidden}
                             toggleExerciseActionMenu={toggleExerciseActionMenu}
@@ -194,6 +220,13 @@ export function ExerciseSetPage({
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         refreshData={refreshData}
                         exerciseSetId={localExerciseSet._id}
+                    />,
+                    <TransferExerciseForm
+                        isHidden={isTransferExerciseFormHidden}
+                        setIsHidden={setIsTransferExerciseFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        exerciseId={actionMenuExerciseId}
+                        refreshData={refreshData}
                     />,
                     <DeleteApproval // for exercise set
                         isHidden={isExerciseSetDeleteApprovalHidden}

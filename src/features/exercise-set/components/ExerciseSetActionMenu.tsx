@@ -2,7 +2,7 @@ import type React from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
+import { openTab } from 'src/features/workspace/features/tabs/utilities/open-tab.utility';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch } from 'src/store/hooks';

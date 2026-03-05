@@ -2,8 +2,8 @@ import type React from 'react';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabsSlice';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/openTab.utility';
+import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { openTab } from 'src/features/workspace/features/tabs/utilities/open-tab.utility';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function SidebarNavSection({

@@ -6,12 +6,14 @@ export function ExerciseActionMenu({
     isHidden,
     setIsHidden,
     exerciseId,
+    toggleTransferExerciseForm,
     toggleDeleteApproval,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseId?: string;
-    toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    toggleTransferExerciseForm: () => void;
+    toggleDeleteApproval: () => void;
 }) {
     return (
         <div
@@ -23,10 +25,20 @@ export function ExerciseActionMenu({
             {exerciseId && (
                 <>
                     <Button
+                        onClick={(event) => {
+                            event?.stopPropagation();
+                            toggleTransferExerciseForm();
+                            setIsHidden((prev) => !prev);
+                        }}
+                    >
+                        Transfer
+                    </Button>
+
+                    <Button
                         variant={ButtonVariants.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
-                            toggleDeleteApproval(event);
+                            toggleDeleteApproval();
                             setIsHidden((prev) => !prev);
                         }}
                     >

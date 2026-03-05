@@ -5,7 +5,7 @@ import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPa
 import { SourcePage } from 'src/features/source/pages/SourcePage';
 import { SourcesPage } from 'src/features/source/pages/SourcesPage';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabsSlice';
+import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
 import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
@@ -53,19 +53,19 @@ export function WorkspaceBody() {
         };
     }, []);
 
-    React.useEffect(() => {
-        async function buildProps(tab: TabsStateElement) {
-            const strategy = selectSectionBuilderStrategy(tab.section);
+    async function buildProps(tab: TabsStateElement) {
+        const strategy = selectSectionBuilderStrategy(tab.section);
 
-            let builtProps = {};
+        let builtProps = {};
 
-            if (strategy) {
-                builtProps = await strategy.buildProps(tab);
-            }
-
-            return builtProps;
+        if (strategy) {
+            builtProps = await strategy.buildProps(tab);
         }
 
+        return builtProps;
+    }
+
+    React.useEffect(() => {
         const activeTabTitles = new Set(tabs.elements.map((tab) => String(tab.tabTitle)));
 
         setBuiltPropsRecord((prev) => {
@@ -74,7 +74,7 @@ export function WorkspaceBody() {
             for (const key of Object.keys(prev)) {
                 if (activeTabTitles.has(key)) cleaned[key] = prev[key];
             }
-            
+
             return cleaned;
         });
 
@@ -89,6 +89,39 @@ export function WorkspaceBody() {
             }));
         });
     }, [tabs.elements]);
+
+    React.useEffect(() => {
+        if (tabs.propsInvalidatedTabIds.length === 0) return;
+
+        // Compute invalidated tabs OUTSIDE the setState updater
+        const invalidatedTabs: TabsStateElement[] = [];
+        for (const invalidatedId of tabs.propsInvalidatedTabIds) {
+            const tab = tabs.elements.find((el) => el.id === invalidatedId);
+            if (tab?.tabTitle) {
+                invalidatedTabs.push(tab);
+            }
+        }
+
+        // Delete old props
+        setBuiltPropsRecord((prev) => {
+            const updated = { ...prev };
+            for (const tab of invalidatedTabs) {
+                delete updated[tab.tabTitle!];
+            }
+            return updated;
+        });
+
+        // Rebuild props for invalidated tabs
+        invalidatedTabs.forEach(async (tab) => {
+            const builtProps = await buildProps(tab);
+            setBuiltPropsRecord((prev) => ({
+                ...prev,
+                [String(tab.tabTitle)]: builtProps,
+            }));
+        });
+
+        dispatch(tabsActions.clearPropsInvalidations());
+    }, [tabs.propsInvalidatedTabIds]);
 
     return (
         <div

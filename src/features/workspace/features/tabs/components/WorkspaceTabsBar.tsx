@@ -1,10 +1,10 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { Tab } from 'src/features/workspace/features/tabs/components/Tab';
 import {
     tabsActions,
     type TabsStateElement,
-} from 'src/features/workspace/features/tabs/store/tabsSlice';
-import { Tab } from 'src/features/workspace/features/tabs/components/Tab';
+} from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function WorkspaceTabsBar() {
     const dispatch = useAppDispatch();

@@ -73,12 +73,9 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
 
             if (!response.isSuccess) alert(response.message);
             else {
-                dispatch(extendedSourcesActions.fetchData());
-                dispatch(independentExerciseSetsActions.fetchData());
+                updateExtendedSources();
                 dispatch(exerciseSetsActions.fetchData());
             }
-
-            updateExtendedSources();
         } else {
             responseMessage = 'no exercise set found to delete';
         }

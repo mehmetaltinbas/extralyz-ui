@@ -45,13 +45,18 @@ export function CreateExerciseForm({
     async function createExercise() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
+
         const response = await exerciseService.createByExerciseSetId(
             exerciseSetId,
             createExerciseDto
         );
+
         await refreshData();
+
         setIsLoadingPageHidden(true);
-        alert(response.message);
+
+        if (!response.isSuccess) alert(response.message);
+
         setIsPopUpActive(false);
     }
 

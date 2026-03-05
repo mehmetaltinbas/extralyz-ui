@@ -44,9 +44,7 @@ export function DeleteApproval({
                 </Button>
                 <Button
                     variant={ButtonVariants.DANGER}
-                    onClick={async (event) => {
-                        await handleOnclick();
-                    }}
+                    onClick={handleOnclick}
                 >
                     Delete
                 </Button>

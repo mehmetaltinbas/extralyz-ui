@@ -2,7 +2,7 @@ import type { ReadAllSourcesResponse } from 'src/features/source/types/response/
 import type { ReadSingleSourceResponse } from 'src/features/source/types/response/read-single-source.response';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
-import { handleServiceError } from 'src/shared/utilities/handle-service-error.util';
+import { handleServiceError } from 'src/shared/util/handle-service-error.util';
 
 const baseUrl = `/source`;
 

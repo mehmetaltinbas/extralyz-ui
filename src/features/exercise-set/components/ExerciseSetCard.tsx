@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/open-tab.utility';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch } from 'src/store/hooks';
@@ -20,13 +20,13 @@ export function ExerciseSetCard({
 
     return (
         <div
-            onClick={(event) =>
-                openTab(dispatch, {
+            onClick={(event) => {
+                dispatch(tabsActions.add({ element: {
                     section: Section.EXERCISE_SET,
                     id: exerciseSet._id,
                     title: exerciseSet.title,
-                })
-            }
+                }}));
+            }}
             className="relative w-[250px] h-[150px] cursor-pointer rounded-[10px]
             flex-shrink-0 flex flex-col justify-start items-center gap-1
             border border-gray-400 p-1

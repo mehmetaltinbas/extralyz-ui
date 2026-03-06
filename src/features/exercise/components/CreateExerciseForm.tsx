@@ -23,23 +23,18 @@ export function CreateExerciseForm({
     refreshData: () => Promise<void>;
     exerciseSetId: string;
 }) {
-    const [createExerciseDto, setCreateExerciseDto] = React.useState<CreateExerciseDto>({
-        type: ExerciseType.OPEN_ENDED,
+    const initialDto: CreateExerciseDto = {
+        type: ExerciseType.MCQ,
         difficulty: ExerciseDifficulty.MEDIUM,
         prompt: '',
         solution: '',
         choices: ['', '', '', '', ''],
         correctChoiceIndex: 0,
-    });
+    };
+    const [createExerciseDto, setCreateExerciseDto] = React.useState<CreateExerciseDto>(initialDto);
 
     React.useEffect(() => {
-        setCreateExerciseDto({
-            ...createExerciseDto,
-            prompt: '',
-            solution: '',
-            choices: ['', '', '', '', ''],
-            correctChoiceIndex: 0,
-        });
+        setCreateExerciseDto(initialDto);
     }, [isHidden, createExerciseDto.type]);
 
     async function createExercise() {

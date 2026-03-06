@@ -1,7 +1,7 @@
 import type React from 'react';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/open-tab.utility';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch } from 'src/store/hooks';
@@ -21,11 +21,11 @@ export function SourceCard({
     return (
         <div
             onClick={(event) =>
-                openTab(dispatch, {
+                dispatch(tabsActions.add({ element: {
                     section: Section.SOURCE,
                     id: source._id,
                     title: source.title,
-                })
+                }}))
             }
             className="relative w-[175px] h-[175px] border border-gray-400 cursor-pointer rounded-[10px]
             flex flex-col justify-center items-center

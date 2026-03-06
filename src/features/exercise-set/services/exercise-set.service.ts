@@ -7,7 +7,7 @@ import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-
 import type { ReadSingleExerciseSetResponse } from 'src/features/exercise-set/types/response/read-single-exercise-set.response';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
-import { handleServiceError } from 'src/shared/utilities/handle-service-error.util';
+import { handleServiceError } from 'src/shared/util/handle-service-error.util';
 
 const baseUrl = `/exercise-set`;
 

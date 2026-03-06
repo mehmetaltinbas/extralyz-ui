@@ -1,7 +1,7 @@
 import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
-import { handleServiceError } from 'src/shared/utilities/handle-service-error.util';
+import { handleServiceError } from 'src/shared/util/handle-service-error.util';
 
 const baseUrl = `/user`;
 

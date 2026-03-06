@@ -41,6 +41,7 @@ export function ExerciseCard({
                     ...
                 </Button>
             </div>
+            
             {Component && <Component exercise={exercise} isAnswersHidden={isAnswersHidden} />}
         </div>
     );

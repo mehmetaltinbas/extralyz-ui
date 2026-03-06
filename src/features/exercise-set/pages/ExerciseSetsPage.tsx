@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
@@ -105,6 +105,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                     flex flex-col justify-center items-center p-4"
                 >
                     <p className="text-2xl font-bold">Exercise Sets</p>
+
                     <div className="absolute right-0">
                         <Button
                             variant={ButtonVariants.PRIMARY}
@@ -126,6 +127,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                         <div className="w-full flex justify-start items-center gap-2 border-b-1">
                             <p className="font-serif font-semibold">Independents</p>
                         </div>
+                        
                         <div
                             className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto pb-1`} 
                         >
@@ -139,7 +141,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                     </div>
 
                     {extendedSources.map((extendedSource) => (
-                        <>
+                        <Fragment key={`extended-source-${extendedSource._id}`}>
                             {extendedSource.exerciseSets &&
                                 extendedSource.exerciseSets.length > 0 && (
                                     <div
@@ -167,6 +169,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                                 extendedSource.exerciseSets.map(
                                                     (exerciseSet) => (
                                                         <ExerciseSetCard
+                                                            key={`exercise-set-card-${exerciseSet._id}`}
                                                             exerciseSet={exerciseSet}
                                                             toggleExerciseSetActionMenu={
                                                                 toggleExerciseSetActionMenu
@@ -177,7 +180,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                         </div>
                                     </div>
                                 )}
-                        </>
+                        </Fragment>
                     ))}
                 </div>
             </div>
@@ -186,6 +189,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                 isPopUpActive={isPopUpActive}
                 components={[
                     <CreateExerciseSetForm
+                        key='create-exercise-set-form'
                         isHidden={isCreateExerciseSetFormHidden}
                         setIsHidden={setIsCreateExerciseSetFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -194,6 +198,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                     />,
                     <DeleteApproval
+                        key='exercise-set-delete-approval'
                         isHidden={isDeleteApprovalHidden}
                         setIsHidden={setIsDeleteApprovalHidden}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
@@ -201,7 +206,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                         toggle={toggleDeleteApproval}
                         onDelete={deleteExerciseSet}
                     />,
-                    <LoadingPage isHidden={isLoadingPageHidden} />,
+                    <LoadingPage key='loading-page' isHidden={isLoadingPageHidden} />,
                 ]}
             />
         </div>

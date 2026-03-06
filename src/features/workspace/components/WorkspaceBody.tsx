@@ -65,7 +65,11 @@ export function WorkspaceBody() {
         return builtProps;
     }
 
-    React.useEffect(() => {
+    /**
+     * building props for new tab
+     * clearing orphaned props
+     */
+    React.useEffect(() => { // building props for new tab
         const activeTabTitles = new Set(tabs.elements.map((tab) => String(tab.tabTitle)));
 
         setBuiltPropsRecord((prev) => {
@@ -90,7 +94,7 @@ export function WorkspaceBody() {
         });
     }, [tabs.elements]);
 
-    React.useEffect(() => {
+    React.useEffect(() => { // refreshing invalidated tabs (an operation happened that changes the content of tab that is determined as invalidated)
         if (tabs.propsInvalidatedTabIds.length === 0) return;
 
         // compute invalidated tabs outside the setState updater

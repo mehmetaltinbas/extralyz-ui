@@ -8,12 +8,13 @@ import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerc
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
 import { ExerciseCard } from 'src/features/exercise/components/ExerciseCard';
 import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
+import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
-import { openTab } from 'src/features/workspace/features/tabs/utilities/open-tab.utility';
+
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
@@ -40,12 +41,14 @@ export function ExerciseSetPage({
     const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
     const [isCreateExerciseFormHidden, setIsCreateExerciseFormHidden] =
         React.useState<boolean>(true);
+    const [isUpdateExerciseFormHidden, setIsUpdateExerciseFormHidden] = React.useState<boolean>(true);
     const [isTransferExerciseFormHidden, setIsTransferExerciseFormHidden] = React.useState<boolean>(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] =
         React.useState<boolean>(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] =
         React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
+
     const [localExerciseSet, setLocalExerciseSet] = React.useState<ExerciseSet>(exerciseSet!);
     const [localExercises, setLocalExercises] = React.useState<Exercise[]>(exercises || []);
 
@@ -56,11 +59,14 @@ export function ExerciseSetPage({
         event.stopPropagation();
         const exerciseActionMenu = document.getElementById('exercise-action-menu');
         const container = document.getElementById('exercise-set-page-container');
+
         if (exerciseActionMenu && container) {
             const containerRect = container?.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
+
             exerciseActionMenu.style.top = `${positionOfButton.bottom - containerRect?.top}px`;
             exerciseActionMenu.style.left = `${positionOfButton.right - containerRect?.left}px`;
+            
             setActionMenuExerciseId(exerciseId);
             setIsExerciseActionMenuHidden((prev) => !prev);
         }
@@ -106,6 +112,11 @@ export function ExerciseSetPage({
         setIsExerciseSetDeleteApprovalHidden((prev) => !prev);
     }
 
+    function toggleUpdateExerciseForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsUpdateExerciseFormHidden((prev) => !prev);
+    }
+
     function toggleTransferExerciseForm() {
         setIsPopUpActive((prev) => !prev);
         setIsTransferExerciseFormHidden((prev) => !prev);
@@ -148,6 +159,7 @@ export function ExerciseSetPage({
                 isHidden={isExerciseActionMenuHidden}
                 setIsHidden={setIsExerciseActionMenuHidden}
                 exerciseId={actionMenuExerciseId}
+                toggleUpdateExerciseForm={toggleUpdateExerciseForm}
                 toggleTransferExerciseForm={toggleTransferExerciseForm}
                 toggleDeleteApproval={toggleExerciseDeleteApproval}
             />
@@ -161,32 +173,38 @@ export function ExerciseSetPage({
                     className="w-full h-auto
                     flex flex-col justif-center items-start gap-2"
                 >
-                    <p>Type: {localExerciseSet.type}</p>
-                    <p>Count: {localExerciseSet.count}</p>
-                    <p>Difficulty: {localExerciseSet.difficulty}</p>
+                    <p><span className='font-bold'>Type:</span> <span className='italic'>{localExerciseSet.type}</span></p>
+
+                    <p><span className='font-bold'>Count:</span> <span className='italic'>{localExerciseSet.count}</span></p>
+
+                    <p><span className='font-bold'>Difficulty:</span><span className='italic'> {localExerciseSet.difficulty}</span></p>
+
                     <Button
                         variant={ButtonVariants.PRIMARY}
                         onClick={toggleCreateExerciseForm}
                     >
                         Generate Additional Exercise
                     </Button>
+
                     <Button variant={ButtonVariants.OUTLINE} onClick={toggleAnswerVisibility}>
                         {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
                     </Button>
+
                     <Button
                         variant={ButtonVariants.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
-                            openTab(dispatch, {
+                            dispatch(tabsActions.add({ element: {
                                 section: Section.EXERCISE_SET_PRACTICE,
                                 id: localExerciseSet._id,
                                 title: localExerciseSet.title,
                                 mode: ExerciseSetMode.PRACTICE,
-                            });
+                            }}));
                         }}
                     >
                         Start Practice
                     </Button>
+
                     <Button
                         variant={ButtonVariants.DANGER}
                         onClick={toggleExerciseSetDeleteApproval}
@@ -194,13 +212,14 @@ export function ExerciseSetPage({
                         Delete Exercise Set
                     </Button>
                 </div>
+
                 <div
                     className="w-full h-full
                     grid grid-cols-3 gap-4"
                 >
                     {localExercises.map((exercise) => (
                         <ExerciseCard
-                            key={exercise._id}
+                            key={`exercise-card-${exercise._id}`}
                             exercise={exercise}
                             isAnswersHidden={isAnswersHidden}
                             toggleExerciseActionMenu={toggleExerciseActionMenu}
@@ -213,6 +232,7 @@ export function ExerciseSetPage({
                 isPopUpActive={isPopUpActive}
                 components={[
                     <CreateExerciseForm
+                        key='create-exercise-form'
                         isHidden={isCreateExerciseFormHidden}
                         setIsHidden={setIsCreateExerciseFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -221,7 +241,18 @@ export function ExerciseSetPage({
                         refreshData={refreshData}
                         exerciseSetId={localExerciseSet._id}
                     />,
+                    ...[localExercises.find(localExercise => localExercise._id === actionMenuExerciseId) && <UpdateExerciseForm 
+                        key='update-exercise-form'
+                        isHidden={isUpdateExerciseFormHidden}
+                        setIsHidden={setIsUpdateExerciseFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        toggle={toggleUpdateExerciseForm}
+                        refreshData={refreshData}
+                        exercise={localExercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
+                    />],
                     <TransferExerciseForm
+                        key='transfer-exercise-form'
                         isHidden={isTransferExerciseFormHidden}
                         setIsHidden={setIsTransferExerciseFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -229,6 +260,7 @@ export function ExerciseSetPage({
                         refreshData={refreshData}
                     />,
                     <DeleteApproval // for exercise set
+                        key='exercise-set-delete-approval'
                         isHidden={isExerciseSetDeleteApprovalHidden}
                         setIsHidden={setIsExerciseSetDeleteApprovalHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -237,6 +269,7 @@ export function ExerciseSetPage({
                         onDelete={deleteExerciseSet}
                     />,
                     <DeleteApproval // for selected exercise
+                        key='exercise-delete-approval'
                         isHidden={isExerciseDeleteApprovalHidden}
                         setIsHidden={setIsExerciseDeleteApprovalHidden}
                         setIsPopUpActive={setIsPopUpActive}

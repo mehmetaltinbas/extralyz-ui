@@ -1,9 +1,10 @@
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import type { TransferExerciseDto } from 'src/features/exercise/types/dto/transfer-exercise.dto';
+import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
 import type { ReadAllExercisesResponse } from 'src/features/exercise/types/response/read-all-exercises.response';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
-import { handleServiceError } from 'src/shared/utilities/handle-service-error.util';
+import { handleServiceError } from 'src/shared/util/handle-service-error.util';
 
 const baseUrl = `/exercise`;
 
@@ -52,9 +53,9 @@ async function readAllByExerciseSetId(
     }
 }
 
-async function deleteById(id: string): Promise<ResponseBase> {
+async function updateById(id: string, dto: UpdateExerciseDto): Promise<ResponseBase> {
     try {
-        const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
+        const response = (await axiosInstance.patch(`${baseUrl}/update-by-id/${id}`, dto)).data;
 
         return response;
     } catch (error) {
@@ -62,9 +63,20 @@ async function deleteById(id: string): Promise<ResponseBase> {
     }
 }
 
+
 async function transfer(id: string, dto: TransferExerciseDto): Promise<ResponseBase> {
     try {
         const response = (await axiosInstance.post(`${baseUrl}/transfer/${id}`, dto)).data;
+
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
+}
+
+async function deleteById(id: string): Promise<ResponseBase> {
+    try {
+        const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
 
         return response;
     } catch (error) {
@@ -77,6 +89,7 @@ export const exerciseService = {
     readAll,
     readById,
     readAllByExerciseSetId,
-    deleteById,
+    updateById,
     transfer,
+    deleteById,
 };

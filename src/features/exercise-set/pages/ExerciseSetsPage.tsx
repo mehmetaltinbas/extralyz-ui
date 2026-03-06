@@ -64,23 +64,21 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
         setIsDeleteApprovalHidden((prev) => !prev);
     }
 
-    async function deleteExerciseSet(): Promise<string> {
-        let responseMessage;
-        
+    async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
         if (actionMenuExerciseSet) {
             const response = await exerciseSetService.deleteById(actionMenuExerciseSet?._id);
-            responseMessage = response.message;
 
             if (!response.isSuccess) alert(response.message);
             else {
                 updateExtendedSources();
                 dispatch(exerciseSetsActions.fetchData());
             }
-        } else {
-            responseMessage = 'no exercise set found to delete';
+
+            return { isSuccess: response.isSuccess };
         }
 
-        return responseMessage;
+        alert('no exercise set found to delete');
+        return { isSuccess: false };
     }
 
     return (

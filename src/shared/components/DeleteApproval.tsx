@@ -15,16 +15,20 @@ export function DeleteApproval({
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     toggle: () => void;
-    onDelete: () => Promise<string>;
+    onDelete: () => Promise<{ isSuccess: boolean }>;
 }) {
     async function handleOnclick() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
-        await onDelete();
+        const result = await onDelete();
 
         setIsLoadingPageHidden(true);
-        setIsPopUpActive(false);
+        if (result.isSuccess) {
+            setIsPopUpActive(false);
+        } else {
+            setIsHidden(false);
+        }
     }
 
     return (

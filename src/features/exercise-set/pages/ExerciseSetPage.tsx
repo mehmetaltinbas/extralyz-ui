@@ -127,7 +127,7 @@ export function ExerciseSetPage({
         setIsExerciseDeleteApprovalHidden((prev) => !prev);
     }
 
-    async function deleteExerciseSet(): Promise<string> {
+    async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
         const response = await exerciseSetService.deleteById(localExerciseSet!._id!);
 
         if (!response.isSuccess) alert(response.message);
@@ -137,17 +137,20 @@ export function ExerciseSetPage({
             dispatch(exerciseSetsActions.fetchData());
         }
 
-        return response.message;
+        return { isSuccess: response.isSuccess };
     }
 
-    async function deleteExercise(): Promise<string> {
+    async function deleteExercise(): Promise<{ isSuccess: boolean }> {
         const response = await exerciseService.deleteById(actionMenuExerciseId);
 
-        dispatch(tabsActions.subtract(tabs.activeTabIndex));
+        if (!response.isSuccess) {
+            alert(response.message);
+        } else {
+            dispatch(tabsActions.subtract(tabs.activeTabIndex));
+            await refreshData();
+        }
 
-        await refreshData();
-
-        return response.message;
+        return { isSuccess: response.isSuccess };
     }
 
     return localExerciseSet && localExercises ? (

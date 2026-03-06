@@ -62,13 +62,17 @@ export function CreateExerciseSetForm({
             createExerciseSetDto
         );
 
-        dispatch(extendedSourcesActions.fetchData());
-        dispatch(independentExerciseSetsActions.fetchData());
-        dispatch(exerciseSetsActions.fetchData());
-
         setIsLoadingPageHidden(true);
-        if (!response.isSuccess) alert(response.message);
-        setIsPopUpActive(false);
+
+        if (!response.isSuccess) {
+            alert(response.message);
+            setIsHidden(false);
+        } else {
+            dispatch(extendedSourcesActions.fetchData());
+            dispatch(independentExerciseSetsActions.fetchData());
+            dispatch(exerciseSetsActions.fetchData());
+            setIsPopUpActive(false);
+        }
     }
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {

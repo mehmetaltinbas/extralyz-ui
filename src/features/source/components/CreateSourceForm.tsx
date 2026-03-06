@@ -53,7 +53,12 @@ export function CreateSourceForm({
 
             const response = await sourceService.create(formData);
 
-            if (!response.isSuccess) alert(response.message);
+            if (!response.isSuccess) {
+                alert(response.message);
+                setIsLoadingPageHidden(true);
+                setIsHidden(false);
+                return;
+            }
         }
 
         updateSources();

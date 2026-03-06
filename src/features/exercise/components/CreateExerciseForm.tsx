@@ -52,13 +52,16 @@ export function CreateExerciseForm({
                 dto
             );
 
-            await refreshData();
-
-            if (!response.isSuccess) alert(response.message);
-
-            setIsPopUpActive(false);
+            if (!response.isSuccess) {
+                alert(response.message);
+                setIsHidden(false);
+            } else {
+                await refreshData();
+                setIsPopUpActive(false);
+            }
         } catch (error) {
             alert('internal error');
+            setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);
         }

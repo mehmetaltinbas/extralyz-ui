@@ -66,10 +66,13 @@ export function SourcesPage({ className }: { className?: string }) {
         setIsPopUpActive((prev) => !prev);
     }
 
-    async function deleteSource(): Promise<string> {
+    async function deleteSource(): Promise<{ isSuccess: boolean }> {
         const response = await sourceService.deleteById(actionMenuSourceId);
-        updateSourcesState();
-        return response.message;
+
+        if (!response.isSuccess) alert(response.message);
+        else updateSourcesState();
+
+        return { isSuccess: response.isSuccess };
     }
 
     return (

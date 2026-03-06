@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-count.constant';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
@@ -97,7 +97,7 @@ export function UpdateExerciseForm({
 
                 break;
         }
-    } 
+    }
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
         const selectElement = event.currentTarget;
@@ -117,7 +117,6 @@ export function UpdateExerciseForm({
                 [selectElement.name]: selectElement.value,
             });
         }
-
     }
 
     return (
@@ -174,7 +173,7 @@ export function UpdateExerciseForm({
             </div>
 
             {dto.type === ExerciseType.MCQ && dto.choices && dto.choices.length === MCQ_CHOICES_COUNT && (
-                <Fragment>
+                <React.Fragment>
                     {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
                         <div 
                             key={`choice-${index}`}
@@ -211,18 +210,16 @@ export function UpdateExerciseForm({
                             }
                             className="py-[2px] px-2 border rounded-[10px]"
                         >
-                            <option value={0}>A</option>
-                            <option value={1}>B</option>
-                            <option value={2}>C</option>
-                            <option value={3}>D</option>
-                            <option value={4}>E</option>
+                            {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
+                                <option value={index}>{getAlphabetLetter(index)}</option>
+                            ))}
                         </select>
                     </div>
-                </Fragment>
+                </React.Fragment>
             )}
 
             {dto.type === ExerciseType.TRUE_FALSE && (
-                <Fragment>
+                <React.Fragment>
                     <div className="flex justify-start items-center gap-2">
                         <p>correct choice: </p>
                         <select
@@ -240,7 +237,7 @@ export function UpdateExerciseForm({
                             <option value={1}>True</option>
                         </select>
                     </div>
-                </Fragment>
+                </React.Fragment>
             )}
 
             {dto.type === ExerciseType.OPEN_ENDED && (

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
@@ -141,7 +141,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                     </div>
 
                     {extendedSources.map((extendedSource) => (
-                        <Fragment key={`extended-source-${extendedSource._id}`}>
+                        <React.Fragment key={`extended-source-${extendedSource._id}`}>
                             {extendedSource.exerciseSets &&
                                 extendedSource.exerciseSets.length > 0 && (
                                     <div
@@ -180,7 +180,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                                         </div>
                                     </div>
                                 )}
-                        </Fragment>
+                        </React.Fragment>
                     ))}
                 </div>
             </div>

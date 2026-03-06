@@ -183,7 +183,7 @@ export function ExerciseSetPage({
                         variant={ButtonVariants.PRIMARY}
                         onClick={toggleCreateExerciseForm}
                     >
-                        Generate Additional Exercise
+                        Generate Exercise
                     </Button>
 
                     <Button variant={ButtonVariants.OUTLINE} onClick={toggleAnswerVisibility}>
@@ -239,7 +239,7 @@ export function ExerciseSetPage({
                         toggle={toggleCreateExerciseForm}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         refreshData={refreshData}
-                        exerciseSetId={localExerciseSet._id}
+                        exerciseSet={localExerciseSet}
                     />,
                     ...[localExercises.find(localExercise => localExercise._id === actionMenuExerciseId) && <UpdateExerciseForm 
                         key='update-exercise-form'

@@ -17,11 +17,11 @@ export function ActionMenu({
     return (
         <div
             ref={ref}
-            className={`absolute border px-4 py-5  bg-white rounded-[10px] shadow-md z-10
+            className={`absolute border px-4.5 py-5  bg-white rounded-[10px] shadow-md z-10
             flex flex-col justify-center items-center gap-2
             ${isHidden && 'hidden'}`}
         >
-            <div className='absolute top-0.5 right-0.5'>
+            <div className='absolute top-0.5 right-1'>
                 <Button
                     variant={ButtonVariant.ICON}
                     size={ButtonSize.SM}

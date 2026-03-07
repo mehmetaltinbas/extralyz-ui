@@ -15,12 +15,14 @@ export function ExerciseSetActionMenu({
     exerciseSet,
     ref,
     toggleDeleteApproval,
+    toggleUpdateExerciseSetForm,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseSet?: ExerciseSet;
     ref: React.RefObject<HTMLDivElement | null>;
     toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    toggleUpdateExerciseSetForm: () => void;
 }) {
     const dispatch = useAppDispatch();
 
@@ -29,7 +31,6 @@ export function ExerciseSetActionMenu({
             {exerciseSet && (
                 <>
                     <Button
-                        variant={ButtonVariant.PRIMARY}
                         size={ButtonSize.SM}
                         onClick={(event) => {
                             event.stopPropagation();
@@ -43,6 +44,17 @@ export function ExerciseSetActionMenu({
                         }}
                     >
                         Start Practice
+                    </Button>
+
+                    <Button
+                        size={ButtonSize.SM}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            toggleUpdateExerciseSetForm();
+                            setIsHidden(true);
+                        }}
+                    >
+                        Update
                     </Button>
 
                     <Button

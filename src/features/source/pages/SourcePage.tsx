@@ -6,11 +6,10 @@ import { sourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import type { DocumentNode } from 'src/features/source/types/document-node.interface';
 import { type Source } from 'src/features/source/types/source.interface';
+import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { BodyModal } from 'src/shared/components/BodyModal';
-import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
 import { DocumentRenderer } from 'src/shared/components/document-render/DocumentRenderer';
-import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
 
@@ -86,21 +85,18 @@ export function SourcePage({ source, className }: { source: Source; className?: 
             />
 
             <div
-                className="w-full h-auto absolute pb-4
+                className="w-full h-auto pb-4 absolute
                 flex flex-col justify-start items-center gap-4"
             >
-                <div className="absolute top-0 right-0 flex flex-col">
-                    <Button
-                        variant={ButtonVariant.GHOST}
+                <div className='w-auto h-auto flex flex-col justify-start items-center'>
+                    <p>{source.title}</p>
+
+                    <p>{source.type}</p>
+
+                    <ActionMenuTriggerer
                         onClick={(event) => toggleSourceActionMenu(event)}
-                    >
-                        ...
-                    </Button>
+                    />
                 </div>
-
-                <p>{source.title}</p>
-
-                <p>{source.type}</p>
 
                 <DocumentRenderer docNode={JSON.parse(source.rawText) as DocumentNode} />
             </div>

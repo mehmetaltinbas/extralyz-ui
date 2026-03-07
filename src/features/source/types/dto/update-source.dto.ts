@@ -1,3 +1,3 @@
 export interface UpdateSourceDto {
-    title: string;
+    title?: string;
 }

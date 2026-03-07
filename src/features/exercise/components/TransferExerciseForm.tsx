@@ -40,9 +40,9 @@ export default function TransferExerciseForm({
     async function transfer() {
         const response = await exerciseService.transfer(exerciseId, dto);
 
-        if (!response.isSuccess) alert(response.message);
-
-        else {
+        if (!response.isSuccess) {
+            alert(response.message);   
+        } else {
             dispatch(extendedSourcesActions.fetchData());
             dispatch(independentExerciseSetsActions.fetchData());
             dispatch(exerciseSetsActions.fetchData());

@@ -1,6 +1,7 @@
 import type { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
+import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import type { ReadAllExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-all-exercise-sets.response';
 import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-set/types/response/read-all-exerise-sets-grouped-by-sources.response';
@@ -63,6 +64,18 @@ async function readAllByUserIdGroupedBySources(): Promise<ReadAllExerciseSetsGro
     }
 }
 
+async function updateById(id: string, dto: UpdateExerciseSetDto): Promise<ResponseBase> {
+    try {
+        const response = (
+            await axiosInstance.patch(`${baseUrl}/update-by-id/${id}`, dto)
+        ).data;
+
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
+}
+
 async function deleteById(id: string): Promise<ResponseBase> {
     try {
         const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
@@ -92,6 +105,7 @@ export const exerciseSetService = {
     readById,
     readAllByUserId,
     readAllByUserIdGroupedBySources,
+    updateById,
     deleteById,
     evaluateAnswers,
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
+import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
@@ -27,6 +28,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
         React.useState<boolean>(true);
     const [actionMenuExerciseSet, setActionMenuExerciseSet] = React.useState<ExerciseSet>();
     const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
+    const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState<boolean>(true);
     const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
@@ -64,6 +66,11 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
         }
     }
 
+    function toggleUpdateExerciseSetForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsUpdateExerciseSetFormHidden((prev) => !prev);
+    }
+
     function toggleDeleteApproval() {
         setIsPopUpActive((prev) => !prev);
         setIsDeleteApprovalHidden((prev) => !prev);
@@ -98,6 +105,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                 setIsHidden={setIsExerciseSetActionMenuHidden}
                 exerciseSet={actionMenuExerciseSet}
                 ref={actionMenuRef}
+                toggleUpdateExerciseSetForm={toggleUpdateExerciseSetForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 
@@ -202,6 +210,17 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                         sourceId={undefined}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                     />,
+                    ...[actionMenuExerciseSet &&
+                        <UpdateExerciseSetForm
+                            isHidden={isUpdateExerciseSetFormHidden}
+                            setIsHidden={setIsUpdateExerciseSetFormHidden}
+                            setIsPopUpActive={setIsPopUpActive}
+                            setIsLoadingPageHidden={setIsLoadingPageHidden}
+                            toggle={toggleUpdateExerciseSetForm}
+                            refreshData={updateExtendedSources}
+                            exerciseSet={actionMenuExerciseSet}
+                        />
+                    ],
                     <DeleteApproval
                         key='exercise-set-delete-approval'
                         isHidden={isDeleteApprovalHidden}

@@ -9,7 +9,7 @@ export default function ActionMenuTriggerer({
     size = ButtonSize.MD,
 }: {
     onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
-    size: ButtonSize;
+    size?: ButtonSize;
 }) {
     const iconSize = size === ButtonSize.LG ? 22 : size === ButtonSize.MD ? 20 : 18;
 

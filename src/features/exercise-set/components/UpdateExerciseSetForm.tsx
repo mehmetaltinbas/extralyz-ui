@@ -1,21 +1,21 @@
 import React from 'react';
-import { sourceService } from 'src/features/source/services/source.service';
-import type { UpdateSourceDto } from 'src/features/source/types/dto/update-source.dto';
-import type { Source } from 'src/features/source/types/source.interface';
+import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
+import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
-export function UpdateSourceForm({
+export function UpdateExerciseSetForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
     toggle,
     refreshData,
-    source,
+    exerciseSet,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,26 +23,26 @@ export function UpdateSourceForm({
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     toggle: () => void;
     refreshData: () => void;
-    source: Source;
+    exerciseSet: ExerciseSet;
 }) {
     const dispatch = useAppDispatch();
 
-    const initialDto: UpdateSourceDto = {
-        title: source.title,
+    const initialDto: UpdateExerciseSetDto = {
+        title: exerciseSet.title,
     };
-    const [dto, setDto] = React.useState<UpdateSourceDto>(initialDto);
+    const [dto, setDto] = React.useState<UpdateExerciseSetDto>(initialDto);
 
     React.useEffect(() => {
         setDto(initialDto);
-    }, [isHidden, source]);
+    }, [isHidden, exerciseSet]);
 
     async function update() {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await sourceService.updateById(
-                source._id,
+            const response = await exerciseSetService.updateById(
+                exerciseSet._id,
                 dto
             );
 
@@ -52,7 +52,7 @@ export function UpdateSourceForm({
             } else {
                 refreshData();
 
-                dispatch(tabsActions.invalidateTabPropsById(source._id));
+                dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
 
                 setIsPopUpActive(false);
             }

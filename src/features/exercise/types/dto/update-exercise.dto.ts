@@ -2,9 +2,9 @@ import type { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-dif
 import type { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 
 export interface UpdateExerciseDto {
-    type: ExerciseType;
-    difficulty: ExerciseDifficulty;
-    prompt: string;
+    type?: ExerciseType;
+    difficulty?: ExerciseDifficulty;
+    prompt?: string;
     solution?: string;
     choices?: string[];
     correctChoiceIndex?: number;

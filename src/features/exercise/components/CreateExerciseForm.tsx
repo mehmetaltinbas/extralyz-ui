@@ -8,6 +8,7 @@ import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { Button } from 'src/shared/components/Button';
+import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { getAlphabetLetter } from 'src/shared/util/get-alphabet-letter.util';
 
@@ -125,17 +126,8 @@ export function CreateExerciseForm({
     }
 
     return (
-        <div
-            className={`${isHidden ? 'hidden' : ''} relative border px-2 py-4 bg-white rounded-[10px]
-            flex flex-col justify-center items-center gap-2`}
-        >
-            <div className="absolute top-1 right-1 w-full flex justify-end items-center">
-                <Button variant={ButtonVariants.GHOST} onClick={(event) => toggle()}>
-                    X
-                </Button>
-            </div>
-
-            <div className="flex justify-start items-center gap-2 pt-4">
+        <Modal isHidden={isHidden} onClose={toggle}>
+            <div className="flex justify-start items-center gap-2">
                 <p>type: </p>
                 <select
                     name="type"
@@ -267,6 +259,6 @@ export function CreateExerciseForm({
             >
                 Generate
             </Button>
-        </div>
+        </Modal>
     );
 }

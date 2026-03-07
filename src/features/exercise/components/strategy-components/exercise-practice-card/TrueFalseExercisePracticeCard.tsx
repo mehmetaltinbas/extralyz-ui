@@ -1,4 +1,3 @@
-import type React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function TrueFalseExercisePracticeCard({
@@ -20,15 +19,16 @@ export function TrueFalseExercisePracticeCard({
                 border-1 border-white rounded-full
                 hover:border-black"
             >
-                true
+                True
             </button>
+
             <button
                 onClick={(event) => recordAnswer(exercise._id, 0)}
                 className="text-sm px-2 py-1 cursor-pointer 
                 border-1 border-white rounded-full
                 hover:border-black"
             >
-                false
+                False
             </button>
         </div>
     );

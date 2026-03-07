@@ -6,6 +6,7 @@ import { exerciseService } from 'src/features/exercise/services/exercise.service
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
+import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { getAlphabetLetter } from 'src/shared/util/get-alphabet-letter.util';
 
@@ -123,17 +124,8 @@ export function UpdateExerciseForm({
     }
 
     return (
-        <div
-            className={`${isHidden ? 'hidden' : ''} relative border px-2 py-4 bg-white rounded-[10px]
-            flex flex-col justify-center items-center gap-2`}
-        >
-            <div className="absolute top-1 right-1 w-full flex justify-end items-center">
-                <Button variant={ButtonVariants.GHOST} onClick={(event) => toggle()}>
-                    X
-                </Button>
-            </div>
-
-            <div className="flex justify-start items-center gap-2 pt-4">
+        <Modal isHidden={isHidden} onClose={toggle}>
+            <div className="flex justify-start items-center gap-2">
                 <p>type: </p>
                 <select
                     name="type"
@@ -265,6 +257,6 @@ export function UpdateExerciseForm({
             >
                 Update
             </Button>
-        </div>
+        </Modal>
     );
 }

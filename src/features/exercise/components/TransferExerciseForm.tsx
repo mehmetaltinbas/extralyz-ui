@@ -6,6 +6,7 @@ import type { TransferExerciseDto } from "src/features/exercise/types/dto/transf
 import { extendedSourcesActions } from "src/features/source/store/extended-sources.slice";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
+import { Modal } from "src/shared/components/Modal";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
 export default function TransferExerciseForm({
@@ -50,18 +51,8 @@ export default function TransferExerciseForm({
     }
 
     return (
-        <div
-            className={`${isHidden && 'hidden'} relative border px-4 py-4 bg-white rounded-[10px]
-            flex flex-col justify-center items-center gap-2`}
-        >
-            <button 
-                className="absolute top-0 right-1.5 text-gray-400 hover:text-black cursor-pointer"
-                onClick={toggleModal}
-            >
-                x
-            </button>
-
-            <div className="flex justify-start items-center gap-2 pt-4">
+        <Modal isHidden={isHidden} onClose={toggleModal}>
+            <div className="flex justify-start items-center gap-2">
                 <p>transfer to: </p>
                 <select
                     name="exerciseSetId"
@@ -85,6 +76,6 @@ export default function TransferExerciseForm({
             >
                 Transfer
             </Button>
-        </div>
+        </Modal>
     );
 }

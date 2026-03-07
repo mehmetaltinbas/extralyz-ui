@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Button } from 'src/shared/components/Button';
+import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function DeleteApproval({
@@ -32,10 +33,7 @@ export function DeleteApproval({
     }
 
     return (
-        <div
-            className={`${isHidden ? 'hidden' : ''} border px-2 py-4 bg-white rounded-[10px]
-            flex flex-col justify-center items-center gap-2`}
-        >
+        <Modal isHidden={isHidden} onClose={toggle}>
             <p>Are you sure?</p>
             <div className="flex justify-center items-center gap-2">
                 <Button
@@ -46,6 +44,7 @@ export function DeleteApproval({
                 >
                     Cancel
                 </Button>
+                
                 <Button
                     variant={ButtonVariants.DANGER}
                     onClick={handleOnclick}
@@ -53,6 +52,6 @@ export function DeleteApproval({
                     Delete
                 </Button>
             </div>
-        </div>
+        </Modal>
     );
 }

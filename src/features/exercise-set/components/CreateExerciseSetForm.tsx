@@ -8,6 +8,7 @@ import { independentExerciseSetsActions } from 'src/features/exercise-set/store/
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Button } from 'src/shared/components/Button';
+import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -96,16 +97,7 @@ export function CreateExerciseSetForm({
     }
 
     return (
-        <div
-            className={`${isHidden ? 'hidden' : ''} relative border px-2 py-4 bg-white rounded-[10px]
-            flex flex-col justify-center items-center gap-2`}
-        >
-            <div className="absolute top-1 right-1 w-full flex justify-end items-center">
-                <Button variant={ButtonVariants.DANGER} onClick={(event) => toggle()}>
-                    X
-                </Button>
-            </div>
-
+        <Modal isHidden={isHidden} onClose={toggle}>
             <div className="flex justify-start items-center gap-2">
                 <p>title: </p>
                 <input
@@ -189,6 +181,6 @@ export function CreateExerciseSetForm({
             <Button variant={ButtonVariants.PRIMARY} onClick={createExerciseSet}>
                 Generate
             </Button>
-        </div>
+        </Modal>
     );
 }

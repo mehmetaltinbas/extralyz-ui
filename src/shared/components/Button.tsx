@@ -14,11 +14,15 @@ export function Button({
     className?: string;
 }) {
     const variantStyles = buttonVariantStylesMap.get(variant);
+    const isIcon = variant === ButtonVariants.ICON;
+    const baseStyles = isIcon
+        ? 'p-0 w-6 h-6 rounded-full text-sm flex items-center justify-center'
+        : 'px-2 pt-[2px] pb-[1px] rounded-[10px] text-xs';
 
     return (
         <button
             onClick={onClick}
-            className={`w-auto cursor-pointer px-2 pt-[2px] pb-[1px] border-[2px] rounded-[10px] text-xs transition-colors
+            className={`w-auto cursor-pointer border-[2px] transition-colors ${baseStyles}
                 ${variantStyles}
                 ${className ?? ''}
             `}

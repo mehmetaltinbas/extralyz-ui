@@ -35,28 +35,22 @@ export function ExerciseSetPracticePage({
         setEvaluateAnswersDto(dto);
     }, [exercises]);
 
-    React.useEffect(() => {
-        console.log(evaluateAnswersDto);
-    }, [evaluateAnswersDto]);
-
-    React.useEffect(() => {
-        console.log(evaluation?.exerciseAnswerEvaluationResults);
-    }, [evaluation?.exerciseAnswerEvaluationResults]);
-
     function recordAnswer(exerciseId: string, answer: string | number) {
         const newEvaluateAnswersDto = { ...evaluateAnswersDto };
         const exercise = newEvaluateAnswersDto.exercises.find(
             (exercise) => exercise.id === exerciseId
         );
+
         if (exercise) {
             exercise.answer = typeof answer === 'number' ? String(answer) : answer;
         }
+        
         setEvaluateAnswersDto(newEvaluateAnswersDto);
     }
 
     async function evaluateAnswers() {
         const response = await exerciseSetService.evaluateAnswers(evaluateAnswersDto);
-        console.log(response);
+
         if (response.isSuccess) {
             setEvaluation(response);
         }

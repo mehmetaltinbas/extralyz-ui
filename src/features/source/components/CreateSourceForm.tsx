@@ -3,6 +3,7 @@ import { SourceType } from 'src/features/source/enums/source-type.enum';
 import { sourceService } from 'src/features/source/services/source.service';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
+import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
 
 export function CreateSourceForm({
@@ -74,19 +75,8 @@ export function CreateSourceForm({
     }
 
     return (
-        <div
-            className={`${isHidden && 'hidden'} w-[400px] h-auto relative border px-2 py-4 bg-white rounded-[10px]
-            flex flex-col justify-center items-center gap-2`}
-        >
-            <Button
-                variant={ButtonVariants.GHOST}
-                className="absolute top-1 right-1"
-                onClick={(event) => toggle()}
-            >
-                X
-            </Button>
-
-            <div className="flex justify-start items-center gap-2">
+        <Modal isHidden={isHidden} onClose={toggle}>
+            <div className="flex justify-center items-center gap-2">
                 <p>file: </p>
                 <input
                     key={fileInputKey}
@@ -98,7 +88,7 @@ export function CreateSourceForm({
                 />
             </div>
 
-            <div className="flex justify-start items-center gap-2">
+            <div className="flex justify-center items-center gap-2">
                 <p>title: </p>
                 <input
                     data-key="title"
@@ -123,6 +113,6 @@ export function CreateSourceForm({
             >
                 Create
             </Button>
-        </div>
+        </Modal>
     );
 }

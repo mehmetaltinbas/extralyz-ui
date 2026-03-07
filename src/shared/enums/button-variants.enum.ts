@@ -4,4 +4,5 @@ export enum ButtonVariants {
     OUTLINE = 'outline',
     GHOST = 'ghost',
     DANGER = 'danger',
+    ICON = 'icon',
 }

@@ -1,5 +1,7 @@
 import type React from 'react';
+import { ActionMenu } from 'src/shared/components/ActionMenu';
 import { Button } from 'src/shared/components/Button';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function SourceActionMenu({
@@ -18,26 +20,24 @@ export function SourceActionMenu({
     toggleDeleteApproval: () => void;
 }) {
     return (
-        <div
-            ref={ref}
-            className={`absolute border p-2 bg-white rounded-[10px] shadow-md z-10
-            flex flex-col justify-center items-center gap-2
-            ${isHidden && 'hidden'}`}
-        >
+        <ActionMenu isHidden={isHidden} onClose={() => setIsHidden(true)} ref={ref}>
             {sourceId && (
                 <>
                     <Button
                         variant={ButtonVariant.PRIMARY}
+                        size={ButtonSize.SM}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleCreateExerciseSetForm();
                             setIsHidden((prev) => !prev);
                         }}
                     >
-                        Generate Exercises
+                        Generate Exercise Set
                     </Button>
+
                     <Button
                         variant={ButtonVariant.DANGER}
+                        size={ButtonSize.SM}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval();
@@ -48,6 +48,6 @@ export function SourceActionMenu({
                     </Button>
                 </>
             )}
-        </div>
+        </ActionMenu>
     );
 }

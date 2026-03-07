@@ -1,24 +1,11 @@
 import React from 'react';
-import { ExerciseSetPage } from 'src/features/exercise-set/pages/ExerciseSetPage';
-import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/ExerciseSetPracticePage';
-import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPage';
-import { SourcePage } from 'src/features/source/pages/SourcePage';
-import { SourcesPage } from 'src/features/source/pages/SourcesPage';
-import { Section } from 'src/features/workspace/enums/sections.enum';
+import { SECTION_COMPONENTS } from 'src/features/workspace/constants/section-components.constant';
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
 import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-
-const SECTION_COMPONENTS: Record<Section, React.ComponentType<any>> = {
-    [Section.SOURCES]: SourcesPage,
-    [Section.SOURCE]: SourcePage,
-    [Section.EXERCISE_SETS]: ExerciseSetsPage,
-    [Section.EXERCISE_SET]: ExerciseSetPage,
-    [Section.EXERCISE_SET_PRACTICE]: ExerciseSetPracticePage,
-};
 
 export function WorkspaceBody() {
     const dispatch = useAppDispatch();

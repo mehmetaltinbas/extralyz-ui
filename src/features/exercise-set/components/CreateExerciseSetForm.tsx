@@ -3,10 +3,8 @@ import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
-import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
+import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
-import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -41,7 +39,7 @@ export function CreateExerciseSetForm({
     const [selectedSourceId, setSelectedSourceId] = React.useState<string | undefined>(
         sourceId
     );
-    const extendedSources = useAppSelector((state) => state.extendedSources);
+    const sources = useAppSelector((state) => state.sources);
 
     React.useEffect(() => {
         setCreateExerciseSetDto(initialDto);
@@ -69,9 +67,7 @@ export function CreateExerciseSetForm({
             alert(response.message);
             setIsHidden(false);
         } else {
-            dispatch(extendedSourcesActions.fetchData());
-            dispatch(independentExerciseSetsActions.fetchData());
-            dispatch(exerciseSetsActions.fetchData());
+            dispatch(refreshExerciseSetData());
             setIsPopUpActive(false);
         }
     }
@@ -169,9 +165,9 @@ export function CreateExerciseSetForm({
                         className="py-[2px] px-2 border rounded-[10px]"
                     >
                         <option value={ExerciseSetSourceType.INDEPENDENT}>Independent</option>
-                        {extendedSources.map((extendedSource) => (
-                            <option key={extendedSource._id} value={extendedSource._id}>
-                                {extendedSource.title}
+                        {sources.map((source) => (
+                            <option key={source._id} value={source._id}>
+                                {source.title}
                             </option>
                         ))}
                     </select>

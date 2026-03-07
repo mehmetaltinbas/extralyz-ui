@@ -1,9 +1,7 @@
 import React from "react";
-import { exerciseSetsActions } from "src/features/exercise-set/store/exercise-sets.slice";
-import { independentExerciseSetsActions } from "src/features/exercise-set/store/independent-exercise-sets.slice";
+import { refreshExerciseSetData } from "src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk";
 import { exerciseService } from "src/features/exercise/services/exercise.service";
 import type { TransferExerciseDto } from "src/features/exercise/types/dto/transfer-exercise.dto";
-import { extendedSourcesActions } from "src/features/source/store/extended-sources.slice";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
 import { Modal } from "src/shared/components/Modal";
@@ -22,7 +20,7 @@ export default function TransferExerciseForm({
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseId: string;
     currentExerciseSetId: string;
-    refreshData: () => Promise<void>;
+    refreshData: () => void;
 }) {
     const dispatch = useAppDispatch();
 
@@ -43,16 +41,13 @@ export default function TransferExerciseForm({
         if (!response.isSuccess) {
             alert(response.message);   
         } else {
-            dispatch(extendedSourcesActions.fetchData());
-            dispatch(independentExerciseSetsActions.fetchData());
-            dispatch(exerciseSetsActions.fetchData());
-
+            dispatch(refreshExerciseSetData());
             dispatch(tabsActions.invalidateTabPropsById(dto.exerciseSetId));
 
             toggleModal();
 
-            await refreshData();
-        };
+            refreshData();
+        }
     }
 
     return (

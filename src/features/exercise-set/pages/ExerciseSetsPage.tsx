@@ -4,10 +4,10 @@ import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/Exer
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
-import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
+import { selectIndependentExerciseSets } from 'src/features/exercise-set/store/selectors/select-independent-exercise-sets';
+import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
+import { selectExtendedSources } from 'src/features/source/store/selectors/select-extended-sources';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
@@ -19,8 +19,8 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 export function ExerciseSetsPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
-    const independentExerciseSets = useAppSelector((state) => state.independentExerciseSets);
-    const extendedSources = useAppSelector((state) => state.extendedSources);
+    const independentExerciseSets = useAppSelector(selectIndependentExerciseSets);
+    const extendedSources = useAppSelector(selectExtendedSources);
 
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
         React.useState<boolean>(true);
@@ -35,13 +35,8 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
-    function updateExtendedSources() {
-        dispatch(extendedSourcesActions.fetchData());
-        dispatch(independentExerciseSetsActions.fetchData());
-    }
-
     React.useEffect(() => {
-        updateExtendedSources();
+        dispatch(refreshExerciseSetData());
     }, []);
 
     function toggleCreateExerciseSetForm() {
@@ -82,9 +77,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
 
             if (!response.isSuccess) alert(response.message);
             else {
-                updateExtendedSources();
-
-                dispatch(exerciseSetsActions.fetchData());
+                dispatch(refreshExerciseSetData());
                 dispatch(tabsActions.closeTabById(actionMenuExerciseSet._id));
             }
 
@@ -217,7 +210,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             toggle={toggleUpdateExerciseSetForm}
-                            refreshData={updateExtendedSources}
+                            refreshData={() => dispatch(refreshExerciseSetData())}
                             exerciseSet={actionMenuExerciseSet}
                         />
                     ],

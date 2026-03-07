@@ -24,7 +24,7 @@ export function UpdateExerciseForm({
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     toggle: () => void;
-    refreshData: () => Promise<void>;
+    refreshData: () => void;
     exercise: Exercise;
 }) {
     const initialDto: UpdateExerciseDto = {
@@ -55,7 +55,7 @@ export function UpdateExerciseForm({
                 alert(response.message);
                 setIsHidden(false);
             } else {
-                await refreshData();
+                refreshData();
                 setIsPopUpActive(false);
             }
         } catch (error) {

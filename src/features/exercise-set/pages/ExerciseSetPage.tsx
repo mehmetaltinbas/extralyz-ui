@@ -1,8 +1,7 @@
 import React from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
-import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
+import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
@@ -11,7 +10,6 @@ import TransferExerciseForm from 'src/features/exercise/components/TransferExerc
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 
@@ -32,7 +30,6 @@ export function ExerciseSetPage({
     className?: string;
 }) {
     const dispatch = useAppDispatch();
-    const tabs = useAppSelector((state) => state.tabs);
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string>('');
 
@@ -48,9 +45,6 @@ export function ExerciseSetPage({
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] =
         React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
-
-    const [localExerciseSet, setLocalExerciseSet] = React.useState<ExerciseSet>(exerciseSet!);
-    const [localExercises, setLocalExercises] = React.useState<Exercise[]>(exercises || []);
 
     const containerRef = React.useRef<HTMLDivElement>(null);
     const exerciseActionMenuRef = React.useRef<HTMLDivElement>(null);
@@ -75,30 +69,12 @@ export function ExerciseSetPage({
         }
     }
 
-    async function refreshData() {
+    function refreshData() {
         if (!exerciseSet?._id) {
             return;
         }
 
-        setIsPopUpActive(true);
-        setIsLoadingPageHidden(false);
-
-        try {
-            const updatedSet = (await exerciseSetService.readById(exerciseSet._id))
-                .exerciseSet;
-
-            const updatedExercises = (
-                await exerciseService.readAllByExerciseSetId(exerciseSet._id)
-            ).exercises;
-
-            if (updatedSet && updatedExercises) {
-                setLocalExerciseSet(updatedSet);
-                setLocalExercises(updatedExercises);
-            }
-        } finally {
-            setIsLoadingPageHidden(true);
-            setIsPopUpActive(false);
-        }
+        dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
     }
 
     function toggleCreateExerciseForm() {
@@ -131,13 +107,11 @@ export function ExerciseSetPage({
     }
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
-        const response = await exerciseSetService.deleteById(localExerciseSet!._id!);
+        const response = await exerciseSetService.deleteById(exerciseSet!._id!);
 
         if (!response.isSuccess) alert(response.message);
         else {
-            dispatch(extendedSourcesActions.fetchData());
-            dispatch(independentExerciseSetsActions.fetchData());
-            dispatch(exerciseSetsActions.fetchData());
+            dispatch(refreshExerciseSetData());
         }
 
         return { isSuccess: response.isSuccess };
@@ -149,13 +123,13 @@ export function ExerciseSetPage({
         if (!response.isSuccess) {
             alert(response.message);
         } else {
-            await refreshData();
+            refreshData();
         }
 
         return { isSuccess: response.isSuccess };
     }
 
-    return localExerciseSet && localExercises ? (
+    return exerciseSet && exercises ? (
         <div
             ref={containerRef}
             className={`relative w-full h-full ${className ?? ''}`}
@@ -179,11 +153,11 @@ export function ExerciseSetPage({
                     className="w-full h-auto
                     flex flex-col justif-center items-start gap-2"
                 >
-                    <p><span className='font-bold'>Type:</span> <span className='italic'>{localExerciseSet.type}</span></p>
+                    <p><span className='font-bold'>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
 
-                    <p><span className='font-bold'>Count:</span> <span className='italic'>{localExerciseSet.count}</span></p>
+                    <p><span className='font-bold'>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
 
-                    <p><span className='font-bold'>Difficulty:</span><span className='italic'> {localExerciseSet.difficulty}</span></p>
+                    <p><span className='font-bold'>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
 
                     <Button
                         variant={ButtonVariant.PRIMARY}
@@ -202,8 +176,8 @@ export function ExerciseSetPage({
                             event.stopPropagation();
                             dispatch(tabsActions.openTab({
                                 section: Section.EXERCISE_SET_PRACTICE,
-                                id: localExerciseSet._id,
-                                title: localExerciseSet.title,
+                                id: exerciseSet._id,
+                                title: exerciseSet.title,
                                 mode: ExerciseSetMode.PRACTICE,
                             }));
                         }}
@@ -223,7 +197,7 @@ export function ExerciseSetPage({
                     className="w-full h-full
                     grid grid-cols-3 gap-4"
                 >
-                    {localExercises.map((exercise) => (
+                    {exercises.map((exercise) => (
                         <ExerciseCard
                             key={`exercise-card-${exercise._id}`}
                             exercise={exercise}
@@ -245,9 +219,9 @@ export function ExerciseSetPage({
                         toggle={toggleCreateExerciseForm}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         refreshData={refreshData}
-                        exerciseSet={localExerciseSet}
+                        exerciseSet={exerciseSet}
                     />,
-                    ...[localExercises.find(localExercise => localExercise._id === actionMenuExerciseId) && 
+                    ...[exercises.find(localExercise => localExercise._id === actionMenuExerciseId) && 
                         <UpdateExerciseForm 
                             key='update-exercise-form'
                             isHidden={isUpdateExerciseFormHidden}
@@ -256,7 +230,7 @@ export function ExerciseSetPage({
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             toggle={toggleUpdateExerciseForm}
                             refreshData={refreshData}
-                            exercise={localExercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
+                            exercise={exercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
                         />
                     ],
                     <TransferExerciseForm
@@ -265,7 +239,7 @@ export function ExerciseSetPage({
                         setIsHidden={setIsTransferExerciseFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
                         exerciseId={actionMenuExerciseId}
-                        currentExerciseSetId={localExerciseSet._id}
+                        currentExerciseSetId={exerciseSet._id}
                         refreshData={refreshData}
                     />,
                     <DeleteApproval // for exercise set

@@ -15,7 +15,7 @@ export function Button({
     children: React.ReactNode;
     variant?: ButtonVariant;
     size?: ButtonSize;
-    onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
     className?: string;
 }) {
     const variantStyles = buttonVariantStylesMap.get(variant);

@@ -4,8 +4,8 @@ import { OpenEndedExerciseCard } from 'src/features/exercise/components/strategy
 import { TrueFalseExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/TrueFalseExerciseCard';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { Button } from 'src/shared/components/Button';
-import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
 
 export function ExerciseCard({
     exercise,
@@ -34,12 +34,10 @@ export function ExerciseCard({
             className={`relative w-[250px] h-[250px] border rounded-[10px] px-4 py-2 overflow-y-auto`}
         >
             <div className="absolute top-1 right-1">
-                <Button
-                    variant={ButtonVariant.GHOST}
+                <ActionMenuTriggerer
                     onClick={(event) => toggleExerciseActionMenu(event, exercise._id)}
-                >
-                    ...
-                </Button>
+                    size={ButtonSize.SM}
+                />
             </div>
             
             {Component && <Component exercise={exercise} isAnswersHidden={isAnswersHidden} />}

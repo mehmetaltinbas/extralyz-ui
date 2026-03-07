@@ -2,8 +2,8 @@ import type React from 'react';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
-import { Button } from 'src/shared/components/Button';
-import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function SourceCard({
@@ -46,16 +46,13 @@ export function SourceCard({
             </div>
 
             <div
-                className="absolute w-auto h-auto right-1 top-1
-                flex justify-center items-center"
+                className={`absolute w-auto h-auto right-1.5 top-1.5
+                flex justify-center items-center`}
             >
-                <Button
-                    variant={ButtonVariant.GHOST}
+                <ActionMenuTriggerer 
                     onClick={(event) => toggleSourceActionMenu(event, source._id)}
-                    className="font-bold"
-                >
-                    ...
-                </Button>
+                    size={ButtonSize.SM}
+                />
             </div>
         </div>
     );

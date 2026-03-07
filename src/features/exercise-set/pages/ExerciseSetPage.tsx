@@ -264,6 +264,7 @@ export function ExerciseSetPage({
                         setIsHidden={setIsTransferExerciseFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
                         exerciseId={actionMenuExerciseId}
+                        currentExerciseSetId={localExerciseSet._id}
                         refreshData={refreshData}
                     />,
                     <DeleteApproval // for exercise set

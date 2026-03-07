@@ -4,6 +4,7 @@ import {
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -53,13 +54,14 @@ export function Tab({
                     {tab.tabTitle}
                 </p>
             </div>
+            
             <div className="w-[24px] flex justify-center items-center">
                 <Button
-                    variant={ButtonVariant.DANGER}
+                    variant={ButtonVariant.ICON}
+                    size={ButtonSize.SM}
                     onClick={(event) => deleteTab(event)}
-                    className="border-transparent !border-[1px] bg-transparent !text-black hover:border-[#a62637] !hover:text-white"
                 >
-                    x
+                    ✕
                 </Button>
             </div>
         </div>

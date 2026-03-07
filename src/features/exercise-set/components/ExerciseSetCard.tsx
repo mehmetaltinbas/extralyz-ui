@@ -2,7 +2,9 @@ import type React from 'react';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { Button } from 'src/shared/components/Button';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
@@ -17,6 +19,10 @@ export function ExerciseSetCard({
     ) => void;
 }) {
     const dispatch = useAppDispatch();
+
+    function triggerActionMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        toggleExerciseSetActionMenu(event, exerciseSet);
+    }
 
     return (
         <div
@@ -43,13 +49,10 @@ export function ExerciseSetCard({
                 </div>
 
                 <div className="w-[50px] h-auto">
-                    <Button
-                        variant={ButtonVariant.GHOST}
+                    <ActionMenuTriggerer
                         onClick={(event) => toggleExerciseSetActionMenu(event, exerciseSet)}
-                        className='font-bold'
-                    >
-                        ...
-                    </Button>
+                        size={ButtonSize.SM}
+                    />
                 </div>
             </div>
             <p>{exerciseSet.type}</p>

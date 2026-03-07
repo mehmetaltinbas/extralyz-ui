@@ -14,12 +14,14 @@ export default function TransferExerciseForm({
     setIsHidden,
     setIsPopUpActive,
     exerciseId,
+    currentExerciseSetId,
     refreshData,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>,
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseId: string;
+    currentExerciseSetId: string;
     refreshData: () => Promise<void>;
 }) {
     const dispatch = useAppDispatch();
@@ -35,7 +37,7 @@ export default function TransferExerciseForm({
         setIsPopUpActive(prev => !prev);
     }
 
-    async function handleTransfer() {
+    async function transfer() {
         const response = await exerciseService.transfer(exerciseId, dto);
 
         if (!response.isSuccess) alert(response.message);
@@ -44,8 +46,11 @@ export default function TransferExerciseForm({
             dispatch(extendedSourcesActions.fetchData());
             dispatch(independentExerciseSetsActions.fetchData());
             dispatch(exerciseSetsActions.fetchData());
+
             dispatch(tabsActions.invalidateTabPropsById(dto.exerciseSetId));
+
             toggleModal();
+
             await refreshData();
         };
     }
@@ -61,18 +66,20 @@ export default function TransferExerciseForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {exerciseSets.map(exerciseSet => (
-                        <option
-                            key={`option-to-transfer-${exerciseSet._id}`}
-                            value={exerciseSet._id}
-                        >
-                            {exerciseSet.title}
-                        </option>
+                        exerciseSet._id !== currentExerciseSetId && (
+                            <option
+                                key={`option-to-transfer-${exerciseSet._id}`}
+                                value={exerciseSet._id}
+                            >
+                                {exerciseSet.title}
+                            </option>
+                        )
                     ))}
                 </select>
             </div>
 
             <Button
-                onClick={handleTransfer}
+                onClick={transfer}
             >
                 Transfer
             </Button>

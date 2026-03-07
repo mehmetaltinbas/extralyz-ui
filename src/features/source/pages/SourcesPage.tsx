@@ -42,13 +42,17 @@ export function SourcesPage({ className }: { className?: string }) {
         sourceId: string
     ) {
         event.stopPropagation();
+        
         const sourceActionMenu = actionMenuRef.current;
         const container = containerRef.current;
+
         if (sourceActionMenu && container) {
             const containerRect = container.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
+
             sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
             sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
+
             setActionMenuSourceId(sourceId);
             setIsSourceActionMenuHidden((prev) => !prev);
         }

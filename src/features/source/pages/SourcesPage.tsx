@@ -26,6 +26,9 @@ export function SourcesPage({ className }: { className?: string }) {
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const actionMenuRef = React.useRef<HTMLDivElement>(null);
+
     function updateSourcesState() {
         dispatch(sourcesActions.fetchData());
     }
@@ -39,13 +42,13 @@ export function SourcesPage({ className }: { className?: string }) {
         sourceId: string
     ) {
         event.stopPropagation();
-        const sourceActionMenu = document.getElementById('source-action-menu');
-        const container = document.getElementById('sources-page-container');
+        const sourceActionMenu = actionMenuRef.current;
+        const container = containerRef.current;
         if (sourceActionMenu && container) {
-            const containerRect = container?.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
-            sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect?.top}px`;
-            sourceActionMenu.style.left = `${positionOfButton.right - containerRect?.left}px`;
+            sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
+            sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
             setActionMenuSourceId(sourceId);
             setIsSourceActionMenuHidden((prev) => !prev);
         }
@@ -77,13 +80,14 @@ export function SourcesPage({ className }: { className?: string }) {
 
     return (
         <div
-            id="sources-page-container"
+            ref={containerRef}
             className={`relative ${className ?? ''} w-full h-full`}
         >
             <SourceActionMenu
                 isHidden={isSourceActionMenuHidden}
                 setIsHidden={setIsSourceActionMenuHidden}
                 sourceId={actionMenuSourceId}
+                ref={actionMenuRef}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />

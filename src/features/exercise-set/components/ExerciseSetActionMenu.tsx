@@ -11,18 +11,20 @@ export function ExerciseSetActionMenu({
     isHidden,
     setIsHidden,
     exerciseSet,
+    ref,
     toggleDeleteApproval,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseSet?: ExerciseSet;
+    ref: React.RefObject<HTMLDivElement | null>;
     toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
     const dispatch = useAppDispatch();
 
     return (
         <div
-            id="exercise-set-action-menu"
+            ref={ref}
             className={`absolute border p-2 bg-white rounded-[10px] shadow-md z-10
             flex flex-col justify-center items-center gap-2
             ${isHidden && 'hidden'}`}

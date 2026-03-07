@@ -22,17 +22,20 @@ export function SourcePage({ source, className }: { source: Source; className?: 
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const actionMenuRef = React.useRef<HTMLDivElement>(null);
+
     React.useEffect(() => {}, []);
 
     function toggleSourceActionMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
-        const sourceActionMenu = document.getElementById('source-action-menu');
-        const container = document.getElementById('source-page-container');
+        const sourceActionMenu = actionMenuRef.current;
+        const container = containerRef.current;
         if (sourceActionMenu && container) {
-            const containerRect = container?.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
-            sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect?.top}px`;
-            sourceActionMenu.style.left = `${positionOfButton.right - containerRect?.left}px`;
+            sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
+            sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
             setIsActionMenuHidden((prev) => !prev);
         }
     }
@@ -62,13 +65,14 @@ export function SourcePage({ source, className }: { source: Source; className?: 
 
     return source ? (
         <div
-            id="source-page-container"
+            ref={containerRef}
             className={`${className ?? ''} w-full h-full relative p-2`}
         >
             <SourceActionMenu
                 isHidden={isActionMenuHidden}
                 setIsHidden={setIsActionMenuHidden}
                 sourceId={source._id}
+                ref={actionMenuRef}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />

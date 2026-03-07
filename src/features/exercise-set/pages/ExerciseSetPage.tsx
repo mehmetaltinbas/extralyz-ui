@@ -52,21 +52,24 @@ export function ExerciseSetPage({
     const [localExerciseSet, setLocalExerciseSet] = React.useState<ExerciseSet>(exerciseSet!);
     const [localExercises, setLocalExercises] = React.useState<Exercise[]>(exercises || []);
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const exerciseActionMenuRef = React.useRef<HTMLDivElement>(null);
+
     function toggleExerciseActionMenu(
         event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
         exerciseId: string
     ) {
         event.stopPropagation();
-        const exerciseActionMenu = document.getElementById('exercise-action-menu');
-        const container = document.getElementById('exercise-set-page-container');
+        const exerciseActionMenu = exerciseActionMenuRef.current;
+        const container = containerRef.current;
 
         if (exerciseActionMenu && container) {
-            const containerRect = container?.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
 
-            exerciseActionMenu.style.top = `${positionOfButton.bottom - containerRect?.top}px`;
-            exerciseActionMenu.style.left = `${positionOfButton.right - containerRect?.left}px`;
-            
+            exerciseActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
+            exerciseActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
+
             setActionMenuExerciseId(exerciseId);
             setIsExerciseActionMenuHidden((prev) => !prev);
         }
@@ -155,13 +158,14 @@ export function ExerciseSetPage({
 
     return localExerciseSet && localExercises ? (
         <div
-            id="exercise-set-page-container"
+            ref={containerRef}
             className={`relative w-full h-full ${className ?? ''}`}
         >
             <ExerciseActionMenu
                 isHidden={isExerciseActionMenuHidden}
                 setIsHidden={setIsExerciseActionMenuHidden}
                 exerciseId={actionMenuExerciseId}
+                ref={exerciseActionMenuRef}
                 toggleUpdateExerciseForm={toggleUpdateExerciseForm}
                 toggleTransferExerciseForm={toggleTransferExerciseForm}
                 toggleDeleteApproval={toggleExerciseDeleteApproval}

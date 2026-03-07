@@ -28,14 +28,17 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
     const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
-    React.useEffect(() => {
-        updateExtendedSources();
-    }, []);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
     function updateExtendedSources() {
         dispatch(extendedSourcesActions.fetchData());
         dispatch(independentExerciseSetsActions.fetchData());
     }
+
+    React.useEffect(() => {
+        updateExtendedSources();
+    }, []);
 
     function toggleCreateExerciseSetForm() {
         setIsCreateExerciseSetFormHidden((prev) => !prev);
@@ -47,13 +50,13 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
         exerciseSet: ExerciseSet
     ) {
         event.stopPropagation();
-        const exerciseSetActionMenu = document.getElementById('exercise-set-action-menu');
-        const container = document.getElementById('exercise-sets-page-container');
+        const exerciseSetActionMenu = actionMenuRef.current;
+        const container = containerRef.current;
         if (exerciseSetActionMenu && container) {
-            const containerRect = container?.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
-            exerciseSetActionMenu.style.top = `${positionOfButton.bottom - containerRect?.top}px`;
-            exerciseSetActionMenu.style.left = `${positionOfButton.right - containerRect?.left}px`;
+            exerciseSetActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
+            exerciseSetActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
             setActionMenuExerciseSet(exerciseSet);
             setIsExerciseSetActionMenuHidden((prev) => !prev);
         }
@@ -83,14 +86,14 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
 
     return (
         <div
-            id="exercise-sets-page-container"
+            ref={containerRef}
             className={`relative w-full h-full ${className ?? ''}`}
         >
             <ExerciseSetActionMenu
                 isHidden={isExerciseSetActionMenuHidden}
                 setIsHidden={setIsExerciseSetActionMenuHidden}
                 exerciseSet={actionMenuExerciseSet}
-                // fetchExerciseSets={fetchExerciseSets}
+                ref={actionMenuRef}
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 

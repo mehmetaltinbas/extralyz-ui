@@ -6,18 +6,20 @@ export function SourceActionMenu({
     isHidden,
     setIsHidden,
     sourceId,
+    ref,
     toggleCreateExerciseSetForm,
     toggleDeleteApproval,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     sourceId?: string;
+    ref: React.RefObject<HTMLDivElement | null>;
     toggleCreateExerciseSetForm: () => void;
     toggleDeleteApproval: () => void;
 }) {
     return (
         <div
-            id="source-action-menu"
+            ref={ref}
             className={`absolute border p-2 bg-white rounded-[10px] shadow-md z-10
             flex flex-col justify-center items-center gap-2
             ${isHidden && 'hidden'}`}

@@ -34,7 +34,7 @@ export function Tab({
 
     function deleteTab(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
-        dispatch(tabsActions.subtract(tab.index!));
+        dispatch(tabsActions.subtractByIndex(tab.index!));
     }
 
     return (

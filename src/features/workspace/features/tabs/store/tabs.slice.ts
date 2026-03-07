@@ -105,28 +105,34 @@ const tabsSlice = createSlice({
                 }
             }
         },
-        subtract: (state, action: PayloadAction<number>) => {
+        subtractByIndex: (state, action: PayloadAction<number>) => {
             const indexToDelete = action.payload;
 
-            state.elements = state.elements.filter(
-                (element, index) => index !== indexToDelete
-            );
+            state.elements.splice(indexToDelete, 1);
 
-            for (let i = indexToDelete; i < state.elements.length; i++) {
-                state.elements[i].index!--;
-            }
+            state.elements.forEach((el, i) => {
+                el.index = i;
+            });
 
-            const activeTab = state.elements.find(
-                (element) => element.index! + 1 === state.activeTabIndex
-            );
-
-            if (activeTab && activeTab.index !== undefined) {
-                if (indexToDelete < activeTab.index) {
-                    state.activeTabIndex--;
-                }
+            if (state.elements.length === 0) {
+                state.activeTabIndex = -1;
+            } else if (state.activeTabIndex === indexToDelete) {
+                state.activeTabIndex = Math.max(0, indexToDelete - 1);
+            } else if (state.activeTabIndex > indexToDelete) {
+                state.activeTabIndex--;
             }
         },
-        changePosition: (state, action: PayloadAction<number>) => {},
+        subtractById: (state, action: PayloadAction<string>) => {
+            const idToDelete = action.payload;
+            const indexToDelete = state.elements.findIndex(el => el.id === idToDelete);
+
+            if (indexToDelete !== -1) {
+                tabsSlice.caseReducers.subtractByIndex(state, { 
+                    payload: indexToDelete, 
+                    type: action.type 
+                });
+            }
+        },
         setActiveTabIndex: (state, action: PayloadAction<number>) => {
             const payload = action.payload;
 

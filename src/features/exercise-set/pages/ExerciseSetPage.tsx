@@ -149,7 +149,6 @@ export function ExerciseSetPage({
         if (!response.isSuccess) {
             alert(response.message);
         } else {
-            dispatch(tabsActions.subtract(tabs.activeTabIndex));
             await refreshData();
         }
 

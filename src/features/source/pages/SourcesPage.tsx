@@ -5,6 +5,7 @@ import { SourceActionMenu } from 'src/features/source/components/SourceActionMen
 import { SourceCard } from 'src/features/source/components/SourceCard';
 import { sourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
@@ -15,6 +16,7 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 export function SourcesPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
     const sources = useAppSelector((state) => state.sources);
+
     const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
     const [isSourceCreateFormHidden, setIsSourceCreateFormHidden] =
         React.useState<boolean>(true);
@@ -77,7 +79,10 @@ export function SourcesPage({ className }: { className?: string }) {
         const response = await sourceService.deleteById(actionMenuSourceId);
 
         if (!response.isSuccess) alert(response.message);
-        else updateSourcesState();
+        else {
+            dispatch(tabsActions.subtractById(actionMenuSourceId));
+            updateSourcesState();
+        }
 
         return { isSuccess: response.isSuccess };
     }

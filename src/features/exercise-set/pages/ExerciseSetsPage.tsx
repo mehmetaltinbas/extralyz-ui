@@ -7,6 +7,7 @@ import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-se
 import { independentExerciseSetsActions } from 'src/features/exercise-set/store/independent-exercise-sets.slice';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
@@ -19,6 +20,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
     const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
     const independentExerciseSets = useAppSelector((state) => state.independentExerciseSets);
     const extendedSources = useAppSelector((state) => state.extendedSources);
+
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
         React.useState<boolean>(true);
     const [isExerciseSetActionMenuHidden, setIsExerciseSetActionMenuHidden] =
@@ -74,7 +76,9 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
             if (!response.isSuccess) alert(response.message);
             else {
                 updateExtendedSources();
+
                 dispatch(exerciseSetsActions.fetchData());
+                dispatch(tabsActions.subtractById(actionMenuExerciseSet._id));
             }
 
             return { isSuccess: response.isSuccess };

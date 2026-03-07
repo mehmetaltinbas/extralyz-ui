@@ -42,11 +42,13 @@ export function SidebarNavSection({
                         onDragStart={(event) => onDragStart(event)}
                         data-tab-element={JSON.stringify({ section: section })}
                         onClick={(event) => dispatch(tabsActions.openTab({ section }))}
-                        className="w-auto h-auto cursor-pointer border border-1 border-transparent px-[8px] py-[1px] rounded-full
-                            font-serif font-semibold
-                            hover:border-black hover:bg-white"
+                        className="w-full h-auto cursor-pointer px-[8px] py-[1px]
+                            font-serif font-semibold flex justify-start
+                            hover:bg-gray-200"
                     >
-                        {section}
+                        <p>
+                            {section}
+                        </p>
                     </button>
                     <span className="w-full h-[1px] bg-black"></span>
                 </div>
@@ -72,10 +74,11 @@ export function SidebarNavSection({
                                 title: item.title,
                             }))
                         }
-                        className={`max-w-[${sidebar.width - 62}px] cursor-pointer truncate border border-1 border-transparent px-[8px] py-[1px] rounded-full
-                            hover:border-black hover:bg-white`}
+                        className={`w-full max-w-[${sidebar.width - 62}px] cursor-pointer truncate px-[8px] py-[1px]
+                            flex justify-start
+                            hover:bg-gray-200`}
                     >
-                        {item.title === '' || item.title === undefined ? item._id : item.title}
+                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
                     </button>
                 ))}
             </div>

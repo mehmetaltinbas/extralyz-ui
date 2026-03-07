@@ -10,6 +10,7 @@ export function SourceActionMenu({
     sourceId,
     ref,
     toggleCreateExerciseSetForm,
+    toggleUpdateSourceForm,
     toggleDeleteApproval,
 }: {
     isHidden: boolean;
@@ -17,6 +18,7 @@ export function SourceActionMenu({
     sourceId?: string;
     ref: React.RefObject<HTMLDivElement | null>;
     toggleCreateExerciseSetForm: () => void;
+    toggleUpdateSourceForm: () => void;
     toggleDeleteApproval: () => void;
 }) {
     return (
@@ -24,7 +26,6 @@ export function SourceActionMenu({
             {sourceId && (
                 <>
                     <Button
-                        variant={ButtonVariant.PRIMARY}
                         size={ButtonSize.SM}
                         onClick={(event) => {
                             event.stopPropagation();
@@ -33,6 +34,17 @@ export function SourceActionMenu({
                         }}
                     >
                         Generate Exercise Set
+                    </Button>
+
+                    <Button
+                        size={ButtonSize.SM}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            toggleUpdateSourceForm();
+                            setIsHidden((prev) => !prev);
+                        }}
+                    >
+                        Update
                     </Button>
 
                     <Button

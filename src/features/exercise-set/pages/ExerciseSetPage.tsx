@@ -247,16 +247,18 @@ export function ExerciseSetPage({
                         refreshData={refreshData}
                         exerciseSet={localExerciseSet}
                     />,
-                    ...[localExercises.find(localExercise => localExercise._id === actionMenuExerciseId) && <UpdateExerciseForm 
-                        key='update-exercise-form'
-                        isHidden={isUpdateExerciseFormHidden}
-                        setIsHidden={setIsUpdateExerciseFormHidden}
-                        setIsPopUpActive={setIsPopUpActive}
-                        setIsLoadingPageHidden={setIsLoadingPageHidden}
-                        toggle={toggleUpdateExerciseForm}
-                        refreshData={refreshData}
-                        exercise={localExercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
-                    />],
+                    ...[localExercises.find(localExercise => localExercise._id === actionMenuExerciseId) && 
+                        <UpdateExerciseForm 
+                            key='update-exercise-form'
+                            isHidden={isUpdateExerciseFormHidden}
+                            setIsHidden={setIsUpdateExerciseFormHidden}
+                            setIsPopUpActive={setIsPopUpActive}
+                            setIsLoadingPageHidden={setIsLoadingPageHidden}
+                            toggle={toggleUpdateExerciseForm}
+                            refreshData={refreshData}
+                            exercise={localExercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
+                        />
+                    ],
                     <TransferExerciseForm
                         key='transfer-exercise-form'
                         isHidden={isTransferExerciseFormHidden}

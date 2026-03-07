@@ -3,6 +3,7 @@ import { CreateExerciseSetForm } from 'src/features/exercise-set/components/Crea
 import { CreateSourceForm } from 'src/features/source/components/CreateSourceForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { SourceCard } from 'src/features/source/components/SourceCard';
+import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
 import { sourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -25,6 +26,7 @@ export function SourcesPage({ className }: { className?: string }) {
         React.useState<boolean>(true);
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
         React.useState<boolean>(true);
+    const [isUpdateSourceFormHidden, setIsUpdateSourceFormHidden] = React.useState<boolean>(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
@@ -70,6 +72,11 @@ export function SourcesPage({ className }: { className?: string }) {
         setIsPopUpActive((prev) => !prev);
     }
 
+    function toggleUpdateSourceForm() {
+        setIsUpdateSourceFormHidden((prev) => !prev);
+        setIsPopUpActive((prev) => !prev);
+    }
+
     function toggleDeleteApproval() {
         setIsDeleteApprovalHidden((prev) => !prev);
         setIsPopUpActive((prev) => !prev);
@@ -98,6 +105,7 @@ export function SourcesPage({ className }: { className?: string }) {
                 sourceId={actionMenuSourceId}
                 ref={actionMenuRef}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
+                toggleUpdateSourceForm={toggleUpdateSourceForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 
@@ -128,6 +136,7 @@ export function SourcesPage({ className }: { className?: string }) {
                 isPopUpActive={isPopUpActive}
                 components={[
                     <CreateSourceForm
+                        key='create-source-form'
                         isHidden={isSourceCreateFormHidden}
                         setIsHidden={setIsSourceCreateFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -136,6 +145,7 @@ export function SourcesPage({ className }: { className?: string }) {
                         updateSources={updateSourcesState}
                     />,
                     <CreateExerciseSetForm
+                        key='create-exercise-set-form'
                         isHidden={isCreateExerciseSetFormHidden}
                         setIsHidden={setIsCreateExerciseSetFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -143,7 +153,20 @@ export function SourcesPage({ className }: { className?: string }) {
                         sourceId={actionMenuSourceId}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                     />,
+                    ...[sources.find((source) => source._id === actionMenuSourceId) &&
+                        <UpdateSourceForm
+                            key='update-source-form'
+                            isHidden={isUpdateSourceFormHidden}
+                            setIsHidden={setIsUpdateSourceFormHidden}
+                            setIsPopUpActive={setIsPopUpActive}
+                            setIsLoadingPageHidden={setIsLoadingPageHidden}
+                            toggle={toggleUpdateSourceForm}
+                            refreshData={updateSourcesState}
+                            source={sources.find((source) => source._id === actionMenuSourceId)!}
+                        />
+                    ],
                     <DeleteApproval
+                        key='delete-approval'
                         isHidden={isDeleteApproavelHidden}
                         setIsHidden={setIsDeleteApprovalHidden}
                         setIsPopUpActive={setIsPopUpActive}

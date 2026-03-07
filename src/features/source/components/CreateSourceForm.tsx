@@ -4,7 +4,7 @@ import { sourceService } from 'src/features/source/services/source.service';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function CreateSourceForm({
     isHidden,
@@ -106,7 +106,7 @@ export function CreateSourceForm({
             </div>
 
             <Button
-                variant={ButtonVariants.PRIMARY}
+                variant={ButtonVariant.PRIMARY}
                 onClick={async (event) => {
                     await createSource();
                 }}

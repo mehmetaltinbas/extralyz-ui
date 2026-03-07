@@ -9,7 +9,7 @@ import { exerciseService } from 'src/features/exercise/services/exercise.service
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { getAlphabetLetter } from 'src/shared/util/get-alphabet-letter.util';
 
 export function CreateExerciseForm({
@@ -254,7 +254,7 @@ export function CreateExerciseForm({
             )}
 
             <Button
-                variant={ButtonVariants.PRIMARY}
+                variant={ButtonVariant.PRIMARY}
                 onClick={async (event) => await create()}
             >
                 Generate

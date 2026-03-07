@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { features } from 'src/features/home/constants/features.constant';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function Home() {
     const navigate = useNavigate();
@@ -23,11 +23,11 @@ export function Home() {
                     <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
 
                     <div className="flex items-center gap-3">
-                        <Button variant={ButtonVariants.SECONDARY} onClick={handleSignIn}>
+                        <Button variant={ButtonVariant.SECONDARY} onClick={handleSignIn}>
                             Sign In
                         </Button>
 
-                        <Button variant={ButtonVariants.PRIMARY} onClick={handleGetStarted}>
+                        <Button variant={ButtonVariant.PRIMARY} onClick={handleGetStarted}>
                             Get Started
                         </Button>
                     </div>
@@ -51,7 +51,7 @@ export function Home() {
 
                     <div className="flex items-center gap-4 mt-4">
                         <Button
-                            variant={ButtonVariants.PRIMARY}
+                            variant={ButtonVariant.PRIMARY}
                             onClick={handleGetStarted}
                             className="!text-sm !px-4 !py-1"
                         >
@@ -59,7 +59,7 @@ export function Home() {
                         </Button>
 
                         <Button
-                            variant={ButtonVariants.SECONDARY}
+                            variant={ButtonVariant.SECONDARY}
                             onClick={handleSignIn}
                             className="!text-sm !px-4 !py-1"
                         >

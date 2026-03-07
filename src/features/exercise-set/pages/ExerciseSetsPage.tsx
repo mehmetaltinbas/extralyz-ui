@@ -10,7 +10,7 @@ import { extendedSourcesActions } from 'src/features/source/store/extended-sourc
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -109,7 +109,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
 
                     <div className="absolute right-0">
                         <Button
-                            variant={ButtonVariants.PRIMARY}
+                            variant={ButtonVariant.PRIMARY}
                             onClick={toggleCreateExerciseSetForm}
                         >
                             new exercise set

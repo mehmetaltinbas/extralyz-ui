@@ -18,7 +18,7 @@ import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.sli
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -187,18 +187,18 @@ export function ExerciseSetPage({
                     <p><span className='font-bold'>Difficulty:</span><span className='italic'> {localExerciseSet.difficulty}</span></p>
 
                     <Button
-                        variant={ButtonVariants.PRIMARY}
+                        variant={ButtonVariant.PRIMARY}
                         onClick={toggleCreateExerciseForm}
                     >
                         Generate Exercise
                     </Button>
 
-                    <Button variant={ButtonVariants.OUTLINE} onClick={toggleAnswerVisibility}>
+                    <Button variant={ButtonVariant.OUTLINE} onClick={toggleAnswerVisibility}>
                         {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
                     </Button>
 
                     <Button
-                        variant={ButtonVariants.PRIMARY}
+                        variant={ButtonVariant.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             dispatch(tabsActions.add({ element: {
@@ -213,7 +213,7 @@ export function ExerciseSetPage({
                     </Button>
 
                     <Button
-                        variant={ButtonVariants.DANGER}
+                        variant={ButtonVariant.DANGER}
                         onClick={toggleExerciseSetDeleteApproval}
                     >
                         Delete Exercise Set

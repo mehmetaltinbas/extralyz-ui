@@ -2,15 +2,15 @@ import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { CreateSourceForm } from 'src/features/source/components/CreateSourceForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
-import { sourcesActions } from 'src/features/source/store/sources.slice';
-import { BodyModal } from 'src/shared/components/BodyModal';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
-import { LoadingPage } from 'src/shared/pages/LoadingPage';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { Button } from 'src/shared/components/Button';
 import { SourceCard } from 'src/features/source/components/SourceCard';
 import { sourceService } from 'src/features/source/services/source.service';
+import { sourcesActions } from 'src/features/source/store/sources.slice';
+import { BodyModal } from 'src/shared/components/BodyModal';
+import { Button } from 'src/shared/components/Button';
+import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function SourcesPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
@@ -101,7 +101,7 @@ export function SourcesPage({ className }: { className?: string }) {
                     flex flex justify-center items-center gap-2"
                 >
                     <p className="text-2xl font-bold">Sources</p>
-                    <Button variant={ButtonVariants.PRIMARY} onClick={toggleCreateSourceForm}>
+                    <Button variant={ButtonVariant.PRIMARY} onClick={toggleCreateSourceForm}>
                         new Source
                     </Button>
                 </div>

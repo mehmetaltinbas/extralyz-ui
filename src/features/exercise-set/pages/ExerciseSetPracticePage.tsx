@@ -7,7 +7,7 @@ import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/re
 import { ExercisePracticeCard } from 'src/features/exercise/components/ExercisePracticeCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function ExerciseSetPracticePage({
@@ -91,7 +91,7 @@ export function ExerciseSetPracticePage({
                             ))}
                             <div className="flex justify-start items-center gap-2">
                                 <Button
-                                    variant={ButtonVariants.SECONDARY}
+                                    variant={ButtonVariant.SECONDARY}
                                     onClick={() =>
                                         setActiveExerciseIndex((prev) =>
                                             prev > 0 ? prev - 1 : prev
@@ -102,7 +102,7 @@ export function ExerciseSetPracticePage({
                                 </Button>
                                 {!(activeExerciseIndex + 1 === exercises.length) ? (
                                     <Button
-                                        variant={ButtonVariants.SECONDARY}
+                                        variant={ButtonVariant.SECONDARY}
                                         onClick={() =>
                                             setActiveExerciseIndex((prev) => prev + 1)
                                         }
@@ -111,7 +111,7 @@ export function ExerciseSetPracticePage({
                                     </Button>
                                 ) : (
                                     <Button
-                                        variant={ButtonVariants.PRIMARY}
+                                        variant={ButtonVariant.PRIMARY}
                                         onClick={async () => {
                                             setActiveExerciseIndex((prev) => prev + 1);
                                             await evaluateAnswers();

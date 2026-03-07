@@ -3,7 +3,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetCard({
@@ -44,7 +44,7 @@ export function ExerciseSetCard({
 
                 <div className="w-[50px] h-auto">
                     <Button
-                        variant={ButtonVariants.GHOST}
+                        variant={ButtonVariant.GHOST}
                         onClick={(event) => toggleExerciseSetActionMenu(event, exerciseSet)}
                         className='font-bold'
                     >

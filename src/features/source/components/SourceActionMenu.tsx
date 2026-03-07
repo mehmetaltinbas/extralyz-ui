@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function SourceActionMenu({
     isHidden,
@@ -27,7 +27,7 @@ export function SourceActionMenu({
             {sourceId && (
                 <>
                     <Button
-                        variant={ButtonVariants.PRIMARY}
+                        variant={ButtonVariant.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleCreateExerciseSetForm();
@@ -37,7 +37,7 @@ export function SourceActionMenu({
                         Generate Exercises
                     </Button>
                     <Button
-                        variant={ButtonVariants.DANGER}
+                        variant={ButtonVariant.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval();

@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function Modal({
     isHidden,
@@ -17,7 +17,7 @@ export function Modal({
             flex flex-col justify-center items-center gap-2 shadow-lg`}
         >
             <Button
-                variant={ButtonVariants.ICON}
+                variant={ButtonVariant.ICON}
                 className="absolute top-1 right-1"
                 onClick={() => onClose()}
             >

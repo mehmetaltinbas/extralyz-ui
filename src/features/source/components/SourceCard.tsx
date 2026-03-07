@@ -3,7 +3,7 @@ import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function SourceCard({
@@ -50,7 +50,7 @@ export function SourceCard({
                 flex justify-center items-center"
             >
                 <Button
-                    variant={ButtonVariants.GHOST}
+                    variant={ButtonVariant.GHOST}
                     onClick={(event) => toggleSourceActionMenu(event, source._id)}
                     className="font-bold"
                 >

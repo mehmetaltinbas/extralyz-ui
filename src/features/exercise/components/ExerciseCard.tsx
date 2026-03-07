@@ -1,11 +1,11 @@
 import type React from 'react';
-import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
-import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
-import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { MCQExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/MCQExerciseCard';
 import { OpenEndedExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/OpenEndedExerciseCard';
 import { TrueFalseExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/TrueFalseExerciseCard';
+import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
+import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { Button } from 'src/shared/components/Button';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function ExerciseCard({
     exercise,
@@ -35,7 +35,7 @@ export function ExerciseCard({
         >
             <div className="absolute top-1 right-1">
                 <Button
-                    variant={ButtonVariants.GHOST}
+                    variant={ButtonVariant.GHOST}
                     onClick={(event) => toggleExerciseActionMenu(event, exercise._id)}
                 >
                     ...

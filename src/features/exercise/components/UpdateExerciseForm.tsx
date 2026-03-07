@@ -7,7 +7,7 @@ import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-e
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { getAlphabetLetter } from 'src/shared/util/get-alphabet-letter.util';
 
 export function UpdateExerciseForm({
@@ -252,7 +252,7 @@ export function UpdateExerciseForm({
             )}
 
             <Button
-                variant={ButtonVariants.PRIMARY}
+                variant={ButtonVariant.PRIMARY}
                 onClick={async (event) => await update()}
             >
                 Update

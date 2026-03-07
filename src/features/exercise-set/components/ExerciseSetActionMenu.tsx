@@ -4,7 +4,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetActionMenu({
@@ -32,7 +32,7 @@ export function ExerciseSetActionMenu({
             {exerciseSet && (
                 <>
                     <Button
-                        variant={ButtonVariants.PRIMARY}
+                        variant={ButtonVariant.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
                             setIsHidden(true);
@@ -48,7 +48,7 @@ export function ExerciseSetActionMenu({
                     </Button>
 
                     <Button
-                        variant={ButtonVariants.DANGER}
+                        variant={ButtonVariant.DANGER}
                         onClick={(event) => {
                             event.stopPropagation();
                             toggleDeleteApproval(event);

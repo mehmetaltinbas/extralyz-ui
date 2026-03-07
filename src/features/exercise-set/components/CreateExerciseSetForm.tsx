@@ -9,7 +9,7 @@ import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/c
 import { extendedSourcesActions } from 'src/features/source/store/extended-sources.slice';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
-import { ButtonVariants } from 'src/shared/enums/button-variants.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function CreateExerciseSetForm({
@@ -178,7 +178,7 @@ export function CreateExerciseSetForm({
                 </div>
             )}
 
-            <Button variant={ButtonVariants.PRIMARY} onClick={createExerciseSet}>
+            <Button variant={ButtonVariant.PRIMARY} onClick={createExerciseSet}>
                 Generate
             </Button>
         </Modal>

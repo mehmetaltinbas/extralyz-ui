@@ -3,6 +3,7 @@ import {
     tabsActions,
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { computeTabTitle } from 'src/features/workspace/features/tabs/store/utils/compute-tab-title.util';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -10,31 +11,34 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function Tab({
     tab,
+    index,
     onDragOver,
     onDrop,
 }: {
     tab: TabsStateElement;
+    index: number;
     onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
     onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
 }) {
     const dispatch = useAppDispatch();
-    const tabs = useAppSelector((state) => state.tabs);
+    const activeTabIndex = useAppSelector((state) => state.tabs.activeTabIndex);
+
+    const displayTitle = computeTabTitle(tab);
 
     function onDragStart(event: React.DragEvent<HTMLDivElement>) {
-        const datasetElement = event.currentTarget.dataset.tabElement;
-        const element = datasetElement ? JSON.parse(datasetElement) : undefined;
-        if (element) {
-            event.dataTransfer.setData('text/plain', JSON.stringify(element));
-        }
+        event.dataTransfer.setData(
+            'text/plain',
+            JSON.stringify({ ...tab, dragSourceIndex: index })
+        );
     }
 
     function displayTab() {
-        dispatch(tabsActions.setActiveTabIndex(tab.index!));
+        dispatch(tabsActions.setActiveTabIndex(index));
     }
 
     function deleteTab(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
-        dispatch(tabsActions.subtractByIndex(tab.index!));
+        dispatch(tabsActions.closeTab(index));
     }
 
     return (
@@ -43,18 +47,18 @@ export function Tab({
             onDragStart={(event) => onDragStart(event)}
             onDragOver={(event) => onDragOver(event)}
             onDrop={(event) => onDrop(event)}
-            data-tab-element={JSON.stringify(tab)}
+            data-tab-element={JSON.stringify({ arrayIndex: index })}
             onClick={displayTab}
-            className={`max-w-[200px] h-full ${tab.index === tabs.activeTabIndex ? 'bg-white' : ''} cursor-pointer p-2
+            className={`max-w-[200px] h-full ${index === activeTabIndex ? 'bg-white' : ''} cursor-pointer p-2
             flex-shrink-0 flex justify-center items-center gap-[10px]
             hover:bg-white`}
         >
             <div className="max-w-[150px] flex justify-center items-center">
-                <p className="truncate" title={tab.tabTitle}>
-                    {tab.tabTitle}
+                <p className="truncate" title={displayTitle}>
+                    {displayTitle}
                 </p>
             </div>
-            
+
             <div className="w-[24px] flex justify-center items-center">
                 <Button
                     variant={ButtonVariant.ICON}

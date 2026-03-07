@@ -21,11 +21,11 @@ export function SourceCard({
     return (
         <div
             onClick={(event) =>
-                dispatch(tabsActions.add({ element: {
+                dispatch(tabsActions.openTab({
                     section: Section.SOURCE,
                     id: source._id,
                     title: source.title,
-                }}))
+                }))
             }
             className="relative w-[175px] h-[175px] border border-gray-400 cursor-pointer rounded-[10px]
             flex flex-col justify-center items-center

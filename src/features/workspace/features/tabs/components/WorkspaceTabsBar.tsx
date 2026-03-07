@@ -4,16 +4,15 @@ import {
     tabsActions,
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { computeDropIndex } from 'src/features/workspace/features/tabs/store/utils/compute-drop-index.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function WorkspaceTabsBar() {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
-    const sidebar = useAppSelector((state) => state.sidebar);
     const widths = useAppSelector((state) => state.layoutDimensions);
 
     function onDragOver(event: React.DragEvent<HTMLDivElement>) {
-        // not implemented yet
         event.preventDefault();
     }
 
@@ -21,70 +20,42 @@ export function WorkspaceTabsBar() {
         event.preventDefault();
 
         const dropTargetDataset = event.currentTarget.dataset.tabElement;
-        let dropTargetTabIndex: number | undefined;
+        let dropTargetIndex: number | undefined;
         if (dropTargetDataset) {
-            const dropTarget = JSON.parse(dropTargetDataset) as TabsStateElement;
-            // console.log(`dropTargetTabIndex: ${JSON.stringify(dropTarget)}`);
-            // console.log("droptarget's index: ", dropTarget.index);
-            dropTargetTabIndex = dropTarget.index !== undefined ? dropTarget.index : undefined;
+            const dropTarget = JSON.parse(dropTargetDataset) as { arrayIndex: number };
+            dropTargetIndex = dropTarget.arrayIndex;
         }
+
         const dataTransfer = event.dataTransfer.getData('text/plain');
-        const droppedElement = JSON.parse(dataTransfer) as TabsStateElement;
+        const droppedData = JSON.parse(dataTransfer) as TabsStateElement & { dragSourceIndex?: number };
+        const { dragSourceIndex, ...tab } = droppedData;
+
+        if (dropTargetIndex === undefined) {
+            // Dropping onto empty area
+            if (dragSourceIndex !== undefined) {
+                dispatch(tabsActions.setActiveTabIndex(dragSourceIndex));
+            } else {
+                dispatch(tabsActions.openTab(tab));
+            }
+            return;
+        }
 
         const rect = event.currentTarget.getBoundingClientRect();
         const middleX = rect.left + rect.width / 2;
+        const dropSide: 'left' | 'right' = event.clientX < middleX ? 'left' : 'right';
 
-        if (dropTargetTabIndex === undefined) {
-            // if dropping onto empty tabsBar
-            // console.log("1st block");
-            dispatch(tabsActions.add({ element: droppedElement }));
-        } else if (event.clientX < middleX) {
-            // if dropping behind of drop target
-            if (droppedElement.index === undefined) {
-                // if dropping from sidebar
-                // console.log("2nd block");
-                dispatch(
-                    tabsActions.add({ element: droppedElement, newIndex: dropTargetTabIndex })
-                );
-            } else if (dropTargetTabIndex > droppedElement.index) {
-                // console.log("3rd block");
-                dispatch(
-                    tabsActions.add({
-                        element: droppedElement,
-                        newIndex: dropTargetTabIndex - 1,
-                    })
-                );
-            } else if (dropTargetTabIndex < droppedElement.index) {
-                // console.log("4th block");
-                dispatch(
-                    tabsActions.add({ element: droppedElement, newIndex: dropTargetTabIndex })
-                );
-            }
-        } else if (event.clientX > middleX) {
-            // if dropping forward of drop target
-            if (droppedElement.index === undefined) {
-                // if dropping from sidebar
-                // console.log("5th block");
-                dispatch(
-                    tabsActions.add({
-                        element: droppedElement,
-                        newIndex: dropTargetTabIndex + 1,
-                    })
-                );
-            } else if (dropTargetTabIndex > droppedElement.index) {
-                // console.log("6th block");
-                dispatch(
-                    tabsActions.add({ element: droppedElement, newIndex: dropTargetTabIndex })
-                );
-            } else if (dropTargetTabIndex < droppedElement.index) {
-                // console.log("7th block");
-                dispatch(
-                    tabsActions.add({
-                        element: droppedElement,
-                        newIndex: dropTargetTabIndex + 1,
-                    })
-                );
-            }
+        const targetIndex = computeDropIndex({
+            dropTargetIndex,
+            sourceIndex: dragSourceIndex,
+            dropSide,
+        });
+
+        if (targetIndex === undefined) return;
+
+        if (dragSourceIndex !== undefined) {
+            dispatch(tabsActions.moveTab({ fromIndex: dragSourceIndex, toIndex: targetIndex }));
+        } else {
+            dispatch(tabsActions.insertTab({ tab, atIndex: targetIndex }));
         }
     }
 
@@ -97,7 +68,7 @@ export function WorkspaceTabsBar() {
             border-1 border-white overflow-x-auto`}
         >
             {tabs.elements.map((tab, index) => (
-                <Tab key={index} tab={tab} onDragOver={onDragOver} onDrop={onDrop} />
+                <Tab key={index} tab={tab} index={index} onDragOver={onDragOver} onDrop={onDrop} />
             ))}
         </div>
     );

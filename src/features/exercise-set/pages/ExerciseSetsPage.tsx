@@ -78,7 +78,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                 updateExtendedSources();
 
                 dispatch(exerciseSetsActions.fetchData());
-                dispatch(tabsActions.subtractById(actionMenuExerciseSet._id));
+                dispatch(tabsActions.closeTabById(actionMenuExerciseSet._id));
             }
 
             return { isSuccess: response.isSuccess };

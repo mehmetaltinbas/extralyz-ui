@@ -2,7 +2,8 @@ import type React from 'react';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/sections.enum';
-import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function SidebarNavSection({
@@ -40,7 +41,7 @@ export function SidebarNavSection({
                         draggable="true"
                         onDragStart={(event) => onDragStart(event)}
                         data-tab-element={JSON.stringify({ section: section })}
-                        onClick={(event) => dispatch(tabsActions.add({ element: { section } }))}
+                        onClick={(event) => dispatch(tabsActions.openTab({ section }))}
                         className="w-auto h-auto cursor-pointer border border-1 border-transparent px-[8px] py-[1px] rounded-full
                             font-serif font-semibold
                             hover:border-black hover:bg-white"
@@ -60,20 +61,16 @@ export function SidebarNavSection({
                         draggable="true"
                         onDragStart={(event) => onDragStart(event)}
                         data-tab-element={JSON.stringify({
-                            tabTitle:
-                                item.title === '' || item.title === undefined
-                                    ? item._id
-                                    : item.title,
                             section: section.slice(0, -1),
                             id: item._id,
                             title: item.title,
                         })}
                         onClick={(event) =>
-                            dispatch(tabsActions.add({ element: {
-                                section: section.slice(0, -1),
+                            dispatch(tabsActions.openTab({
+                                section: section.slice(0, -1) as Section,
                                 id: item._id,
                                 title: item.title,
-                            }}))
+                            }))
                         }
                         className={`max-w-[${sidebar.width - 62}px] cursor-pointer truncate border border-1 border-transparent px-[8px] py-[1px] rounded-full
                             hover:border-black hover:bg-white`}

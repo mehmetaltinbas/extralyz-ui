@@ -6,10 +6,19 @@ import { SourcePage } from 'src/features/source/pages/SourcePage';
 import { SourcesPage } from 'src/features/source/pages/SourcesPage';
 import { Section } from 'src/features/workspace/enums/sections.enum';
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
 import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+
+const SECTION_COMPONENTS: Record<Section, React.ComponentType<any>> = {
+    [Section.SOURCES]: SourcesPage,
+    [Section.SOURCE]: SourcePage,
+    [Section.EXERCISE_SETS]: ExerciseSetsPage,
+    [Section.EXERCISE_SET]: ExerciseSetPage,
+    [Section.EXERCISE_SET_PRACTICE]: ExerciseSetPracticePage,
+};
 
 export function WorkspaceBody() {
     const dispatch = useAppDispatch();
@@ -19,15 +28,8 @@ export function WorkspaceBody() {
     const [builtPropsRecord, setBuiltPropsRecord] = React.useState<
         Record<string, object | undefined>
     >({});
-    // const [isPopUpActive, setIsPopUpActive] = useState<boolean>(false);
     const containerDiv = React.useRef<HTMLDivElement | null>(null);
-    const componentsMap: Map<string, React.ComponentType<any>> = new Map([
-        [Section.SOURCES, SourcesPage],
-        [Section.SOURCE, SourcePage],
-        [Section.EXERCISE_SETS, ExerciseSetsPage],
-        [Section.EXERCISE_SET, ExerciseSetPage],
-        [Section.EXERCISE_SET_PRACTICE, ExerciseSetPracticePage],
-    ] as [string, React.ComponentType<any>][]);
+    const buildingKeys = React.useRef<Set<string>>(new Set());
 
     React.useEffect(() => {
         if (!containerDiv.current) return;
@@ -65,69 +67,68 @@ export function WorkspaceBody() {
         return builtProps;
     }
 
-    /**
-     * building props for new tab
-     * clearing orphaned props
-     */
-    React.useEffect(() => { // building props for new tab
-        const activeTabTitles = new Set(tabs.elements.map((tab) => String(tab.tabTitle)));
+    React.useEffect(() => {
+        const activeKeys = new Set(tabs.elements.map((tab) => computeTabKey(tab)));
 
         setBuiltPropsRecord((prev) => {
             const cleaned: Record<string, object | undefined> = {};
 
             for (const key of Object.keys(prev)) {
-                if (activeTabTitles.has(key)) cleaned[key] = prev[key];
+                if (activeKeys.has(key)) cleaned[key] = prev[key];
             }
 
             return cleaned;
         });
 
-        tabs.elements.forEach(async (tab) => {
-            if (builtPropsRecord[String(tab.tabTitle)]) return;
+        for (const tab of tabs.elements) {
+            const key = computeTabKey(tab);
+            if (buildingKeys.current.has(key)) continue;
 
-            const builtProps = await buildProps(tab);
+            setBuiltPropsRecord((prev) => {
+                if (prev[key]) return prev;
 
-            setBuiltPropsRecord((prev) => ({
-                ...prev,
-                [String(tab.tabTitle)]: builtProps,
-            }));
-        });
+                buildingKeys.current.add(key);
+                buildProps(tab).then((builtProps) => {
+                    setBuiltPropsRecord((p) => ({ ...p, [key]: builtProps }));
+                    buildingKeys.current.delete(key);
+                });
+
+                return prev;
+            });
+        }
     }, [tabs.elements]);
 
-    React.useEffect(() => { // refreshing invalidated tabs (an operation happened that changes the content of tab that is determined as invalidated)
+    React.useEffect(() => {
         if (tabs.propsInvalidatedTabIds.length === 0) return;
 
-        // compute invalidated tabs outside the setState updater
-        const invalidatedTabs: TabsStateElement[] = [];
+        const invalidatedTabs: { tab: TabsStateElement; key: string }[] = [];
 
         for (const invalidatedId of tabs.propsInvalidatedTabIds) {
             const tab = tabs.elements.find((el) => el.id === invalidatedId);
 
-            if (tab?.tabTitle) {
-                invalidatedTabs.push(tab);
+            if (tab) {
+                invalidatedTabs.push({ tab, key: computeTabKey(tab) });
             }
         }
 
-        // delete old props
         setBuiltPropsRecord((prev) => {
             const updated = { ...prev };
 
-            for (const tab of invalidatedTabs) {
-                delete updated[tab.tabTitle!];
+            for (const { key } of invalidatedTabs) {
+                delete updated[key];
             }
 
             return updated;
         });
 
-        // rebuild props for invalidated tabs
-        invalidatedTabs.forEach(async (tab) => {
-            const builtProps = await buildProps(tab);
-
-            setBuiltPropsRecord((prev) => ({
-                ...prev,
-                [String(tab.tabTitle)]: builtProps,
-            }));
-        });
+        for (const { tab, key } of invalidatedTabs) {
+            buildProps(tab).then((builtProps) => {
+                setBuiltPropsRecord((prev) => ({
+                    ...prev,
+                    [key]: builtProps,
+                }));
+            });
+        }
 
         dispatch(tabsActions.clearPropsInvalidations());
     }, [tabs.propsInvalidatedTabIds]);
@@ -138,20 +139,21 @@ export function WorkspaceBody() {
             className={`relative z-0 w-[${layoutDimensions.mainColumn.width}px] h-[${layoutDimensions.mainColumn.height ? `${layoutDimensions.mainColumn.height * 0.9}px` : '90%'}] overflow-y-auto p-4
             flex-1 flex justify-center items-center`}
         >
-            {tabs.elements?.map((element) => {
-                const Component = componentsMap.get(element.section);
+            {tabs.elements?.map((element, index) => {
+                const Component = SECTION_COMPONENTS[element.section];
+                const key = computeTabKey(element);
 
-                const isActiveComponent = element.index === tabs.activeTabIndex ? true : false;
-                const builtProps = element.tabTitle ? builtPropsRecord[element.tabTitle] : undefined;
+                const isActiveComponent = index === tabs.activeTabIndex;
+                const builtProps = builtPropsRecord[key];
 
                 return Component && builtProps ? (
                     <Component
-                        key={element.tabTitle}
+                        key={key}
                         {...builtProps}
                         className={isActiveComponent ? 'block' : 'hidden'}
                     />
                 ) : (
-                    <div key={element.tabTitle} className={isActiveComponent ? 'block w-full h-full' : 'hidden'}>
+                    <div key={key} className={isActiveComponent ? 'block w-full h-full' : 'hidden'}>
                         <LoadingPage />
                     </div>
                 );

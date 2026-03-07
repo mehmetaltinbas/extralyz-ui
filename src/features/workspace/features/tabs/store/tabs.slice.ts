@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { Section } from 'src/features/workspace/enums/sections.enum';
+import { findTabIndex } from 'src/features/workspace/features/tabs/store/utils/find-tab-index.util';
 
 export interface TabsStateElement {
-    index?: number;
-    tabTitle?: string;
-    section: string;
+    section: Section;
     id?: string;
     title?: string;
     mode?: string;
@@ -25,94 +25,59 @@ const tabsSlice = createSlice({
     name: 'tabs',
     initialState,
     reducers: {
-        add: (
-            state,
-            action: PayloadAction<{ element: TabsStateElement; newIndex?: number }>
-        ) => {
-            const payload = {
-                element: { ...action.payload.element },
-                newIndex: action.payload.newIndex,
-            };
+        /**
+         * Open or focus existing tab
+         */
+        openTab: (state, action: PayloadAction<TabsStateElement>) => {
+            const tab = action.payload;
+            const existingIndex = findTabIndex(state.elements, tab);
 
-            if (!payload.element.tabTitle || payload.element.tabTitle.length === 0) {
-                // giving a tabTitle if not existed in payload
-                payload.element.tabTitle =
-                    payload.element.mode && payload.element.mode.length > 0
-                        ? `${payload.element.mode}: `
-                        : '';
-                payload.element.tabTitle +=
-                    (payload.element.title && payload.element.title.length > 0) ||
-                    (payload.element.id && payload.element.id.length > 0)
-                        ? payload.element.title && payload.element.title.length > 0
-                            ? payload.element.title
-                            : payload.element.id
-                        : payload.element.section;
-            }
-
-            if (
-                !state.elements.some(
-                    (element) => element.tabTitle === payload.element.tabTitle
-                )
-            ) {
-                // if tabTitle doesn't match in one of state.elements array's elements'
-                if (payload.newIndex || payload.newIndex === 0) {
-                    // if newIndex is given
-                    payload.element.index = payload.newIndex;
-                    state.elements.splice(payload.newIndex, 0, payload.element);
-
-                    for (let i = payload.newIndex + 1; i < state.elements.length; i++) {
-                        state.elements[i].index!++;
-                    }
-
-                    state.activeTabIndex = payload.newIndex;
-                } else {
-                    // if newIndex isn't given
-                    payload.element.index = state.elements.length;
-                    state.elements.push(payload.element);
-                    state.activeTabIndex = state.elements.length - 1;
-                }
-            } else if (
-                state.elements.some((element) => element.tabTitle === payload.element.tabTitle)
-            ) {
-                // if tabTitle match in one of state.elements array's elements'
-                if (payload.newIndex || payload.newIndex === 0) {
-                    // if newIndex is given
-                    const prevIndex = payload.element.index!;
-
-                    if (prevIndex !== payload.newIndex) {
-                        state.elements.splice(prevIndex, 1);
-
-                        for (let i = prevIndex; i < state.elements.length; i++) {
-                            state.elements[i].index!--;
-                        }
-
-                        payload.element.index = payload.newIndex;
-                        state.elements.splice(payload.newIndex, 0, payload.element);
-
-                        for (let i = payload.newIndex + 1; i < state.elements.length; i++) {
-                            state.elements[i].index!++;
-                        }
-                    }
-
-                    state.activeTabIndex = payload.newIndex;
-                } else {
-                    // if newIndex isn't given
-                    const currentElement = state.elements.find(
-                        (element) => element.tabTitle === payload.element.tabTitle
-                    )!;
-
-                    state.activeTabIndex = currentElement.index!;
-                }
+            if (existingIndex !== -1) {
+                state.activeTabIndex = existingIndex;
+            } else {
+                state.elements.push(tab);
+                state.activeTabIndex = state.elements.length - 1;
             }
         },
-        subtractByIndex: (state, action: PayloadAction<number>) => {
+        /**
+         * Insert at position (sidebar drag)
+         */
+        insertTab: (
+            state,
+            action: PayloadAction<{ tab: TabsStateElement; atIndex: number }>
+        ) => {
+            const { tab, atIndex } = action.payload;
+            const existingIndex = findTabIndex(state.elements, tab);
+
+            if (existingIndex !== -1) {
+                state.activeTabIndex = existingIndex;
+            } else {
+                state.elements.splice(atIndex, 0, tab);
+                state.activeTabIndex = atIndex;
+            }
+        },
+        /**
+         * Reorder existing tab
+         */
+        moveTab: (
+            state,
+            action: PayloadAction<{ fromIndex: number; toIndex: number }>
+        ) => {
+            const { fromIndex, toIndex } = action.payload;
+
+            if (fromIndex === toIndex) {
+                state.activeTabIndex = toIndex;
+                return;
+            }
+
+            const [tab] = state.elements.splice(fromIndex, 1);
+            state.elements.splice(toIndex, 0, tab);
+            state.activeTabIndex = toIndex;
+        },
+        closeTab: (state, action: PayloadAction<number>) => {
             const indexToDelete = action.payload;
 
             state.elements.splice(indexToDelete, 1);
-
-            state.elements.forEach((el, i) => {
-                el.index = i;
-            });
 
             if (state.elements.length === 0) {
                 state.activeTabIndex = -1;
@@ -122,22 +87,25 @@ const tabsSlice = createSlice({
                 state.activeTabIndex--;
             }
         },
-        subtractById: (state, action: PayloadAction<string>) => {
+        closeTabById: (state, action: PayloadAction<string>) => {
             const idToDelete = action.payload;
             const indexToDelete = state.elements.findIndex(el => el.id === idToDelete);
 
             if (indexToDelete !== -1) {
-                tabsSlice.caseReducers.subtractByIndex(state, { 
-                    payload: indexToDelete, 
-                    type: action.type 
+                tabsSlice.caseReducers.closeTab(state, {
+                    payload: indexToDelete,
+                    type: action.type,
                 });
             }
         },
         setActiveTabIndex: (state, action: PayloadAction<number>) => {
-            const payload = action.payload;
-
-            state.activeTabIndex = payload;
+            state.activeTabIndex = action.payload;
         },
+        /**
+         * Mark a tab's cached props as stale so WorkspaceBody rebuilds them.
+         * Used when an external operation (e.g. transferring an exercise between sets)
+         * changes data that an already open tab depends on.
+         */
         invalidateTabPropsById: (state, action: PayloadAction<string>) => {
             state.propsInvalidatedTabIds.push(action.payload);
         },

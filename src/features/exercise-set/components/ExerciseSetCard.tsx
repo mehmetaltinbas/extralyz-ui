@@ -25,11 +25,11 @@ export function ExerciseSetCard({
     return (
         <div
             onClick={(event) => {
-                dispatch(tabsActions.add({ element: {
+                dispatch(tabsActions.openTab({
                     section: Section.EXERCISE_SET,
                     id: exerciseSet._id,
                     title: exerciseSet.title,
-                }}));
+                }));
             }}
             className="relative w-[250px] h-[150px] cursor-pointer rounded-[10px]
             flex-shrink-0 flex flex-col justify-start items-center gap-1

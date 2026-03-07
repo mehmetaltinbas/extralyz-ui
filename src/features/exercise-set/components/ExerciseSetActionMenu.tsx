@@ -34,12 +34,12 @@ export function ExerciseSetActionMenu({
                         onClick={(event) => {
                             event.stopPropagation();
                             setIsHidden(true);
-                            dispatch(tabsActions.add({ element: {
+                            dispatch(tabsActions.openTab({
                                 section: Section.EXERCISE_SET_PRACTICE,
                                 id: exerciseSet._id,
                                 title: exerciseSet.title,
                                 mode: ExerciseSetMode.PRACTICE,
-                            }}));
+                            }));
                         }}
                     >
                         Start Practice

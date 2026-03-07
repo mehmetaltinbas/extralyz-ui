@@ -200,12 +200,12 @@ export function ExerciseSetPage({
                         variant={ButtonVariant.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
-                            dispatch(tabsActions.add({ element: {
+                            dispatch(tabsActions.openTab({
                                 section: Section.EXERCISE_SET_PRACTICE,
                                 id: localExerciseSet._id,
                                 title: localExerciseSet.title,
                                 mode: ExerciseSetMode.PRACTICE,
-                            }}));
+                            }));
                         }}
                     >
                         Start Practice

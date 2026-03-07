@@ -80,7 +80,7 @@ export function SourcesPage({ className }: { className?: string }) {
 
         if (!response.isSuccess) alert(response.message);
         else {
-            dispatch(tabsActions.subtractById(actionMenuSourceId));
+            dispatch(tabsActions.closeTabById(actionMenuSourceId));
             updateSourcesState();
         }
 

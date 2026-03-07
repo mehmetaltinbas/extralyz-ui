@@ -6,7 +6,7 @@ import { ExerciseSetsPropsBuilderStrategy } from 'src/features/workspace/strateg
 import { SourcePropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/source-props-builder.strategy';
 import { SourcesPropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/sources-props-builder.strategy';
 
-const map: Map<string, SectionBuilderStrategy> = new Map([
+const map: Map<Section, SectionBuilderStrategy> = new Map([
     [Section.SOURCES, SourcesPropsBuilderStrategy],
     [Section.SOURCE, SourcePropsBuilderStrategy],
     [Section.EXERCISE_SETS, ExerciseSetsPropsBuilderStrategy],
@@ -15,11 +15,7 @@ const map: Map<string, SectionBuilderStrategy> = new Map([
 ]);
 
 export function selectSectionBuilderStrategy(
-    section: string
+    section: Section
 ): SectionBuilderStrategy | undefined {
-    const strategy = map.get(section);
-
-    if (!strategy) return undefined;
-
-    return strategy;
+    return map.get(section);
 }

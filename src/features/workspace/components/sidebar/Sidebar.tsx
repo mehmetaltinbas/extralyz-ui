@@ -60,11 +60,11 @@ export function Sidebar() {
 
     return (
         <div
-            className={`w-[${sidebar.width}px] h-full sticky z-10 shadow-xl
+            className={`w-[${sidebar.width}px] h-full sticky z-20 shadow-xl
             flex`}
         >
             <div
-                className={`w-[${sidebar.width - 10}px] h-full p-4 bg-[#F5F5F5] overflow-y-auto
+                className={`w-[${sidebar.width - 10}px] h-full p-4 bg-[#F5F5F5]
                 flex-shrink-0 flex flex-1 flex-col justify-start items-center gap-4`}
             >
                 <div className="w-full flex justify-end">

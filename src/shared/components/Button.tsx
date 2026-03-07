@@ -10,13 +10,11 @@ export function Button({
     variant = ButtonVariant.PRIMARY,
     size = ButtonSize.MD,
     onClick,
-    className,
 }: {
     children: React.ReactNode;
     variant?: ButtonVariant;
     size?: ButtonSize;
     onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
-    className?: string;
 }) {
     const variantStyles = buttonVariantStylesMap.get(variant);
     const isIcon = variant === ButtonVariant.ICON;
@@ -27,10 +25,7 @@ export function Button({
     return (
         <button
             onClick={onClick}
-            className={`w-auto cursor-pointer border-[2px] transition-colors ${baseStyles}
-                ${variantStyles}
-                ${className ?? ''}
-            `}
+            className={`w-auto cursor-pointer border-[2px] transition-colors ${baseStyles} ${variantStyles}`}
         >
             {children}
         </button>

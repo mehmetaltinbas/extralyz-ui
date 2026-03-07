@@ -16,13 +16,15 @@ export function Modal({
             className={`${isHidden ? 'hidden' : ''} relative border px-4.5 py-5.5 bg-white rounded-[10px]
             flex flex-col justify-center items-center gap-2 shadow-lg`}
         >
-            <Button
-                variant={ButtonVariant.ICON}
-                className="absolute top-1 right-1"
-                onClick={() => onClose()}
-            >
-                ✕
-            </Button>
+            <div className='absolute top-1 right-1'>
+                <Button
+                    variant={ButtonVariant.ICON}
+                    onClick={() => onClose()}
+                >
+                    ✕
+                </Button>
+            </div>
+            
             {children}
         </div>
     );

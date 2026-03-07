@@ -53,7 +53,6 @@ export function Home() {
                         <Button
                             variant={ButtonVariant.PRIMARY}
                             onClick={handleGetStarted}
-                            className="!text-sm !px-4 !py-1"
                         >
                             Get Started
                         </Button>
@@ -61,7 +60,6 @@ export function Home() {
                         <Button
                             variant={ButtonVariant.SECONDARY}
                             onClick={handleSignIn}
-                            className="!text-sm !px-4 !py-1"
                         >
                             Sign In
                         </Button>

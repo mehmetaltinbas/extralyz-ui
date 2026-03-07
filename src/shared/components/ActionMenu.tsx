@@ -21,14 +21,16 @@ export function ActionMenu({
             flex flex-col justify-center items-center gap-2
             ${isHidden && 'hidden'}`}
         >
-            <Button
-                variant={ButtonVariant.ICON}
-                size={ButtonSize.SM}
-                className="absolute top-0.5 right-0.5"
-                onClick={() => onClose()}
-            >
-                ✕
-            </Button>
+            <div className='absolute top-0.5 right-0.5'>
+                <Button
+                    variant={ButtonVariant.ICON}
+                    size={ButtonSize.SM}
+                    onClick={() => onClose()}
+                >
+                    ✕
+                </Button>
+            </div>
+            
             {children}
         </div>
     );

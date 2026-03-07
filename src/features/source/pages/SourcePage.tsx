@@ -1,6 +1,7 @@
 import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
+import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
 import { sourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import type { DocumentNode } from 'src/features/source/types/document-node.interface';
@@ -19,6 +20,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
     const [isPopUpActive, setIsPopUpActive] = React.useState<boolean>(false);
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] =
         React.useState<boolean>(true);
+    const [isUpdateSourceFormHidden, setIsUpdateSourceFormHidden] = React.useState<boolean>(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState<boolean>(true);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState<boolean>(true);
 
@@ -49,6 +51,11 @@ export function SourcePage({ source, className }: { source: Source; className?: 
         setIsPopUpActive((prev) => !prev);
     }
 
+    function toggleUpdateSourceForm() {
+        setIsUpdateSourceFormHidden((prev) => !prev);
+        setIsPopUpActive((prev) => !prev);
+    }
+
     function toggleDeleteApproval() {
         setIsDeleteApprovalHidden((prev) => !prev);
         setIsPopUpActive((prev) => !prev);
@@ -74,6 +81,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                 sourceId={source._id}
                 ref={actionMenuRef}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
+                toggleUpdateSourceForm={toggleUpdateSourceForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />
 
@@ -101,6 +109,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                 isPopUpActive={isPopUpActive}
                 components={[
                     <CreateExerciseSetForm
+                        key='create-exercise-set-form'
                         isHidden={isCreateExerciseSetFormHidden}
                         setIsHidden={setIsCreateExerciseSetFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
@@ -108,7 +117,18 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                         sourceId={source._id}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                     />,
+                    <UpdateSourceForm
+                        key='update-source-form'
+                        isHidden={isUpdateSourceFormHidden}
+                        setIsHidden={setIsUpdateSourceFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        toggle={toggleUpdateSourceForm}
+                        refreshData={updateSourcesState}
+                        source={source}
+                    />,
                     <DeleteApproval
+                        key='delete-approval'
                         isHidden={isDeleteApproavelHidden}
                         setIsHidden={setIsDeleteApprovalHidden}
                         setIsPopUpActive={setIsPopUpActive}

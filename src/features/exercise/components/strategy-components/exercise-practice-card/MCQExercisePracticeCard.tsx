@@ -1,4 +1,8 @@
+import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { Button } from 'src/shared/components/Button';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function MCQExercisePracticeCard({
     exercise,
@@ -11,6 +15,7 @@ export function MCQExercisePracticeCard({
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
 }) {
+    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
     const optionLattersMap: Map<number, string> = new Map([
         [0, 'A'],
         [1, 'B'],
@@ -22,14 +27,16 @@ export function MCQExercisePracticeCard({
     return (
         <div className="flex flex-col justify-center items-center gap-1">
             {exercise.choices.map((choice, index) => (
-                <button
-                    onClick={(event) => recordAnswer(exercise._id, index)}
-                    className="text-sm px-2 py-1 cursor-pointer 
-                    border-1 border-white rounded-full
-                    hover:border-black"
+                <Button
+                    variant={ButtonVariant.GHOST}
+                    size={ButtonSize.LG}
+                    onClick={(event) => {
+                        recordAnswer(exercise._id, index);
+                        setSelectedIndex(index);
+                    }}
                 >
-                    {optionLattersMap.get(index)} - {choice}
-                </button>
+                    <p className={`${index === selectedIndex && 'font-bold'}`}>{optionLattersMap.get(index)} - {choice}</p>
+                </Button>
             ))}
         </div>
     );

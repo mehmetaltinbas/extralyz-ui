@@ -8,13 +8,11 @@ import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 export function ExercisePracticeCard({
     exercise,
     index,
-    setActiveExerciseIndex,
     recordAnswer,
     className,
 }: {
     exercise: Exercise;
     index: number;
-    setActiveExerciseIndex: React.Dispatch<React.SetStateAction<number>>;
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
 }) {

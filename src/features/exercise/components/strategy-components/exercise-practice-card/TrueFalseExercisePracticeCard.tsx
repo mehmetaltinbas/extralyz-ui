@@ -1,4 +1,8 @@
+import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { Button } from 'src/shared/components/Button';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
+import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function TrueFalseExercisePracticeCard({
     exercise,
@@ -11,25 +15,31 @@ export function TrueFalseExercisePracticeCard({
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
 }) {
+    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
+
     return (
         <div>
-            <button
-                onClick={(event) => recordAnswer(exercise._id, 1)}
-                className="text-sm px-2 py-1 cursor-pointer 
-                border-1 border-white rounded-full
-                hover:border-black"
+            <Button
+                variant={ButtonVariant.GHOST}
+                size={ButtonSize.LG}
+                onClick={(event) => {
+                    recordAnswer(exercise._id, 1);
+                    setSelectedIndex(1);
+                }}
             >
-                True
-            </button>
+                <p className={`${selectedIndex === 1 && 'font-bold'}`}>True</p>
+            </Button>
 
-            <button
-                onClick={(event) => recordAnswer(exercise._id, 0)}
-                className="text-sm px-2 py-1 cursor-pointer 
-                border-1 border-white rounded-full
-                hover:border-black"
+            <Button
+                variant={ButtonVariant.GHOST}
+                size={ButtonSize.LG}
+                onClick={(event) => {
+                    recordAnswer(exercise._id, 0);
+                    setSelectedIndex(0);
+                }}
             >
-                False
-            </button>
+                <p className={`${selectedIndex === 0 && 'font-bold'}`}>False</p>
+            </Button>
         </div>
     );
 }

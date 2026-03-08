@@ -261,7 +261,7 @@ export function ExerciseSetPage({
                         toggle={toggleExerciseDeleteApproval}
                         onDelete={deleteExercise}
                     />,
-                    <LoadingPage isHidden={isLoadingPageHidden} />,
+                    <LoadingPage key='loading-page' isHidden={isLoadingPageHidden} />,
                 ]}
             />
         </div>

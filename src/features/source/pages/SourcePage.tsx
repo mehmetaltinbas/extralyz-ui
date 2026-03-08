@@ -97,9 +97,9 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                 flex flex-col justify-start items-center gap-4"
             >
                 <div className='w-auto h-auto flex flex-col justify-start items-center'>
-                    <p>{source.title}</p>
+                    <p className='text-lg font-bold'>{source.title}</p>
 
-                    <p>{source.type}</p>
+                    <p className='italic'>{source.type}</p>
 
                     <ActionMenuTriggerer
                         onClick={(event) => toggleSourceActionMenu(event)}
@@ -140,7 +140,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                         toggle={toggleDeleteApproval}
                         onDelete={deleteSource}
                     />,
-                    <LoadingPage isHidden={isLoadingPageHidden} />,
+                    <LoadingPage key='loading-page' isHidden={isLoadingPageHidden} />,
                 ]}
             />
         </div>

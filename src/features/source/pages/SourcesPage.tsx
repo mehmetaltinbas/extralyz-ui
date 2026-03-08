@@ -123,7 +123,7 @@ export function SourcesPage({ className }: { className?: string }) {
                     </Button>
                 </div>
                 {sources.map((source) => (
-                    <div className="flex justify-center items-center">
+                    <div key={`source-card-${source._id}`} className="flex justify-center items-center">
                         <SourceCard
                             source={source}
                             toggleSourceActionMenu={toggleSourceActionMenu}
@@ -174,7 +174,7 @@ export function SourcesPage({ className }: { className?: string }) {
                         toggle={toggleDeleteApproval}
                         onDelete={deleteSource}
                     />,
-                    <LoadingPage isHidden={isLoadingPageHidden} />,
+                    <LoadingPage key='loading-page' isHidden={isLoadingPageHidden} />,
                 ]}
             />
         </div>

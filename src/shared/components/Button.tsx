@@ -25,7 +25,7 @@ export function Button({
     return (
         <button
             onClick={onClick}
-            className={`w-auto cursor-pointer border-[2px] transition-colors ${baseStyles} ${variantStyles}`}
+            className={`w-auto cursor-pointer border-[2px] transition-colors whitespace-nowrap ${baseStyles} ${variantStyles}`}
         >
             {children}
         </button>

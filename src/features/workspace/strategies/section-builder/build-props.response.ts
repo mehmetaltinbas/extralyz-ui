@@ -1,0 +1,1 @@
+export type BuildPropsResponse = { title: string; } & Record<string, unknown>;

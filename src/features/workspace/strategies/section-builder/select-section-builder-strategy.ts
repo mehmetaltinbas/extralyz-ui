@@ -1,4 +1,4 @@
-import { Section } from 'src/features/workspace/enums/sections.enum';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import type { SectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/section-builder-strategy.interface';
 import { ExerciseSetPracticePropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/exercise-set-practice-props-builder.strategy';
 import { ExerciseSetPropsBuilderStrategy } from 'src/features/workspace/strategies/section-builder/strategies/exercise-set-props-builder.strategy';

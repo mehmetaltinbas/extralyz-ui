@@ -4,7 +4,7 @@ import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/Exercis
 import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPage';
 import { SourcePage } from 'src/features/source/pages/SourcePage';
 import { SourcesPage } from 'src/features/source/pages/SourcesPage';
-import { Section } from 'src/features/workspace/enums/sections.enum';
+import { Section } from 'src/features/workspace/enums/section.enum';
 
 export const SECTION_COMPONENTS: Record<Section, React.ComponentType<any>> = {
     [Section.SOURCES]: SourcesPage,

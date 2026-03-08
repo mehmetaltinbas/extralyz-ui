@@ -2,7 +2,7 @@ import React from 'react';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import { SidebarNavSection } from 'src/features/workspace/components/sidebar/SidebarNavSection';
-import { Section } from 'src/features/workspace/enums/sections.enum';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 

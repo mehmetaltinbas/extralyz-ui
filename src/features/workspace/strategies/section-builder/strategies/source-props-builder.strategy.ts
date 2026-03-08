@@ -1,16 +1,20 @@
 import { sourceService } from 'src/features/source/services/source.service';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import type { SectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/section-builder-strategy.interface';
 
 export const SourcePropsBuilderStrategy: SectionBuilderStrategy = {
     buildProps: async (tab) => {
-        const response = await sourceService.readById(tab.id!);
+        const { source } = await sourceService.readById(tab.id!);
 
-        if (response.source) {
+        if (!source) {
             return {
-                source: response.source,
+                title: Section.SOURCE
             };
         }
-
-        return {};
+        
+        return {
+            title: source.title,
+            source: source,
+        };
     },
 };

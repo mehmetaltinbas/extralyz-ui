@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Section } from 'src/features/workspace/enums/sections.enum';
+import type { Section } from 'src/features/workspace/enums/section.enum';
+import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { findTabIndex } from 'src/features/workspace/features/tabs/store/utils/find-tab-index.util';
 
 export interface TabsStateElement {
@@ -100,6 +101,15 @@ const tabsSlice = createSlice({
         },
         setActiveTabIndex: (state, action: PayloadAction<number>) => {
             state.activeTabIndex = action.payload;
+        },
+        setTitle: (state, action: PayloadAction<{ key: string; title: string; }>) => {
+            const { key, title } = action.payload;
+
+            const element = state.elements.find((element) => computeTabKey(element) === key);
+
+            if (element) {
+                element.title = title;
+            }
         },
         /**
          * Mark a tab's cached props as stale so WorkspaceBody rebuilds them.

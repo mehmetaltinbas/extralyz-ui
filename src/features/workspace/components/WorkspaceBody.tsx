@@ -3,6 +3,7 @@ import { SECTION_COMPONENTS } from 'src/features/workspace/constants/section-com
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
+import type { BuildPropsResponse } from 'src/features/workspace/strategies/section-builder/build-props.response';
 import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -42,16 +43,14 @@ export function WorkspaceBody() {
         };
     }, []);
 
-    async function buildProps(tab: TabsStateElement) {
+    async function buildProps(tab: TabsStateElement): Promise<BuildPropsResponse | undefined> {
         const strategy = selectSectionBuilderStrategy(tab.section);
 
-        let builtProps = {};
-
         if (strategy) {
-            builtProps = await strategy.buildProps(tab);
+            return await strategy.buildProps(tab);
         }
 
-        return builtProps;
+        return undefined;
     }
 
     React.useEffect(() => {
@@ -78,6 +77,10 @@ export function WorkspaceBody() {
                 buildProps(tab).then((builtProps) => {
                     setBuiltPropsRecord((p) => ({ ...p, [key]: builtProps }));
                     buildingKeys.current.delete(key);
+
+                    if (builtProps?.title) {
+                        dispatch(tabsActions.setTitle({ key, title: builtProps.title }));
+                    }
                 });
 
                 return prev;
@@ -114,6 +117,10 @@ export function WorkspaceBody() {
                     ...prev,
                     [key]: builtProps,
                 }));
+
+                if (builtProps?.title) {
+                    dispatch(tabsActions.setTitle({ key: computeTabKey(tab), title: builtProps.title }));
+                }
             });
         }
 

@@ -1,6 +1,6 @@
 import type React from 'react';
 import type { Source } from 'src/features/source/types/source.interface';
-import { Section } from 'src/features/workspace/enums/sections.enum';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';

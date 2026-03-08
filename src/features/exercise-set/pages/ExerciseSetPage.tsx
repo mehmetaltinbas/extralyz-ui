@@ -10,7 +10,7 @@ import TransferExerciseForm from 'src/features/exercise/components/TransferExerc
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
 import { exerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { Section } from 'src/features/workspace/enums/sections.enum';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 
 import { BodyModal } from 'src/shared/components/BodyModal';
@@ -18,7 +18,7 @@ import { Button } from 'src/shared/components/Button';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetPage({
     exerciseSet,

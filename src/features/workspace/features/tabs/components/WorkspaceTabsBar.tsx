@@ -5,6 +5,7 @@ import {
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeDropIndex } from 'src/features/workspace/features/tabs/store/utils/compute-drop-index.util';
+import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function WorkspaceTabsBar() {
@@ -68,7 +69,7 @@ export function WorkspaceTabsBar() {
             border-1 border-white overflow-x-auto`}
         >
             {tabs.elements.map((tab, index) => (
-                <Tab key={index} tab={tab} index={index} onDragOver={onDragOver} onDrop={onDrop} />
+                <Tab key={computeTabKey(tab)} tab={tab} index={index} onDragOver={onDragOver} onDrop={onDrop} />
             ))}
         </div>
     );

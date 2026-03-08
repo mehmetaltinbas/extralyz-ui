@@ -28,7 +28,18 @@ async function authorize() {
     }
 }
 
+async function signOut(): Promise<ResponseBase> {
+    try {
+        const response: ResponseBase = (await axiosInstance.post(`${baseUrl}/sign-out`)).data;
+
+        return response;
+    } catch (error) {
+        return handleServiceError(error);
+    }
+}
+
 export const authService = {
     signIn,
     authorize,
+    signOut,
 };

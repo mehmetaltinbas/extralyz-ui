@@ -1,4 +1,6 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authService } from 'src/features/auth/services/auth.service';
 import { features } from 'src/features/home/constants/features.constant';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
@@ -6,6 +8,16 @@ import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function Home() {
     const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
+
+    React.useEffect(() => {
+        async function checkAuth() {
+            const response = await authService.authorize();
+            setIsAuthenticated(response.isSuccess);
+        }
+
+        checkAuth();
+    }, []);
 
     function handleGetStarted() {
         navigate('/sign-up');
@@ -15,6 +27,15 @@ export function Home() {
         navigate('/sign-in');
     }
 
+    function handleContinueToWorkspace() {
+        navigate('/workspace');
+    }
+
+    async function handleSignOut() {
+        await authService.signOut();
+        setIsAuthenticated(false);
+    }
+
     return (
         <div className="w-full min-h-screen flex flex-col">
             {/* Navigation Header */}
@@ -22,15 +43,27 @@ export function Home() {
                 <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
                     <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
 
-                    <div className="flex items-center gap-3">
-                        <Button variant={ButtonVariant.SECONDARY} onClick={handleSignIn}>
-                            Sign In
-                        </Button>
+                    {isAuthenticated === null ? null : isAuthenticated ? (
+                        <div className="flex items-center gap-3">
+                            <Button variant={ButtonVariant.PRIMARY} onClick={handleContinueToWorkspace}>
+                                Continue to Workspace
+                            </Button>
 
-                        <Button variant={ButtonVariant.PRIMARY} onClick={handleGetStarted}>
-                            Get Started
-                        </Button>
-                    </div>
+                            <Button variant={ButtonVariant.DANGER} onClick={handleSignOut}>
+                                Sign Out
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-3">
+                            <Button variant={ButtonVariant.SECONDARY} onClick={handleSignIn}>
+                                Sign In
+                            </Button>
+
+                            <Button variant={ButtonVariant.PRIMARY} onClick={handleGetStarted}>
+                                Get Started
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </header>
 
@@ -50,19 +83,30 @@ export function Home() {
                     </p>
 
                     <div className="flex items-center gap-4 mt-4">
-                        <Button
-                            variant={ButtonVariant.PRIMARY}
-                            onClick={handleGetStarted}
-                        >
-                            Get Started
-                        </Button>
+                        {isAuthenticated ? (
+                            <Button
+                                variant={ButtonVariant.PRIMARY}
+                                onClick={handleContinueToWorkspace}
+                            >
+                                Continue to Workspace
+                            </Button>
+                        ) : (
+                            <>
+                                <Button
+                                    variant={ButtonVariant.PRIMARY}
+                                    onClick={handleGetStarted}
+                                >
+                                    Get Started
+                                </Button>
 
-                        <Button
-                            variant={ButtonVariant.SECONDARY}
-                            onClick={handleSignIn}
-                        >
-                            Sign In
-                        </Button>
+                                <Button
+                                    variant={ButtonVariant.SECONDARY}
+                                    onClick={handleSignIn}
+                                >
+                                    Sign In
+                                </Button>
+                            </>
+                        )}
                     </div>
                 </div>
             </section>
@@ -80,11 +124,14 @@ export function Home() {
                                 key={feature.title}
                                 className="rounded-[10px] p-8 bg-gray-50 hover:bg-gray-100 transition-colors"
                             >
-                                <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-600">
-                                    {feature.icon}
+                                <div className='flex justify-start items-center gap-2'>
+                                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-600">
+                                        {feature.icon}
+                                    </div>
+
+                                    <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
                                 </div>
 
-                                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
 
                                 <p className="text-gray-600 leading-relaxed">
                                     {feature.description}

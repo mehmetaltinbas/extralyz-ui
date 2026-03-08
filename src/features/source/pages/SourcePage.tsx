@@ -30,13 +30,17 @@ export function SourcePage({ source, className }: { source: Source; className?: 
 
     function toggleSourceActionMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
+        
         const sourceActionMenu = actionMenuRef.current;
         const container = containerRef.current;
+
         if (sourceActionMenu && container) {
             const containerRect = container.getBoundingClientRect();
             const positionOfButton = event.currentTarget.getBoundingClientRect();
+
             sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
-            sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
+            sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`
+            ;
             setIsActionMenuHidden((prev) => !prev);
         }
     }

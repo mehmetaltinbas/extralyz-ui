@@ -22,18 +22,17 @@ export function DocumentRenderer({ docNode }: { docNode: DocumentNode }) {
 
     React.useEffect(() => {
         // initial pagination construction
-        // console.log(documentNode);
         let pageIndex = 0;
         let totalHeights = 0;
         const localPaginatedDocument: PaginatedDocument = { pages: [] };
         const pageHeight = pageDimensions.height - 2 * pagePadding.y;
-        // console.log(pageHeight);
+
         blockNodesRef.current.forEach((element, index) => {
             const elementHeight = element ? element.getBoundingClientRect().height : 0;
+
             totalHeights += elementHeight;
-            // console.log(JSON.stringify({ id: element?.id, height: elementHeight }));
+
             if (totalHeights > pageHeight) {
-                // console.log(`overflow in page ${pageIndex} when element ${element?.id} added, totalHeighs: ${totalHeights}`);
                 pageIndex++;
                 totalHeights = elementHeight;
             }
@@ -47,13 +46,13 @@ export function DocumentRenderer({ docNode }: { docNode: DocumentNode }) {
                 );
             }
         });
+        
         setPaginatedDocument(localPaginatedDocument);
-        console.log(localPaginatedDocument);
         setIsPreRender(false);
     }, []);
 
     function constructTailwindClassNames(styles: Styles): string {
-        let className: string = '';
+        let className = '';
         if (styles.bold !== undefined && styles.bold === true) {
             className += `font-bold `;
         }

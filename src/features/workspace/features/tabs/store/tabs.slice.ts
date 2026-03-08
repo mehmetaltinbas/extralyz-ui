@@ -71,8 +71,18 @@ const tabsSlice = createSlice({
             const existingIndex = findTabIndex(state.elements, tab);
 
             if (existingIndex !== -1) {
-                state.activeTabIndex = existingIndex;
+                // 1. If it exists, remove it from its current position first
+                const [existingTab] = state.elements.splice(existingIndex, 1);
+
+                // 2. Adjust target index: if we removed an item from BEFORE the target, 
+                // the target index shifted down by 1.
+                const adjustedTargetIndex = existingIndex < atIndex ? atIndex - 1 : atIndex;
+
+                // 3. Insert at the corrected position
+                state.elements.splice(adjustedTargetIndex, 0, existingTab);
+                state.activeTabIndex = adjustedTargetIndex;
             } else {
+                // New tab logic: just insert it
                 state.elements.splice(atIndex, 0, tab);
                 state.activeTabIndex = atIndex;
             }
@@ -92,6 +102,7 @@ const tabsSlice = createSlice({
             }
 
             const [tab] = state.elements.splice(fromIndex, 1);
+
             state.elements.splice(toIndex, 0, tab);
             state.activeTabIndex = toIndex;
         },

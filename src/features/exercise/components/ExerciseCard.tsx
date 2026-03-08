@@ -31,7 +31,7 @@ export function ExerciseCard({
 
     return (
         <div
-            className={`relative w-[250px] h-[250px] border rounded-[10px] px-4 py-2 overflow-y-auto`}
+            className={`relative w-[250px] h-[250px] border rounded-[10px] px-6 py-6 overflow-y-auto`}
         >
             <div className="absolute top-1 right-1">
                 <ActionMenuTriggerer

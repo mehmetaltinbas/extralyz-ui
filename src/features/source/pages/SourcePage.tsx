@@ -8,7 +8,7 @@ import { type Source } from 'src/features/source/types/source.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { BodyModal } from 'src/shared/components/BodyModal';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { DocumentRenderer } from 'src/shared/components/document-render/DocumentRenderer';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
@@ -131,7 +131,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                         refreshData={invalidateTab}
                         source={source}
                     />,
-                    <DeleteApproval
+                    <CriticOperationApproval
                         key='delete-approval'
                         isHidden={isDeleteApproavelHidden}
                         setIsHidden={setIsDeleteApprovalHidden}

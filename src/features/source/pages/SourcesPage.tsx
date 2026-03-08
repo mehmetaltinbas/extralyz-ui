@@ -9,7 +9,7 @@ import { sourcesActions } from 'src/features/source/store/sources.slice';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -165,7 +165,7 @@ export function SourcesPage({ className }: { className?: string }) {
                             source={sources.find((source) => source._id === actionMenuSourceId)!}
                         />
                     ],
-                    <DeleteApproval
+                    <CriticOperationApproval
                         key='delete-approval'
                         isHidden={isDeleteApproavelHidden}
                         setIsHidden={setIsDeleteApprovalHidden}

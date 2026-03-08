@@ -16,7 +16,7 @@ import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.sli
 
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
@@ -265,7 +265,7 @@ export function ExerciseSetPage({
                         refreshData={invalidateTab}
                         exerciseSet={exerciseSet}
                     />,
-                    <DeleteApproval // for exercise set
+                    <CriticOperationApproval // for exercise set
                         key='exercise-set-delete-approval'
                         isHidden={isExerciseSetDeleteApprovalHidden}
                         setIsHidden={setIsExerciseSetDeleteApprovalHidden}
@@ -274,7 +274,7 @@ export function ExerciseSetPage({
                         toggle={toggleExerciseSetDeleteApproval}
                         onDelete={deleteExerciseSet}
                     />,
-                    <DeleteApproval // for selected exercise
+                    <CriticOperationApproval // for selected exercise
                         key='exercise-delete-approval'
                         isHidden={isExerciseDeleteApprovalHidden}
                         setIsHidden={setIsExerciseDeleteApprovalHidden}

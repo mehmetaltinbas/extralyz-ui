@@ -3,7 +3,7 @@ import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
-export function DeleteApproval({
+export function CriticOperationApproval({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
@@ -49,7 +49,7 @@ export function DeleteApproval({
                     variant={ButtonVariant.DANGER}
                     onClick={handleOnclick}
                 >
-                    Delete
+                    Yes
                 </Button>
             </div>
         </Modal>

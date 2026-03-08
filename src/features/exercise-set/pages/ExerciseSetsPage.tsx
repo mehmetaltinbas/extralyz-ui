@@ -11,7 +11,7 @@ import { selectExtendedSources } from 'src/features/source/store/selectors/selec
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { Button } from 'src/shared/components/Button';
-import { DeleteApproval } from 'src/shared/components/DeleteApproval';
+import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -214,7 +214,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
                             exerciseSet={actionMenuExerciseSet}
                         />
                     ],
-                    <DeleteApproval
+                    <CriticOperationApproval
                         key='exercise-set-delete-approval'
                         isHidden={isDeleteApprovalHidden}
                         setIsHidden={setIsDeleteApprovalHidden}

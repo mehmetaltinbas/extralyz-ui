@@ -6,9 +6,11 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import { ExercisePracticeCard } from 'src/features/exercise/components/ExercisePracticeCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetPracticePage({
     exerciseSet,
@@ -19,6 +21,7 @@ export function ExerciseSetPracticePage({
     exercises?: Exercise[];
     className?: string;
 }) {
+    const dispatch = useAppDispatch();
     const [activeExerciseIndex, setActiveExerciseIndex] = React.useState<number>(0);
     const [evaluateAnswersDto, setEvaluateAnswersDto] = React.useState<EvaluateAnswersDto>({
         exercises: [],
@@ -27,11 +30,13 @@ export function ExerciseSetPracticePage({
 
     React.useEffect(() => {
         const dto = { ...evaluateAnswersDto };
+        
         exercises?.map((exercise) => {
             if (!dto.exercises.some((element) => element.id === exercise._id)) {
                 dto.exercises.push({ id: exercise._id });
             }
         });
+
         setEvaluateAnswersDto(dto);
     }, [exercises]);
 
@@ -65,6 +70,7 @@ export function ExerciseSetPracticePage({
                         <ExerciseSetEvaluationPage
                             exercises={exercises}
                             evaluation={evaluation}
+                            startOver={() => dispatch(tabsActions.invalidateTabPropsById(exerciseSet!._id))}
                         />
                     ) : (
                         <LoadingPage />
@@ -72,23 +78,23 @@ export function ExerciseSetPracticePage({
                 ) : (
                     <div
                         className={`w-full h-[50%]
-                    flex justify-center items-center
-                `}
+                        flex justify-center items-center
+                    `}
                     >
                         <div
                             className={`w-auto h-auto
-                    flex-col justify-center items-center gap-4
-                `}
+                            flex-col justify-center items-center gap-4
+                        `}
                         >
                             {exercises.map((exercise, index) => (
                                 <ExercisePracticeCard
                                     exercise={exercise}
                                     index={index}
-                                    setActiveExerciseIndex={setActiveExerciseIndex}
                                     recordAnswer={recordAnswer}
                                     className={`${!(index === activeExerciseIndex) && 'hidden'}`}
                                 />
                             ))}
+
                             <div className="flex justify-start items-center gap-2">
                                 <Button
                                     variant={ButtonVariant.SECONDARY}
@@ -100,6 +106,7 @@ export function ExerciseSetPracticePage({
                                 >
                                     Back
                                 </Button>
+
                                 {!(activeExerciseIndex + 1 === exercises.length) ? (
                                     <Button
                                         variant={ButtonVariant.SECONDARY}

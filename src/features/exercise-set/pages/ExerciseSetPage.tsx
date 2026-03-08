@@ -69,7 +69,7 @@ export function ExerciseSetPage({
         }
     }
 
-    function refreshData() {
+    function invalidateTab() {
         if (!exerciseSet?._id) {
             return;
         }
@@ -123,7 +123,7 @@ export function ExerciseSetPage({
         if (!response.isSuccess) {
             alert(response.message);
         } else {
-            refreshData();
+            invalidateTab();
         }
 
         return { isSuccess: response.isSuccess };
@@ -174,6 +174,7 @@ export function ExerciseSetPage({
                         variant={ButtonVariant.PRIMARY}
                         onClick={(event) => {
                             event.stopPropagation();
+                            dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
                             dispatch(tabsActions.openTab({
                                 section: Section.EXERCISE_SET_PRACTICE,
                                 id: exerciseSet._id,
@@ -218,7 +219,7 @@ export function ExerciseSetPage({
                         setIsPopUpActive={setIsPopUpActive}
                         toggle={toggleCreateExerciseForm}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
-                        refreshData={refreshData}
+                        refreshData={invalidateTab}
                         exerciseSet={exerciseSet}
                     />,
                     ...[exercises.find(localExercise => localExercise._id === actionMenuExerciseId) && 
@@ -229,7 +230,7 @@ export function ExerciseSetPage({
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             toggle={toggleUpdateExerciseForm}
-                            refreshData={refreshData}
+                            refreshData={invalidateTab}
                             exercise={exercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
                         />
                     ],
@@ -240,7 +241,7 @@ export function ExerciseSetPage({
                         setIsPopUpActive={setIsPopUpActive}
                         exerciseId={actionMenuExerciseId}
                         currentExerciseSetId={exerciseSet._id}
-                        refreshData={refreshData}
+                        refreshData={invalidateTab}
                     />,
                     <DeleteApproval // for exercise set
                         key='exercise-set-delete-approval'

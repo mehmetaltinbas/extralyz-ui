@@ -3,9 +3,9 @@ import { CreateExerciseSetForm } from 'src/features/exercise-set/components/Crea
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
 import { sourceService } from 'src/features/source/services/source.service';
-import { sourcesActions } from 'src/features/source/store/sources.slice';
 import type { DocumentNode } from 'src/features/source/types/document-node.interface';
 import { type Source } from 'src/features/source/types/source.interface';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { DeleteApproval } from 'src/shared/components/DeleteApproval';
@@ -41,8 +41,12 @@ export function SourcePage({ source, className }: { source: Source; className?: 
         }
     }
 
-    async function updateSourcesState() {
-        dispatch(sourcesActions.fetchData());
+    function invalidateTab() {
+        if (!source._id) {
+            return;
+        }
+
+        dispatch(tabsActions.invalidateTabPropsById(source._id));
     }
 
     function toggleCreateExerciseSetForm() {
@@ -64,7 +68,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
         const response = await sourceService.deleteById(source._id);
 
         if (!response.isSuccess) alert(response.message);
-        else await updateSourcesState();
+        else invalidateTab();
 
         return { isSuccess: response.isSuccess };
     }
@@ -120,7 +124,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
                         setIsPopUpActive={setIsPopUpActive}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         toggle={toggleUpdateSourceForm}
-                        refreshData={updateSourcesState}
+                        refreshData={invalidateTab}
                         source={source}
                     />,
                     <DeleteApproval

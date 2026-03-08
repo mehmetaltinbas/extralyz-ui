@@ -94,9 +94,8 @@ export function WorkspaceBody() {
         const invalidatedTabs: { tab: TabsStateElement; key: string }[] = [];
 
         for (const invalidatedId of tabs.propsInvalidatedTabIds) {
-            const tab = tabs.elements.find((el) => el.id === invalidatedId);
-
-            if (tab) {
+            const matchingTabs = tabs.elements.filter((el) => el.id === invalidatedId);
+            for (const tab of matchingTabs) {
                 invalidatedTabs.push({ tab, key: computeTabKey(tab) });
             }
         }

@@ -16,11 +16,31 @@ export interface TabsState {
     propsInvalidatedTabIds: string[];
 }
 
-const initialState: TabsState = {
-    elements: [],
-    activeTabIndex: -1,
-    propsInvalidatedTabIds: [],
-};
+const STORAGE_KEY = 'tabs';
+
+function loadPersistedTabs(): TabsState {
+    const fallback: TabsState = { elements: [], activeTabIndex: -1, propsInvalidatedTabIds: [] };
+
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+
+        if (!raw) return fallback;
+
+        const parsed = JSON.parse(raw);
+        
+        return {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            elements: parsed.elements ?? [],
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            activeTabIndex: parsed.activeTabIndex ?? -1,
+            propsInvalidatedTabIds: [],
+        };
+    } catch {
+        return fallback;
+    }
+}
+
+const initialState: TabsState = loadPersistedTabs();
 
 const tabsSlice = createSlice({
     name: 'tabs',

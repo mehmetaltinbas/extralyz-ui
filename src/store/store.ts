@@ -15,6 +15,21 @@ export const store = configureStore({
     },
 });
 
+let previousTabs = store.getState().tabs;
+
+store.subscribe(() => {
+    const currentTabs = store.getState().tabs;
+
+    if (currentTabs === previousTabs) return;
+    
+    previousTabs = currentTabs;
+
+    localStorage.setItem('tabs', JSON.stringify({
+        elements: currentTabs.elements,
+        activeTabIndex: currentTabs.activeTabIndex,
+    }));
+});
+
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;

@@ -13,9 +13,10 @@ export function Sidebar() {
     const sources = useAppSelector((state) => state.sources);
     const exerciseSets = useAppSelector((state) => state.exerciseSets);
     const user = useAppSelector((state) => state.user);
-    const isResizing = React.useRef(false);
-    const [isActionMenuHidden, setIsActionMenuHidden] = React.useState(true);
 
+    const [isActionMenuHidden, setIsActionMenuHidden] = React.useState<boolean>(true);
+
+    const isResizing = React.useRef(false);
     const containerRef = React.useRef<HTMLDivElement>(null);
     const profileButtonRef = React.useRef<HTMLDivElement>(null);
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
@@ -91,8 +92,8 @@ export function Sidebar() {
             userActionMenu.style.top = `${top}px`;
             userActionMenu.style.left = `${left}px`;
             // Use transform to move it exactly above the button
-            userActionMenu.style.transform = `translateY(-105%)`; 
-            
+            userActionMenu.style.transform = `translateY(-105%)`;
+
             setIsActionMenuHidden(false);
         }
     }
@@ -162,11 +163,37 @@ export function Sidebar() {
                     />
 
                     <div
-                        ref={profileButtonRef}
-                        className="w-8 h-8 rounded-full bg-black text-white cursor-pointer flex justify-center items-center"
+                        className={`flex ${sidebar.isOpen ? 'flex-row items-center gap-2' : 'flex-col items-center gap-1'}`}
                         onClick={toggleActionMenu}
                     >
-                        {user?.userName?.charAt(0).toUpperCase() ?? '?'}
+                        {user && (
+                            sidebar.isOpen ?
+                            <>
+                                <div
+                                    ref={profileButtonRef}
+                                    className="w-8 h-8 rounded-full bg-black text-white cursor-pointer flex justify-center items-center"
+                                >
+                                    {user.userName.charAt(0).toUpperCase() ?? '?'}
+                                </div>
+
+                                <span className="text-xs text-gray-600 cursor-pointer">
+                                    {user.creditBalance}
+                                </span>
+                            </>
+                            :
+                            <>
+                                <span className="text-xs text-gray-600 cursor-pointer">
+                                    {user.creditBalance}
+                                </span>
+
+                                <div
+                                    ref={profileButtonRef}
+                                    className="w-8 h-8 rounded-full bg-black text-white cursor-pointer flex justify-center items-center"
+                                >
+                                    {user.userName.charAt(0).toUpperCase() ?? '?'}
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

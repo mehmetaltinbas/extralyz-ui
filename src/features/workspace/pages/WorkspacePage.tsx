@@ -1,4 +1,5 @@
 import React from 'react';
+import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { userActions } from 'src/features/user/store/user.slice';
 import { Sidebar } from 'src/features/workspace/components/sidebar/Sidebar';
 import { WorkspaceBody } from 'src/features/workspace/components/WorkspaceBody';
@@ -29,15 +30,17 @@ export function WorkspacePage() {
     }, [sidebar.width]);
 
     return (
-        <div
-            className="w-full h-full
-            flex"
-        >
-            <Sidebar />
-            <div className="w-full h-full flex flex-col">
-                <WorkspaceTabsBar />
-                <WorkspaceBody />
+        <UserPopupsProvider>
+            <div
+                className="w-full h-full
+                flex"
+            >
+                <Sidebar />
+                <div className="w-full h-full flex flex-col">
+                    <WorkspaceTabsBar />
+                    <WorkspaceBody />
+                </div>
             </div>
-        </div>
+        </UserPopupsProvider>
     );
 }

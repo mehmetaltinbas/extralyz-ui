@@ -1,4 +1,5 @@
 import React from 'react';
+import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
@@ -40,6 +41,7 @@ export function ExerciseSetPage({
         React.useState<boolean>(true);
     const [isUpdateExerciseFormHidden, setIsUpdateExerciseFormHidden] = React.useState<boolean>(true);
     const [isTransferExerciseFormHidden, setIsTransferExerciseFormHidden] = React.useState<boolean>(true);
+    const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState<boolean>(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] =
         React.useState<boolean>(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] =
@@ -84,6 +86,11 @@ export function ExerciseSetPage({
 
     function toggleAnswerVisibility() {
         setIsAnswersHidden((prev) => !prev);
+    }
+
+    function toggleUpdateExerciseSetForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsUpdateExerciseSetFormHidden((prev) => !prev);
     }
 
     function toggleExerciseSetDeleteApproval() {
@@ -187,16 +194,22 @@ export function ExerciseSetPage({
                     </Button>
 
                     <Button
+                        onClick={toggleUpdateExerciseSetForm}
+                    >
+                        Update
+                    </Button>
+
+                    <Button
                         variant={ButtonVariant.DANGER}
                         onClick={toggleExerciseSetDeleteApproval}
                     >
-                        Delete Exercise Set
+                        Delete
                     </Button>
                 </div>
 
                 <div
                     className="w-full h-full
-                    grid grid-cols-3 gap-4"
+                    grid grid-cols-3 gap-4 pb-12"
                 >
                     {exercises.map((exercise) => (
                         <ExerciseCard
@@ -242,6 +255,15 @@ export function ExerciseSetPage({
                         exerciseId={actionMenuExerciseId}
                         currentExerciseSetId={exerciseSet._id}
                         refreshData={invalidateTab}
+                    />,
+                    <UpdateExerciseSetForm
+                        isHidden={isUpdateExerciseSetFormHidden}
+                        setIsHidden={setIsUpdateExerciseSetFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        toggle={toggleUpdateExerciseSetForm}
+                        refreshData={invalidateTab}
+                        exerciseSet={exerciseSet}
                     />,
                     <DeleteApproval // for exercise set
                         key='exercise-set-delete-approval'

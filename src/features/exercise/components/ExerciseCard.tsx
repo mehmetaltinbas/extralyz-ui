@@ -31,7 +31,7 @@ export function ExerciseCard({
 
     return (
         <div
-            className={`relative w-[250px] h-[250px] border rounded-[10px] px-6 py-6 overflow-y-auto`}
+            className={`relative w-[250px] h-[250px] border rounded-[10px] px-6 py-6`}
         >
             <div className="absolute top-1 right-1">
                 <ActionMenuTriggerer
@@ -40,7 +40,9 @@ export function ExerciseCard({
                 />
             </div>
             
-            {Component && <Component exercise={exercise} isAnswersHidden={isAnswersHidden} />}
+            <div className='w-full h-full overflow-y-auto'>
+                {Component && <Component exercise={exercise} isAnswersHidden={isAnswersHidden} />}
+            </div>
         </div>
     );
 }

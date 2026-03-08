@@ -12,13 +12,9 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 export function Tab({
     tab,
     index,
-    onDragOver,
-    onDrop,
 }: {
     tab: TabsStateElement;
     index: number;
-    onDragOver: (event: React.DragEvent<HTMLDivElement>) => void;
-    onDrop: (event: React.DragEvent<HTMLDivElement>) => void;
 }) {
     const dispatch = useAppDispatch();
     const activeTabIndex = useAppSelector((state) => state.tabs.activeTabIndex);
@@ -45,8 +41,6 @@ export function Tab({
         <div
             draggable="true"
             onDragStart={(event) => onDragStart(event)}
-            onDragOver={(event) => onDragOver(event)}
-            onDrop={(event) => onDrop(event)}
             data-tab-element={JSON.stringify({ arrayIndex: index })}
             onClick={displayTab}
             className={`max-w-[200px] h-full ${index === activeTabIndex ? 'bg-white' : ''} cursor-pointer p-2

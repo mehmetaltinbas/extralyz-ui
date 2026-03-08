@@ -48,7 +48,7 @@ export function WorkspaceTabsBar() {
                 }));
             } else {
                 // If it's a new tab from the sidebar, just append it to the end
-                dispatch(tabsActions.openTab(tab));
+                dispatch(tabsActions.insertTab({ tab, atIndex: tabs.elements.length }));
             }
             return;
         }
@@ -90,7 +90,7 @@ export function WorkspaceTabsBar() {
             border-1 border-white overflow-x-auto`}
         >
             {tabs.elements.map((tab, index) => (
-                <Tab key={computeTabKey(tab)} tab={tab} index={index} onDragOver={onDragOver} onDrop={onDrop} />
+                <Tab key={computeTabKey(tab)} tab={tab} index={index} />
             ))}
         </div>
     );

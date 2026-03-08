@@ -1,6 +1,6 @@
 import React from 'react';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
-import { sourceService } from 'src/features/source/services/source.service';
+import { SourceService } from 'src/features/source/services/source.service';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
@@ -52,7 +52,7 @@ export function CreateSourceForm({
                 }
             });
 
-            const response = await sourceService.create(formData);
+            const response = await SourceService.create(formData);
 
             if (!response.isSuccess) {
                 alert(response.message);

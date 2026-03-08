@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExerciseSetEvaluationPage } from 'src/features/exercise-set/pages/ExerciseSetEvaluationPage';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
@@ -54,7 +54,7 @@ export function ExerciseSetPracticePage({
     }
 
     async function evaluateAnswers() {
-        const response = await exerciseSetService.evaluateAnswers(evaluateAnswersDto);
+        const response = await ExerciseSetService.evaluateAnswers(evaluateAnswersDto);
 
         if (response.isSuccess) {
             setEvaluation(response);

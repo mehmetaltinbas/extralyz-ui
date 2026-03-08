@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { sourceService } from 'src/features/source/services/source.service';
+import { SourceService } from 'src/features/source/services/source.service';
 import type { Source } from 'src/features/source/types/source.interface';
 
 const fetchData = createAsyncThunk('sources/fetch-data', async () => {
-    const response = await sourceService.readAllByUserId();
+    const response = await SourceService.readAllByUserId();
 
     return response.sources;
 });

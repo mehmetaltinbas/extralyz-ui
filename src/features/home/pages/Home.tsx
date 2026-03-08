@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from 'src/features/auth/services/auth.service';
+import { AuthService } from 'src/features/auth/services/auth.service';
 import { features } from 'src/features/home/constants/features.constant';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
@@ -12,7 +12,7 @@ export function Home() {
 
     React.useEffect(() => {
         async function checkAuth() {
-            const response = await authService.authorize();
+            const response = await AuthService.authorize();
             setIsAuthenticated(response.isSuccess);
         }
 
@@ -32,7 +32,7 @@ export function Home() {
     }
 
     async function handleSignOut() {
-        await authService.signOut();
+        await AuthService.signOut();
         setIsAuthenticated(false);
     }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { Button } from 'src/shared/components/Button';
@@ -53,7 +53,7 @@ export function CreateExerciseSetForm({
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
-        const response = await exerciseSetService.create(
+        const response = await ExerciseSetService.create(
             sourceId ??
                 (selectedSourceId === ExerciseSetSourceType.INDEPENDENT
                     ? undefined

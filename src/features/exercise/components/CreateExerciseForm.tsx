@@ -5,7 +5,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-count.constant';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
-import { exerciseService } from 'src/features/exercise/services/exercise.service';
+import { ExerciseService } from 'src/features/exercise/services/exercise.service';
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
@@ -48,7 +48,7 @@ export function CreateExerciseForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await exerciseService.createByExerciseSetId(
+            const response = await ExerciseService.createByExerciseSetId(
                 exerciseSet._id,
                 dto
             );

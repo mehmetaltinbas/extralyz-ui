@@ -4,7 +4,7 @@ import { CreateSourceForm } from 'src/features/source/components/CreateSourceFor
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { SourceCard } from 'src/features/source/components/SourceCard';
 import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
-import { sourceService } from 'src/features/source/services/source.service';
+import { SourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
@@ -83,7 +83,7 @@ export function SourcesPage({ className }: { className?: string }) {
     }
 
     async function deleteSource(): Promise<{ isSuccess: boolean }> {
-        const response = await sourceService.deleteById(actionMenuSourceId);
+        const response = await SourceService.deleteById(actionMenuSourceId);
 
         if (!response.isSuccess) alert(response.message);
         else {

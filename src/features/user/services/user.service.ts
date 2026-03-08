@@ -6,27 +6,26 @@ import { handleServiceError } from 'src/shared/util/handle-service-error.util';
 
 const baseUrl = `/user`;
 
-async function signUp(signUpUserDto: SignUpUserDto): Promise<ResponseBase> {
-    try {
-        const response = (await axiosInstance.post(`${baseUrl}/signup`, signUpUserDto)).data;
+export class UserService {
+    private constructor() {}
 
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
+    static async signUp(signUpUserDto: SignUpUserDto): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/signup`, signUpUserDto)).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async readByToken(): Promise<ReadSingleUserResponse> {
+        try {
+            const response = (await axiosInstance.get(`${baseUrl}/read-by-token`)).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
     }
 }
-
-async function readByToken(): Promise<ReadSingleUserResponse> {
-    try {
-        const response = (await axiosInstance.get(`${baseUrl}/read-by-token`)).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-export const userService = {
-    signUp,
-    readByToken,
-};

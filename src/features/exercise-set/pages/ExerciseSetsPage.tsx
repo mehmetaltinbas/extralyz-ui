@@ -3,7 +3,7 @@ import { CreateExerciseSetForm } from 'src/features/exercise-set/components/Crea
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { selectIndependentExerciseSets } from 'src/features/exercise-set/store/selectors/select-independent-exercise-sets';
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
@@ -73,7 +73,7 @@ export function ExerciseSetsPage({ className }: { className?: string }) {
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
         if (actionMenuExerciseSet) {
-            const response = await exerciseSetService.deleteById(actionMenuExerciseSet?._id);
+            const response = await ExerciseSetService.deleteById(actionMenuExerciseSet?._id);
 
             if (!response.isSuccess) alert(response.message);
             else {

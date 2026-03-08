@@ -1,6 +1,6 @@
 import React from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
@@ -8,7 +8,7 @@ import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseAct
 import { ExerciseCard } from 'src/features/exercise/components/ExerciseCard';
 import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
-import { exerciseService } from 'src/features/exercise/services/exercise.service';
+import { ExerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -107,7 +107,7 @@ export function ExerciseSetPage({
     }
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
-        const response = await exerciseSetService.deleteById(exerciseSet!._id!);
+        const response = await ExerciseSetService.deleteById(exerciseSet!._id!);
 
         if (!response.isSuccess) alert(response.message);
         else {
@@ -118,7 +118,7 @@ export function ExerciseSetPage({
     }
 
     async function deleteExercise(): Promise<{ isSuccess: boolean }> {
-        const response = await exerciseService.deleteById(actionMenuExerciseId);
+        const response = await ExerciseService.deleteById(actionMenuExerciseId);
 
         if (!response.isSuccess) {
             alert(response.message);

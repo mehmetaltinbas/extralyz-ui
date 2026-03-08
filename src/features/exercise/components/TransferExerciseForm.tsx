@@ -1,6 +1,6 @@
 import React from "react";
 import { refreshExerciseSetData } from "src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk";
-import { exerciseService } from "src/features/exercise/services/exercise.service";
+import { ExerciseService } from "src/features/exercise/services/exercise.service";
 import type { TransferExerciseDto } from "src/features/exercise/types/dto/transfer-exercise.dto";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
@@ -36,7 +36,7 @@ export default function TransferExerciseForm({
     }
 
     async function transfer() {
-        const response = await exerciseService.transfer(exerciseId, dto);
+        const response = await ExerciseService.transfer(exerciseId, dto);
 
         if (!response.isSuccess) {
             alert(response.message);   

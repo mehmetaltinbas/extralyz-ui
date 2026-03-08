@@ -2,7 +2,7 @@ import React from 'react';
 import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-count.constant';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
-import { exerciseService } from 'src/features/exercise/services/exercise.service';
+import { ExerciseService } from 'src/features/exercise/services/exercise.service';
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
@@ -46,7 +46,7 @@ export function UpdateExerciseForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await exerciseService.updateById(
+            const response = await ExerciseService.updateById(
                 exercise._id,
                 dto
             );

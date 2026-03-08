@@ -2,7 +2,7 @@ import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
-import { sourceService } from 'src/features/source/services/source.service';
+import { SourceService } from 'src/features/source/services/source.service';
 import type { DocumentNode } from 'src/features/source/types/document-node.interface';
 import { type Source } from 'src/features/source/types/source.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -69,7 +69,7 @@ export function SourcePage({ source, className }: { source: Source; className?: 
     }
 
     async function deleteSource(): Promise<{ isSuccess: boolean }> {
-        const response = await sourceService.deleteById(source._id);
+        const response = await SourceService.deleteById(source._id);
 
         if (!response.isSuccess) alert(response.message);
         else invalidateTab();

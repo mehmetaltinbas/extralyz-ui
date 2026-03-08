@@ -1,5 +1,5 @@
 import type React from 'react';
-import { authService } from 'src/features/auth/services/auth.service';
+import { AuthService } from 'src/features/auth/services/auth.service';
 import { ActionMenu } from 'src/shared/components/ActionMenu';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
@@ -17,7 +17,7 @@ export function UserActionMenu({
     async function handleSignOut(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
 
-        await authService.signOut();
+        await AuthService.signOut();
         
         window.location.href = '/';
     }

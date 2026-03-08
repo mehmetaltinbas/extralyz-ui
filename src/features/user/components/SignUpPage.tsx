@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { userService } from 'src/features/user/services/user.service';
+import { UserService } from 'src/features/user/services/user.service';
 import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -14,7 +14,7 @@ export function SignUpPage() {
     const [isSignedUp, setIsSignedUp] = React.useState<boolean>(false);
 
     async function signUp() {
-        const response = await userService.signUp(signUpDto);
+        const response = await UserService.signUp(signUpDto);
 
         if (!response.isSuccess) {
             alert(response.message);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { sourceService } from 'src/features/source/services/source.service';
+import { SourceService } from 'src/features/source/services/source.service';
 import type { UpdateSourceDto } from 'src/features/source/types/dto/update-source.dto';
 import type { Source } from 'src/features/source/types/source.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -41,7 +41,7 @@ export function UpdateSourceForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await sourceService.updateById(
+            const response = await SourceService.updateById(
                 source._id,
                 dto
             );

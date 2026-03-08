@@ -1,5 +1,5 @@
 import React from 'react';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -41,7 +41,7 @@ export function UpdateExerciseSetForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await exerciseSetService.updateById(
+            const response = await ExerciseSetService.updateById(
                 exerciseSet._id,
                 dto
             );

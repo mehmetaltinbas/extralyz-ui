@@ -153,7 +153,7 @@ export function Sidebar() {
                     )}
                 </div>
 
-                <div ref={containerRef} className="relative w-full flex flex-col items-center">
+                <div ref={containerRef} className={`relative w-full flex flex-col ${sidebar.isOpen ? 'items-start' : 'items-center'}`}>
                     {/* The Menu starts hidden and will be positioned by the function */}
                     <UserActionMenu
                         isHidden={isActionMenuHidden}

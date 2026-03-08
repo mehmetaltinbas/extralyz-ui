@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { authService } from 'src/features/auth/services/auth.service';
+import { AuthService } from 'src/features/auth/services/auth.service';
 import type { SignInDto } from 'src/features/auth/types/auth-dtos';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -13,7 +13,7 @@ export function SignInPage() {
     const [isSignedIn, setIsSignedIn] = React.useState<boolean>(false);
 
     async function handleSignInSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        const response = await authService.signIn(signInDto);
+        const response = await AuthService.signIn(signInDto);
 
         if (!response.isSuccess)
             alert(response.message);

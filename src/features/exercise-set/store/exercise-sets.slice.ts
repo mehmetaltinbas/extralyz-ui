@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { exerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 
 const fetchData = createAsyncThunk('exercise-sets/fetch-data', async () => {
-    const response = await exerciseSetService.readAllByUserId();
+    const response = await ExerciseSetService.readAllByUserId();
 
     return response.exerciseSets;
 });

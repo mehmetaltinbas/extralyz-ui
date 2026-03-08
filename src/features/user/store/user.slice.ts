@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { userService } from 'src/features/user/services/user.service';
+import { UserService } from 'src/features/user/services/user.service';
 import type { User } from 'src/features/user/types/user.interface';
 
 const fetchData = createAsyncThunk('user/fetch-data', async () => {
-    const response = await userService.readByToken();
+    const response = await UserService.readByToken();
 
     return response.user;
 });

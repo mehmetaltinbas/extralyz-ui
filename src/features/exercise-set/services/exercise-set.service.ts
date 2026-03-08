@@ -12,100 +12,94 @@ import { handleServiceError } from 'src/shared/util/handle-service-error.util';
 
 const baseUrl = `/exercise-set`;
 
-async function create(
-    sourceId: string | undefined,
-    createExerciseSetDto: CreateExerciseSetDto
-): Promise<ResponseBase> {
-    try {
-        const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
-        const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
+export class ExerciseSetService {
+    private constructor() {}
 
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
+    static async create(
+        sourceId: string | undefined,
+        createExerciseSetDto: CreateExerciseSetDto
+    ): Promise<ResponseBase> {
+        try {
+            const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
+            const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async readById(id: string): Promise<ReadSingleExerciseSetResponse> {
+        try {
+            const response = (await axiosInstance.get(`${baseUrl}/read-by-id/${id}`)).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async readAllByUserId(
+        sourceType?: ExerciseSetSourceType
+    ): Promise<ReadAllExerciseSetsResponse> {
+        try {
+            const response = (
+                await axiosInstance.get(
+                    `${baseUrl}/read-all-by-user-id${sourceType ? `?sourceType=${sourceType}` : ''}`
+                )
+            ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async readAllByUserIdGroupedBySources(): Promise<ReadAllExerciseSetsGroupedBySources> {
+        try {
+            const response = (
+                await axiosInstance.get(`${baseUrl}/read-all-by-user-id-grouped-by-sources`)
+            ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async updateById(id: string, dto: UpdateExerciseSetDto): Promise<ResponseBase> {
+        try {
+            const response = (
+                await axiosInstance.patch(`${baseUrl}/update-by-id/${id}`, dto)
+            ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async deleteById(id: string): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+    
+    static async evaluateAnswers(
+        evaluateAnswersDto: EvaluateAnswersDto
+    ): Promise<EvaluateAnswersResponse> {
+        try {
+            const response = (
+                await axiosInstance.post(`${baseUrl}/evaluate-answers`, evaluateAnswersDto)
+            ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
     }
 }
-
-async function readById(id: string): Promise<ReadSingleExerciseSetResponse> {
-    try {
-        const response = (await axiosInstance.get(`${baseUrl}/read-by-id/${id}`)).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-async function readAllByUserId(
-    sourceType?: ExerciseSetSourceType
-): Promise<ReadAllExerciseSetsResponse> {
-    try {
-        const response = (
-            await axiosInstance.get(
-                `${baseUrl}/read-all-by-user-id${sourceType ? `?sourceType=${sourceType}` : ''}`
-            )
-        ).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-async function readAllByUserIdGroupedBySources(): Promise<ReadAllExerciseSetsGroupedBySources> {
-    try {
-        const response = (
-            await axiosInstance.get(`${baseUrl}/read-all-by-user-id-grouped-by-sources`)
-        ).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-async function updateById(id: string, dto: UpdateExerciseSetDto): Promise<ResponseBase> {
-    try {
-        const response = (
-            await axiosInstance.patch(`${baseUrl}/update-by-id/${id}`, dto)
-        ).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-async function deleteById(id: string): Promise<ResponseBase> {
-    try {
-        const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-async function evaluateAnswers(
-    evaluateAnswersDto: EvaluateAnswersDto
-): Promise<EvaluateAnswersResponse> {
-    try {
-        const response = (
-            await axiosInstance.post(`${baseUrl}/evaluate-answers`, evaluateAnswersDto)
-        ).data;
-
-        return response;
-    } catch (error) {
-        return handleServiceError(error);
-    }
-}
-
-export const exerciseSetService = {
-    create,
-    readById,
-    readAllByUserId,
-    readAllByUserIdGroupedBySources,
-    updateById,
-    deleteById,
-    evaluateAnswers,
-};

@@ -8,6 +8,7 @@ import { selectExtendedSources } from 'src/features/source/store/selectors/selec
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import type { RootState } from 'src/store/store';
 
 export function ExerciseSetsPage({ className }: { className?: string }) {
     const dispatch = useAppDispatch();
@@ -42,7 +43,7 @@ function ExerciseSetsPageContent({
     independentExerciseSets,
     extendedSources,
 }: {
-    layoutDimensions: ReturnType<typeof useAppSelector<(state: any) => any>>;
+    layoutDimensions: RootState['layoutDimensions'];
     independentExerciseSets: ReturnType<typeof selectIndependentExerciseSets>;
     extendedSources: ReturnType<typeof selectExtendedSources>;
 }) {

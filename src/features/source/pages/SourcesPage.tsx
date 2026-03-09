@@ -5,6 +5,7 @@ import { useSourcesPopups } from 'src/features/source/hooks/use-sources-popups.h
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import type { Source } from 'src/features/source/types/source.interface';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function SourcesPage({ className }: { className?: string }) {
@@ -29,7 +30,7 @@ export function SourcesPage({ className }: { className?: string }) {
     );
 }
 
-function SourcesPageContent({ sources }: { sources: ReturnType<typeof useAppSelector<(state: any) => any>> }) {
+function SourcesPageContent({ sources }: { sources: Source[] }) {
     const { openCreateSourceForm } = useSourcesPopups();
 
     return (

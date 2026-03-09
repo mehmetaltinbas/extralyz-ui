@@ -1,38 +1,36 @@
 import type { ExerciseAnswerEvaluationResult } from 'src/features/exercise-set/types/response/evaluate-answers.response';
+import { ScoreBadge } from 'src/features/exercise/components/ScoreBadge';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function MCQExerciseEvaluationCard({
     exercise,
     evaluation,
-    index,
 }: {
     exercise: Exercise;
     evaluation: ExerciseAnswerEvaluationResult;
-    index: number;
 }) {
     const userAnswer = exercise.choices.find(
         (choice, index) => index === Number(evaluation.userAnswer)
     );
+    
     const correctAnswer = exercise.choices.find(
         (choice, index) => index === exercise.correctChoiceIndex
     );
 
     return (
-        <div className="flex flex-col justify-center items-center gap-1">
+        <div className="flex flex-col justify-center items-center gap-1 text-center">
             <p>
                 <span className="font-serif">Your answer</span>:{' '}
-                <span className="text-gray-500">{userAnswer}</span>
+                <span className="text-gray-700">{getAlphabetLetter(Number(evaluation.userAnswer))} - {userAnswer}</span>
             </p>
+
             <p>
                 <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-green-900">{correctAnswer}</span>
+                <span className="text-green-900">{getAlphabetLetter(exercise.correctChoiceIndex)} - {correctAnswer}</span>
             </p>
-            <p>
-                <span className="font-serif">Feedback</span>: {evaluation.feedback}
-            </p>
-            <p>
-                <span className="font-serif">Sub-score</span>: {evaluation.score}
-            </p>
+
+            <ScoreBadge score={evaluation.score} label="Sub-score" />
         </div>
     );
 }

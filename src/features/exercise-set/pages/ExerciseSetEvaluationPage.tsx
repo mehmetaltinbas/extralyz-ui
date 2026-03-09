@@ -1,5 +1,6 @@
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import { ExerciseEvaluationCard } from 'src/features/exercise/components/ExerciseEvaluationCard';
+import { ScoreBadge } from 'src/features/exercise/components/ScoreBadge';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 
@@ -15,9 +16,11 @@ export function ExerciseSetEvaluationPage({
     return (
         <div className="flex flex-col justify-start items-center gap-4 p-4">
             <div className='flex justify-center items-center gap-4'>
-                <p className="font-serif font-bold text-lg">
-                    Overall Score: {evaluation?.overallScore}
-                </p>
+                <ScoreBadge
+                    score={evaluation?.overallScore ?? 0}
+                    label="Overall Score"
+                    className="text-lg font-bold"
+                />
 
                 <Button onClick={startOver}>
                     Start Over

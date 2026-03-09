@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
+import { useExerciseSetsPopups } from 'src/features/exercise-set/hooks/use-exercise-sets-popups.hook';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
@@ -8,19 +8,11 @@ import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetCard({
     exerciseSet,
-    toggleExerciseSetActionMenu,
 }: {
     exerciseSet: ExerciseSet;
-    toggleExerciseSetActionMenu: (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        exerciseSet: ExerciseSet
-    ) => void;
 }) {
     const dispatch = useAppDispatch();
-
-    function triggerActionMenu(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        toggleExerciseSetActionMenu(event, exerciseSet);
-    }
+    const { openExerciseSetActionMenu } = useExerciseSetsPopups();
 
     return (
         <div
@@ -48,7 +40,7 @@ export function ExerciseSetCard({
 
                 <div className="w-[50px] h-auto">
                     <ActionMenuTriggerer
-                        onClick={(event) => toggleExerciseSetActionMenu(event, exerciseSet)}
+                        onClick={(event) => openExerciseSetActionMenu(event, exerciseSet)}
                         size={ButtonSize.SM}
                     />
                 </div>

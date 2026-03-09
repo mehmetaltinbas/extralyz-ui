@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { Source } from 'src/features/source/types/source.interface';
+import { useSourcesPopups } from 'src/features/source/hooks/use-sources-popups.hook';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
@@ -8,15 +8,11 @@ import { useAppDispatch } from 'src/store/hooks';
 
 export function SourceCard({
     source,
-    toggleSourceActionMenu,
 }: {
     source: Source;
-    toggleSourceActionMenu: (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        sourceId: string
-    ) => void;
 }) {
     const dispatch = useAppDispatch();
+    const { openSourceActionMenu } = useSourcesPopups();
 
     return (
         <div
@@ -49,8 +45,8 @@ export function SourceCard({
                 className={`absolute w-auto h-auto right-1.5 top-1.5
                 flex justify-center items-center`}
             >
-                <ActionMenuTriggerer 
-                    onClick={(event) => toggleSourceActionMenu(event, source._id)}
+                <ActionMenuTriggerer
+                    onClick={(event) => openSourceActionMenu(event, source._id)}
                     size={ButtonSize.SM}
                 />
             </div>

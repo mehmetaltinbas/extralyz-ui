@@ -10,13 +10,13 @@ export function UpdatePasswordForm({
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
-    toggle,
+    onClose,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
 }) {
     const initialDto: UpdateUserPasswordDto = {
         oldPassword: '',
@@ -59,7 +59,7 @@ export function UpdatePasswordForm({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="w-full flex flex-col justify-center items-center gap-2">
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>Old Password: </p>

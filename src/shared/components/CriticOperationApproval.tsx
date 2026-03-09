@@ -8,14 +8,14 @@ export function CriticOperationApproval({
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
-    toggle,
+    onClose,
     onDelete,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
     onDelete: () => Promise<{ isSuccess: boolean }>;
 }) {
     async function handleOnclick() {
@@ -33,13 +33,13 @@ export function CriticOperationApproval({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <p>Are you sure?</p>
             <div className="flex justify-center items-center gap-2">
                 <Button
                     variant={ButtonVariant.SECONDARY}
                     onClick={(event) => {
-                        toggle();
+                        onClose();
                     }}
                 >
                     Cancel

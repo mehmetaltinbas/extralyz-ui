@@ -16,7 +16,7 @@ export function CreateExerciseForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
-    toggle,
+    onClose,
     setIsLoadingPageHidden,
     refreshData,
     exerciseSet,
@@ -24,7 +24,7 @@ export function CreateExerciseForm({
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     refreshData: () => void;
     exerciseSet: ExerciseSet;
@@ -126,7 +126,7 @@ export function CreateExerciseForm({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
                 <p>type: </p>
                 <select
@@ -208,7 +208,7 @@ export function CreateExerciseForm({
                             className="py-[2px] px-2 border rounded-[10px]"
                         >
                             {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
-                                <option value={index}>{getAlphabetLetter(index)}</option>
+                                <option key={`mcq-choice-${index}`} value={index}>{getAlphabetLetter(index)}</option>
                             ))}
                         </select>
                     </div>

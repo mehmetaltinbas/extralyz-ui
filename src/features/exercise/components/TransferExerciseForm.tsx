@@ -13,6 +13,7 @@ export default function TransferExerciseForm({
     setIsPopUpActive,
     exerciseId,
     currentExerciseSetId,
+    onClose,
     refreshData,
 }: {
     isHidden: boolean;
@@ -20,6 +21,7 @@ export default function TransferExerciseForm({
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     exerciseId: string;
     currentExerciseSetId: string;
+    onClose: () => void;
     refreshData: () => void;
 }) {
     const dispatch = useAppDispatch();
@@ -27,13 +29,8 @@ export default function TransferExerciseForm({
     const exerciseSets = useAppSelector(state => state.exerciseSets);
     
     const [dto, setDto] = React.useState<TransferExerciseDto>({
-        exerciseSetId: exerciseSets[0]._id
+        exerciseSetId: exerciseSets[0] ? exerciseSets[0]._id : ''
     });
-
-    function toggleModal() {
-        setIsHidden(prev => !prev);
-        setIsPopUpActive(prev => !prev);
-    }
 
     async function transfer() {
         const response = await ExerciseService.transfer(exerciseId, dto);
@@ -44,14 +41,14 @@ export default function TransferExerciseForm({
             dispatch(refreshExerciseSetData());
             dispatch(tabsActions.invalidateTabPropsById(dto.exerciseSetId));
 
-            toggleModal();
+            onClose();
 
             refreshData();
         }
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggleModal}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
                 <p>transfer to: </p>
                 <select

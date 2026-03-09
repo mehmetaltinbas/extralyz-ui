@@ -1,4 +1,4 @@
-import type React from 'react';
+import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
 import { MCQExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/MCQExerciseCard';
 import { OpenEndedExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/OpenEndedExerciseCard';
 import { TrueFalseExerciseCard } from 'src/features/exercise/components/strategy-components/exercise-card/TrueFalseExerciseCard';
@@ -10,15 +10,12 @@ import { ButtonSize } from 'src/shared/enums/button-size.enum';
 export function ExerciseCard({
     exercise,
     isAnswersHidden,
-    toggleExerciseActionMenu,
 }: {
     exercise: Exercise;
     isAnswersHidden: boolean;
-    toggleExerciseActionMenu: (
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        exerciseId: string
-    ) => void;
 }) {
+    const { openExerciseActionMenu } = useExerciseSetPopups();
+
     const componentsMap: Map<
         ExerciseType,
         React.ComponentType<{ exercise: Exercise; isAnswersHidden: boolean }>
@@ -35,11 +32,11 @@ export function ExerciseCard({
         >
             <div className="absolute top-1 right-1">
                 <ActionMenuTriggerer
-                    onClick={(event) => toggleExerciseActionMenu(event, exercise._id)}
+                    onClick={(event) => openExerciseActionMenu(event, exercise._id)}
                     size={ButtonSize.SM}
                 />
             </div>
-            
+
             <div className='w-full h-full overflow-y-auto'>
                 {Component && <Component exercise={exercise} isAnswersHidden={isAnswersHidden} />}
             </div>

@@ -14,14 +14,14 @@ export function CreateExerciseSetForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
-    toggle,
+    onClose,
     sourceId,
     setIsLoadingPageHidden,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
     sourceId: string | undefined;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
@@ -93,7 +93,7 @@ export function CreateExerciseSetForm({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
                 <p>title: </p>
                 <input

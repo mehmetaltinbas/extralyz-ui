@@ -13,14 +13,14 @@ export function UpdateUserProfileInfoForm({
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
-    toggle,
+    onClose,
     user,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
     user: User;
 }) {
     const dispatch = useAppDispatch();
@@ -58,7 +58,7 @@ export function UpdateUserProfileInfoForm({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex flex-col gap-2">
                 <div className="flex justify-center items-center gap-2">
                     <p>userName: </p>

@@ -13,7 +13,7 @@ export function UpdateExerciseSetForm({
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
-    toggle,
+    onClose,
     refreshData,
     exerciseSet,
 }: {
@@ -21,7 +21,7 @@ export function UpdateExerciseSetForm({
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
     refreshData: () => void;
     exerciseSet: ExerciseSet;
 }) {
@@ -65,7 +65,7 @@ export function UpdateExerciseSetForm({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
                 <div className="flex justify-start items-center gap-2">
                     <p>title: </p>

@@ -47,7 +47,7 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
                             setIsHidden={setIsUpdateUserFormHidden}
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
-                            toggle={closePopups}
+                            onClose={closePopups}
                             user={user}
                         />,
                     ],
@@ -58,7 +58,7 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
                             setIsHidden={setIsUpdatePasswordFormHidden}
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
-                            toggle={closePopups}
+                            onClose={closePopups}
                         />,
                     ],
                     <LoadingPage

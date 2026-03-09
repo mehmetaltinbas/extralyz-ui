@@ -32,7 +32,7 @@ export function ExerciseEvaluationCard({
     return (
         <div
             className="w-full h-auto px-10 py-2 border-t border-b
-            flex flex-col justify-center items-center gap-2"
+            flex flex-col justify-center items-center gap-0"
         >
             <p className="p-2">
                 <span className="font-serif font-semibold">Exercise {index + 1}</span> -{' '}

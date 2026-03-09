@@ -4,7 +4,7 @@ import type { UpdateUserDto } from 'src/features/user/types/dto/update-user.dto'
 import type { ReadSingleUserResponse } from 'src/features/user/types/response/read-single-user.response';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
-import { handleServiceError } from 'src/shared/util/handle-service-error.util';
+import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
 const baseUrl = `/user`;
 

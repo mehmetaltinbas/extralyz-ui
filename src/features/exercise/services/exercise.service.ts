@@ -4,7 +4,7 @@ import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-e
 import type { ReadAllExercisesResponse } from 'src/features/exercise/types/response/read-all-exercises.response';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
-import { handleServiceError } from 'src/shared/util/handle-service-error.util';
+import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
 const baseUrl = `/exercise`;
 

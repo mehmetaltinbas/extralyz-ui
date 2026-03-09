@@ -10,7 +10,7 @@ import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-e
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { getAlphabetLetter } from 'src/shared/util/get-alphabet-letter.util';
+import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function CreateExerciseForm({
     isHidden,
@@ -157,7 +157,7 @@ export function CreateExerciseForm({
 
             <div className="flex justify-start items-center gap-2">
                 <p>prompt: </p>
-                <input
+                <textarea
                     value={dto.prompt}
                     onChange={(e) =>
                         setDto({
@@ -165,7 +165,7 @@ export function CreateExerciseForm({
                             prompt: e.currentTarget.value,
                         })
                     }
-                    className="w-64 py-[2px] px-2 border rounded-[10px]"
+                    className="w-96 py-[2px] px-2 border rounded-[10px]"
                 />
             </div>
 
@@ -177,7 +177,7 @@ export function CreateExerciseForm({
                             className="flex justify-start items-center gap-2"
                         >
                             <p>{getAlphabetLetter(index)}</p>
-                            <input
+                            <textarea
                                 value={dto.choices![index]}
                                 onChange={(e) =>
                                     setDto({
@@ -189,7 +189,7 @@ export function CreateExerciseForm({
                                         ],
                                     })
                                 }
-                                className="w-64 py-[2px] px-2 border rounded-[10px]"
+                                className="w-96 py-[2px] px-2 border rounded-[10px]"
                             />
                         </div>
                     ))}
@@ -240,7 +240,7 @@ export function CreateExerciseForm({
             {dto.type === ExerciseType.OPEN_ENDED && (
                 <div className="flex justify-start items-center gap-2">
                     <p>solution: </p>
-                    <input
+                    <textarea
                         value={dto.solution}
                         onChange={(e) =>
                             setDto({
@@ -248,7 +248,7 @@ export function CreateExerciseForm({
                                 solution: e.currentTarget.value,
                             })
                         }
-                        className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        className="w-96 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
             )}

@@ -8,7 +8,7 @@ import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { getAlphabetLetter } from 'src/shared/util/get-alphabet-letter.util';
+import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function UpdateExerciseForm({
     isHidden,

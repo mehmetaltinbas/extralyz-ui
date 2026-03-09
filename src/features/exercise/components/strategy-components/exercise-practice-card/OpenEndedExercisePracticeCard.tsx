@@ -25,7 +25,8 @@ export function OpenEndedExercisePracticeCard({
                 onChange={(event) => onChange(event)}
                 value={answer}
                 placeholder="answer..."
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded-[10px] focus:outline-none"
+                rows={4}
             />
         </>
     );

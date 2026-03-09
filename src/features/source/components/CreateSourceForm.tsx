@@ -11,14 +11,14 @@ export function CreateSourceForm({
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
-    toggle,
+    onClose,
     updateSources,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
-    toggle: () => void;
+    onClose: () => void;
     updateSources: () => void;
 }) {
     const [uploadedFile, setUploadedFile] = React.useState<File>();
@@ -75,7 +75,7 @@ export function CreateSourceForm({
     }
 
     return (
-        <Modal isHidden={isHidden} onClose={toggle}>
+        <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-center items-center gap-2">
                 <p>file: </p>
                 <input

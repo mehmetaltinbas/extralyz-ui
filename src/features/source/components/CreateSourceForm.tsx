@@ -1,10 +1,13 @@
 import React from 'react';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
 import { SourceService } from 'src/features/source/services/source.service';
+import { createSourceFormStrategyMap, selectCreateSourceFormStrategy } from 'src/features/source/strategies/create-source-form/select-create-source-form-strategy';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+
+const defaultType = SourceType.DOCUMENT;
 
 export function CreateSourceForm({
     isHidden,
@@ -21,93 +24,80 @@ export function CreateSourceForm({
     onClose: () => void;
     updateSources: () => void;
 }) {
+    const defaultStrategy = selectCreateSourceFormStrategy(defaultType)!;
+    const [dto, setDto] = React.useState<CreateSourceDto>(defaultStrategy.buildInitialDto());
     const [uploadedFile, setUploadedFile] = React.useState<File>();
-    const initialDto: CreateSourceDto = {
-        title: '',
-        type: SourceType.DOCUMENT
-    };
-    const [dto, setDto] = React.useState<CreateSourceDto>(initialDto);
-    const [fileInputKey, setFileInputKey] = React.useState(0); // will force file input to re-mount
+    const [fileInputKey, setFileInputKey] = React.useState(0);
+    const isSubmittingRef = React.useRef(false);
+
+    const strategy = selectCreateSourceFormStrategy(dto.type as SourceType);
 
     React.useEffect(() => {
-        setUploadedFile(undefined);
-        setDto(initialDto);
-        setFileInputKey((prev) => prev + 1);
+        if (isHidden && !isSubmittingRef.current) {
+            setUploadedFile(undefined);
+            setDto(defaultStrategy.buildInitialDto());
+            setFileInputKey((prev) => prev + 1);
+        }
     }, [isHidden]);
 
+    function handleTypeChange(newType: SourceType) {
+        const newStrategy = selectCreateSourceFormStrategy(newType);
+        if (!newStrategy) return;
+        setUploadedFile(undefined);
+        setFileInputKey((prev) => prev + 1);
+        setDto(newStrategy.buildInitialDto());
+    }
+
     async function createSource() {
+        if (!strategy) return;
+
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
-        const formData = new FormData();
+        const formData = strategy.buildFormData(dto, uploadedFile);
+        const response = await SourceService.create(formData);
 
-        if (uploadedFile) {
-            formData.append('file', uploadedFile);
-
-            Object.keys(dto).forEach((key) => {
-                const value = dto[key as keyof typeof dto];
-
-                if (value !== undefined && value !== null) {
-                    formData.append(key, value);
-                }
-            });
-
-            const response = await SourceService.create(formData);
-
-            if (!response.isSuccess) {
-                alert(response.message);
-                setIsLoadingPageHidden(true);
-                setIsHidden(false);
-                return;
-            }
+        if (!response.isSuccess) {
+            alert(response.message);
+            setIsLoadingPageHidden(true);
+            isSubmittingRef.current = false;
+            setIsHidden(false);
+            return;
         }
 
+        isSubmittingRef.current = false;
         updateSources();
         setIsLoadingPageHidden(true);
         setIsPopUpActive(false);
     }
 
-    function handleFileOnChange(event: React.ChangeEvent<HTMLInputElement>) {
-        const file = event.target.files?.[0];
-        if (file) {
-            setUploadedFile(file);
-        }
-    }
-
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-center items-center gap-2">
-                <p>file: </p>
-                <input
-                    key={fileInputKey}
-                    onChange={(event) => handleFileOnChange(event)}
-                    type="file"
-                    className="w-[200px] border rounded-full p-1 cursor-pointer
-                    text-xs
-                    hover:bg-gray-100"
-                />
+                <p>type: </p>
+                <select
+                    value={dto.type}
+                    onChange={(e) => handleTypeChange(e.target.value as SourceType)}
+                    className="py-[2px] px-2 border rounded-[10px]"
+                >
+                    {Array.from(createSourceFormStrategyMap, ([type, s]) => (
+                        <option key={type} value={type}>
+                            {s.label}
+                        </option>
+                    ))}
+                </select>
             </div>
 
-            <div className="flex justify-center items-center gap-2">
-                <p>title: </p>
-                <input
-                    data-key="title"
-                    onChange={(event) =>
-                        setDto({
-                            ...dto,
-                            title: event.target.value,
-                        })
-                    }
-                    type="text"
-                    value={dto.title}
-                    placeholder="title..."
-                    className="px-2 py-[2px] border rounded-full"
-                />
-            </div>
+            {strategy?.renderFields(dto, setDto, {
+                file: uploadedFile,
+                setFile: setUploadedFile,
+                fileInputKey,
+            })}
 
             <Button
                 variant={ButtonVariant.PRIMARY}
-                onClick={async (event) => {
+                onClick={async () => {
                     await createSource();
                 }}
             >

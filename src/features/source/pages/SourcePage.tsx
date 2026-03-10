@@ -1,10 +1,10 @@
 import React from 'react';
 import { SourcePopupsProvider } from 'src/features/source/components/SourcePopupsProvider';
+import { SourceTextRenderer } from 'src/features/source/components/SourceTextRenderer';
 import { useSourcePopups } from 'src/features/source/hooks/use-source-popups.hook';
-import type { DocumentNode } from 'src/features/source/types/document-node.interface';
+import type { SourceTextNode } from 'src/features/source/types/source-text-node/source-text-node.interface';
 import { type Source } from 'src/features/source/types/source.interface';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
-import { DocumentRenderer } from 'src/shared/components/document-render/DocumentRenderer';
 
 export function SourcePage({ source, className }: { source: Source; className?: string }) {
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -41,7 +41,7 @@ function SourcePageContent({ source }: { source: Source }) {
                 />
             </div>
 
-            <DocumentRenderer docNode={JSON.parse(source.rawText) as DocumentNode} />
+            <SourceTextRenderer sourceTextNode={JSON.parse(source.rawText) as SourceTextNode} />
         </div>
     );
 }

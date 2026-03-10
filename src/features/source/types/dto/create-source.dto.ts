@@ -1,4 +1,6 @@
 export interface CreateSourceDto {
     type: string;
-    title: string;
+    title?: string;
+    rawText?: string;
+    url?: string;
 }

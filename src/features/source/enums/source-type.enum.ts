@@ -1,5 +1,6 @@
 export enum SourceType {
-    TEXT = 'text',
+    RAW_TEXT = 'rawText',
     DOCUMENT = 'document',
     YOUTUBE_VIDEO = 'youtubeVideo',
+    AUDIO = 'audio',
 }

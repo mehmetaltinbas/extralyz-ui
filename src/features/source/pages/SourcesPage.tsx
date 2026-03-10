@@ -3,9 +3,9 @@ import { SourceCard } from 'src/features/source/components/SourceCard';
 import { SourcesPopupsProvider } from 'src/features/source/components/SourcesPopupsProvider';
 import { useSourcesPopups } from 'src/features/source/hooks/use-sources-popups.hook';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
+import type { Source } from 'src/features/source/types/source.interface';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import type { Source } from 'src/features/source/types/source.interface';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function SourcesPage({ className }: { className?: string }) {

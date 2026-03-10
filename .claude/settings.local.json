@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(grep:*)",
-      "Bash(git status:*)"
+      "Bash(git status:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

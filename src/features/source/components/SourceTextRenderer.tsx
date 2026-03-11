@@ -3,8 +3,6 @@ import type { SourceTextNode } from 'src/features/source/types/source-text-node/
 import type { Styles } from 'src/features/source/types/source-text-node/styles.interface';
 
 export function SourceTextRenderer({ sourceTextNode }: { sourceTextNode: SourceTextNode }) {
-    const padding = { x: 32, y: 24 };
-
     function constructTailwindClassNames(styles: Styles): string {
         let className = '';
 
@@ -29,7 +27,7 @@ export function SourceTextRenderer({ sourceTextNode }: { sourceTextNode: SourceT
     return (
         <div className="flex flex-col justify-start items-center">
             <div
-                className={`w-[900px] h-auto flex flex-col justify-start items-start overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.3)] px-[${padding.x}px] py-[${padding.y}px]`}
+                className={`w-[900px] h-auto flex flex-col justify-start items-start overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.3)] px-8 py-6`}
             >
                 {sourceTextNode.content.map((blockNode, blockNodeIndex) => (
                     <p

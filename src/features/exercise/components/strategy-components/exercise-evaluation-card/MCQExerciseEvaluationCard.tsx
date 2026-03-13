@@ -10,11 +10,11 @@ export function MCQExerciseEvaluationCard({
     exercise: Exercise;
     evaluation: ExerciseAnswerEvaluationResult;
 }) {
-    const userAnswer = exercise.choices.find(
+    const userAnswer = exercise.choices!.find(
         (choice, index) => index === Number(evaluation.userAnswer)
     );
     
-    const correctAnswer = exercise.choices.find(
+    const correctAnswer = exercise.choices!.find(
         (choice, index) => index === exercise.correctChoiceIndex
     );
 
@@ -27,7 +27,7 @@ export function MCQExerciseEvaluationCard({
 
             <p>
                 <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-green-900">{getAlphabetLetter(exercise.correctChoiceIndex)} - {correctAnswer}</span>
+                <span className="text-green-900">{getAlphabetLetter(exercise.correctChoiceIndex!)} - {correctAnswer}</span>
             </p>
 
             <ScoreBadge score={evaluation.score} label="Sub-score" />

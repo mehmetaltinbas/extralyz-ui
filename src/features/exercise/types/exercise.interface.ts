@@ -3,11 +3,12 @@ import type { ExerciseType } from "src/features/exercise/enum/exercise-type.enum
 
 export interface Exercise {
     _id: string;
-    sourceId: string;
+    exerciseSetId: string;
     prompt: string;
     type: ExerciseType;
     difficulty: ExerciseDifficulty;
-    choices: string[];
-    correctChoiceIndex: number;
-    solution: string;
+    order: number; // index based integer
+    choices?: string[];
+    correctChoiceIndex?: number;
+    solution?: string;
 }

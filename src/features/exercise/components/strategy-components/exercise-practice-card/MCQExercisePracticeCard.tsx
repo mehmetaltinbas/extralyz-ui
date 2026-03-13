@@ -26,7 +26,7 @@ export function MCQExercisePracticeCard({
 
     return (
         <div className="flex flex-col justify-center items-center gap-1">
-            {exercise.choices.map((choice, index) => (
+            {exercise.choices!.map((choice, index) => (
                 <Button
                     variant={ButtonVariant.GHOST}
                     size={ButtonSize.LG}

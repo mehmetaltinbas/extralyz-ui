@@ -155,7 +155,7 @@ export function UpdateExerciseForm({
 
             <div className="flex justify-start items-center gap-2">
                 <p>prompt: </p>
-                <input
+                <textarea
                     value={dto.prompt}
                     onChange={(e) =>
                         setDto({
@@ -163,19 +163,19 @@ export function UpdateExerciseForm({
                             prompt: e.currentTarget.value,
                         })
                     }
-                    className="w-64 py-[2px] px-2 border rounded-[10px]"
+                    className="w-96 py-[2px] px-2 border rounded-[10px]"
                 />
             </div>
 
             {dto.type === ExerciseType.MCQ && dto.choices && dto.choices.length === MCQ_CHOICES_COUNT && (
-                <React.Fragment>
+                <>
                     {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
                         <div 
                             key={`choice-${index}`}
                             className="flex justify-start items-center gap-2"
                         >
                             <p>{getAlphabetLetter(index)}</p>
-                            <input
+                            <textarea
                                 value={dto.choices![index]}
                                 onChange={(e) =>
                                     setDto({
@@ -187,7 +187,7 @@ export function UpdateExerciseForm({
                                         ],
                                     })
                                 }
-                                className="w-64 py-[2px] px-2 border rounded-[10px]"
+                                className="w-96 py-[2px] px-2 border rounded-[10px]"
                             />
                         </div>
                     ))}
@@ -210,11 +210,11 @@ export function UpdateExerciseForm({
                             ))}
                         </select>
                     </div>
-                </React.Fragment>
+                </>
             )}
 
             {dto.type === ExerciseType.TRUE_FALSE && (
-                <React.Fragment>
+                <>
                     <div className="flex justify-start items-center gap-2">
                         <p>correct choice: </p>
                         <select
@@ -232,13 +232,13 @@ export function UpdateExerciseForm({
                             <option value={1}>True</option>
                         </select>
                     </div>
-                </React.Fragment>
+                </>
             )}
 
             {dto.type === ExerciseType.OPEN_ENDED && (
                 <div className="flex justify-start items-center gap-2">
                     <p>solution: </p>
-                    <input
+                    <textarea
                         value={dto.solution}
                         onChange={(e) =>
                             setDto({
@@ -246,7 +246,7 @@ export function UpdateExerciseForm({
                                 solution: e.currentTarget.value,
                             })
                         }
-                        className="w-64 py-[2px] px-2 border rounded-[10px]"
+                        className="w-96 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
             )}

@@ -170,7 +170,7 @@ export function CreateExerciseForm({
             </div>
 
             {dto.type === ExerciseType.MCQ && (
-                <React.Fragment>
+                <>
                     {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
                         <div 
                             key={`choice-${index}`}
@@ -212,7 +212,7 @@ export function CreateExerciseForm({
                             ))}
                         </select>
                     </div>
-                </React.Fragment>
+                </>
             )}
 
             {dto.type === ExerciseType.TRUE_FALSE && (

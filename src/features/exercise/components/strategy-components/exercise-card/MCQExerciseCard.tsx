@@ -22,11 +22,11 @@ export function MCQExerciseCard({
             <div className="flex flex-col justify-start items-start">
                 {!isAnswersHidden && (
                     <p className="text-green-900">
-                        <span className='font-bold'>Answer:</span> {optionLattersMap.get(exercise.correctChoiceIndex)}
+                        <span className='font-bold'>Answer:</span> {optionLattersMap.get(exercise.correctChoiceIndex!)}
                     </p>
                 )}
 
-                {exercise.choices.map((choice, index) => (
+                {exercise.choices!.map((choice, index) => (
                     <p className="text-sm">
                         {optionLattersMap.get(index)} - {choice}
                     </p>

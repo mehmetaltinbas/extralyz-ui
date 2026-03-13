@@ -32,17 +32,23 @@ export function CreateSourceForm({
 
     const strategy = selectCreateSourceFormStrategy(dto.type as SourceType);
 
+    function resetForm() {
+        setUploadedFile(undefined);
+        setDto(defaultStrategy.buildInitialDto());
+        setFileInputKey((prev) => prev + 1);
+    }
+
     React.useEffect(() => {
         if (isHidden && !isSubmittingRef.current) {
-            setUploadedFile(undefined);
-            setDto(defaultStrategy.buildInitialDto());
-            setFileInputKey((prev) => prev + 1);
+            resetForm();
         }
     }, [isHidden]);
 
     function handleTypeChange(newType: SourceType) {
         const newStrategy = selectCreateSourceFormStrategy(newType);
+
         if (!newStrategy) return;
+
         setUploadedFile(undefined);
         setFileInputKey((prev) => prev + 1);
         setDto(newStrategy.buildInitialDto());
@@ -60,15 +66,22 @@ export function CreateSourceForm({
 
         if (!response.isSuccess) {
             alert(response.message);
+
             setIsLoadingPageHidden(true);
+
             isSubmittingRef.current = false;
+
             setIsHidden(false);
             return;
         }
 
+        resetForm();
+
         isSubmittingRef.current = false;
         updateSources();
+
         setIsLoadingPageHidden(true);
+
         setIsPopUpActive(false);
     }
 

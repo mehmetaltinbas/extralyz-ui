@@ -1,0 +1,18 @@
+import { ExerciseType } from "src/features/exercise/enum/exercise-type.enum";
+import type { ExerciseTypeStrategy } from "src/features/exercise/strategies/type/exercise-type-strategy.interface";
+import { McqExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/mcq-exercise-type.strategy";
+import { OpenEndedExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/open-ended-exercise-type.strategy";
+import { TrueFalseExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/true-false-exercise-type.strategy";
+
+const map: Map<ExerciseType, ExerciseTypeStrategy> = new Map([
+    [McqExerciseTypeStrategy.type, McqExerciseTypeStrategy],
+    [TrueFalseExerciseTypeStrategy.type, TrueFalseExerciseTypeStrategy],
+    [OpenEndedExerciseTypeStrategy.type, OpenEndedExerciseTypeStrategy
+    ]
+]);
+
+export function resolveExerciseTypeStrategy(
+    type: ExerciseType
+): ExerciseTypeStrategy | undefined {
+    return map.get(type);
+}

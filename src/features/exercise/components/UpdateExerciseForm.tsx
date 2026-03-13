@@ -2,7 +2,7 @@ import React from 'react';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/resolve-exercise-type-strategy';
+import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';

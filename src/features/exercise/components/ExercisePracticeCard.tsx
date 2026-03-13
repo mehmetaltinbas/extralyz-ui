@@ -1,8 +1,4 @@
-import type React from 'react';
-import { MCQExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/MCQExercisePracticeCard';
-import { OpenEndedExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/OpenEndedExercisePracticeCard';
-import { TrueFalseExercisePracticeCard } from 'src/features/exercise/components/strategy-components/exercise-practice-card/TrueFalseExercisePracticeCard';
-import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
+import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExercisePracticeCard({
@@ -16,19 +12,7 @@ export function ExercisePracticeCard({
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
 }) {
-    const componentsMap: Map<
-        ExerciseType,
-        React.ComponentType<{
-            exercise: Exercise;
-            index: number;
-            recordAnswer: (exerciseId: string, answer: string | number) => void;
-        }>
-    > = new Map([
-        [ExerciseType.MCQ, MCQExercisePracticeCard],
-        [ExerciseType.TRUE_FALSE, TrueFalseExercisePracticeCard],
-        [ExerciseType.OPEN_ENDED, OpenEndedExercisePracticeCard],
-    ]);
-    const Component = componentsMap.get(exercise.type as ExerciseType);
+    const strategy = resolveExerciseTypeStrategy(exercise.type);
 
     return (
         <div
@@ -40,9 +24,8 @@ export function ExercisePracticeCard({
                 <span className="font-serif font-semibold">Exercise {index + 1}</span> -{' '}
                 {exercise.prompt}
             </p>
-            {Component && (
-                <Component exercise={exercise} index={index} recordAnswer={recordAnswer} />
-            )}
+
+            {strategy?.getRestOfExercisePracticeCard(exercise, index, recordAnswer)}
         </div>
     );
 }

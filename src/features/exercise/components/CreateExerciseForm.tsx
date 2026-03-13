@@ -6,12 +6,11 @@ import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-c
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/resolve-exercise-type-strategy';
+import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function CreateExerciseForm({
     isHidden,

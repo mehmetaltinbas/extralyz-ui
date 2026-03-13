@@ -104,6 +104,7 @@ export function ExerciseSetPopupsProvider({
         setIsCreateExerciseFormHidden(true);
         setIsUpdateExerciseFormHidden(true);
         setIsTransferExerciseFormHidden(true);
+        setIsStartPracticeDecisionHidden(true);
         setIsUpdateExerciseSetFormHidden(true);
         setIsExerciseSetDeleteApprovalHidden(true);
         setIsExerciseDeleteApprovalHidden(true);

@@ -1,8 +1,8 @@
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import React from 'react';
-import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
 import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
+import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { ExerciseCardDragOverlay } from 'src/features/exercise/components/ExerciseCardDragOverlay';
@@ -30,23 +30,18 @@ export function ExerciseSetPageContent({
             return;
         }
 
-        // 1. Decode the Base64 string into raw binary characters
         const byteCharacters = atob(response.pdfBase64);
         
-        // 2. Convert the characters into an array of byte numbers
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);
 
-        // 3. Create a Blob formatted as a PDF
         const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-        // 4. Create a temporary local URL for the Blob
         const url = window.URL.createObjectURL(blob);
 
-        // 5. Open the PDF in a new browser tab
         window.open(url, '_blank');
     }
 

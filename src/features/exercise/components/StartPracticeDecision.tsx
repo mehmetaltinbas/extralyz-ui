@@ -26,35 +26,48 @@ export function StartPracticeDecision({
 }) {
     const dispatch = useAppDispatch();
 
+    async function startPractice(mode: ExerciseSetMode) {
+        setIsHidden(true);
+        setIsLoadingPageHidden(false);
+
+        try {
+            refreshData();
+            
+            dispatch(
+                tabsActions.openTab({
+                    section: Section.EXERCISE_SET_PRACTICE,
+                    id: exerciseSet._id,
+                    title: exerciseSet.title,
+                    mode: mode,
+                })
+            );
+
+            setIsPopUpActive(false);
+        } catch (error) {
+            alert('internal error');
+            setIsHidden(false);
+        } finally {
+            setIsLoadingPageHidden(true);
+        }
+    }
+
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
             <p>Do you want to practice exercises in order?</p>
 
             <Button
-                onClick={(event) => {
+                onClick={async (event) => {
                     event.stopPropagation();
-                    refreshData();
-                    dispatch(tabsActions.openTab({
-                        section: Section.EXERCISE_SET_PRACTICE,
-                        id: exerciseSet._id,
-                        title: exerciseSet.title,
-                        mode: ExerciseSetMode.PRACTICE,
-                    }));
+                    await startPractice(ExerciseSetMode.PRACTICE);
                 }}
             >
                 Yes
             </Button>
 
             <Button
-                onClick={(event) => {
+                onClick={async (event) => {
                     event.stopPropagation();
-                    refreshData();
-                    dispatch(tabsActions.openTab({
-                        section: Section.EXERCISE_SET_PRACTICE,
-                        id: exerciseSet._id,
-                        title: exerciseSet.title,
-                        mode: ExerciseSetMode.SHUFFLE_PRACTICE,
-                    }));
+                    await startPractice(ExerciseSetMode.SHUFFLE_PRACTICE);
                 }}
             >
                 No, I want to practice in shuffle mode

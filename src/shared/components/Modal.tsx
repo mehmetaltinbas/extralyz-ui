@@ -15,6 +15,7 @@ export function Modal({
         <div
             className={`${isHidden ? 'hidden' : ''} relative border px-5 py-5.5 bg-white rounded-[10px]
             flex flex-col justify-center items-center gap-2 shadow-lg`}
+            onClick={(e) => e.stopPropagation()}
         >
             <div className='absolute top-1 right-1.5'>
                 <Button

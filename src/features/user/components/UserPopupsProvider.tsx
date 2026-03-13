@@ -39,6 +39,7 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 zIndex={30}
+                onOverlayClick={closePopups}
                 components={[
                     ...[user &&
                         <UpdateUserProfileInfoForm

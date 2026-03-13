@@ -115,6 +115,7 @@ export function ExerciseSetsPopupsProvider({
 
             <BodyModal
                 isPopUpActive={isPopUpActive}
+                onOverlayClick={closePopups}
                 components={[
                     <CreateExerciseSetForm
                         key='create-exercise-set-form'

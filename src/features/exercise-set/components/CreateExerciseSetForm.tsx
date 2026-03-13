@@ -41,8 +41,16 @@ export function CreateExerciseSetForm({
     );
     const sources = useAppSelector((state) => state.sources);
 
-    React.useEffect(() => {
+    const isSubmittingRef = React.useRef(false);
+
+    function resetForm() {
         setCreateExerciseSetDto(initialDto);
+    }
+
+    React.useEffect(() => {
+        if (isHidden && !isSubmittingRef.current) {
+            resetForm();
+        }
     }, [isHidden]);
 
     React.useEffect(() => {
@@ -50,6 +58,7 @@ export function CreateExerciseSetForm({
     }, [sourceId]);
 
     async function createExerciseSet() {
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
@@ -65,11 +74,21 @@ export function CreateExerciseSetForm({
 
         if (!response.isSuccess) {
             alert(response.message);
+
             setIsHidden(false);
-        } else {
-            dispatch(refreshExerciseSetData());
-            setIsPopUpActive(false);
+
+            isSubmittingRef.current = false;
+
+            return;
         }
+
+        isSubmittingRef.current = false;
+
+        resetForm();
+
+        dispatch(refreshExerciseSetData());
+
+        setIsPopUpActive(false);
     }
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {

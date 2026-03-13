@@ -25,11 +25,12 @@ export default function TransferExerciseForm({
     refreshData: () => void;
 }) {
     const dispatch = useAppDispatch();
-
+    
     const exerciseSets = useAppSelector(state => state.exerciseSets);
+    const otherExerciseSets = exerciseSets.filter(exerciseSet => exerciseSet._id !== currentExerciseSetId);
     
     const [dto, setDto] = React.useState<TransferExerciseDto>({
-        exerciseSetId: exerciseSets[0] ? exerciseSets[0]._id : ''
+        exerciseSetId: otherExerciseSets[0] ? otherExerciseSets[0]._id : ''
     });
 
     async function transfer() {
@@ -57,15 +58,13 @@ export default function TransferExerciseForm({
                     onChange={(event) => setDto({ ...dto, exerciseSetId: event.currentTarget.value })}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {exerciseSets.map(exerciseSet => (
-                        exerciseSet._id !== currentExerciseSetId && (
-                            <option
-                                key={`option-to-transfer-${exerciseSet._id}`}
-                                value={exerciseSet._id}
-                            >
-                                {exerciseSet.title}
-                            </option>
-                        )
+                    {otherExerciseSets.map(exerciseSet => (
+                        <option
+                            key={`option-to-transfer-${exerciseSet._id}`}
+                            value={exerciseSet._id}
+                        >
+                            {exerciseSet.title}
+                        </option>
                     ))}
                 </select>
             </div>

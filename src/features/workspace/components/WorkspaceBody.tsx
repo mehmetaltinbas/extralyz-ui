@@ -3,8 +3,8 @@ import { SECTION_COMPONENTS } from 'src/features/workspace/constants/section-com
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
-import type { BuildPropsResponse } from 'src/features/workspace/strategies/section-builder/build-props.response';
-import { selectSectionBuilderStrategy } from 'src/features/workspace/strategies/section-builder/select-section-builder-strategy';
+import { resolveSectionStrategy } from 'src/features/workspace/strategies/section/resolve-section-strategy';
+import type { BuildPropsResponse } from 'src/features/workspace/strategies/section/types/build-props.response';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -44,7 +44,7 @@ export function WorkspaceBody() {
     }, []);
 
     async function buildProps(tab: TabsStateElement): Promise<BuildPropsResponse | undefined> {
-        const strategy = selectSectionBuilderStrategy(tab.section);
+        const strategy = resolveSectionStrategy(tab.section);
 
         if (strategy) {
             return await strategy.buildProps(tab);

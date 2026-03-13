@@ -30,17 +30,15 @@ export class ExerciseService {
         }
     }
     
-    static async readAll(): Promise<ReadAllExercisesResponse> {
+    static async readById(id: string) {
         try {
-            const response = (await axiosInstance.get(`${baseUrl}/read-all`)).data;
+            const response = (await axiosInstance.get(`${baseUrl}/read-by-id/${id}`)).data;
     
             return response;
         } catch (error) {
             return handleServiceError(error);
         }
     }
-    
-    static async readById() {}
     
     static async readAllByExerciseSetId(
         exerciseSetId: string

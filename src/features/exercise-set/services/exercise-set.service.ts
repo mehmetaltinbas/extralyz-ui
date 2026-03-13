@@ -7,6 +7,7 @@ import type { GetPdfResponse } from 'src/features/exercise-set/types/response/ge
 import type { ReadAllExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-all-exercise-sets.response';
 import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-set/types/response/read-all-exerise-sets-grouped-by-sources.response';
 import type { ReadSingleExerciseSetResponse } from 'src/features/exercise-set/types/response/read-single-exercise-set.response';
+import type { ReorderExercisesDto } from 'src/features/exercise/types/dto/reorder-exercises.dto';
 import { axiosInstance } from 'src/shared/api/axiosInstance';
 import type { ResponseBase } from 'src/shared/types/response-base';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
@@ -73,6 +74,16 @@ export class ExerciseSetService {
             const response = (
                 await axiosInstance.patch(`${baseUrl}/update-by-id/${id}`, dto)
             ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async reorder(id: string, dto: ReorderExercisesDto): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/reorder/${id}`, dto)).data;
     
             return response;
         } catch (error) {

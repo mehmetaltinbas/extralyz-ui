@@ -3,7 +3,8 @@
     "allow": [
       "Bash(grep:*)",
       "Bash(git status:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(ls -la /Users/mehmetaltinbas/Desktop/software/projects/portfolio/src/app/\\\\\\(main\\\\\\)/portfolio/)"
     ]
   }
 }

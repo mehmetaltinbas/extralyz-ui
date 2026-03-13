@@ -1,12 +1,15 @@
+import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import React from 'react';
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
+import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { ExerciseCard } from 'src/features/exercise/components/ExerciseCard';
+import { ExerciseCardDragOverlay } from 'src/features/exercise/components/ExerciseCardDragOverlay';
+import { SortableExerciseCard } from 'src/features/exercise/components/SortableExerciseCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { useAppDispatch } from 'src/store/hooks';
 
 export function ExerciseSetPageContent({
     exerciseSet,
@@ -15,9 +18,9 @@ export function ExerciseSetPageContent({
     exerciseSet: ExerciseSet;
     exercises: Exercise[];
 }) {
-    const dispatch = useAppDispatch();
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
     const { openCreateExerciseForm, openStartPracticeDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval } = useExerciseSetPopups();
+    const { localExercises, sensors, activeExercise, handleDragStart, handleDragEnd } = useExerciseReorder(exercises, exerciseSet._id);
 
     async function viewPdf() {
         const response = await ExerciseSetService.getPdf(exerciseSet._id);
@@ -103,18 +106,29 @@ export function ExerciseSetPageContent({
                 </Button>
             </div>
 
-            <div
-                className="w-full h-full
-                grid grid-cols-3 gap-4 pb-12"
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
             >
-                {exercises.map((exercise) => (
-                    <ExerciseCard
-                        key={`exercise-card-${exercise._id}`}
-                        exercise={exercise}
-                        isAnswersHidden={isAnswersHidden}
-                    />
-                ))}
-            </div>
+                <SortableContext items={localExercises.map((e) => e._id)} strategy={rectSortingStrategy}>
+                    <div className="w-full h-full grid grid-cols-3 gap-4 pb-12">
+                        {localExercises.map((exercise) => (
+                            <SortableExerciseCard
+                                key={exercise._id}
+                                exercise={exercise}
+                                isAnswersHidden={isAnswersHidden}
+                            />
+                        ))}
+                    </div>
+                </SortableContext>
+                <DragOverlay>
+                    {activeExercise && (
+                        <ExerciseCardDragOverlay exercise={activeExercise} isAnswersHidden={isAnswersHidden} />
+                    )}
+                </DragOverlay>
+            </DndContext>
         </div>
     );
 }

@@ -6,6 +6,7 @@ import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/r
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
+import { StartPracticeDecision } from 'src/features/exercise/components/StartPracticeDecision';
 import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
@@ -35,6 +36,7 @@ export function ExerciseSetPopupsProvider({
     const [isCreateExerciseFormHidden, setIsCreateExerciseFormHidden] = React.useState(true);
     const [isUpdateExerciseFormHidden, setIsUpdateExerciseFormHidden] = React.useState(true);
     const [isTransferExerciseFormHidden, setIsTransferExerciseFormHidden] = React.useState(true);
+    const [isStartPracticeDecisionHidden, setIsStartPracticeDecisionHidden] = React.useState(true);
     const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] = React.useState(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
@@ -45,6 +47,11 @@ export function ExerciseSetPopupsProvider({
     function openCreateExerciseForm() {
         setIsPopUpActive(true);
         setIsCreateExerciseFormHidden(false);
+    }
+
+    function openStartPracticeDecision() {
+        setIsPopUpActive(true);
+        setIsStartPracticeDecisionHidden(false);
     }
 
     function openUpdateExerciseSetForm() {
@@ -134,7 +141,7 @@ export function ExerciseSetPopupsProvider({
     }
 
     return (
-        <ExerciseSetPopupsContext value={{ openCreateExerciseForm, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openExerciseActionMenu }}>
+        <ExerciseSetPopupsContext value={{ openCreateExerciseForm, openStartPracticeDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openExerciseActionMenu }}>
             {children}
 
             <ExerciseActionMenu
@@ -180,6 +187,16 @@ export function ExerciseSetPopupsProvider({
                         exerciseId={actionMenuExerciseId}
                         currentExerciseSetId={exerciseSet._id}
                         onClose={closePopups}
+                        refreshData={invalidateTab}
+                    />,
+                    <StartPracticeDecision
+                        key='start-practice-decision'
+                        isHidden={isStartPracticeDecisionHidden}
+                        setIsHidden={setIsStartPracticeDecisionHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        onClose={closePopups}
+                        exerciseSet={exerciseSet}
                         refreshData={invalidateTab}
                     />,
                     <UpdateExerciseSetForm

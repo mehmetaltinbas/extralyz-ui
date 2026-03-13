@@ -3,6 +3,7 @@ import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/c
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
+import type { GetPdfResponse } from 'src/features/exercise-set/types/response/get-pdf.response';
 import type { ReadAllExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-all-exercise-sets.response';
 import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-set/types/response/read-all-exerise-sets-grouped-by-sources.response';
 import type { ReadSingleExerciseSetResponse } from 'src/features/exercise-set/types/response/read-single-exercise-set.response';
@@ -102,4 +103,16 @@ export class ExerciseSetService {
             return handleServiceError(error);
         }
     }
+
+    static async getPdf(id: string): Promise<GetPdfResponse> {
+        try {
+            const response = (
+                await axiosInstance.get(`${baseUrl}/get-pdf/${id}`)
+            ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    } 
 }

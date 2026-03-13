@@ -1,4 +1,5 @@
 # ENV Variables
 
 VITE_PORT=
+VITE_UI_URL=
 VITE_API_URL=

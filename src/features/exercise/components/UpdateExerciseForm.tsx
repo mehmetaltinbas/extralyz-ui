@@ -1,14 +1,13 @@
 import React from 'react';
-import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-count.constant';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
+import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/resolve-exercise-type-strategy';
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function UpdateExerciseForm({
     isHidden,
@@ -36,6 +35,8 @@ export function UpdateExerciseForm({
         correctChoiceIndex: exercise.correctChoiceIndex,
     };
     const [dto, setDto] = React.useState<UpdateExerciseDto>(initialDto);
+
+    const activeStrategy = resolveExerciseTypeStrategy(dto.type ?? exercise.type);
 
     React.useEffect(() => {
         setDto(initialDto);
@@ -66,41 +67,15 @@ export function UpdateExerciseForm({
         }
     }
 
-    function changeExerciseType(type: string) {
-        switch (type) {
-            case ExerciseType.MCQ:
-                setDto(prev => ({
-                    ...prev,
-                    type: ExerciseType.MCQ,
-                    solution: undefined,
-                    choices: Array(MCQ_CHOICES_COUNT).fill(''),
-                    correctChoiceIndex: 0,
-                }));
+    function changeExerciseType(type: ExerciseType) {
+        const strategy = resolveExerciseTypeStrategy(type);
 
-                break;
-
-            case ExerciseType.TRUE_FALSE:
-                setDto(prev => ({
-                    ...prev,
-                    type: ExerciseType.TRUE_FALSE,
-                    solution: undefined,
-                    choices: undefined,
-                    correctChoiceIndex: 0,
-                }));
-
-                break;
-
-            case ExerciseType.OPEN_ENDED:
-                setDto(prev => ({
-                    ...prev,
-                    type: ExerciseType.OPEN_ENDED,
-                    solution: '',
-                    choices: undefined,
-                    correctChoiceIndex: undefined,
-                }));
-
-                break;
+        if (!strategy) {
+            alert(`The type ${type} is not a valid exercise type.`);
+            return;
         }
+
+        strategy.changeUpdateExerciseDto(setDto);
     }
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -114,7 +89,7 @@ export function UpdateExerciseForm({
         ) {
             return;
         } else if ((Object.values(ExerciseType) as string[]).includes(selectElement.value) && dto.type !== selectElement.value) {
-            changeExerciseType(selectElement.value);
+            changeExerciseType(selectElement.value as ExerciseType);
         } else {
             setDto({
                 ...dto,
@@ -167,89 +142,7 @@ export function UpdateExerciseForm({
                 />
             </div>
 
-            {dto.type === ExerciseType.MCQ && dto.choices && dto.choices.length === MCQ_CHOICES_COUNT && (
-                <>
-                    {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
-                        <div 
-                            key={`choice-${index}`}
-                            className="flex justify-start items-center gap-2"
-                        >
-                            <p>{getAlphabetLetter(index)}</p>
-                            <textarea
-                                value={dto.choices![index]}
-                                onChange={(e) =>
-                                    setDto({
-                                        ...dto,
-                                        choices: [
-                                            ...dto.choices!.slice(0, index),
-                                            e.currentTarget.value,
-                                            ...dto.choices!.slice(index + 1),
-                                        ],
-                                    })
-                                }
-                                className="w-96 py-[2px] px-2 border rounded-[10px]"
-                            />
-                        </div>
-                    ))}
-
-                    <div className="flex justify-start items-center gap-2">
-                        <p>correct choice: </p>
-                        <select
-                            name="correctChoiceIndex"
-                            value={dto.correctChoiceIndex}
-                            onChange={(e) =>
-                                setDto({
-                                    ...dto,
-                                    correctChoiceIndex: Number(e.currentTarget.value),
-                                })
-                            }
-                            className="py-[2px] px-2 border rounded-[10px]"
-                        >
-                            {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
-                                <option value={index}>{getAlphabetLetter(index)}</option>
-                            ))}
-                        </select>
-                    </div>
-                </>
-            )}
-
-            {dto.type === ExerciseType.TRUE_FALSE && (
-                <>
-                    <div className="flex justify-start items-center gap-2">
-                        <p>correct choice: </p>
-                        <select
-                            name="correctChoiceIndex"
-                            value={dto.correctChoiceIndex}
-                            onChange={(e) =>
-                                setDto({
-                                    ...dto,
-                                    correctChoiceIndex: Number(e.currentTarget.value),
-                                })
-                            }
-                            className="py-[2px] px-2 border rounded-[10px]"
-                        >
-                            <option value={0}>False</option>
-                            <option value={1}>True</option>
-                        </select>
-                    </div>
-                </>
-            )}
-
-            {dto.type === ExerciseType.OPEN_ENDED && (
-                <div className="flex justify-start items-center gap-2">
-                    <p>solution: </p>
-                    <textarea
-                        value={dto.solution}
-                        onChange={(e) =>
-                            setDto({
-                                ...dto,
-                                solution: e.currentTarget.value,
-                            })
-                        }
-                        className="w-96 py-[2px] px-2 border rounded-[10px]"
-                    />
-                </div>
-            )}
+            {activeStrategy?.getRestOfUpdateExerciseForm(dto, setDto)}
 
             <Button
                 variant={ButtonVariant.PRIMARY}

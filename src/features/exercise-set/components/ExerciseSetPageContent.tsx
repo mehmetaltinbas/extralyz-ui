@@ -2,6 +2,7 @@ import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
@@ -11,6 +12,7 @@ import { SortableExerciseCard } from 'src/features/exercise/components/SortableE
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAppSelector } from 'src/store/hooks';
 
 export function ExerciseSetPageContent({
     exerciseSet,
@@ -19,7 +21,10 @@ export function ExerciseSetPageContent({
     exerciseSet: ExerciseSet;
     exercises: Exercise[];
 }) {
+    const sources = useAppSelector(state => state.sources);
+
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
+
     const { openCreateExerciseForm, openStartPracticeDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval } = useExerciseSetPopups();
     const { localExercises, sensors, activeExercise, handleDragStart, handleDragEnd } = useExerciseReorder(exercises, exerciseSet._id);
 
@@ -60,45 +65,61 @@ export function ExerciseSetPageContent({
                 className="w-full h-auto
                 flex flex-col justif-center items-start gap-2"
             >
-                <p><span className='font-bold'>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
+                <div className='w-full h-auto flex flex-col justify-start items-center gap-2'>
+                    <p className='text-lg font-bold'>{exerciseSet.title}</p>
 
-                <p><span className='font-bold'>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
+                    <div className='flex gap-2'>
+                        <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.sourceType === ExerciseSetSourceType.SOURCE ? sources.find((source) => source._id === exerciseSet.sourceId)?.title : exerciseSet.sourceType}</span></p>
 
-                <p><span className='font-bold'>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
+                        <p>|</p>
 
-                <Button
-                    onClick={openCreateExerciseForm}
-                >
-                    Generate Exercise
-                </Button>
+                        <p><span className=''>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
+
+                        <p>|</p>
+
+                        <p><span className=''>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
+
+                        <p>|</p>
+
+                        <p><span className=''>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
+                    </div>
+
+                    <div className='flex gap-2'>
+                        <Button
+                            onClick={openCreateExerciseForm}
+                        >
+                            Generate Exercise
+                        </Button>
+
+                        <Button
+                            onClick={openStartPracticeDecision}
+                        >
+                            Start Practice
+                        </Button>
+
+                        <Button
+                            onClick={viewPdf}
+                        >
+                            View as PDF
+                        </Button>
+
+                        <Button
+                            onClick={openUpdateExerciseSetForm}
+                        >
+                            Update
+                        </Button>
+
+                        <Button
+                            variant={ButtonVariant.DANGER}
+                            onClick={openExerciseSetDeleteApproval}
+                        >
+                            Delete
+                        </Button>
+                    </div>
+                </div>
 
                 <Button variant={ButtonVariant.OUTLINE} onClick={toggleAnswerVisibility}>
                     {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
-                </Button>
-
-                <Button
-                    onClick={openStartPracticeDecision}
-                >
-                    Start Practice
-                </Button>
-
-                <Button
-                    onClick={viewPdf}
-                >
-                    View as PDF
-                </Button>
-
-                <Button
-                    onClick={openUpdateExerciseSetForm}
-                >
-                    Update
-                </Button>
-
-                <Button
-                    variant={ButtonVariant.DANGER}
-                    onClick={openExerciseSetDeleteApproval}
-                >
-                    Delete
                 </Button>
             </div>
 

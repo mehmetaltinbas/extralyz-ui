@@ -31,20 +31,19 @@ export function SourcePopupsProvider({
 
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
-    function openSourceActionMenu(event: React.MouseEvent) {
-        event.stopPropagation();
-        const sourceActionMenu = actionMenuRef.current;
-        const container = containerRef.current;
+    function openCreateExerciseSetForm() {
+        setIsPopUpActive(true);
+        setIsCreateExerciseSetFormHidden(false);
+    }
 
-        if (sourceActionMenu && container) {
-            const containerRect = container.getBoundingClientRect();
-            const positionOfButton = event.currentTarget.getBoundingClientRect();
+    function openUpdateSourceForm() {
+        setIsPopUpActive(true);
+        setIsUpdateSourceFormHidden(false);
+    }
 
-            sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
-            sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
-
-            setIsActionMenuHidden((prev) => !prev);
-        }
+    function openDeleteApproval() {
+        setIsPopUpActive(true);
+        setIsDeleteApprovalHidden(false);
     }
 
     function invalidateTab() {
@@ -87,7 +86,7 @@ export function SourcePopupsProvider({
     }
 
     return (
-        <SourcePopupsContext value={{ openSourceActionMenu }}>
+        <SourcePopupsContext value={{ openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval }}>
             {children}
 
             <SourceActionMenu

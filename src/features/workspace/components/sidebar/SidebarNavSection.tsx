@@ -17,6 +17,7 @@ export function SidebarNavSection({
     const sidebar = useAppSelector((state) => state.sidebar);
 
     function onDragStart(event: React.DragEvent<HTMLButtonElement>) {
+        event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
         const datasetElement = event.currentTarget.dataset.tabElement;
         const element = datasetElement
             ? (JSON.parse(datasetElement) as TabsStateElement)

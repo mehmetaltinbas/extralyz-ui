@@ -1,11 +1,13 @@
 import React from 'react';
 import { Tab } from 'src/features/workspace/features/tabs/components/Tab';
+import { TabDropSide } from 'src/features/workspace/features/tabs/enums/tab-drop-side.enum';
 import {
     tabsActions,
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeDropIndex } from 'src/features/workspace/features/tabs/store/utils/compute-drop-index.util';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
+import type { OnDragOverTab } from 'src/features/workspace/features/tabs/types/on-drag-over-tab.interface';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function WorkspaceTabsBar() {
@@ -13,12 +15,44 @@ export function WorkspaceTabsBar() {
     const tabs = useAppSelector((state) => state.tabs);
     const widths = useAppSelector((state) => state.layoutDimensions);
 
+    const [onDragOverTab, setOnDragOverTab] = React.useState<OnDragOverTab | null>(null);
+    const [dragSourceIndex, setDragSourceIndex] = React.useState<number | null>(null);
+
     function onDragOver(event: React.DragEvent<HTMLDivElement>) {
         event.preventDefault();
+        const targetElement = (event.target as HTMLElement).closest('[data-tab-element]') as HTMLElement | null;
+
+        if (!targetElement?.dataset.tabElement) {
+            setOnDragOverTab(null);
+            return;
+        }
+
+        const dropTarget = JSON.parse(targetElement.dataset.tabElement) as { arrayIndex: number };
+        const rect = targetElement.getBoundingClientRect();
+        const middleX = rect.left + rect.width / 2;
+        const dropSide: TabDropSide = event.clientX < middleX ? TabDropSide.LEFT : TabDropSide.RIGHT;
+
+        setOnDragOverTab({
+            index: dropTarget.arrayIndex,
+            side: dropSide,
+        });
+    }
+
+    function onDragLeave(event: React.DragEvent<HTMLDivElement>) {
+        if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+            setOnDragOverTab(null);
+        }
+    }
+
+    function onDragEnd() {
+        setOnDragOverTab(null);
+        setDragSourceIndex(null);
     }
 
     function onDrop(event: React.DragEvent<HTMLDivElement>) {
         event.preventDefault();
+
+        setOnDragOverTab(null);
 
         // 1. Try to find the specific tab being dropped onto.
         // We use closest() in case the user drops onto a child (span/icon) inside the Tab.
@@ -56,7 +90,7 @@ export function WorkspaceTabsBar() {
         // 4. LOGIC FOR DROPPING ONTO A SPECIFIC TAB
         const rect = targetElement!.getBoundingClientRect();
         const middleX = rect.left + rect.width / 2;
-        const dropSide: 'left' | 'right' = event.clientX < middleX ? 'left' : 'right';
+        const dropSide: TabDropSide = event.clientX < middleX ? TabDropSide.LEFT : TabDropSide.RIGHT;
 
         const targetIndex = computeDropIndex({
             dropTargetIndex,
@@ -84,13 +118,15 @@ export function WorkspaceTabsBar() {
     return (
         <div
             onDragOver={(event) => onDragOver(event)}
+            onDragLeave={(event) => onDragLeave(event)}
+            onDragEnd={onDragEnd}
             onDrop={(event) => onDrop(event)}
             className={`w-[${widths.mainColumn.width}px] h-[40px] bg-[#F5F5F5] z-10
             flex flex-shrink-0 justify-start items-center
             border-1 border-white overflow-x-auto`}
         >
             {tabs.elements.map((tab, index) => (
-                <Tab key={computeTabKey(tab)} tab={tab} index={index} />
+                <Tab key={computeTabKey(tab)} tab={tab} index={index} onDragOverTab={onDragOverTab} dragSourceIndex={dragSourceIndex} setDragSourceIndex={setDragSourceIndex} />
             ))}
         </div>
     );

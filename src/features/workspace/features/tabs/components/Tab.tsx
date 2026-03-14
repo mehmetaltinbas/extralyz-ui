@@ -4,6 +4,7 @@ import {
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabTitle } from 'src/features/workspace/features/tabs/store/utils/compute-tab-title.util';
+import type { OnDragOverTab } from 'src/features/workspace/features/tabs/types/on-drag-over-tab.interface';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -12,9 +13,15 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 export function Tab({
     tab,
     index,
+    onDragOverTab,
+    dragSourceIndex,
+    setDragSourceIndex,
 }: {
     tab: TabsStateElement;
     index: number;
+    onDragOverTab: OnDragOverTab | null;
+    dragSourceIndex: number | null;
+    setDragSourceIndex: (index: number | null) => void;
 }) {
     const dispatch = useAppDispatch();
     const activeTabIndex = useAppSelector((state) => state.tabs.activeTabIndex);
@@ -22,6 +29,8 @@ export function Tab({
     const displayTitle = computeTabTitle(tab);
 
     function onDragStart(event: React.DragEvent<HTMLDivElement>) {
+        event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
+        setDragSourceIndex(index);
         event.dataTransfer.setData(
             'text/plain',
             JSON.stringify({ ...tab, dragSourceIndex: index })
@@ -43,7 +52,7 @@ export function Tab({
             onDragStart={(event) => onDragStart(event)}
             data-tab-element={JSON.stringify({ arrayIndex: index })}
             onClick={displayTab}
-            className={`max-w-[200px] h-full ${index === activeTabIndex ? 'bg-white' : ''} cursor-pointer p-2
+            className={`max-w-[200px] h-full ${index === activeTabIndex && 'bg-white'} ${onDragOverTab?.index === index && index !== dragSourceIndex && (onDragOverTab.side === 'left' ? 'border-l border-l-black' : 'border-r border-r-black')} cursor-pointer p-2
             flex-shrink-0 flex justify-center items-center gap-[10px]
             hover:bg-white`}
         >

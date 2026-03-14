@@ -1,6 +1,7 @@
 import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
@@ -118,11 +119,14 @@ export function ExerciseSetPageContent({
                         ))}
                     </div>
                 </SortableContext>
-                <DragOverlay>
-                    {activeExercise && (
-                        <ExerciseCardDragOverlay exercise={activeExercise} isAnswersHidden={isAnswersHidden} />
-                    )}
-                </DragOverlay>
+                {createPortal(
+                    <DragOverlay>
+                        {activeExercise && (
+                            <ExerciseCardDragOverlay exercise={activeExercise} isAnswersHidden={isAnswersHidden} />
+                        )}
+                    </DragOverlay>,
+                    document.body
+                )}
             </DndContext>
         </div>
     );

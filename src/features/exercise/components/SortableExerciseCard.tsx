@@ -1,6 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
+import type React from 'react';
 import { ExerciseCard } from 'src/features/exercise/components/ExerciseCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 

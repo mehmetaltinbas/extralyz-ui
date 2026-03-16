@@ -29,38 +29,15 @@ export function ExerciseSetPageContent({
 
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
 
-    const { openCreateExerciseForm, openStartPracticeDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval } = useExerciseSetPopups();
+    const { openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval } = useExerciseSetPopups();
     const { localExercises, sensors, activeExercise, handleDragStart, handleDragEnd } = useExerciseReorder(exercises, exerciseSet._id);
-
-    async function viewPdf() {
-        const response = await ExerciseSetService.getPdf(exerciseSet._id);
-
-        if (!response.isSuccess || !response.pdfBase64) {
-            alert(response.message);
-            return;
-        }
-
-        const byteCharacters = atob(response.pdfBase64);
-        
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-
-        const blob = new Blob([byteArray], { type: 'application/pdf' });
-
-        const url = window.URL.createObjectURL(blob);
-
-        window.open(url, '_blank');
-    }
 
     function toggleAnswerVisibility() {
         setIsAnswersHidden((prev) => !prev);
     }
 
     return (
-        <div // main
+        <div
             className="absolute w-full h-full
             flex flex-col justify-start items-start gap-4
             p-4"
@@ -102,7 +79,7 @@ export function ExerciseSetPageContent({
                         </Button>
 
                         <Button
-                            onClick={viewPdf}
+                            onClick={openViewPdfDecision}
                         >
                             View as PDF
                         </Button>

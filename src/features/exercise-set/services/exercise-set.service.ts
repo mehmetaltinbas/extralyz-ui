@@ -136,10 +136,10 @@ export class ExerciseSetService {
         }
     }
 
-    static async getPdf(id: string): Promise<GetPdfResponse> {
+    static async getPdf(id: string, withAnswers: boolean): Promise<GetPdfResponse> {
         try {
             const response = (
-                await axiosInstance.get(`${baseUrl}/get-pdf/${id}`)
+                await axiosInstance.get(`${baseUrl}/get-pdf/${id}?withAnswers=${withAnswers}`)
             ).data;
     
             return response;

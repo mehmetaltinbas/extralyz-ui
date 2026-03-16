@@ -1,5 +1,5 @@
 import React from 'react';
-import { SourcePageContent } from 'src/features/source/components/SourcePageContent';
+import { SourcePageContent } from 'src/features/source/pages/SourcePageContent';
 import { SourcePopupsProvider } from 'src/features/source/components/SourcePopupsProvider';
 import { type Source } from 'src/features/source/types/source.interface';
 

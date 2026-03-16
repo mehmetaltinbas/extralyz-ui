@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExerciseSetPageContent } from 'src/features/exercise-set/components/ExerciseSetPageContent';
+import { ExerciseSetPageContent } from 'src/features/exercise-set/pages/ExerciseSetPageContent';
 import { ExerciseSetPopupsProvider } from 'src/features/exercise-set/components/ExerciseSetPopupsProvider';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';

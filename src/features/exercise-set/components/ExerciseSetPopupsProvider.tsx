@@ -9,6 +9,7 @@ import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseAct
 import { StartPracticeDecision } from 'src/features/exercise/components/StartPracticeDecision';
 import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
+import { ViewPdfDecision } from 'src/features/exercise/components/ViewPdfDecision';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -37,6 +38,7 @@ export function ExerciseSetPopupsProvider({
     const [isUpdateExerciseFormHidden, setIsUpdateExerciseFormHidden] = React.useState(true);
     const [isTransferExerciseFormHidden, setIsTransferExerciseFormHidden] = React.useState(true);
     const [isStartPracticeDecisionHidden, setIsStartPracticeDecisionHidden] = React.useState(true);
+    const [isViewPdfDecisionHidden, setIsViewPdfDecisionHidden] = React.useState(true);
     const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] = React.useState(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
@@ -52,6 +54,11 @@ export function ExerciseSetPopupsProvider({
     function openStartPracticeDecision() {
         setIsPopUpActive(true);
         setIsStartPracticeDecisionHidden(false);
+    }
+
+    function openViewPdfDecision() {
+        setIsPopUpActive(true);
+        setIsViewPdfDecisionHidden(false);
     }
 
     function openUpdateExerciseSetForm() {
@@ -105,6 +112,7 @@ export function ExerciseSetPopupsProvider({
         setIsUpdateExerciseFormHidden(true);
         setIsTransferExerciseFormHidden(true);
         setIsStartPracticeDecisionHidden(true);
+        setIsViewPdfDecisionHidden(true);
         setIsUpdateExerciseSetFormHidden(true);
         setIsExerciseSetDeleteApprovalHidden(true);
         setIsExerciseDeleteApprovalHidden(true);
@@ -142,7 +150,7 @@ export function ExerciseSetPopupsProvider({
     }
 
     return (
-        <ExerciseSetPopupsContext value={{ openCreateExerciseForm, openStartPracticeDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openExerciseActionMenu }}>
+        <ExerciseSetPopupsContext value={{ openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openExerciseActionMenu }}>
             {children}
 
             <ExerciseActionMenu
@@ -200,6 +208,15 @@ export function ExerciseSetPopupsProvider({
                         onClose={closePopups}
                         exerciseSet={exerciseSet}
                         refreshData={invalidateTab}
+                    />,
+                    <ViewPdfDecision
+                        key='view-pdf-decision'
+                        isHidden={isViewPdfDecisionHidden}
+                        setIsHidden={setIsViewPdfDecisionHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        onClose={closePopups}
+                        exerciseSet={exerciseSet}
                     />,
                     <UpdateExerciseSetForm
                         key='update-exercise-set-form'

@@ -121,9 +121,9 @@ export function WorkspaceTabsBar() {
             onDragLeave={(event) => onDragLeave(event)}
             onDragEnd={onDragEnd}
             onDrop={(event) => onDrop(event)}
-            className={`w-[${widths.mainColumn.width}px] h-[40px] bg-[#F5F5F5] z-10
+            className={`w-[${widths.mainColumn.width}px] h-[40px] bg-surface-alt z-10
             flex flex-shrink-0 justify-start items-center
-            border-1 border-white overflow-x-auto`}
+            border-1 border-surface overflow-x-auto`}
         >
             {tabs.elements.map((tab, index) => (
                 <Tab key={computeTabKey(tab)} tab={tab} index={index} onDragOverTab={onDragOverTab} dragSourceIndex={dragSourceIndex} setDragSourceIndex={setDragSourceIndex} />

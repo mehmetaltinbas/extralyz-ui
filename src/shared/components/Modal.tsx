@@ -13,7 +13,7 @@ export function Modal({
 }) {
     return (
         <div
-            className={`${isHidden ? 'hidden' : ''} relative border px-5 py-5.5 bg-white rounded-[10px]
+            className={`${isHidden ? 'hidden' : ''} relative border border-border px-5 py-5.5 bg-surface rounded-[10px]
             flex flex-col justify-center items-center gap-2 shadow-lg`}
             onClick={(e) => e.stopPropagation()}
         >

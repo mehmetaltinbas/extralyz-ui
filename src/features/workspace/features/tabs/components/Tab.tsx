@@ -52,9 +52,9 @@ export function Tab({
             onDragStart={(event) => onDragStart(event)}
             data-tab-element={JSON.stringify({ arrayIndex: index })}
             onClick={displayTab}
-            className={`max-w-[200px] h-full ${index === activeTabIndex && 'bg-white'} ${onDragOverTab?.index === index && index !== dragSourceIndex && (onDragOverTab.side === 'left' ? 'border-l border-l-black' : 'border-r border-r-black')} cursor-pointer p-2
+            className={`max-w-[200px] h-full ${index === activeTabIndex && 'bg-surface'} ${onDragOverTab?.index === index && index !== dragSourceIndex && (onDragOverTab.side === 'left' ? 'border-l border-l-border-strong' : 'border-r border-r-border-strong')} cursor-pointer p-2
             flex-shrink-0 flex justify-center items-center gap-[10px]
-            hover:bg-white`}
+            hover:bg-surface`}
         >
             <div className="max-w-[150px] flex justify-center items-center">
                 <p className="truncate" title={displayTitle}>

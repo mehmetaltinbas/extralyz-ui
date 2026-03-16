@@ -1,3 +1,4 @@
+import { Moon, Sun } from 'lucide-react';
 import React from 'react';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
@@ -6,6 +7,7 @@ import { SidebarNavSection } from 'src/features/workspace/components/sidebar/Sid
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { themeActions } from 'src/store/theme.slice';
 
 export function Sidebar() {
     const dispatch = useAppDispatch();
@@ -13,6 +15,7 @@ export function Sidebar() {
     const sources = useAppSelector((state) => state.sources);
     const exerciseSets = useAppSelector((state) => state.exerciseSets);
     const user = useAppSelector((state) => state.user);
+    const themeMode = useAppSelector((state) => state.theme.mode);
 
     const [isActionMenuHidden, setIsActionMenuHidden] = React.useState<boolean>(true);
 
@@ -104,7 +107,7 @@ export function Sidebar() {
             flex`}
         >
             <div
-                className={`w-[${sidebar.width - 10}px] h-full p-4 bg-[#F5F5F5]
+                className={`w-[${sidebar.width - 10}px] h-full p-4 bg-surface-alt
                 flex-shrink-0 flex flex-1 flex-col justify-between items-center`}
             >
                 <div className="w-full flex flex-col items-center gap-4">
@@ -154,6 +157,15 @@ export function Sidebar() {
                     )}
                 </div>
 
+                <div className={`w-full flex flex-col ${sidebar.isOpen ? 'items-start' : 'items-center'} gap-3`}>
+                    <button
+                        onClick={() => dispatch(themeActions.toggle())}
+                        className="w-8 h-8 rounded-full bg-surface-hover text-text-primary cursor-pointer flex justify-center items-center hover:bg-surface-muted"
+                        title={themeMode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+                    >
+                        {themeMode === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+                    </button>
+
                 <div ref={containerRef} className={`relative w-full flex flex-col ${sidebar.isOpen ? 'items-start' : 'items-center'}`}>
                     {/* The Menu starts hidden and will be positioned by the function */}
                     <UserActionMenu
@@ -171,24 +183,24 @@ export function Sidebar() {
                             <>
                                 <div
                                     ref={profileButtonRef}
-                                    className="w-8 h-8 rounded-full bg-black text-white cursor-pointer flex justify-center items-center"
+                                    className="w-8 h-8 rounded-full bg-btn-primary-bg text-btn-primary-text cursor-pointer flex justify-center items-center"
                                 >
                                     {user.userName.charAt(0).toUpperCase() ?? '?'}
                                 </div>
 
-                                <span className="text-xs text-gray-600 cursor-pointer">
+                                <span className="text-xs text-text-secondary cursor-pointer">
                                     {user.creditBalance}
                                 </span>
                             </>
                             :
                             <>
-                                <span className="text-xs text-gray-600 cursor-pointer">
+                                <span className="text-xs text-text-secondary cursor-pointer">
                                     {user.creditBalance}
                                 </span>
 
                                 <div
                                     ref={profileButtonRef}
-                                    className="w-8 h-8 rounded-full bg-black text-white cursor-pointer flex justify-center items-center"
+                                    className="w-8 h-8 rounded-full bg-btn-primary-bg text-btn-primary-text cursor-pointer flex justify-center items-center"
                                 >
                                     {user.userName.charAt(0).toUpperCase() ?? '?'}
                                 </div>
@@ -196,11 +208,12 @@ export function Sidebar() {
                         )}
                     </div>
                 </div>
+                </div>
             </div>
 
             <div
                 onMouseDown={(event) => handleMouseDown(event)}
-                className="w-[10px] h-full bg-[#F0F0F0] cursor-col-resize"
+                className="w-[10px] h-full bg-surface-muted cursor-col-resize"
             ></div>
         </div>
     );

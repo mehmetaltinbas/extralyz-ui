@@ -30,7 +30,7 @@ export function SortableExerciseCard({
     return (
         <div ref={setNodeRef} style={style} className="relative">
             <div
-                className="absolute top-1 left-1 z-10 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600"
+                className="absolute top-1 left-1 z-10 cursor-grab active:cursor-grabbing text-text-muted hover:text-text-secondary"
                 {...attributes}
                 {...listeners}
             >

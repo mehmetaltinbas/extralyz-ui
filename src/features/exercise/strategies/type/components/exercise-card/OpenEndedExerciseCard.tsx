@@ -12,7 +12,7 @@ export function OpenEndedExerciseCard({
             <p>{exercise.prompt}</p>
 
             {!isAnswersHidden && (
-                <p className="text-green-900">
+                <p className="text-text-correct">
                     <span className='font-bold'>Answer:</span> {exercise.solution}
                 </p>
             )}

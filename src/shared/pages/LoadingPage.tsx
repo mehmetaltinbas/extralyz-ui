@@ -1,11 +1,14 @@
 import React from 'react';
 import rough from 'roughjs';
 import type { RoughCanvas } from 'roughjs/bin/canvas';
+import { useAppSelector } from 'src/store/hooks';
 
 export function LoadingPage({ isHidden, message }: { isHidden?: boolean; message?: string }) {
     const roughCanvas = React.useRef<RoughCanvas>(null);
     const canvasElement = React.useRef<HTMLCanvasElement>(null);
     const [dotCount, setDotCount] = React.useState<number>(1);
+    const mode = useAppSelector((state) => state.theme.mode);
+    const strokeColor = mode === 'dark' ? '#F5F5F5' : '#000000';
 
     React.useEffect(() => {
         const canvas = canvasElement.current as HTMLCanvasElement;
@@ -20,7 +23,7 @@ export function LoadingPage({ isHidden, message }: { isHidden?: boolean; message
             interval = setInterval(() => {
                 ctx!.clearRect(0, 0, canvas.width, canvas.height);
                 const endAngle = startAngle + arcSize;
-                roughCanvas.current!.arc(25, 25, 30, 30, startAngle, endAngle, false);
+                roughCanvas.current!.arc(25, 25, 30, 30, startAngle, endAngle, false, { stroke: strokeColor });
                 startAngle += 0.2;
                 if (startAngle >= 2 * Math.PI) {
                     startAngle -= 2 * Math.PI;
@@ -29,7 +32,7 @@ export function LoadingPage({ isHidden, message }: { isHidden?: boolean; message
         }
 
         return () => clearInterval(interval);
-    }, [canvasElement]);
+    }, [canvasElement, strokeColor]);
 
     React.useEffect(() => {
         const textInterval = setInterval(() => {

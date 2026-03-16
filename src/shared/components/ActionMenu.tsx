@@ -17,7 +17,7 @@ export function ActionMenu({
     return (
         <div
             ref={ref}
-            className={`absolute border px-4.5 py-5  bg-white rounded-[10px] shadow-md z-10
+            className={`absolute border border-border px-4.5 py-5 bg-surface rounded-[10px] shadow-md z-10
             flex flex-col justify-center items-center gap-2
             ${isHidden && 'hidden'}`}
         >

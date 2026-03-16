@@ -25,11 +25,11 @@ export function ExerciseSetCard({
             }}
             className="relative w-[250px] h-[150px] cursor-pointer rounded-[10px]
             flex-shrink-0 flex flex-col justify-start items-center gap-1
-            border border-gray-400 p-1
-            hover:border-black"
+            border border-border p-1
+            hover:border-border-strong"
         >
             <div
-                className="w-[250px] h-[35px] border-b-1 border-gray-400
+                className="w-[250px] h-[35px] border-b-1 border-border
                 flex justify-center items-center"
             >
                 <div className="w-[200px] h-full flex justify-center items-center">

@@ -26,12 +26,12 @@ export function TrueFalseExerciseEvaluationCard({
         <div className="flex flex-col justify-center items-center gap-1 text-center">
             <p>
                 <span className="font-serif">Your answer</span>:{' '}
-                <span className="text-gray-700">{userAnswer}</span>
+                <span className="text-text-secondary">{userAnswer}</span>
             </p>
 
             <p>
                 <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-green-900">{correctAnswer}</span>
+                <span className="text-text-correct">{correctAnswer}</span>
             </p>
 
             <ScoreBadge score={evaluation.score} label="Sub-score" />

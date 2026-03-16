@@ -39,7 +39,7 @@ function hslToHex(h: number, s: number, l: number): string {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-export function getScoreColor(score: number): string {
+export function getScoreColor(score: number, isDark?: boolean): string {
     const clamped = Math.max(0, Math.min(100, score));
     const t = clamped / 100;
 
@@ -52,7 +52,11 @@ export function getScoreColor(score: number): string {
 
     const h = startHue + (endHue - startHue) * t;
     const s = s0 + (s1 - s0) * t;
-    const l = l0 + (l1 - l0) * t;
+    let l = l0 + (l1 - l0) * t;
+
+    if (isDark) {
+        l = Math.max(l, 0.55);
+    }
 
     return hslToHex(h, s, l);
 }

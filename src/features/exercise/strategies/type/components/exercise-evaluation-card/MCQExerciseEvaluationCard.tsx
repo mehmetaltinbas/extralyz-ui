@@ -22,12 +22,12 @@ export function MCQExerciseEvaluationCard({
         <div className="flex flex-col justify-center items-center gap-1 text-center">
             <p>
                 <span className="font-serif">Your answer</span>:{' '}
-                <span className="text-gray-700">{getAlphabetLetter(Number(evaluation.userAnswer))} - {userAnswer}</span>
+                <span className="text-text-secondary">{getAlphabetLetter(Number(evaluation.userAnswer))} - {userAnswer}</span>
             </p>
 
             <p>
                 <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-green-900">{getAlphabetLetter(exercise.correctChoiceIndex!)} - {correctAnswer}</span>
+                <span className="text-text-correct">{getAlphabetLetter(exercise.correctChoiceIndex!)} - {correctAnswer}</span>
             </p>
 
             <ScoreBadge score={evaluation.score} label="Sub-score" />

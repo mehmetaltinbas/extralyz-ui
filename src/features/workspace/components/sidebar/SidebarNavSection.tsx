@@ -45,13 +45,13 @@ export function SidebarNavSection({
                         onClick={(event) => dispatch(tabsActions.openTab({ section }))}
                         className="w-full h-auto cursor-pointer px-[8px] py-[1px]
                             font-serif font-semibold flex justify-start
-                            hover:bg-gray-200"
+                            hover:bg-surface-hover"
                     >
                         <p>
                             {section}
                         </p>
                     </button>
-                    <span className="w-full h-[1px] bg-black"></span>
+                    <span className="w-full h-[1px] bg-border-strong"></span>
                 </div>
             </div>
             <div
@@ -77,7 +77,7 @@ export function SidebarNavSection({
                         }
                         className={`w-full max-w-[${sidebar.width - 62}px] cursor-pointer truncate px-[8px] py-[1px]
                             flex justify-start
-                            hover:bg-gray-200`}
+                            hover:bg-surface-hover`}
                     >
                         <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
                     </button>

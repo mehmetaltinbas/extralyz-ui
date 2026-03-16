@@ -13,12 +13,12 @@ export function OpenEndedExerciseEvaluationCard({
         <div className="flex flex-col justify-center items-center gap-1 text-center">
             <p>
                 <span className="font-serif">Your answer</span>:{' '}
-                <span className="text-gray-700">{evaluation.userAnswer}</span>
+                <span className="text-text-secondary">{evaluation.userAnswer}</span>
             </p>
 
             <p>
                 <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-green-900">{exercise.solution}</span>
+                <span className="text-text-correct">{exercise.solution}</span>
             </p>
 
             <p>

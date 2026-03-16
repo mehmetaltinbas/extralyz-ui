@@ -35,7 +35,7 @@ export function MCQExercisePracticeCard({
                         setSelectedIndex(index);
                     }}
                 >
-                    <p className={`${index === selectedIndex && 'font-bold'}`}>{optionLattersMap.get(index)} - {choice}</p>
+                    <p className={`${index === selectedIndex && 'font-bold bg-surface-hover rounded px-2'}`}>{optionLattersMap.get(index)} - {choice}</p>
                 </Button>
             ))}
         </div>

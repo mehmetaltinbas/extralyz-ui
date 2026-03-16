@@ -27,7 +27,7 @@ export function TrueFalseExercisePracticeCard({
                     setSelectedIndex(1);
                 }}
             >
-                <p className={`${selectedIndex === 1 && 'font-bold'}`}>True</p>
+                <p className={`${selectedIndex === 1 && 'font-bold bg-surface-hover rounded px-2'}`}>True</p>
             </Button>
 
             <Button
@@ -38,7 +38,7 @@ export function TrueFalseExercisePracticeCard({
                     setSelectedIndex(0);
                 }}
             >
-                <p className={`${selectedIndex === 0 && 'font-bold'}`}>False</p>
+                <p className={`${selectedIndex === 0 && 'font-bold bg-surface-hover rounded px-2'}`}>False</p>
             </Button>
         </div>
     );

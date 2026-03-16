@@ -120,7 +120,7 @@ export function ExerciseSetPaperEvaluationPage({
                     {previewUrls.length > 0 && (
                         <div className="w-full grid grid-cols-4 gap-4">
                             {previewUrls.map((url, index) => (
-                                <div key={url} className="relative w-full flex items-center justify-center h-40 max-w-[20rem] bg-gray-100 rounded-[10px] overflow-hidden mx-auto">
+                                <div key={url} className="relative w-full flex items-center justify-center h-40 max-w-[20rem] bg-surface-hover rounded-[10px] overflow-hidden mx-auto">
                                     <img
                                         src={url}
                                         alt={`Upload ${index + 1}`}
@@ -147,7 +147,7 @@ export function ExerciseSetPaperEvaluationPage({
                                     </div>
                                     <button
                                         onClick={() => removeFile(index)}
-                                        className="hidden absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm"
+                                        className="hidden absolute top-1 right-1 bg-accent text-text-inverted rounded-full w-6 h-6 flex items-center justify-center text-sm"
                                     >
                                         x
                                     </button>

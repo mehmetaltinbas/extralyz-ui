@@ -23,9 +23,9 @@ export function SourceCard({
                     title: source.title,
                 }))
             }
-            className="relative w-[175px] h-[175px] border border-gray-400 cursor-pointer rounded-[10px]
+            className="relative w-[175px] h-[175px] border border-border cursor-pointer rounded-[10px]
             flex flex-col justify-center items-center
-            hover:border-1 hover:border-black"
+            hover:border-1 hover:border-border-strong"
         >
             <div
                 className="w-[150px] h-full px-2

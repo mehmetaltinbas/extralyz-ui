@@ -17,7 +17,7 @@ export function TrueFalseExerciseCard({
             <p>{exercise.prompt}</p>
             
             {!isAnswersHidden && (
-                <p className="text-green-900">
+                <p className="text-text-correct">
                     <span className='font-bold'>Answer:</span> {answers[exercise.correctChoiceIndex!]}
                 </p>
             )}

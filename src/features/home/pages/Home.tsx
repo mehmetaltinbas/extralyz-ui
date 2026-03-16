@@ -39,7 +39,7 @@ export function Home() {
     return (
         <div className="w-full min-h-screen flex flex-col">
             {/* Navigation Header */}
-            <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
+            <header className="sticky top-0 z-50 w-full bg-surface border-b border-border">
                 <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
                     <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
 
@@ -76,7 +76,7 @@ export function Home() {
                         Practice Exercises
                     </h1>
 
-                    <p className="text-xl text-gray-500 max-w-2xl">
+                    <p className="text-xl text-text-secondary max-w-2xl">
                         AI-powered platform that converts your study materials into custom
                         exercise sets for active recall — then grades your answers
                         automatically.
@@ -112,7 +112,7 @@ export function Home() {
             </section>
 
             {/* Features Section */}
-            <section className="w-full flex flex-col items-center px-8 py-16 bg-white">
+            <section className="w-full flex flex-col items-center px-8 py-16 bg-surface">
                 <div className="max-w-5xl w-full">
                     <h2 className="text-3xl font-bold text-center pb-12 tracking-tight">
                         Features
@@ -122,10 +122,10 @@ export function Home() {
                         {features.map((feature) => (
                             <div
                                 key={feature.title}
-                                className="rounded-[10px] p-8 bg-gray-50 hover:bg-gray-100 transition-colors"
+                                className="rounded-[10px] p-8 bg-surface-alt hover:bg-surface-hover transition-colors"
                             >
                                 <div className='flex justify-start items-center gap-2'>
-                                    <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-4 text-gray-600">
+                                    <div className="w-10 h-10 bg-surface-hover rounded-full flex items-center justify-center mb-4 text-text-secondary">
                                         {feature.icon}
                                     </div>
 
@@ -133,7 +133,7 @@ export function Home() {
                                 </div>
 
 
-                                <p className="text-gray-600 leading-relaxed">
+                                <p className="text-text-secondary leading-relaxed">
                                     {feature.description}
                                 </p>
                             </div>
@@ -143,9 +143,9 @@ export function Home() {
             </section>
 
             {/* Footer */}
-            <footer className="w-full flex flex-col items-center bg-gray-50 py-8 mt-auto">
+            <footer className="w-full flex flex-col items-center bg-surface-alt py-8 mt-auto">
                 <div className="max-w-6xl w-full px-8">
-                    <p className="text-sm text-gray-400 text-center">
+                    <p className="text-sm text-text-muted text-center">
                         Copyright © 2025 {APP_NAME}. All rights reserved.
                     </p>
                 </div>

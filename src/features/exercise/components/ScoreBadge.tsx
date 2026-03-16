@@ -1,4 +1,5 @@
 import { getScoreColor } from 'src/features/exercise/utils/get-score-color.util';
+import { useAppSelector } from 'src/store/hooks';
 
 export function ScoreBadge({
     score,
@@ -9,7 +10,8 @@ export function ScoreBadge({
     label?: string;
     className?: string;
 }) {
-    const color = getScoreColor(score);
+    const mode = useAppSelector((state) => state.theme.mode);
+    const color = getScoreColor(score, mode === 'dark');
 
     return (
         <span

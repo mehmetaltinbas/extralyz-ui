@@ -5,10 +5,9 @@ import { OpenEndedExerciseTypeStrategy } from "src/features/exercise/strategies/
 import { TrueFalseExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/true-false-exercise-type.strategy";
 
 const map: Map<ExerciseType, ExerciseTypeStrategy> = new Map([
-    [McqExerciseTypeStrategy.type, McqExerciseTypeStrategy],
-    [TrueFalseExerciseTypeStrategy.type, TrueFalseExerciseTypeStrategy],
-    [OpenEndedExerciseTypeStrategy.type, OpenEndedExerciseTypeStrategy
-    ]
+    [ExerciseType.MCQ, new McqExerciseTypeStrategy()],
+    [ExerciseType.TRUE_FALSE, new TrueFalseExerciseTypeStrategy()],
+    [ExerciseType.OPEN_ENDED, new OpenEndedExerciseTypeStrategy()],
 ]);
 
 export function resolveExerciseTypeStrategy(

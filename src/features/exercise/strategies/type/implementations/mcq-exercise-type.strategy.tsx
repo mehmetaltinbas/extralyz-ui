@@ -12,10 +12,10 @@ import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-e
 import type { UpdateExerciseDto } from "src/features/exercise/types/dto/update-exercise.dto";
 import type { Exercise } from "src/features/exercise/types/exercise.interface";
 
-export const McqExerciseTypeStrategy: ExerciseTypeStrategy = {
-    type: ExerciseType.MCQ,
+export class McqExerciseTypeStrategy implements ExerciseTypeStrategy {
+    type = ExerciseType.MCQ;
 
-    changeCreateExerciseDto: (setDto: (value: React.SetStateAction<CreateExerciseDto>) => void, ): void => {
+    changeCreateExerciseDto(setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): void {
         setDto(prev => ({
             ...prev,
             type: ExerciseType.MCQ,
@@ -23,18 +23,18 @@ export const McqExerciseTypeStrategy: ExerciseTypeStrategy = {
             choices: Array(MCQ_CHOICES_COUNT).fill(''),
             correctChoiceIndex: 0,
         }));
-    },
-    
-    getRestOfCreateExerciseForm: (dto: CreateExerciseDto, setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): React.JSX.Element => {
+    }
+
+    getRestOfCreateExerciseForm(dto: CreateExerciseDto, setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): React.JSX.Element {
        return (
             <MCQCreateForm
                 dto={dto}
                 setDto={setDto}
             />
        );
-    },
+    }
 
-    changeUpdateExerciseDto: (setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void, ): void => {
+    changeUpdateExerciseDto(setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): void {
         setDto(prev => ({
             ...prev,
             type: ExerciseType.MCQ,
@@ -42,27 +42,27 @@ export const McqExerciseTypeStrategy: ExerciseTypeStrategy = {
             choices: Array(MCQ_CHOICES_COUNT).fill(''),
             correctChoiceIndex: 0,
         }));
-    },
+    }
 
-    getRestOfUpdateExerciseForm: (dto: UpdateExerciseDto, setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): React.JSX.Element => {
+    getRestOfUpdateExerciseForm(dto: UpdateExerciseDto, setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): React.JSX.Element {
         return (
             <MCQUpdateForm
                 dto={dto}
                 setDto={setDto}
             />
         );
-    },
+    }
 
-    getRestOfExerciseCard: (exercise: Exercise, isAnswersHidden: boolean) => {
+    getRestOfExerciseCard(exercise: Exercise, isAnswersHidden: boolean) {
         return (
             <MCQExerciseCard
                 exercise={exercise}
                 isAnswersHidden={isAnswersHidden}
             />
         );
-    },
+    }
 
-    getRestOfExercisePracticeCard: (exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) => {
+    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) {
         return (
             <MCQExercisePracticeCard
                 exercise={exercise}
@@ -70,14 +70,14 @@ export const McqExerciseTypeStrategy: ExerciseTypeStrategy = {
                 recordAnswer={recordAnswer}
             />
         );
-    },
+    }
 
-    getRestOfExerciseEvaluationCard: (exercise: Exercise, evaluation: ExerciseAnswerEvaluationResult) => {
+    getRestOfExerciseEvaluationCard(exercise: Exercise, evaluation: ExerciseAnswerEvaluationResult) {
         return (
             <MCQExerciseEvaluationCard
                 exercise={exercise}
                 evaluation={evaluation}
             />
         );
-    },
-};
+    }
+}

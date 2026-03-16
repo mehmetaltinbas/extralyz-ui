@@ -11,10 +11,10 @@ import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-e
 import type { UpdateExerciseDto } from "src/features/exercise/types/dto/update-exercise.dto";
 import type { Exercise } from "src/features/exercise/types/exercise.interface";
 
-export const TrueFalseExerciseTypeStrategy: ExerciseTypeStrategy = {
-    type: ExerciseType.TRUE_FALSE,
+export class TrueFalseExerciseTypeStrategy implements ExerciseTypeStrategy {
+    type = ExerciseType.TRUE_FALSE;
 
-    changeCreateExerciseDto: (setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): void => {
+    changeCreateExerciseDto(setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): void {
         setDto(prev => ({
             ...prev,
             type: ExerciseType.TRUE_FALSE,
@@ -22,18 +22,18 @@ export const TrueFalseExerciseTypeStrategy: ExerciseTypeStrategy = {
             choices: undefined,
             correctChoiceIndex: 0,
         }));
-    },
+    }
 
-    getRestOfCreateExerciseForm: (dto: CreateExerciseDto, setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): React.JSX.Element => {
+    getRestOfCreateExerciseForm(dto: CreateExerciseDto, setDto: (value: React.SetStateAction<CreateExerciseDto>) => void): React.JSX.Element {
         return (
             <TrueFalseCreateForm
                 dto={dto}
                 setDto={setDto}
             />
         );
-    },
+    }
 
-    changeUpdateExerciseDto: (setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): void => {
+    changeUpdateExerciseDto(setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): void {
         setDto(prev => ({
             ...prev,
             type: ExerciseType.TRUE_FALSE,
@@ -41,27 +41,27 @@ export const TrueFalseExerciseTypeStrategy: ExerciseTypeStrategy = {
             choices: undefined,
             correctChoiceIndex: 0,
         }));
-    },
+    }
 
-    getRestOfUpdateExerciseForm: (dto: UpdateExerciseDto, setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): React.JSX.Element => {
+    getRestOfUpdateExerciseForm(dto: UpdateExerciseDto, setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void): React.JSX.Element {
         return (
             <TrueFalseUpdateForm
                 dto={dto}
                 setDto={setDto}
             />
         );
-    },
+    }
 
-    getRestOfExerciseCard: (exercise: Exercise, isAnswersHidden: boolean) => {
+    getRestOfExerciseCard(exercise: Exercise, isAnswersHidden: boolean) {
         return (
             <TrueFalseExerciseCard
                 exercise={exercise}
                 isAnswersHidden={isAnswersHidden}
             />
         );
-    },
+    }
 
-    getRestOfExercisePracticeCard: (exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) => {
+    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) {
         return (
             <TrueFalseExercisePracticeCard
                 exercise={exercise}
@@ -69,14 +69,14 @@ export const TrueFalseExerciseTypeStrategy: ExerciseTypeStrategy = {
                 recordAnswer={recordAnswer}
             />
         );
-    },
+    }
 
-    getRestOfExerciseEvaluationCard: (exercise: Exercise, evaluation: ExerciseAnswerEvaluationResult) => {
+    getRestOfExerciseEvaluationCard(exercise: Exercise, evaluation: ExerciseAnswerEvaluationResult) {
         return (
             <TrueFalseExerciseEvaluationCard
                 exercise={exercise}
                 evaluation={evaluation}
             />
         );
-    },
-};
+    }
+}

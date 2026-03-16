@@ -1,7 +1,7 @@
 import React from 'react';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
 import { SourceService } from 'src/features/source/services/source.service';
-import { createSourceFormStrategyMap, selectCreateSourceFormStrategy } from 'src/features/source/strategies/create-source-form/select-create-source-form-strategy';
+import { resolveSourceTypeStrategy } from 'src/features/source/strategies/type/resolve-source-type-strategy';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
@@ -24,17 +24,17 @@ export function CreateSourceForm({
     onClose: () => void;
     updateSources: () => void;
 }) {
-    const defaultStrategy = selectCreateSourceFormStrategy(defaultType)!;
-    const [dto, setDto] = React.useState<CreateSourceDto>(defaultStrategy.buildInitialDto());
+    const defaultStrategy = resolveSourceTypeStrategy(defaultType)!;
+    const [dto, setDto] = React.useState<CreateSourceDto>(defaultStrategy.buildInitialCreateSourceDto());
     const [uploadedFile, setUploadedFile] = React.useState<File>();
     const [fileInputKey, setFileInputKey] = React.useState(0);
     const isSubmittingRef = React.useRef(false);
 
-    const strategy = selectCreateSourceFormStrategy(dto.type as SourceType);
+    const strategy = resolveSourceTypeStrategy(dto.type as SourceType);
 
     function resetForm() {
         setUploadedFile(undefined);
-        setDto(defaultStrategy.buildInitialDto());
+        setDto(defaultStrategy.buildInitialCreateSourceDto());
         setFileInputKey((prev) => prev + 1);
     }
 
@@ -45,13 +45,13 @@ export function CreateSourceForm({
     }, [isHidden]);
 
     function handleTypeChange(newType: SourceType) {
-        const newStrategy = selectCreateSourceFormStrategy(newType);
+        const newStrategy = resolveSourceTypeStrategy(newType);
 
         if (!newStrategy) return;
 
         setUploadedFile(undefined);
         setFileInputKey((prev) => prev + 1);
-        setDto(newStrategy.buildInitialDto());
+        setDto(newStrategy.buildInitialCreateSourceDto());
     }
 
     async function createSource() {
@@ -61,7 +61,7 @@ export function CreateSourceForm({
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
-        const formData = strategy.buildFormData(dto, uploadedFile);
+        const formData = strategy.buildCreateSourceFormData(dto, uploadedFile);
         const response = await SourceService.create(formData);
 
         if (!response.isSuccess) {
@@ -94,15 +94,15 @@ export function CreateSourceForm({
                     onChange={(e) => handleTypeChange(e.target.value as SourceType)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {Array.from(createSourceFormStrategyMap, ([type, s]) => (
-                        <option key={type} value={type}>
-                            {s.label}
+                    {Object.values(SourceType).map((value) => (
+                        <option key={value} value={value}>
+                            {value}
                         </option>
                     ))}
                 </select>
             </div>
 
-            {strategy?.renderFields(dto, setDto, {
+            {strategy?.renderCreateSourceFormFields(dto, setDto, {
                 file: uploadedFile,
                 setFile: setUploadedFile,
                 fileInputKey,

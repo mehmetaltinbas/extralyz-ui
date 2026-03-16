@@ -10,13 +10,15 @@ export function Button({
     variant = ButtonVariant.PRIMARY,
     size = ButtonSize.MD,
     onClick,
+    disabled = false,
 }: {
     children: React.ReactNode;
+    onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
     variant?: ButtonVariant;
     size?: ButtonSize;
-    onClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
+    disabled?: boolean;
 }) {
-    const variantStyles = buttonVariantStylesMap.get(variant);
+    const variantStyles = disabled ? buttonVariantStylesMap.get(ButtonVariant.GHOST) :  buttonVariantStylesMap.get(variant);
     const isIcon = variant === ButtonVariant.ICON;
     const baseStyles = isIcon
         ? iconButtonSizeStylesMap.get(size)
@@ -26,6 +28,7 @@ export function Button({
         <button
             onClick={onClick}
             className={`w-auto cursor-pointer border-[2px] transition-colors whitespace-nowrap ${baseStyles} ${variantStyles}`}
+            disabled={disabled}
         >
             {children}
         </button>

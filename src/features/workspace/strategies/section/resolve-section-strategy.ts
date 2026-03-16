@@ -7,7 +7,7 @@ import { SourceSectionStrategy } from 'src/features/workspace/strategies/section
 import { SourcesSectionStrategy } from 'src/features/workspace/strategies/section/implementations/sources-section.strategy';
 import type { SectionStrategy } from 'src/features/workspace/strategies/section/section-strategy.interface';
 
-const map: Map<Section, SectionStrategy> = new Map([
+const map: Map<Section, SectionStrategy> = new Map<Section, SectionStrategy>([
     [Section.SOURCES, new SourcesSectionStrategy()],
     [Section.SOURCE, new SourceSectionStrategy()],
     [Section.EXERCISE_SETS, new ExerciseSetsSectionStrategy()],

@@ -2,10 +2,11 @@ import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mo
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
 import { Section } from 'src/features/workspace/enums/section.enum';
+import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import type { SectionStrategy } from 'src/features/workspace/strategies/section/section-strategy.interface';
 
 export class ExerciseSetPracticeSectionStrategy implements SectionStrategy {
-    async buildProps(tab) {
+    async buildProps(tab: TabsStateElement) {
         const { exerciseSet } = await ExerciseSetService.readById(tab.id!);
         const { exercises } = await ExerciseService.readAllByExerciseSetId(tab.id!);
 

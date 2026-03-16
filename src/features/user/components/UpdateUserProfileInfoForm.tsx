@@ -32,11 +32,16 @@ export function UpdateUserProfileInfoForm({
     };
     const [dto, setDto] = React.useState<UpdateUserDto>(initialDto);
 
+    const isSubmittingRef = React.useRef(false);
+
     React.useEffect(() => {
-        setDto(initialDto);
+        if (isHidden && !isSubmittingRef.current) {
+            setDto(initialDto);
+        }
     }, [isHidden, user]);
 
     async function update() {
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
@@ -45,13 +50,16 @@ export function UpdateUserProfileInfoForm({
 
             if (!response.isSuccess) {
                 alert(response.message);
+                isSubmittingRef.current = false;
                 setIsHidden(false);
             } else {
+                isSubmittingRef.current = false;
                 dispatch(userActions.fetchData());
                 setIsPopUpActive(false);
             }
         } catch (error) {
             alert('internal error');
+            isSubmittingRef.current = false;
             setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);

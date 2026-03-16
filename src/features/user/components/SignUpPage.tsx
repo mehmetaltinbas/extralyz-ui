@@ -28,51 +28,53 @@ export function SignUpPage() {
     return isSignedUp ? (
         <Navigate to="/sign-in" />
     ) : (
-        <div className="h-[75%] flex flex-col justify-center items-center gap-2">
-            <p className=" text-lg">Sign Up</p>
-            <Input
-                onChange={(event) =>
-                    setSignUpDto({
-                        ...signUpDto,
-                        userName: event.target.value,
-                    })
-                }
-                type="text"
-                size={InputSize.LG}
-                placeholder="username..."
-            />
-            <Input
-                onChange={(event) =>
-                    setSignUpDto({
-                        ...signUpDto,
-                        email: event.target.value,
-                    })
-                }
-                type="text"
-                size={InputSize.LG}
-                placeholder="email..."
-            />
-            <Input
-                onChange={(event) =>
-                    setSignUpDto({
-                        ...signUpDto,
-                        password: event.target.value,
-                    })
-                }
-                type="password"
-                size={InputSize.LG}
-                placeholder="password..."
-            />
-            <Button variant={ButtonVariant.PRIMARY} onClick={signUp}>
-                sign up
-            </Button>
-            <p>or</p>
-            <Button
-                variant={ButtonVariant.PRIMARY}
-                onClick={(event) => (window.location.href = '/sign-in')}
-            >
-                sign in
-            </Button>
+        <div className='h-[75%] flex justify-center items-center'>
+            <div className="h-auto w-48 flex flex-col justify-center items-center gap-2">
+                <p className=" text-lg">Sign Up</p>
+                <Input
+                    onChange={(event) =>
+                        setSignUpDto({
+                            ...signUpDto,
+                            userName: event.target.value,
+                        })
+                    }
+                    type="text"
+                    size={InputSize.LG}
+                    placeholder="username..."
+                />
+                <Input
+                    onChange={(event) =>
+                        setSignUpDto({
+                            ...signUpDto,
+                            email: event.target.value,
+                        })
+                    }
+                    type="text"
+                    size={InputSize.LG}
+                    placeholder="email..."
+                />
+                <Input
+                    onChange={(event) =>
+                        setSignUpDto({
+                            ...signUpDto,
+                            password: event.target.value,
+                        })
+                    }
+                    type="password"
+                    size={InputSize.LG}
+                    placeholder="password..."
+                />
+                <Button variant={ButtonVariant.PRIMARY} onClick={signUp}>
+                    sign up
+                </Button>
+                <p>or</p>
+                <Button
+                    variant={ButtonVariant.PRIMARY}
+                    onClick={(event) => (window.location.href = '/sign-in')}
+                >
+                    sign in
+                </Button>
+            </div>
         </div>
     );
 }

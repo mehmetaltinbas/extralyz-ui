@@ -33,11 +33,16 @@ export function UpdateSourceForm({
     };
     const [dto, setDto] = React.useState<UpdateSourceDto>(initialDto);
 
+    const isSubmittingRef = React.useRef(false);
+
     React.useEffect(() => {
-        setDto(initialDto);
+        if (isHidden && !isSubmittingRef.current) {
+            setDto(initialDto);
+        }
     }, [isHidden, source]);
 
     async function update() {
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
@@ -49,8 +54,10 @@ export function UpdateSourceForm({
 
             if (!response.isSuccess) {
                 alert(response.message);
+                isSubmittingRef.current = false;
                 setIsHidden(false);
             } else {
+                isSubmittingRef.current = false;
                 refreshData();
 
                 dispatch(tabsActions.invalidateTabPropsById(source._id));
@@ -59,6 +66,7 @@ export function UpdateSourceForm({
             }
         } catch (error) {
             alert('internal error');
+            isSubmittingRef.current = false;
             setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);

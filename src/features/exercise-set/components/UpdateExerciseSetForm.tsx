@@ -33,11 +33,16 @@ export function UpdateExerciseSetForm({
     };
     const [dto, setDto] = React.useState<UpdateExerciseSetDto>(initialDto);
 
+    const isSubmittingRef = React.useRef(false);
+
     React.useEffect(() => {
-        setDto(initialDto);
+        if (isHidden && !isSubmittingRef.current) {
+            setDto(initialDto);
+        }
     }, [isHidden, exerciseSet]);
 
     async function update() {
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
@@ -49,8 +54,10 @@ export function UpdateExerciseSetForm({
 
             if (!response.isSuccess) {
                 alert(response.message);
+                isSubmittingRef.current = false;
                 setIsHidden(false);
             } else {
+                isSubmittingRef.current = false;
                 refreshData();
 
                 dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
@@ -59,6 +66,7 @@ export function UpdateExerciseSetForm({
             }
         } catch (error) {
             alert('internal error');
+            isSubmittingRef.current = false;
             setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);

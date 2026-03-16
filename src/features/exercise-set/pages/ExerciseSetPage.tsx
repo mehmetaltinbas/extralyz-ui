@@ -20,7 +20,7 @@ export function ExerciseSetPage({
             {exerciseSet && exercises ? (
                 <div
                     ref={containerRef}
-                    className={`relative w-full h-full`}
+                    className={`w-full h-full relative w-full h-full`}
                 >
                     <ExerciseSetPopupsProvider containerRef={containerRef} exerciseSet={exerciseSet} exercises={exercises}>
                         <ExerciseSetPageContent

@@ -158,6 +158,7 @@ export function WorkspaceBody() {
                     })}
                 </BodyModalPortalContext.Provider>
             </div>
+
             <div ref={portalTargetRef} />
         </div>
     );

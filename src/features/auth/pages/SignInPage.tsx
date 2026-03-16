@@ -26,42 +26,44 @@ export function SignInPage() {
     return isSignedIn ? (
         <Navigate to="/workspace" />
     ) : (
-        <div className="h-[75%] flex flex-col justify-center items-center gap-2">
-            <p className=" text-lg">Sign In</p>
-            <Input
-                onChange={(event) =>
-                    setSignInDto({
-                        ...signInDto,
-                        userName: event.target.value,
-                    })
-                }
-                type="text"
-                size={InputSize.LG}
-                value={signInDto.userName}
-                placeholder="username..."
-            />
-            <Input
-                onChange={(event) =>
-                    setSignInDto({
-                        ...signInDto,
-                        password: event.target.value,
-                    })
-                }
-                value={signInDto.password}
-                type="password"
-                size={InputSize.LG}
-                placeholder="password..."
-            />
-            <Button variant={ButtonVariant.PRIMARY} onClick={handleSignInSubmit}>
-                sign in
-            </Button>
-            <p>or</p>
-            <Button
-                variant={ButtonVariant.PRIMARY}
-                onClick={(event) => (window.location.href = '/sign-up')}
-            >
-                sign up
-            </Button>
+        <div className='h-[75%] flex justify-center items-center'>
+            <div className="h-auto w-48 flex flex-col justify-center items-center gap-2">
+                <p className=" text-lg">Sign In</p>
+                <Input
+                    onChange={(event) =>
+                        setSignInDto({
+                            ...signInDto,
+                            userName: event.target.value,
+                        })
+                    }
+                    type="text"
+                    size={InputSize.LG}
+                    value={signInDto.userName}
+                    placeholder="username..."
+                />
+                <Input
+                    onChange={(event) =>
+                        setSignInDto({
+                            ...signInDto,
+                            password: event.target.value,
+                        })
+                    }
+                    value={signInDto.password}
+                    type="password"
+                    size={InputSize.LG}
+                    placeholder="password..."
+                />
+                <Button variant={ButtonVariant.PRIMARY} onClick={handleSignInSubmit}>
+                    sign in
+                </Button>
+                <p>or</p>
+                <Button
+                    variant={ButtonVariant.PRIMARY}
+                    onClick={(event) => (window.location.href = '/sign-up')}
+                >
+                    sign up
+                </Button>
+            </div>
         </div>
     );
 }

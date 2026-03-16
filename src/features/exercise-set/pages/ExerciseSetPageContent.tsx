@@ -6,7 +6,6 @@ import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mo
 import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
-import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { ExerciseCardDragOverlay } from 'src/features/exercise/components/ExerciseCardDragOverlay';
 import { SortableExerciseCard } from 'src/features/exercise/components/SortableExerciseCard';
@@ -38,15 +37,14 @@ export function ExerciseSetPageContent({
 
     return (
         <div
-            className="absolute w-full h-full
-            flex flex-col justify-start items-start gap-4
-            p-4"
+            className="absolute w-full h-full overflow-auto
+            flex flex-col justify-start items-start gap-4 p-8"
         >
             <div
                 className="w-full h-auto
                 flex flex-col justif-center items-start gap-2"
             >
-                <div className='w-full h-auto flex flex-col justify-start items-center gap-2'>
+                <div className='w-full h-auto flex flex-col justify-start items-center gap-4'>
                     <p className='text-lg font-bold'>{exerciseSet.title}</p>
 
                     <div className='flex gap-2'>
@@ -111,12 +109,12 @@ export function ExerciseSetPageContent({
                         >
                             Delete
                         </Button>
+
+                        <Button variant={ButtonVariant.OUTLINE} onClick={toggleAnswerVisibility}>
+                            {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
+                        </Button>
                     </div>
                 </div>
-
-                <Button variant={ButtonVariant.OUTLINE} onClick={toggleAnswerVisibility}>
-                    {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}
-                </Button>
             </div>
 
             <DndContext
@@ -128,14 +126,17 @@ export function ExerciseSetPageContent({
                 <SortableContext items={localExercises.map((e) => e._id)} strategy={rectSortingStrategy}>
                     <div className="w-full h-full grid grid-cols-3 gap-4 pb-12">
                         {localExercises.map((exercise) => (
-                            <SortableExerciseCard
-                                key={exercise._id}
-                                exercise={exercise}
-                                isAnswersHidden={isAnswersHidden}
-                            />
+                            <div className='flex justify-center items-center'>
+                                <SortableExerciseCard
+                                    key={exercise._id}
+                                    exercise={exercise}
+                                    isAnswersHidden={isAnswersHidden}
+                                />
+                            </div>
                         ))}
                     </div>
                 </SortableContext>
+
                 {createPortal(
                     <DragOverlay>
                         {activeExercise && (

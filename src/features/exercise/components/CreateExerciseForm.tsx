@@ -42,11 +42,16 @@ export function CreateExerciseForm({
 
     const activeStrategy = resolveExerciseTypeStrategy(dto.type);
 
+    const isSubmittingRef = React.useRef(false);
+
     React.useEffect(() => {
-        setDto(initialDto);
+        if (isHidden && !isSubmittingRef.current) {
+            setDto(initialDto);
+        }
     }, [isHidden]);
 
     async function create() {
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
@@ -58,13 +63,16 @@ export function CreateExerciseForm({
 
             if (!response.isSuccess) {
                 alert(response.message);
+                isSubmittingRef.current = false;
                 setIsHidden(false);
             } else {
+                isSubmittingRef.current = false;
                 refreshData();
                 setIsPopUpActive(false);
             }
         } catch (error) {
             alert('internal error');
+            isSubmittingRef.current = false;
             setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);

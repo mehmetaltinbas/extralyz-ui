@@ -26,9 +26,13 @@ export function UpdatePasswordForm({
     const [dto, setDto] = React.useState<UpdateUserPasswordDto>(initialDto);
     const [confirmNewPassword, setConfirmNewPassword] = React.useState('');
 
+    const isSubmittingRef = React.useRef(false);
+
     React.useEffect(() => {
-        setDto(initialDto);
-        setConfirmNewPassword('');
+        if (isHidden && !isSubmittingRef.current) {
+            setDto(initialDto);
+            setConfirmNewPassword('');
+        }
     }, [isHidden]);
 
     async function update() {
@@ -37,6 +41,7 @@ export function UpdatePasswordForm({
             return;
         }
 
+        isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
@@ -45,14 +50,17 @@ export function UpdatePasswordForm({
 
             if (!response.isSuccess) {
                 alert(response.message);
+                isSubmittingRef.current = false;
                 setIsHidden(false);
             } else {
+                isSubmittingRef.current = false;
                 setDto(initialDto);
                 setConfirmNewPassword('');
                 setIsPopUpActive(false);
             }
         } catch (error) {
             alert('internal error');
+            isSubmittingRef.current = false;
             setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);

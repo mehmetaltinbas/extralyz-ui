@@ -1,6 +1,7 @@
 import type React from "react";
 import { MCQ_CHOICES_COUNT } from "src/features/exercise/constants/mcq-choices-count.constant";
 import type { UpdateExerciseDto } from "src/features/exercise/types/dto/update-exercise.dto";
+import { Textarea } from "src/shared/components/Textarea";
 import { getAlphabetLetter } from "src/shared/utils/get-alphabet-letter.util";
 
 export function MCQUpdateForm({ dto, setDto }: {
@@ -15,7 +16,7 @@ export function MCQUpdateForm({ dto, setDto }: {
                     className="flex justify-start items-center gap-2"
                 >
                     <p>{getAlphabetLetter(index)}</p>
-                    <textarea
+                    <Textarea
                         value={dto.choices![index]}
                         onChange={(e) =>
                             setDto({
@@ -27,7 +28,6 @@ export function MCQUpdateForm({ dto, setDto }: {
                                 ],
                             })
                         }
-                        className="w-96 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
             ))}

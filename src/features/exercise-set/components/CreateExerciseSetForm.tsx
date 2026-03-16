@@ -6,6 +6,7 @@ import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { Button } from 'src/shared/components/Button';
+import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
@@ -115,18 +116,17 @@ export function CreateExerciseSetForm({
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
                 <p>title: </p>
-                <input
+                <Input
                     name="title"
                     value={createExerciseSetDto.title}
                     onChange={(e) => setCreateExerciseSetDto({ ...createExerciseSetDto, title: e.currentTarget.value })}
-                    className="py-[2px] px-2 border rounded-[10px]"
                 />
             </div>
 
             {selectedSourceId !== ExerciseSetSourceType.INDEPENDENT && (
                 <div className="flex justify-start items-center gap-2">
                     <p>count: </p>
-                    <input
+                    <Input
                         name="count"
                         type="number"
                         value={
@@ -141,7 +141,6 @@ export function CreateExerciseSetForm({
                                 count: Number(e.target.value),
                             })
                         }
-                        className="w-[50px] py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
             )}

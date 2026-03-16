@@ -1,5 +1,7 @@
 import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { Textarea } from 'src/shared/components/Textarea';
+import { TextareaSize } from 'src/shared/enums/textarea-size.enum';
 
 export function OpenEndedExercisePracticeCard({
     exercise,
@@ -21,11 +23,11 @@ export function OpenEndedExercisePracticeCard({
 
     return (
         <>
-            <textarea
+            <Textarea
                 onChange={(event) => onChange(event)}
                 value={answer}
                 placeholder="answer..."
-                className="w-full p-2 border rounded-[10px] focus:outline-none"
+                size={TextareaSize.LG}
                 rows={4}
             />
         </>

@@ -1,14 +1,15 @@
 import type React from "react";
 import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-exercise.dto";
+import { Textarea } from "src/shared/components/Textarea";
 
 export function OpenEndedCreateForm({ dto, setDto }: {
     dto: CreateExerciseDto;
     setDto: (value: React.SetStateAction<CreateExerciseDto>) => void;
 }) {
     return(
-        <div className="flex justify-start items-center gap-2">
+        <div className="w-80 flex justify-start items-center gap-2">
             <p>solution: </p>
-            <textarea
+            <Textarea
                 value={dto.solution}
                 onChange={(e) =>
                     setDto({
@@ -16,7 +17,6 @@ export function OpenEndedCreateForm({ dto, setDto }: {
                         solution: e.currentTarget.value,
                     })
                 }
-                className="w-96 py-[2px] px-2 border rounded-[10px]"
             />
         </div>
     );

@@ -7,6 +7,7 @@ import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-e
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
+import { Textarea } from 'src/shared/components/Textarea';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function UpdateExerciseForm({
@@ -130,7 +131,7 @@ export function UpdateExerciseForm({
 
             <div className="flex justify-start items-center gap-2">
                 <p>prompt: </p>
-                <textarea
+                <Textarea
                     value={dto.prompt}
                     onChange={(e) =>
                         setDto({
@@ -138,7 +139,6 @@ export function UpdateExerciseForm({
                             prompt: e.currentTarget.value,
                         })
                     }
-                    className="w-96 py-[2px] px-2 border rounded-[10px]"
                 />
             </div>
 

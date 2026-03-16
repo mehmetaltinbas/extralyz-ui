@@ -10,6 +10,7 @@ import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/ty
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
+import { Textarea } from 'src/shared/components/Textarea';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function CreateExerciseForm({
@@ -133,7 +134,7 @@ export function CreateExerciseForm({
 
             <div className="flex justify-start items-center gap-2">
                 <p>prompt: </p>
-                <textarea
+                <Textarea
                     value={dto.prompt}
                     onChange={(e) =>
                         setDto({
@@ -141,7 +142,6 @@ export function CreateExerciseForm({
                             prompt: e.currentTarget.value,
                         })
                     }
-                    className="w-96 py-[2px] px-2 border rounded-[10px]"
                 />
             </div>
 

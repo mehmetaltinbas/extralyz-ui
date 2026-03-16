@@ -1,5 +1,6 @@
 import type React from "react";
 import type { UpdateExerciseDto } from "src/features/exercise/types/dto/update-exercise.dto";
+import { Textarea } from "src/shared/components/Textarea";
 
 export function OpenEndedUpdateForm({ dto, setDto }: {
     dto: UpdateExerciseDto;
@@ -8,7 +9,7 @@ export function OpenEndedUpdateForm({ dto, setDto }: {
     return (
         <div className="flex justify-start items-center gap-2">
             <p>solution: </p>
-            <textarea
+            <Textarea
                 value={dto.solution}
                 onChange={(e) =>
                     setDto({
@@ -16,7 +17,6 @@ export function OpenEndedUpdateForm({ dto, setDto }: {
                         solution: e.currentTarget.value,
                     })
                 }
-                className="w-96 py-[2px] px-2 border rounded-[10px]"
             />
         </div>
     );

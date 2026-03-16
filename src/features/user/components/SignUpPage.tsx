@@ -3,7 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { UserService } from 'src/features/user/services/user.service';
 import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
 import { Button } from 'src/shared/components/Button';
+import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InputSize } from 'src/shared/enums/input-size.enum';
 
 export function SignUpPage() {
     const [signUpDto, setSignUpDto] = React.useState<SignUpUserDto>({
@@ -28,7 +30,7 @@ export function SignUpPage() {
     ) : (
         <div className="h-[75%] flex flex-col justify-center items-center gap-2">
             <p className=" text-lg">Sign Up</p>
-            <input
+            <Input
                 onChange={(event) =>
                     setSignUpDto({
                         ...signUpDto,
@@ -36,10 +38,10 @@ export function SignUpPage() {
                     })
                 }
                 type="text"
+                size={InputSize.LG}
                 placeholder="username..."
-                className="p-2 border rounded-full"
             />
-            <input
+            <Input
                 onChange={(event) =>
                     setSignUpDto({
                         ...signUpDto,
@@ -47,10 +49,10 @@ export function SignUpPage() {
                     })
                 }
                 type="text"
+                size={InputSize.LG}
                 placeholder="email..."
-                className="p-2 border rounded-full"
             />
-            <input
+            <Input
                 onChange={(event) =>
                     setSignUpDto({
                         ...signUpDto,
@@ -58,8 +60,8 @@ export function SignUpPage() {
                     })
                 }
                 type="password"
+                size={InputSize.LG}
                 placeholder="password..."
-                className="p-2 border rounded-full"
             />
             <Button variant={ButtonVariant.PRIMARY} onClick={signUp}>
                 sign up

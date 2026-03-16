@@ -2,6 +2,7 @@ import React from 'react';
 import { UserService } from 'src/features/user/services/user.service';
 import type { UpdateUserPasswordDto } from 'src/features/user/types/dto/update-user-password.dto';
 import { Button } from 'src/shared/components/Button';
+import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
@@ -63,35 +64,32 @@ export function UpdatePasswordForm({
             <div className="w-full flex flex-col justify-center items-center gap-2">
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>Old Password: </p>
-                    <input
+                    <Input
                         type="password"
                         value={dto.oldPassword}
                         onChange={(e) =>
                             setDto({ ...dto, oldPassword: e.currentTarget.value })
                         }
-                        className="w-64 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
 
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>New Password: </p>
-                    <input
+                    <Input
                         type="password"
                         value={dto.newPassword}
                         onChange={(e) =>
                             setDto({ ...dto, newPassword: e.currentTarget.value })
                         }
-                        className="w-64 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
 
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>Confirm New Password: </p>
-                    <input
+                    <Input
                         type="password"
                         value={confirmNewPassword}
                         onChange={(e) => setConfirmNewPassword(e.currentTarget.value)}
-                        className="w-64 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
             </div>

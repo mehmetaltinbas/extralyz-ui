@@ -3,7 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import type { SignInDto } from 'src/features/auth/types/auth-dtos';
 import { Button } from 'src/shared/components/Button';
+import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InputSize } from 'src/shared/enums/input-size.enum';
 
 export function SignInPage() {
     const [signInDto, setSignInDto] = React.useState<SignInDto>({
@@ -26,7 +28,7 @@ export function SignInPage() {
     ) : (
         <div className="h-[75%] flex flex-col justify-center items-center gap-2">
             <p className=" text-lg">Sign In</p>
-            <input
+            <Input
                 onChange={(event) =>
                     setSignInDto({
                         ...signInDto,
@@ -34,11 +36,11 @@ export function SignInPage() {
                     })
                 }
                 type="text"
+                size={InputSize.LG}
                 value={signInDto.userName}
                 placeholder="username..."
-                className="p-2 border rounded-full"
             />
-            <input
+            <Input
                 onChange={(event) =>
                     setSignInDto({
                         ...signInDto,
@@ -47,8 +49,8 @@ export function SignInPage() {
                 }
                 value={signInDto.password}
                 type="password"
+                size={InputSize.LG}
                 placeholder="password..."
-                className="p-2 border rounded-full"
             />
             <Button variant={ButtonVariant.PRIMARY} onClick={handleSignInSubmit}>
                 sign in

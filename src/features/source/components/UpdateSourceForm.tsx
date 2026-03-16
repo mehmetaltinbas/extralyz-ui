@@ -4,6 +4,7 @@ import type { UpdateSourceDto } from 'src/features/source/types/dto/update-sourc
 import type { Source } from 'src/features/source/types/source.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
+import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
@@ -69,7 +70,7 @@ export function UpdateSourceForm({
             <div className="flex justify-start items-center gap-2">
                 <div className="flex justify-start items-center gap-2">
                     <p>title: </p>
-                    <input
+                    <Input
                         value={dto.title}
                         onChange={(e) =>
                             setDto({
@@ -77,7 +78,6 @@ export function UpdateSourceForm({
                                 title: e.currentTarget.value,
                             })
                         }
-                        className="w-64 py-[2px] px-2 border rounded-[10px]"
                     />
                 </div>
             </div>

@@ -3,14 +3,14 @@ import { ExerciseService } from 'src/features/exercise/services/exercise.service
 import { Section } from 'src/features/workspace/enums/section.enum';
 import type { SectionStrategy } from 'src/features/workspace/strategies/section/section-strategy.interface';
 
-export class ExerciseSetSectionStrategy implements SectionStrategy {
+export class ExerciseSetPaperEvaluationSectionStrategy implements SectionStrategy {
     async buildProps(tab) {
         const { exerciseSet } = await ExerciseSetService.readById(tab.id!);
         const { exercises } = await ExerciseService.readAllByExerciseSetId(tab.id!);
 
         if (!exerciseSet) {
             return {
-                title: Section.EXERCISE_SET
+                title: Section.EXERCISE_SET_PAPER_EVALUATION,
             };
         }
 

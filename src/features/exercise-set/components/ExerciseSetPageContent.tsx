@@ -2,6 +2,7 @@ import { DndContext, DragOverlay, closestCenter } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
@@ -10,9 +11,11 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { ExerciseCardDragOverlay } from 'src/features/exercise/components/ExerciseCardDragOverlay';
 import { SortableExerciseCard } from 'src/features/exercise/components/SortableExerciseCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { Section } from 'src/features/workspace/enums/section.enum';
+import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function ExerciseSetPageContent({
     exerciseSet,
@@ -21,6 +24,7 @@ export function ExerciseSetPageContent({
     exerciseSet: ExerciseSet;
     exercises: Exercise[];
 }) {
+    const dispatch = useAppDispatch();
     const sources = useAppSelector(state => state.sources);
 
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
@@ -101,6 +105,21 @@ export function ExerciseSetPageContent({
                             onClick={viewPdf}
                         >
                             View as PDF
+                        </Button>
+
+                        <Button
+                            onClick={() =>
+                                dispatch(
+                                    tabsActions.openTab({
+                                        section: Section.EXERCISE_SET_PAPER_EVALUATION,
+                                        id: exerciseSet._id,
+                                        title: exerciseSet.title,
+                                        mode: ExerciseSetMode.PAPER_EVALUATION
+                                    })
+                                )
+                            }
+                        >
+                            Evaluate Paper Answers
                         </Button>
 
                         <Button

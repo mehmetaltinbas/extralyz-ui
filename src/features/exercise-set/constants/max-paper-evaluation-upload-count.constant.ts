@@ -1,0 +1,1 @@
+export const MAX_PAPER_EVALUATION_UPLOAD_COUNT = 10;

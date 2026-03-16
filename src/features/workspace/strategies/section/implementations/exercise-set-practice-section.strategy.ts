@@ -4,8 +4,8 @@ import { ExerciseService } from 'src/features/exercise/services/exercise.service
 import { Section } from 'src/features/workspace/enums/section.enum';
 import type { SectionStrategy } from 'src/features/workspace/strategies/section/section-strategy.interface';
 
-export const ExerciseSetPracticeSectionStrategy: SectionStrategy = {
-    buildProps: async (tab) => {
+export class ExerciseSetPracticeSectionStrategy implements SectionStrategy {
+    async buildProps(tab) {
         const { exerciseSet } = await ExerciseSetService.readById(tab.id!);
         const { exercises } = await ExerciseService.readAllByExerciseSetId(tab.id!);
 
@@ -16,7 +16,7 @@ export const ExerciseSetPracticeSectionStrategy: SectionStrategy = {
 
             for (let i = processedExercises.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
-                
+
                 [processedExercises[i], processedExercises[j]] = [processedExercises[j], processedExercises[i]];
             }
         }
@@ -32,5 +32,5 @@ export const ExerciseSetPracticeSectionStrategy: SectionStrategy = {
             exerciseSet: exerciseSet,
             exercises:  processedExercises,
         };
-    },
-};
+    }
+}

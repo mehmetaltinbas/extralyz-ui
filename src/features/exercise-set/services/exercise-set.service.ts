@@ -115,6 +115,27 @@ export class ExerciseSetService {
         }
     }
 
+    static async evaluatePaperAnswers(
+        id: string,
+        files: File[]
+    ): Promise<EvaluateAnswersResponse> {
+        try {
+            const formData = new FormData();
+            files.forEach((file) => formData.append('files', file));
+
+            const response = (
+                await axiosInstance.post(
+                    `${baseUrl}/evaluate-paper-answers/${id}`,
+                    formData
+                )
+            ).data;
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
     static async getPdf(id: string): Promise<GetPdfResponse> {
         try {
             const response = (

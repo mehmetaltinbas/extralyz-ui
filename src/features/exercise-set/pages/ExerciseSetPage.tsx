@@ -31,4 +31,3 @@ export function ExerciseSetPage({
         <div className={`${className ?? ''}`}>undefined</div>
     );
 }
-

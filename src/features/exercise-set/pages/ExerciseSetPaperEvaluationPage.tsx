@@ -15,11 +15,11 @@ import { useAppSelector } from 'src/store/hooks';
 export function ExerciseSetPaperEvaluationPage({
     exerciseSet,
     exercises,
-    className,
+    isActiveComponent,
 }: {
     exerciseSet?: ExerciseSet;
     exercises?: Exercise[];
-    className?: string;
+    isActiveComponent: boolean;
 }) {
     const [files, setFiles] = React.useState<File[]>([]);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -70,7 +70,7 @@ export function ExerciseSetPaperEvaluationPage({
     }
 
     return (
-        <>
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
             {!exerciseSet || !exercises ? (
                 <div>undefined</div>
             ) : isSubmitting ? (
@@ -82,7 +82,7 @@ export function ExerciseSetPaperEvaluationPage({
                     startOver={startOver}
                 />
             ) : (
-                <div className={`${className ?? ''} w-full h-full flex flex-col items-center gap-6 p-4`}>
+                <div className={`w-full h-full flex flex-col items-center gap-6 p-4`}>
                     <p className="text-lg font-bold">Evaluate Paper Answers</p>
 
                     <div className='flex flex-col gap-1 justify-center items-center'>
@@ -165,6 +165,6 @@ export function ExerciseSetPaperEvaluationPage({
                     </Button>
                 </div>
             )}
-        </>
+        </div>
     );
 }

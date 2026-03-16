@@ -15,11 +15,11 @@ import { useAppDispatch } from 'src/store/hooks';
 export function ExerciseSetPracticePage({
     exerciseSet,
     exercises,
-    className,
+    isActiveComponent,
 }: {
     exerciseSet?: ExerciseSet;
     exercises?: Exercise[];
-    className?: string;
+    isActiveComponent: boolean;
 }) {
     const dispatch = useAppDispatch();
     const [activeExerciseIndex, setActiveExerciseIndex] = React.useState<number>(0);
@@ -62,7 +62,7 @@ export function ExerciseSetPracticePage({
     }
 
     return (
-        <div className={`${className ?? ''} w-full h-full`}>
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
             {' '}
             {exerciseSet && exercises ? (
                 activeExerciseIndex === exercises.length ? (

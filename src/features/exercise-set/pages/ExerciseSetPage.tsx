@@ -1,33 +1,37 @@
 import React from 'react';
-import { ExerciseSetPageContent } from 'src/features/exercise-set/pages/ExerciseSetPageContent';
 import { ExerciseSetPopupsProvider } from 'src/features/exercise-set/components/ExerciseSetPopupsProvider';
+import { ExerciseSetPageContent } from 'src/features/exercise-set/pages/ExerciseSetPageContent';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExerciseSetPage({
     exerciseSet,
     exercises,
-    className,
+    isActiveComponent,
 }: {
     exerciseSet?: ExerciseSet;
     exercises?: Exercise[];
-    className?: string;
+    isActiveComponent: boolean;
 }) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    return exerciseSet && exercises ? (
-        <div
-            ref={containerRef}
-            className={`relative w-full h-full ${className ?? ''}`}
-        >
-            <ExerciseSetPopupsProvider containerRef={containerRef} exerciseSet={exerciseSet} exercises={exercises}>
-                <ExerciseSetPageContent
-                    exerciseSet={exerciseSet}
-                    exercises={exercises}
-                />
-            </ExerciseSetPopupsProvider>
+    return (
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
+            {exerciseSet && exercises ? (
+                <div
+                    ref={containerRef}
+                    className={`relative w-full h-full`}
+                >
+                    <ExerciseSetPopupsProvider containerRef={containerRef} exerciseSet={exerciseSet} exercises={exercises}>
+                        <ExerciseSetPageContent
+                            exerciseSet={exerciseSet}
+                            exercises={exercises}
+                        />
+                    </ExerciseSetPopupsProvider>
+                </div>
+            ) : (
+                <div>undefined</div>
+            )}
         </div>
-    ) : (
-        <div className={`${className ?? ''}`}>undefined</div>
     );
 }

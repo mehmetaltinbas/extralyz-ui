@@ -148,7 +148,7 @@ export function WorkspaceBody() {
                             <Component
                                 key={key}
                                 {...builtProps}
-                                className={isActiveComponent ? 'block' : 'hidden'}
+                                isActiveComponent={isActiveComponent}
                             />
                         ) : (
                             <div key={key} className={isActiveComponent ? 'block w-full h-full' : 'hidden'}>

@@ -2,6 +2,7 @@ import type React from 'react';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useClickOutside } from 'src/shared/hooks/use-click-outside.hook';
 
 export function ActionMenu({
     isHidden,
@@ -14,6 +15,7 @@ export function ActionMenu({
     ref: React.RefObject<HTMLDivElement | null>;
     children: React.ReactNode;
 }) {
+    useClickOutside(ref, onClose, !isHidden);
     return (
         <div
             ref={ref}

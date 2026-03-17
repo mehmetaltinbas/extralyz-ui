@@ -54,8 +54,12 @@ export function ExerciseSetsPopupsProvider({
             exerciseSetActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
             exerciseSetActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
 
-            setActionMenuExerciseSet(exerciseSet);
-            setIsExerciseSetActionMenuHidden((prev) => !prev);
+            if (!isExerciseSetActionMenuHidden && actionMenuExerciseSet?._id === exerciseSet._id) {
+                setIsExerciseSetActionMenuHidden(true);
+            } else {
+                setActionMenuExerciseSet(exerciseSet);
+                setIsExerciseSetActionMenuHidden(false);
+            }
         }
     }
 

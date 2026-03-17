@@ -57,8 +57,12 @@ export function SourcesPopupsProvider({
             sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
             sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
 
-            setActionMenuSourceId(sourceId);
-            setIsSourceActionMenuHidden((prev) => !prev);
+            if (!isSourceActionMenuHidden && actionMenuSourceId === sourceId) {
+                setIsSourceActionMenuHidden(true);
+            } else {
+                setActionMenuSourceId(sourceId);
+                setIsSourceActionMenuHidden(false);
+            }
         }
     }
 

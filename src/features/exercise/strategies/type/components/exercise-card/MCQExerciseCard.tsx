@@ -16,8 +16,8 @@ export function MCQExerciseCard({
     ]);
 
     return (
-        <div className="w-full h-full flex flex-col gap-2">
-            <p>{exercise.prompt}</p>
+        <div className="w-full h-full flex flex-col gap-2 ">
+            <p className=''>{exercise.prompt}</p>
 
             <div className="flex flex-col justify-start items-start">
                 {!isAnswersHidden && (

@@ -34,8 +34,9 @@ export function SortableExerciseCard({
                 {...attributes}
                 {...listeners}
             >
-                <GripVertical size={16} />
+                <GripVertical size={20} />
             </div>
+
             <ExerciseCard exercise={exercise} isAnswersHidden={isAnswersHidden} />
         </div>
     );

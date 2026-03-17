@@ -17,7 +17,7 @@ export function ExerciseCard({
 
     return (
         <div
-            className={`relative w-full max-w-[250px] aspect-square border rounded-[10px] px-6 py-6`}
+            className={`relative w-full max-w-[250px] md:max-w-[300px] aspect-square border rounded-[10px] px-8 py-8 text-sm md:text-base`}
         >
             <div className="absolute top-1 right-1">
                 <ActionMenuTriggerer

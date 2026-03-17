@@ -8,6 +8,7 @@ import type { OnDragOverTab } from 'src/features/workspace/features/tabs/types/o
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function Tab({
@@ -25,6 +26,7 @@ export function Tab({
 }) {
     const dispatch = useAppDispatch();
     const activeTabIndex = useAppSelector((state) => state.tabs.activeTabIndex);
+    const { isMobile } = useBreakpoint();
 
     const displayTitle = computeTabTitle(tab);
 
@@ -48,16 +50,16 @@ export function Tab({
 
     return (
         <div
-            draggable="true"
+            draggable={!isMobile}
             onDragStart={(event) => onDragStart(event)}
             data-tab-element={JSON.stringify({ arrayIndex: index })}
             onClick={displayTab}
-            className={`max-w-[200px] h-full ${index === activeTabIndex && 'bg-surface'} ${onDragOverTab?.index === index && index !== dragSourceIndex && (onDragOverTab.side === 'left' ? 'border-l border-l-border-strong' : 'border-r border-r-border-strong')} cursor-pointer p-2
+            className={`max-w-[120px] md:max-w-[200px] h-full ${index === activeTabIndex && 'bg-surface'} ${onDragOverTab?.index === index && index !== dragSourceIndex && (onDragOverTab.side === 'left' ? 'border-l border-l-border-strong' : 'border-r border-r-border-strong')} cursor-pointer p-2
             flex-shrink-0 flex justify-center items-center gap-[10px]
             hover:bg-surface`}
         >
-            <div className="max-w-[150px] flex justify-center items-center">
-                <p className="truncate" title={displayTitle}>
+            <div className="max-w-[80px] md:max-w-[150px] flex justify-center items-center">
+                <p className="truncate text-xs md:text-sm" title={displayTitle}>
                     {displayTitle}
                 </p>
             </div>

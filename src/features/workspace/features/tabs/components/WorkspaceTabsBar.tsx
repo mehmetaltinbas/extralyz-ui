@@ -13,10 +13,20 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 export function WorkspaceTabsBar() {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
-    const widths = useAppSelector((state) => state.layoutDimensions);
 
+    const containerRef = React.useRef<HTMLDivElement>(null);
     const [onDragOverTab, setOnDragOverTab] = React.useState<OnDragOverTab | null>(null);
     const [dragSourceIndex, setDragSourceIndex] = React.useState<number | null>(null);
+
+    React.useEffect(() => {
+        if (!containerRef.current || tabs.activeTabIndex < 0) return;
+        const activeTab = containerRef.current.querySelector(
+            `[data-tab-element]:nth-child(${tabs.activeTabIndex + 1})`,
+        );
+        if (activeTab) {
+            activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+        }
+    }, [tabs.activeTabIndex]);
 
     function onDragOver(event: React.DragEvent<HTMLDivElement>) {
         event.preventDefault();
@@ -117,13 +127,14 @@ export function WorkspaceTabsBar() {
 
     return (
         <div
+            ref={containerRef}
             onDragOver={(event) => onDragOver(event)}
             onDragLeave={(event) => onDragLeave(event)}
             onDragEnd={onDragEnd}
             onDrop={(event) => onDrop(event)}
-            className={`w-[${widths.mainColumn.width}px] h-[40px] bg-surface-alt z-10
-            flex flex-shrink-0 justify-start items-center
-            border-1 border-surface overflow-x-auto`}
+            className={`w-full h-[40px] bg-surface-alt z-10
+            flex justify-start items-center
+            border-1 border-surface overflow-x-auto touch-pan-x`}
         >
             {tabs.elements.map((tab, index) => (
                 <Tab key={computeTabKey(tab)} tab={tab} index={index} onDragOverTab={onDragOverTab} dragSourceIndex={dragSourceIndex} setDragSourceIndex={setDragSourceIndex} />

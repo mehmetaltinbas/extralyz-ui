@@ -1,27 +1,19 @@
 import { useEffect, useState } from 'react';
+import { MOBILE_QUERY } from 'src/shared/constants/mobile-query.constant';
+import { TABLET_QUERY } from 'src/shared/constants/tablet-query.constant';
+import { Breakpoint } from 'src/shared/enums/breakpoint.enum';
+import { getBreakpoint } from 'src/shared/utils/get-breakpoint.util';
 
-type Breakpoint = 'mobile' | 'tablet' | 'desktop';
-
-interface UseBreakpointReturn {
+export function useBreakpoint(): {
     breakpoint: Breakpoint;
     isMobile: boolean;
     isTablet: boolean;
     isDesktop: boolean;
-}
-
-const MOBILE_QUERY = '(max-width: 767px)';
-const TABLET_QUERY = '(min-width: 768px) and (max-width: 1024px)';
-
-function getBreakpoint(mobileMatch: boolean, tabletMatch: boolean): Breakpoint {
-    if (mobileMatch) return 'mobile';
-    if (tabletMatch) return 'tablet';
-    return 'desktop';
-}
-
-export function useBreakpoint(): UseBreakpointReturn {
+} {
     const [breakpoint, setBreakpoint] = useState<Breakpoint>(() => {
         const mobileMatch = window.matchMedia(MOBILE_QUERY).matches;
         const tabletMatch = window.matchMedia(TABLET_QUERY).matches;
+
         return getBreakpoint(mobileMatch, tabletMatch);
     });
 
@@ -44,8 +36,8 @@ export function useBreakpoint(): UseBreakpointReturn {
 
     return {
         breakpoint,
-        isMobile: breakpoint === 'mobile',
-        isTablet: breakpoint === 'tablet',
-        isDesktop: breakpoint === 'desktop',
+        isMobile: breakpoint === Breakpoint.MOBILE,
+        isTablet: breakpoint === Breakpoint.TABLET,
+        isDesktop: breakpoint === Breakpoint.DESKTOP,
     };
 }

@@ -1,9 +1,10 @@
 import type React from 'react';
 import { inputSizeStylesMap } from 'src/shared/constants/input-size-styles-map.constant';
 import { InputSize } from 'src/shared/enums/input-size.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 
 export function Input({
-    type = 'text',
+    type = InputType.TEXT,
     size = InputSize.MD,
     value,
     placeholder,
@@ -14,7 +15,7 @@ export function Input({
     multiple,
     inputKey,
 }: {
-    type?: 'text' | 'number' | 'password' | 'file';
+    type?: InputType;
     size?: InputSize;
     value?: string | number;
     placeholder?: string;
@@ -25,24 +26,20 @@ export function Input({
     multiple?: boolean;
     inputKey?: React.Key;
 }) {
-    if (type === 'file') {
-        return (
-            <input
-                key={inputKey}
-                type="file"
-                onChange={onChange}
-                disabled={disabled}
-                name={name}
-                accept={accept}
-                multiple={multiple}
-                className="w-[200px] border border-border rounded-[20px] p-1 cursor-pointer text-xs hover:bg-surface-hover"
-            />
-        );
-    }
-
     const sizeStyles = inputSizeStylesMap.get(size);
 
-    return (
+    return (type === InputType.FILE ?
+        <input
+            key={inputKey}
+            type="file"
+            onChange={onChange}
+            disabled={disabled}
+            name={name}
+            accept={accept}
+            multiple={multiple}
+            className="w-[200px] border border-border focus:outline-none rounded-[20px] p-1 cursor-pointer text-xs hover:bg-surface-hover"
+        />
+        :
         <input
             type={type}
             value={value}
@@ -50,7 +47,7 @@ export function Input({
             onChange={onChange}
             disabled={disabled}
             name={name}
-            className={`w-full border border-border bg-surface text-text-primary cursor-text transition-colors ${sizeStyles}`}
+            className={`w-full border border-border focus:outline-none bg-surface text-text-primary cursor-text transition-colors ${sizeStyles}`}
         />
     );
 }

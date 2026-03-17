@@ -4,6 +4,7 @@ import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import type { TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function SidebarNavSection({
@@ -14,7 +15,7 @@ export function SidebarNavSection({
     items: Source[] | ExerciseSet[];
 }) {
     const dispatch = useAppDispatch();
-    const sidebar = useAppSelector((state) => state.sidebar);
+    const sidebarMode = useAppSelector((state) => state.sidebar.mode);
 
     function onDragStart(event: React.DragEvent<HTMLButtonElement>) {
         event.dataTransfer.setDragImage(event.currentTarget, 0, 0);
@@ -27,22 +28,28 @@ export function SidebarNavSection({
         }
     }
 
+    function handleItemClick(tabData: Parameters<typeof tabsActions.openTab>[0]) {
+        dispatch(tabsActions.openTab(tabData));
+        if (sidebarMode === 'drawer') {
+            dispatch(sidebarActions.close());
+        }
+    }
+
     return (
         <div
-            className={`w-[${sidebar.width - 30}px] h-auto overflow-y-auto
-            flex flex-col justify-start items-start gap-1`}
+            className="w-full h-auto overflow-y-auto
+            flex flex-col justify-start items-start gap-1"
         >
             <div
                 className="w-full h-auto
                 flex justify-start items-center gap-2"
             >
-                {/* <button>⌄</button> */}
                 <div className="w-full h-auto flex flex-col justify-center items-start gap-1">
                     <button
                         draggable="true"
                         onDragStart={(event) => onDragStart(event)}
                         data-tab-element={JSON.stringify({ section: section })}
-                        onClick={(event) => dispatch(tabsActions.openTab({ section }))}
+                        onClick={() => handleItemClick({ section })}
                         className="w-full h-auto cursor-pointer px-[8px] py-[1px]
                             font-serif font-semibold flex justify-start
                             hover:bg-surface-hover"
@@ -55,8 +62,8 @@ export function SidebarNavSection({
                 </div>
             </div>
             <div
-                className={`w-full h-auto pl-8
-                flex flex-col justify-start items-start gap-[2px]`}
+                className="w-full h-auto pl-8
+                flex flex-col justify-start items-start gap-[2px]"
             >
                 {items?.map((item) => (
                     <button
@@ -68,16 +75,16 @@ export function SidebarNavSection({
                             id: item._id,
                             title: item.title,
                         })}
-                        onClick={(event) =>
-                            dispatch(tabsActions.openTab({
+                        onClick={() =>
+                            handleItemClick({
                                 section: section.slice(0, -1) as Section,
                                 id: item._id,
                                 title: item.title,
-                            }))
+                            })
                         }
-                        className={`w-full max-w-[${sidebar.width - 62}px] cursor-pointer truncate px-[8px] py-[1px]
+                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
                             flex justify-start
-                            hover:bg-surface-hover`}
+                            hover:bg-surface-hover"
                     >
                         <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
                     </button>

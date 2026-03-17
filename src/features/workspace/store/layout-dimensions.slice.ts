@@ -7,13 +7,11 @@ interface Dimensions {
 
 interface LayoutDimensionsState {
     mainColumn: Dimensions;
-    exerciseSetsContainer: Dimensions;
     workspaceBody: Dimensions;
 }
 
 const initialState: LayoutDimensionsState = {
     mainColumn: {},
-    exerciseSetsContainer: {},
     workspaceBody: {},
 };
 
@@ -21,12 +19,6 @@ const layoutDimensions = createSlice({
     name: 'layoutDimensions',
     initialState,
     reducers: {
-        updateWidthsBySidebarWidth: (state, action: PayloadAction<number>) => {
-            const sidebarWidth = action.payload;
-
-            state.mainColumn.width = window.innerWidth - sidebarWidth;
-            state.exerciseSetsContainer.width = (window.innerWidth - sidebarWidth) * 0.9 - 64;
-        },
         updateDimension: (
             state,
             action: PayloadAction<{

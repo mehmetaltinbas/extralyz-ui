@@ -1,33 +1,21 @@
+import { Menu } from 'lucide-react';
 import React from 'react';
 import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { userActions } from 'src/features/user/store/user.slice';
 import { Sidebar } from 'src/features/workspace/components/sidebar/Sidebar';
 import { WorkspaceBody } from 'src/features/workspace/components/WorkspaceBody';
 import { WorkspaceTabsBar } from 'src/features/workspace/features/tabs/components/WorkspaceTabsBar';
-import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function WorkspacePage() {
     const dispatch = useAppDispatch();
-    const sidebar = useAppSelector((state) => state.sidebar);
+    const { isDesktop } = useBreakpoint();
 
     React.useEffect(() => {
         dispatch(userActions.fetchData());
     }, []);
-
-    React.useEffect(() => {
-        function handleResize() {
-            dispatch(layoutDimensionsActions.updateWidthsBySidebarWidth(sidebar.width));
-        }
-
-        handleResize();
-
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [sidebar.width]);
 
     return (
         <UserPopupsProvider>
@@ -36,8 +24,18 @@ export function WorkspacePage() {
                 flex"
             >
                 <Sidebar />
-                <div className="w-full h-full flex flex-col">
-                    <WorkspaceTabsBar />
+                <div className="w-full h-full flex flex-col min-w-0">
+                    <div className="flex items-center min-w-0">
+                        {!isDesktop && (
+                            <button
+                                className="p-2 cursor-pointer flex-shrink-0"
+                                onClick={() => dispatch(sidebarActions.open())}
+                            >
+                                <Menu size={20} />
+                            </button>
+                        )}
+                        <WorkspaceTabsBar />
+                    </div>
                     <WorkspaceBody />
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { SidebarNavSection } from 'src/features/workspace/components/sidebar/SidebarNavSection';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { themeActions } from 'src/store/theme.slice';
 
@@ -16,6 +17,7 @@ export function Sidebar() {
     const exerciseSets = useAppSelector((state) => state.exerciseSets);
     const user = useAppSelector((state) => state.user);
     const themeMode = useAppSelector((state) => state.theme.mode);
+    const { isDesktop } = useBreakpoint();
 
     const [isActionMenuHidden, setIsActionMenuHidden] = React.useState<boolean>(true);
 
@@ -25,6 +27,10 @@ export function Sidebar() {
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
+        dispatch(sidebarActions.setMode(isDesktop ? 'sidebar' : 'drawer'));
+    }, [isDesktop]);
+
+    React.useEffect(() => {
         async function fetchItems() {
             dispatch(sourcesActions.fetchData());
             dispatch(exerciseSetsActions.fetchData());
@@ -32,14 +38,16 @@ export function Sidebar() {
 
         fetchItems();
 
-        window.addEventListener('mousemove', handleMouseMove);
-        window.addEventListener('mouseup', handleMouseUp);
+        if (isDesktop) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
 
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, []);
+            return () => {
+                window.removeEventListener('mousemove', handleMouseMove);
+                window.removeEventListener('mouseup', handleMouseUp);
+            };
+        }
+    }, [isDesktop]);
 
     function handleMouseDown(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         isResizing.current = true;
@@ -72,13 +80,11 @@ export function Sidebar() {
     function toggleActionMenu(event: React.MouseEvent) {
         event.stopPropagation();
 
-        // 1. If we are closing it, just toggle and exit
         if (!isActionMenuHidden) {
             setIsActionMenuHidden(true);
             return;
         }
 
-        // 2. If we are opening it, calculate position first
         const userActionMenu = actionMenuRef.current;
         const profileButton = profileButtonRef.current;
         const container = containerRef.current;
@@ -87,20 +93,97 @@ export function Sidebar() {
             const containerRect = container.getBoundingClientRect();
             const profileRect = profileButton.getBoundingClientRect();
 
-            // Calculate position relative to the sidebar container
-            // We place it at the top of the profile button minus its own height
             const top = profileRect.top - containerRect.top;
             const left = profileRect.left - containerRect.left + profileRect.width/2;
 
             userActionMenu.style.top = `${top}px`;
             userActionMenu.style.left = `${left}px`;
-            // Use transform to move it exactly above the button
             userActionMenu.style.transform = `translateY(-105%)`;
 
             setIsActionMenuHidden(false);
         }
     }
 
+    // Drawer mode (mobile/tablet)
+    if (!isDesktop) {
+        if (!sidebar.isOpen) return null;
+
+        return (
+            <div className="fixed inset-0 z-40 flex">
+                {/* Backdrop */}
+                <div
+                    className="fixed inset-0 bg-black/30"
+                    onClick={() => dispatch(sidebarActions.close())}
+                />
+
+                {/* Drawer panel */}
+                <div
+                    className="relative w-[300px] h-full bg-surface-alt shadow-xl z-50
+                    flex flex-col justify-between p-4"
+                >
+                    <div className="w-full flex flex-col items-center gap-4">
+                        <div className="w-full flex justify-end">
+                            <button className="cursor-pointer" onClick={() => dispatch(sidebarActions.close())}>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    className="w-6 h-6"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <SidebarNavSection section={Section.SOURCES} items={sources} />
+                        <SidebarNavSection section={Section.EXERCISE_SETS} items={exerciseSets} />
+                    </div>
+
+                    <div className="w-full flex flex-col items-start gap-3">
+                        <button
+                            onClick={() => dispatch(themeActions.toggle())}
+                            className="w-8 h-8 rounded-full bg-surface-hover text-text-primary cursor-pointer flex justify-center items-center hover:bg-surface-muted"
+                            title={themeMode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+                        >
+                            {themeMode === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+                        </button>
+
+                        <div ref={containerRef} className="relative w-full flex flex-col items-start">
+                            <UserActionMenu
+                                isHidden={isActionMenuHidden}
+                                setIsHidden={setIsActionMenuHidden}
+                                ref={actionMenuRef}
+                            />
+
+                            <div
+                                className="flex flex-row items-center gap-2"
+                                onClick={toggleActionMenu}
+                            >
+                                {user && (
+                                    <>
+                                        <div
+                                            ref={profileButtonRef}
+                                            className="w-8 h-8 rounded-full bg-btn-primary-bg text-btn-primary-text cursor-pointer flex justify-center items-center"
+                                        >
+                                            {user.userName.charAt(0).toUpperCase() ?? '?'}
+                                        </div>
+                                        <span className="text-xs text-text-secondary cursor-pointer">
+                                            {user.creditBalance}
+                                        </span>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Desktop mode — original sidebar
     return (
         <div
             className={`w-[${sidebar.width}px] h-full sticky z-20 shadow-xl
@@ -167,7 +250,6 @@ export function Sidebar() {
                     </button>
 
                 <div ref={containerRef} className={`relative w-full flex flex-col ${sidebar.isOpen ? 'items-start' : 'items-center'}`}>
-                    {/* The Menu starts hidden and will be positioned by the function */}
                     <UserActionMenu
                         isHidden={isActionMenuHidden}
                         setIsHidden={setIsActionMenuHidden}

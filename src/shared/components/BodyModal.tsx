@@ -36,7 +36,7 @@ export function BodyModal({
                 onClick={onOverlayClick}
             >
                 <div
-                    className="w-full h-[80%] flex justify-center items-center"
+                    className="w-full h-[95%] h-[80%] flex justify-center items-center"
                  >
                     {components}
                 </div>

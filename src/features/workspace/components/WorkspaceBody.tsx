@@ -1,4 +1,5 @@
 import React from 'react';
+import { TabPortalWrapper } from 'src/features/workspace/components/TabPortalWrapper';
 import { SECTION_COMPONENTS } from 'src/features/workspace/constants/section-components.constant';
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
@@ -12,13 +13,11 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 export function WorkspaceBody() {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
-    const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
 
     const [builtPropsRecord, setBuiltPropsRecord] = React.useState<
         Record<string, object | undefined>
     >({});
     const containerDiv = React.useRef<HTMLDivElement | null>(null);
-    const portalTargetRef = React.useRef<HTMLDivElement | null>(null);
     const buildingKeys = React.useRef<Set<string>>(new Set());
 
     React.useEffect(() => {
@@ -131,12 +130,11 @@ export function WorkspaceBody() {
     return (
         <div
             ref={containerDiv}
-            className={`relative z-0 w-[${layoutDimensions.mainColumn.width}px] h-[${layoutDimensions.mainColumn.height ? `${layoutDimensions.mainColumn.height * 0.9}px` : '90%'}]
+            className={`relative z-0 w-full
             flex-1`}
             style={{ transform: 'translateZ(0)' }}
         >
-            <div className="w-full h-full overflow-y-auto p-4 flex justify-center items-center">
-                <BodyModalPortalContext.Provider value={portalTargetRef}>
+            <div className="w-full h-full overflow-y-auto p-4 pb-12 flex justify-center items-center">
                     {tabs.elements?.map((element, index) => {
                         const Component = SECTION_COMPONENTS[element.section];
                         const key = computeTabKey(element);
@@ -144,22 +142,22 @@ export function WorkspaceBody() {
                         const isActiveComponent = index === tabs.activeTabIndex;
                         const builtProps = builtPropsRecord[key];
 
-                        return Component && builtProps ? (
-                            <Component
-                                key={key}
-                                {...builtProps}
-                                isActiveComponent={isActiveComponent}
-                            />
-                        ) : (
-                            <div key={key} className={isActiveComponent ? 'block w-full h-full' : 'hidden'}>
-                                <LoadingPage />
-                            </div>
+                        return (
+                            <TabPortalWrapper key={key} isActive={isActiveComponent}>
+                                {Component && builtProps ? (
+                                    <Component
+                                        {...builtProps}
+                                        isActiveComponent={isActiveComponent}
+                                    />
+                                ) : (
+                                    <div className={isActiveComponent ? 'block w-full h-full' : 'hidden'}>
+                                        <LoadingPage />
+                                    </div>
+                                )}
+                            </TabPortalWrapper>
                         );
                     })}
-                </BodyModalPortalContext.Provider>
             </div>
-
-            <div ref={portalTargetRef} />
         </div>
     );
 }

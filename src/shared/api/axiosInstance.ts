@@ -1,7 +1,15 @@
 import axios, { AxiosError } from 'axios';
 
+function resolveBaseURL(): string {
+    const apiPort = import.meta.env.VITE_API_PORT;
+    if (apiPort) {
+        return `${window.location.protocol}//${window.location.hostname}:${apiPort}`;
+    }
+    return import.meta.env.VITE_API_URL;
+}
+
 const instance = axios.create({
-    baseURL: `${import.meta.env.VITE_API_URL}`,
+    baseURL: resolveBaseURL(),
     withCredentials: true,
 });
 
@@ -16,9 +24,7 @@ instance.interceptors.response.use(
         // do something with response error
         if (error.status === 401) {
             // 401: unauthorized
-            const appUrl = import.meta.env.VITE_UI_URL;
-
-            if (window.location.href !== appUrl && window.location.href !== `${appUrl}/`) {
+            if (window.location.pathname !== '/') {
                 window.location.href = '/';
             }
         } else if (error.status === 403) {

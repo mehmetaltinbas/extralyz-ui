@@ -16,7 +16,6 @@ export function YoutubeVideoCreateSourceForm({
                 <p>url: </p>
                 <Input
                     onChange={(e) => setDto((prev) => ({ ...prev, url: e.target.value }))}
-                    type="text"
                     size={InputSize.LG}
                     value={dto.url ?? ''}
                     placeholder="https://youtube.com/watch?v=..."
@@ -27,7 +26,6 @@ export function YoutubeVideoCreateSourceForm({
                 <p>title: </p>
                 <Input
                     onChange={(e) => setDto((prev) => ({ ...prev, title: e.target.value }))}
-                    type="text"
                     size={InputSize.LG}
                     value={dto.title ?? ''}
                     placeholder="title..."

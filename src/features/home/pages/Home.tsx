@@ -40,7 +40,7 @@ export function Home() {
         <div className="w-full min-h-screen flex flex-col">
             {/* Navigation Header */}
             <header className="sticky top-0 z-50 w-full bg-surface border-b border-border">
-                <div className="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
+                <div className="max-w-6xl mx-auto px-4 sm:px-8 h-14 flex items-center justify-between">
                     <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
 
                     {isAuthenticated === null ? null : isAuthenticated ? (
@@ -68,9 +68,9 @@ export function Home() {
             </header>
 
             {/* Hero Section */}
-            <section className="w-full flex flex-col justify-center items-center px-8 py-20">
+            <section className="w-full flex flex-col justify-center items-center px-4 sm:px-8 py-20">
                 <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-                    <h1 className="text-5xl font-bold leading-tight tracking-tight">
+                    <h1 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
                         Turn Your Documents Into
                         <br />
                         Practice Exercises

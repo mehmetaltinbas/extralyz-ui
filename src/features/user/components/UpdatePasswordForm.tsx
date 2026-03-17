@@ -5,6 +5,7 @@ import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 
 export function UpdatePasswordForm({
     isHidden,
@@ -73,7 +74,7 @@ export function UpdatePasswordForm({
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>Old Password: </p>
                     <Input
-                        type="password"
+                        type={InputType.PASSWORD}
                         value={dto.oldPassword}
                         onChange={(e) =>
                             setDto({ ...dto, oldPassword: e.currentTarget.value })
@@ -84,7 +85,7 @@ export function UpdatePasswordForm({
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>New Password: </p>
                     <Input
-                        type="password"
+                        type={InputType.PASSWORD}
                         value={dto.newPassword}
                         onChange={(e) =>
                             setDto({ ...dto, newPassword: e.currentTarget.value })
@@ -95,7 +96,7 @@ export function UpdatePasswordForm({
                 <div className="w-full flex justify-center items-center gap-2">
                     <p>Confirm New Password: </p>
                     <Input
-                        type="password"
+                        type={InputType.PASSWORD}
                         value={confirmNewPassword}
                         onChange={(e) => setConfirmNewPassword(e.currentTarget.value)}
                     />

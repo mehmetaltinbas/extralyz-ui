@@ -6,6 +6,7 @@ import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 
 export function SignUpPage() {
     const [signUpDto, setSignUpDto] = React.useState<SignUpUserDto>({
@@ -38,7 +39,6 @@ export function SignUpPage() {
                             userName: event.target.value,
                         })
                     }
-                    type="text"
                     size={InputSize.LG}
                     placeholder="username..."
                 />
@@ -49,7 +49,6 @@ export function SignUpPage() {
                             email: event.target.value,
                         })
                     }
-                    type="text"
                     size={InputSize.LG}
                     placeholder="email..."
                 />
@@ -60,9 +59,9 @@ export function SignUpPage() {
                             password: event.target.value,
                         })
                     }
-                    type="password"
+                    type={InputType.PASSWORD}
                     size={InputSize.LG}
-                    placeholder="password..."
+                    placeholder={InputType.PASSWORD}
                 />
                 <Button variant={ButtonVariant.PRIMARY} onClick={signUp}>
                     sign up

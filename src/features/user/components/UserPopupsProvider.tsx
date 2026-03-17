@@ -38,7 +38,7 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
 
             <BodyModal
                 isPopUpActive={isPopUpActive}
-                zIndex={30}
+                zIndex={50}
                 onOverlayClick={closePopups}
                 components={[
                     ...[user &&

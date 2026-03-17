@@ -5,14 +5,11 @@ import { selectIndependentExerciseSets } from 'src/features/exercise-set/store/s
 import { selectExtendedSources } from 'src/features/source/store/selectors/select-extended-sources';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import type { RootState } from 'src/store/store';
 
 export function ExerciseSetsPageContent({
-    layoutDimensions,
     independentExerciseSets,
     extendedSources,
 }: {
-    layoutDimensions: RootState['layoutDimensions'];
     independentExerciseSets: ReturnType<typeof selectIndependentExerciseSets>;
     extendedSources: ReturnType<typeof selectExtendedSources>;
 }) {
@@ -24,19 +21,17 @@ export function ExerciseSetsPageContent({
             flex flex-col justify-start items-center`}
         >
             <div
-                className="relative w-full h-[auto]
-                flex flex-col justify-center items-center p-4"
+                className="w-full h-[auto]
+                flex justify-center items-center p-4 gap-2"
             >
                 <p className="text-2xl font-bold">Exercise Sets</p>
 
-                <div className="absolute right-0">
-                    <Button
-                        variant={ButtonVariant.PRIMARY}
-                        onClick={openCreateExerciseSetForm}
-                    >
-                        new exercise set
-                    </Button>
-                </div>
+                <Button
+                    variant={ButtonVariant.PRIMARY}
+                    onClick={openCreateExerciseSetForm}
+                >
+                    New Exercise Set
+                </Button>
             </div>
 
             <div
@@ -52,7 +47,7 @@ export function ExerciseSetsPageContent({
                     </div>
 
                     <div
-                        className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto pb-1`}
+                        className="w-full flex justify-start items-center gap-4 overflow-x-auto pb-1"
                     >
                         {independentExerciseSets.map((exerciseSet) => (
                             <ExerciseSetCard
@@ -86,7 +81,7 @@ export function ExerciseSetsPageContent({
                                         </p>
                                     </div>
                                     <div
-                                        className={`w-[${layoutDimensions.exerciseSetsContainer.width}px] flex justify-start items-center gap-4 overflow-x-auto pb-1`}
+                                        className="w-full flex justify-start items-center gap-4 overflow-x-auto pb-1"
                                     >
                                         {extendedSource.exerciseSets &&
                                             extendedSource.exerciseSets.map(

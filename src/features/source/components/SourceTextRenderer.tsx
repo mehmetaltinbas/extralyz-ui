@@ -25,14 +25,14 @@ export function SourceTextRenderer({ sourceTextNode }: { sourceTextNode: SourceT
     }
 
     return (
-        <div className="flex flex-col justify-start items-center">
+        <div className="flex flex-col justify-start items-center pb-4">
             <div
-                className={`w-[900px] h-auto flex flex-col justify-start items-start overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.3)] px-8 py-6`}
+                className={`w-[325px] md:w-[900px] h-auto flex flex-col justify-start items-start overflow-hidden shadow-[0_10px_20px_rgba(0,0,0,0.3)] px-8 py-6`}
             >
                 {sourceTextNode.content.map((blockNode, blockNodeIndex) => (
                     <p
                         key={`block-node-${blockNodeIndex}`}
-                        className="w-full whitespace-pre-wrap break-words pb-4"
+                        className="w-full whitespace-pre-wrap break-words pb-4 text-sm md:text-base"
                     >
                         {blockNode.content.map((inlineNode, inlineNodeIndex) => (
                             <span

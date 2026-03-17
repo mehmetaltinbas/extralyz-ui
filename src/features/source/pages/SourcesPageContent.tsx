@@ -17,10 +17,12 @@ export function SourcesPageContent({ sources }: { sources: Source[] }) {
                 flex flex justify-center items-center gap-2"
             >
                 <p className="text-2xl font-bold">Sources</p>
+
                 <Button variant={ButtonVariant.PRIMARY} onClick={openCreateSourceForm}>
-                    new Source
+                    New Source
                 </Button>
             </div>
+
             {sources.map((source) => (
                 <div key={`source-card-${source._id}`} className="flex justify-center items-center">
                     <SourceCard

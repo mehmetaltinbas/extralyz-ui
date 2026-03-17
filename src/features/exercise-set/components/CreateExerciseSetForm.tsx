@@ -9,6 +9,7 @@ import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function CreateExerciseSetForm({
@@ -128,7 +129,7 @@ export function CreateExerciseSetForm({
                     <p>count: </p>
                     <Input
                         name="count"
-                        type="number"
+                        type={InputType.NUMBER}
                         value={
                             !selectedSourceId ||
                             selectedSourceId === ExerciseSetSourceType.INDEPENDENT

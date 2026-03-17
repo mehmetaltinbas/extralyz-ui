@@ -9,6 +9,7 @@ import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppSelector } from 'src/store/hooks';
 
@@ -110,7 +111,7 @@ export function ExerciseSetPaperEvaluationPage({
                     </p>
 
                     <Input
-                        type="file"
+                        type={InputType.FILE}
                         accept="image/*"
                         multiple
                         onChange={handleFileChange}

@@ -28,7 +28,6 @@ export function RawTextCreateSourceForm({
                 <p>title: </p>
                 <Input
                     onChange={(e) => setDto((prev) => ({ ...prev, title: e.target.value }))}
-                    type="text"
                     size={InputSize.LG}
                     value={dto.title ?? ''}
                     placeholder="title..."

@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function ExerciseSetsPage({ isActiveComponent }: { isActiveComponent: boolean }) {
     const dispatch = useAppDispatch();
-    const layoutDimensions = useAppSelector((state) => state.layoutDimensions);
     const independentExerciseSets = useAppSelector(selectIndependentExerciseSets);
     const extendedSources = useAppSelector(selectExtendedSources);
 
@@ -25,7 +24,6 @@ export function ExerciseSetsPage({ isActiveComponent }: { isActiveComponent: boo
         >
             <ExerciseSetsPopupsProvider containerRef={containerRef}>
                 <ExerciseSetsPageContent
-                    layoutDimensions={layoutDimensions}
                     independentExerciseSets={independentExerciseSets}
                     extendedSources={extendedSources}
                 />

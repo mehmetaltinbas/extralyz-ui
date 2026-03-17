@@ -58,7 +58,7 @@ export function ViewPdfDecision({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
-            <p>Do you want to view pdf with correct answers attached at the last page?</p>
+            <p className='text-center'>Do you want to view pdf with correct answers attached at the last page?</p>
 
             <div className='flex gap-2'>
                 <Button

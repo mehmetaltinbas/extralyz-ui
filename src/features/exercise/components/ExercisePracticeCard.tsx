@@ -16,7 +16,7 @@ export function ExercisePracticeCard({
 
     return (
         <div
-            className={`w-[400px] md:w-[600px] h-auto p-2
+            className={`w-full max-w-[400px] md:max-w-[600px] h-auto p-2
             flex flex-col justify-center items-center gap-2
             ${className ?? ''}`}
         >

@@ -53,7 +53,7 @@ export function StartPracticeDecision({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
-            <p>Do you want to practice exercises in order?</p>
+            <p className='text-center'>Do you want to practice exercises in order?</p>
 
             <Button
                 onClick={async (event) => {

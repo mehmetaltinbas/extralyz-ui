@@ -23,7 +23,7 @@ export function SourceCard({
                     title: source.title,
                 }))
             }
-            className="relative w-[175px] h-[175px] border border-border cursor-pointer rounded-[10px]
+            className="relative w-full max-w-[175px] aspect-square border border-border cursor-pointer rounded-[10px]
             flex flex-col justify-center items-center
             hover:border-1 hover:border-border-strong"
         >

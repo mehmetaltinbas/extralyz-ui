@@ -6,6 +6,7 @@ import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 
 export function SignInPage() {
     const [signInDto, setSignInDto] = React.useState<SignInDto>({
@@ -36,7 +37,6 @@ export function SignInPage() {
                             userName: event.target.value,
                         })
                     }
-                    type="text"
                     size={InputSize.LG}
                     value={signInDto.userName}
                     placeholder="username..."
@@ -49,7 +49,7 @@ export function SignInPage() {
                         })
                     }
                     value={signInDto.password}
-                    type="password"
+                    type={InputType.PASSWORD}
                     size={InputSize.LG}
                     placeholder="password..."
                 />

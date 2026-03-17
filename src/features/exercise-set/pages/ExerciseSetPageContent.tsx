@@ -63,7 +63,7 @@ export function ExerciseSetPageContent({
                         <p><span className=''>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
                     </div>
 
-                    <div className='flex gap-2'>
+                    <div className='flex flex-wrap gap-2'>
                         <Button
                             onClick={openCreateExerciseForm}
                         >
@@ -124,7 +124,7 @@ export function ExerciseSetPageContent({
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext items={localExercises.map((e) => e._id)} strategy={rectSortingStrategy}>
-                    <div className="w-full h-full grid grid-cols-3 gap-4 pb-12">
+                    <div className="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {localExercises.map((exercise) => (
                             <div className='flex justify-center items-center'>
                                 <SortableExerciseCard

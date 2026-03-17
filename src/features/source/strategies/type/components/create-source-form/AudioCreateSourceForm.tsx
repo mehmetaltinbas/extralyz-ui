@@ -2,6 +2,7 @@ import type React from "react";
 import type { CreateSourceDto } from "src/features/source/types/dto/create-source.dto";
 import { Input } from "src/shared/components/Input";
 import { InputSize } from "src/shared/enums/input-size.enum";
+import { InputType } from "src/shared/enums/input-type.enum";
 
 export function AudioCreateSourceForm({
     dto,
@@ -22,7 +23,7 @@ export function AudioCreateSourceForm({
                         const file = e.target.files?.[0];
                         extra.setFile(file);
                     }}
-                    type="file"
+                    type={InputType.FILE}
                     accept="audio/*"
                 />
             </div>
@@ -31,7 +32,6 @@ export function AudioCreateSourceForm({
                 <p>title: </p>
                 <Input
                     onChange={(e) => setDto((prev) => ({ ...prev, title: e.target.value }))}
-                    type="text"
                     size={InputSize.LG}
                     value={dto.title ?? ''}
                     placeholder="title..."

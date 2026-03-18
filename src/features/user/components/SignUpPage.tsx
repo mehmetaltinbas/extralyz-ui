@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { UserService } from 'src/features/user/services/user.service';
 import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
 import { Button } from 'src/shared/components/Button';
@@ -15,13 +15,13 @@ export function SignUpPage() {
         password: '',
     });
     const [isSignedUp, setIsSignedUp] = React.useState<boolean>(false);
+    
+    const navigate = useNavigate();
 
     async function signUp() {
         const response = await UserService.signUp(signUpDto);
 
-        if (!response.isSuccess) {
-            alert(response.message);
-        }
+        alert(response.message);
 
         setIsSignedUp(response.isSuccess);
     }
@@ -30,6 +30,8 @@ export function SignUpPage() {
         <Navigate to="/sign-in" />
     ) : (
         <div className='h-[75%] flex justify-center items-center'>
+            <p onClick={() => navigate('/')} className='absolute top-4 sm:left-8 left-4 sm:left-8 text-lg font-bold tracking-tight cursor-pointer'>Home</p>
+
             <div className="h-auto w-48 flex flex-col justify-center items-center gap-2">
                 <p className=" text-lg">Sign Up</p>
                 <Input
@@ -40,7 +42,7 @@ export function SignUpPage() {
                         })
                     }
                     size={InputSize.LG}
-                    placeholder="username..."
+                    placeholder="userName..."
                 />
                 <Input
                     onChange={(event) =>

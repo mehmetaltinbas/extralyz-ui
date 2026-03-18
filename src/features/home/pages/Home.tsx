@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
-import { features } from 'src/features/home/constants/features.constant';
+import { FEATURES } from 'src/features/home/constants/features.constant';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -71,15 +71,15 @@ export function Home() {
             <section className="w-full flex flex-col justify-center items-center px-4 sm:px-8 py-20">
                 <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
                     <h1 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
-                        Turn Your Documents Into
+                        Turn Your Sources Into
                         <br />
                         Practice Exercises
                     </h1>
 
                     <p className="text-xl text-text-secondary max-w-2xl">
-                        AI-powered platform that converts your study materials into custom
-                        exercise sets for active recall — then grades your answers
-                        automatically.
+                        Stop passive reading. Start active mastering.
+                        Convert your notes, audio recordings, and youtube videos into interactive practice exercises in seconds.
+                        Master any subject faster with AI-powered automated grading and instant feedback.
                     </p>
 
                     <div className="flex items-center gap-4 mt-4">
@@ -119,7 +119,7 @@ export function Home() {
                     </h2>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {features.map((feature) => (
+                        {FEATURES.map((feature) => (
                             <div
                                 key={feature.title}
                                 className="rounded-[10px] p-8 bg-surface-alt hover:bg-surface-hover transition-colors"

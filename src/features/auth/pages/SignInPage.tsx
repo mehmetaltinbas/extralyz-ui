@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import type { SignInDto } from 'src/features/auth/types/auth-dtos';
 import { Button } from 'src/shared/components/Button';
@@ -7,6 +7,7 @@ import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
 import { InputType } from 'src/shared/enums/input-type.enum';
+import { consumeAuthRedirectUrl } from 'src/shared/utils/auth-redirect/consume-auth-redirect-url.util';
 
 export function SignInPage() {
     const [signInDto, setSignInDto] = React.useState<SignInDto>({
@@ -14,6 +15,8 @@ export function SignInPage() {
         password: '',
     });
     const [isSignedIn, setIsSignedIn] = React.useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     async function handleSignInSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         const response = await AuthService.signIn(signInDto);
@@ -25,9 +28,11 @@ export function SignInPage() {
     }
 
     return isSignedIn ? (
-        <Navigate to="/workspace" />
+        <Navigate to={consumeAuthRedirectUrl() || '/workspace'} />
     ) : (
-        <div className='h-[75%] flex justify-center items-center'>
+        <div className='h-[75%] flex justify-center items-center relative'>
+            <p onClick={() => navigate('/')} className='absolute top-4 sm:left-8 left-4 sm:left-8 text-lg font-bold tracking-tight cursor-pointer'>Home</p>
+
             <div className="h-auto w-48 flex flex-col justify-center items-center gap-2">
                 <p className=" text-lg">Sign In</p>
                 <Input

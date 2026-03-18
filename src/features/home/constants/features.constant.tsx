@@ -1,8 +1,10 @@
-export const features = [
+import type React from "react";
+
+export const FEATURES: { title: string; description: string; icon: React.JSX.Element; }[] = [
     {
         title: 'Smart Exercise Generation',
         description:
-            'Convert study documents into custom practice exercise sets — multiple choice, true/false, and open-ended questions — powered by AI for active recalling.',
+            'Convert sources into custom practice exercise sets in types of multiple choice, true/false, or open-ended.',
         icon: (
             <svg
                 width="20"
@@ -23,7 +25,7 @@ export const features = [
     {
         title: 'AI-Powered Grading',
         description:
-            'Automated AI grading evaluates your open-ended answers instantly, giving detailed feedback without manual review.',
+            'Get immediate results on multiple-choice and true/false exercises, plus AI grading and feedback on your open-ended answers; no manual review required.',
         icon: (
             <svg
                 width="20"
@@ -41,9 +43,30 @@ export const features = [
         ),
     },
     {
+        title: 'Total Creative Control',
+        description:
+            'Build exercise sets your way. Create manual exercises from scratch, move exercises between sets, or generate sets without needing a source.',
+        icon: (
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            >
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                <path d="M15 5l3 3" />
+            </svg>
+        ),
+    },
+    {
         title: 'Multi-Pane Workspace',
         description:
-            'Maximize productivity with a persistent sidebar and tab-based navigation. Split your view into dual panes to reference source material and exercises simultaneously without losing your scroll position or state.',
+            'Maximize productivity with a persistent sidebar and tab-based navigation.',
         icon: (
             <svg
                 width="20"
@@ -62,30 +85,9 @@ export const features = [
         ),
     },
     {
-        title: 'PDF Export',
+        title: 'Paper Answers Evaluation',
         description:
-            'Export print-ready PDFs of your exercise sets for offline study. Take your exercises anywhere.',
-        icon: (
-            <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-        ),
-    },
-    {
-        title: 'Offline Answer Evaluation',
-        description:
-            'Print your exercises, answer on paper, then upload photos of your answered sheets — AI evaluates your handwritten responses and provides grading and feedback.',
+            'Print your exercise sets as PDF, answer exercises on paper, then upload photos of your answered sheets. AI evaluates your handwritten responses and provides grading and feedback.',
         icon: (
             <svg
                 width="20"
@@ -100,6 +102,28 @@ export const features = [
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                 <circle cx="8.5" cy="8.5" r="1.5" />
                 <polyline points="21 15 16 10 5 21" />
+            </svg>
+        ),
+    },
+    {
+        title: 'Community & Collaboration',
+        description:
+            'Share your mastery or learn from others. Explore public profiles to practice and clone public exercise sets. If you want, you can keep your work private for your eyes only.',
+        icon: (
+            <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            >
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
         ),
     },

@@ -140,6 +140,7 @@ export function ExerciseSetsPopupsProvider({
                             onClose={closePopups}
                             exerciseSet={actionMenuExerciseSet}
                             refreshData={() => dispatch(refreshExerciseSetData())}
+                            isPublicAccess={false}
                         />
                     ],
                     ...[actionMenuExerciseSet &&

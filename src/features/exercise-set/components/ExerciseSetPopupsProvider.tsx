@@ -212,6 +212,7 @@ export function ExerciseSetPopupsProvider({
                         onClose={closePopups}
                         exerciseSet={exerciseSet}
                         refreshData={invalidateTab}
+                        isPublicAccess={false}
                     />,
                     <ViewPdfDecision
                         key='view-pdf-decision'
@@ -221,6 +222,7 @@ export function ExerciseSetPopupsProvider({
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
                         exerciseSet={exerciseSet}
+                        isPublicAccess={false}
                     />,
                     <UpdateExerciseSetForm
                         key='update-exercise-set-form'

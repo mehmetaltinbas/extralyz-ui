@@ -1,22 +1,21 @@
 import React from 'react';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
-import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
+import { PublicExerciseSetService } from 'src/features/exercise-set/services/public-exercise-set.service';
+import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
+import type { CloneExerciseSetDto } from 'src/features/exercise-set/types/dto/clone-exercise-set.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
-export function UpdateExerciseSetForm({
+export function CloneExerciseSetForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
     onClose,
-    refreshData,
     exerciseSet,
 }: {
     isHidden: boolean;
@@ -24,16 +23,15 @@ export function UpdateExerciseSetForm({
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: () => void;
-    refreshData: () => void;
     exerciseSet: ExerciseSet;
 }) {
     const dispatch = useAppDispatch();
 
-    const initialDto: UpdateExerciseSetDto = {
-        title: exerciseSet.title,
-        visibility: exerciseSet.visibility as ExerciseSetVisibility,
+    const initialDto: CloneExerciseSetDto = {
+        title: `${exerciseSet.title} (clone)`,
+        visibility: ExerciseSetVisibility.PRIVATE,
     };
-    const [dto, setDto] = React.useState<UpdateExerciseSetDto>(initialDto);
+    const [dto, setDto] = React.useState<CloneExerciseSetDto>(initialDto);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -43,13 +41,13 @@ export function UpdateExerciseSetForm({
         }
     }, [isHidden, exerciseSet]);
 
-    async function update() {
+    async function clone() {
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await ExerciseSetService.updateById(
+            const response = await PublicExerciseSetService.clone(
                 exerciseSet._id,
                 dto
             );
@@ -60,9 +58,10 @@ export function UpdateExerciseSetForm({
                 setIsHidden(false);
             } else {
                 isSubmittingRef.current = false;
-                refreshData();
 
-                dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
+                setDto(initialDto);
+
+                dispatch(refreshExerciseSetData());
 
                 setIsPopUpActive(false);
             }
@@ -73,6 +72,25 @@ export function UpdateExerciseSetForm({
         } finally {
             setIsLoadingPageHidden(true);
         }
+    }
+
+    function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
+        const selectElement = event.currentTarget;
+
+        if (!Object.keys(dto).includes(selectElement.name)) {
+            return;
+        }
+
+        if (
+            !(Object.values(ExerciseSetVisibility) as string[]).includes(selectElement.value)
+        ) {
+            return;
+        }
+
+        setDto({
+            ...dto,
+            [selectElement.name]: selectElement.value,
+        });
     }
 
     return (
@@ -97,24 +115,19 @@ export function UpdateExerciseSetForm({
                 <select
                     name="visibility"
                     value={dto.visibility}
-                    onChange={(e) =>
-                        setDto({
-                            ...dto,
-                            visibility: e.currentTarget.value as ExerciseSetVisibility,
-                        })
-                    }
+                    onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
                     <option value={ExerciseSetVisibility.PRIVATE}>Private</option>
+                    <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
                 </select>
             </div>
 
             <Button
                 variant={ButtonVariant.PRIMARY}
-                onClick={async (event) => await update()}
+                onClick={async (event) => await clone()}
             >
-                Update
+                Clone
             </Button>
         </Modal>
     );

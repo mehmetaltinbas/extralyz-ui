@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
+import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
@@ -34,6 +35,7 @@ export function CreateExerciseSetForm({
         count: 5,
         type: ExerciseSetType.MCQ,
         difficulty: ExerciseSetDifficulty.MEDIUM,
+        visibility: ExerciseSetVisibility.PRIVATE,
     };
 
     const [createExerciseSetDto, setCreateExerciseSetDto] =
@@ -102,7 +104,8 @@ export function CreateExerciseSetForm({
 
         if (
             !(Object.values(ExerciseSetType) as string[]).includes(selectElement.value) &&
-            !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value)
+            !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value) &&
+            !(Object.values(ExerciseSetVisibility) as string[]).includes(selectElement.value)
         ) {
             return;
         }
@@ -171,6 +174,19 @@ export function CreateExerciseSetForm({
                     <option value={ExerciseSetDifficulty.EASY}>Easy</option>
                     <option value={ExerciseSetDifficulty.MEDIUM}>Medium</option>
                     <option value={ExerciseSetDifficulty.HARD}>Hard</option>
+                </select>
+            </div>
+
+            <div className="flex justify-start items-center gap-2">
+                <p>visibility: </p>
+                <select
+                    name="visibility"
+                    value={createExerciseSetDto.visibility}
+                    onChange={(e) => onChangeForEnum(e)}
+                    className="py-[2px] px-2 border rounded-[10px]"
+                >
+                    <option value={ExerciseSetVisibility.PRIVATE}>Private</option>
+                    <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
                 </select>
             </div>
 

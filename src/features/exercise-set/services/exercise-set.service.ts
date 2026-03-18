@@ -4,12 +4,12 @@ import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/eva
 import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import type { GetPdfResponse } from 'src/features/exercise-set/types/response/get-pdf.response';
-import type { ReadAllExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-all-exercise-sets.response';
 import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-set/types/response/read-all-exerise-sets-grouped-by-sources.response';
+import type { ReadMultipleExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-multiple-exercise-sets.response';
 import type { ReadSingleExerciseSetResponse } from 'src/features/exercise-set/types/response/read-single-exercise-set.response';
 import type { ReorderExercisesDto } from 'src/features/exercise/types/dto/reorder-exercises.dto';
-import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { ResponseBase } from 'src/shared/types/response-base';
+import { axiosInstance } from 'src/shared/api/axios-instance';
+import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
 const baseUrl = `/exercise-set`;
@@ -43,7 +43,7 @@ export class ExerciseSetService {
     
     static async readAllByUserId(
         sourceType?: ExerciseSetSourceType
-    ): Promise<ReadAllExerciseSetsResponse> {
+    ): Promise<ReadMultipleExerciseSetsResponse> {
         try {
             const response = (
                 await axiosInstance.get(

@@ -4,6 +4,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
+import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import { useExerciseReorder } from 'src/features/exercise-set/hooks/use-exercise-reorder.hook';
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
@@ -25,6 +26,7 @@ export function ExerciseSetPageContent({
 }) {
     const dispatch = useAppDispatch();
     const sources = useAppSelector(state => state.sources);
+    const user = useAppSelector(state => state.user);
 
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
 
@@ -35,10 +37,19 @@ export function ExerciseSetPageContent({
         setIsAnswersHidden((prev) => !prev);
     }
 
+    function handleCopyPublicLink() {
+        if (!user) return;
+
+        const uiUrl = import.meta.env.VITE_UI_URL || window.location.origin;
+        const url = `${uiUrl}/user/${user.userName}/exercise-set/${encodeURIComponent(exerciseSet.title)}`;
+        navigator.clipboard.writeText(url);
+        alert('Public link copied to clipboard!');
+    }
+
     return (
         <div
             className="absolute w-full h-full overflow-auto
-            flex flex-col justify-start items-start gap-4 p-8"
+            flex flex-col justify-start items-start gap-8 p-8"
         >
             <div
                 className="w-full h-auto
@@ -109,6 +120,12 @@ export function ExerciseSetPageContent({
                         >
                             Delete
                         </Button>
+
+                        {exerciseSet.visibility === ExerciseSetVisibility.PUBLIC && (
+                            <Button variant={ButtonVariant.OUTLINE} onClick={handleCopyPublicLink}>
+                                Copy Public Link
+                            </Button>
+                        )}
 
                         <Button variant={ButtonVariant.OUTLINE} onClick={toggleAnswerVisibility}>
                             {isAnswersHidden ? 'Show Answers' : 'Hide Answers'}

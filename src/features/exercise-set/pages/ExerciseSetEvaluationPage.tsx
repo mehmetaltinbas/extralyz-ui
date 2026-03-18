@@ -14,7 +14,7 @@ export function ExerciseSetEvaluationPage({
     startOver: () => void;
 }) {
     return (
-        <div className="flex flex-col justify-start items-center gap-4 p-4">
+        <div className="w-full flex flex-col justify-start items-center gap-4 p-4">
             <div className='flex justify-center items-center gap-4'>
                 <ScoreBadge
                     score={evaluation?.overallScore ?? 0}

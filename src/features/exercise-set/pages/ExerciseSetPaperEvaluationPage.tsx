@@ -71,101 +71,93 @@ export function ExerciseSetPaperEvaluationPage({
     }
 
     return (
-        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
-            {!exerciseSet || !exercises ? (
-                <div>undefined</div>
-            ) : isSubmitting ? (
-                <LoadingPage />
-            ) : evaluation ? (
-                <ExerciseSetEvaluationPage
-                    exercises={exercises}
-                    evaluation={evaluation}
-                    startOver={startOver}
-                />
-            ) : (
-                <div className={`w-full h-full flex flex-col items-center gap-6 p-4`}>
-                    <p className="text-lg font-bold">Evaluate Paper Answers</p>
-
-                    <div className='flex flex-col gap-1 justify-center items-center'>
-                        <p className='text-lg font-bold'>{exerciseSet.title}</p>
-
-                        <div className='flex gap-2'>
-                            <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.sourceType === ExerciseSetSourceType.SOURCE ? sources.find((source) => source._id === exerciseSet.sourceId)?.title : exerciseSet.sourceType}</span></p>
-
-                            <p>|</p>
-
-                            <p><span className=''>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
-
-                            <p>|</p>
-
-                            <p><span className=''>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
-
-                            <p>|</p>
-
-                            <p><span className=''>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
-                        </div>
-                    </div>
-
-                    <p className="text-sm">
-                        Upload photos of your completed paper (max {MAX_PAPER_EVALUATION_UPLOAD_COUNT} images)
-                    </p>
-
-                    <Input
-                        type={InputType.FILE}
-                        accept="image/*"
-                        multiple
-                        onChange={handleFileChange}
-                        disabled={files.length >= MAX_PAPER_EVALUATION_UPLOAD_COUNT}
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full relative`}>
+            <div className='w-full h-auto absolute overflow-y-auto flex justify-start items-start'>
+                {!exerciseSet || !exercises ? (
+                    <div>undefined</div>
+                ) : isSubmitting ? (
+                    <LoadingPage />
+                ) : evaluation ? (
+                    <ExerciseSetEvaluationPage
+                        exercises={exercises}
+                        evaluation={evaluation}
+                        startOver={startOver}
                     />
+                ) : (
+                    <div className={`w-full h-full flex flex-col items-center gap-6 p-4`}>
+                        <p className="text-lg font-bold">Evaluate Paper Answers</p>
 
-                    {previewUrls.length > 0 && (
-                        <div className="w-full grid grid-cols-4 gap-4">
-                            {previewUrls.map((url, index) => (
-                                <div key={url} className="relative w-full flex items-center justify-center h-40 max-w-[20rem] bg-surface-hover rounded-[10px] overflow-hidden mx-auto">
-                                    <img
-                                        src={url}
-                                        alt={`Upload ${index + 1}`}
-                                        className="h-full w-full object-contain"
-                                    />
+                        <div className='flex flex-col gap-1 justify-center items-center'>
+                            <p className='text-lg font-bold'>{exerciseSet.title}</p>
 
-                                    {/* <div className='h-[75%] flex justify-center items-center'>
-                                        <Image
-                                            alt="resume photo"
-                                            src={resumeImageUrl}
-                                            width={180}
-                                            height={240}
-                                            className="w-[180px] h-[240px] object-cover rounded-[10px]"
-                                        />
-                                    </div> */}
+                            <div className='flex gap-2'>
+                                <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.sourceType === ExerciseSetSourceType.SOURCE ? sources.find((source) => source._id === exerciseSet.sourceId)?.title : exerciseSet.sourceType}</span></p>
 
-                                    <div className='absolute top-1 right-1'>
-                                        <Button
-                                            variant={ButtonVariant.DANGER}
-                                            onClick={() => removeFile(index)}
-                                        >
-                                            ✕
-                                        </Button>
-                                    </div>
-                                    <button
-                                        onClick={() => removeFile(index)}
-                                        className="hidden absolute top-1 right-1 bg-accent text-text-inverted rounded-full w-6 h-6 flex items-center justify-center text-sm"
-                                    >
-                                        x
-                                    </button>
-                                </div>
-                            ))}
+                                <p>|</p>
+
+                                <p><span className=''>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
+
+                                <p>|</p>
+
+                                <p><span className=''>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
+
+                                <p>|</p>
+
+                                <p><span className=''>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
+                            </div>
                         </div>
-                    )}
 
-                    <Button
-                        variant={ButtonVariant.PRIMARY}
-                        onClick={handleSubmit}
-                        disabled={files.length === 0 || files.length >= MAX_PAPER_EVALUATION_UPLOAD_COUNT}
-                    >
-                        Submit for Evaluation
-                    </Button>
-                </div>
-            )}
+                        <p className="text-sm">
+                            Upload photos of your completed paper (max {MAX_PAPER_EVALUATION_UPLOAD_COUNT} images)
+                        </p>
+
+                        <Input
+                            type={InputType.FILE}
+                            accept="image/*"
+                            multiple
+                            onChange={handleFileChange}
+                            disabled={files.length >= MAX_PAPER_EVALUATION_UPLOAD_COUNT}
+                        />
+
+                        {previewUrls.length > 0 && (
+                            <div className="w-full grid grid-cols-4 gap-4">
+                                {previewUrls.map((url, index) => (
+                                    <div key={url} className="relative w-full flex items-center justify-center h-40 max-w-[20rem] bg-surface-hover rounded-[10px] overflow-hidden mx-auto">
+                                        <img
+                                            src={url}
+                                            alt={`Upload ${index + 1}`}
+                                            className="h-full w-full object-contain"
+                                        />
+
+                                        <div className='absolute top-1 right-1'>
+                                            <Button
+                                                variant={ButtonVariant.DANGER}
+                                                onClick={() => removeFile(index)}
+                                            >
+                                                ✕
+                                            </Button>
+                                        </div>
+                                        <button
+                                            onClick={() => removeFile(index)}
+                                            className="hidden absolute top-1 right-1 bg-accent text-text-inverted rounded-full w-6 h-6 flex items-center justify-center text-sm"
+                                        >
+                                            x
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        <Button
+                            variant={ButtonVariant.PRIMARY}
+                            onClick={handleSubmit}
+                            disabled={files.length === 0 || files.length >= MAX_PAPER_EVALUATION_UPLOAD_COUNT}
+                        >
+                            Submit for Evaluation
+                        </Button>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

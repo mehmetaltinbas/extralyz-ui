@@ -1,3 +1,5 @@
+import { Globe, Lock } from 'lucide-react';
+import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { useExerciseSetsPopups } from 'src/features/exercise-set/hooks/use-exercise-sets-popups.hook';
 import { Section } from 'src/features/workspace/enums/section.enum';
@@ -32,8 +34,13 @@ export function ExerciseSetCard({
                 className="w-full h-[35px] border-b-1 border-border
                 flex justify-center items-center"
             >
-                <div className="flex-1 h-full flex justify-center items-center">
-                    <p className="max-w-[200px] px-2 font-serif font-semibold truncate text-sm md:text-base">
+                <div className="flex-1 h-full flex justify-center items-center gap-1">
+                    {exerciseSet.visibility === ExerciseSetVisibility.PUBLIC ? (
+                        <Globe size={14} className="flex-shrink-0" />
+                    ) : (
+                        <Lock size={14} className="flex-shrink-0" />
+                    )}
+                    <p className="max-w-[125px] px-2 font-serif font-semibold truncate text-xs md:text-base">
                         {exerciseSet.title}
                     </p>
                 </div>

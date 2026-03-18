@@ -62,78 +62,79 @@ export function ExerciseSetPracticePage({
     }
 
     return (
-        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
-            {' '}
-            {exerciseSet && exercises ? (
-                activeExerciseIndex === exercises.length ? (
-                    evaluation ? (
-                        <ExerciseSetEvaluationPage
-                            exercises={exercises}
-                            evaluation={evaluation}
-                            startOver={() => dispatch(tabsActions.invalidateTabPropsById(exerciseSet!._id))}
-                        />
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full relative overflow-y-auto`}>
+            <div className='w-full h-auto absolute overflow-y-auto flex justify-start items-start'>
+                {exerciseSet && exercises ? (
+                    activeExerciseIndex === exercises.length ? (
+                        evaluation ? (
+                            <ExerciseSetEvaluationPage
+                                exercises={exercises}
+                                evaluation={evaluation}
+                                startOver={() => dispatch(tabsActions.invalidateTabPropsById(exerciseSet!._id))}
+                            />
+                        ) : (
+                            <LoadingPage />
+                        )
                     ) : (
-                        <LoadingPage />
-                    )
-                ) : (
-                    <div
-                        className={`w-full h-[50%]
-                        flex justify-center items-center
-                    `}
-                    >
                         <div
-                            className={`w-auto h-auto
-                            flex-col justify-center items-center gap-4
+                            className={`w-full h-[50%]
+                            flex justify-center items-center
                         `}
                         >
-                            {exercises.map((exercise, index) => (
-                                <ExercisePracticeCard
-                                    exercise={exercise}
-                                    index={index}
-                                    recordAnswer={recordAnswer}
-                                    className={`${!(index === activeExerciseIndex) && 'hidden'}`}
-                                />
-                            ))}
+                            <div
+                                className={`w-auto h-auto
+                                flex-col justify-center items-center gap-4
+                            `}
+                            >
+                                {exercises.map((exercise, index) => (
+                                    <ExercisePracticeCard
+                                        exercise={exercise}
+                                        index={index}
+                                        recordAnswer={recordAnswer}
+                                        className={`${!(index === activeExerciseIndex) && 'hidden'}`}
+                                    />
+                                ))}
 
-                            <div className="flex justify-start items-center gap-2">
-                                <Button
-                                    variant={ButtonVariant.SECONDARY}
-                                    onClick={() =>
-                                        setActiveExerciseIndex((prev) =>
-                                            prev > 0 ? prev - 1 : prev
-                                        )
-                                    }
-                                >
-                                    Back
-                                </Button>
-
-                                {!(activeExerciseIndex + 1 === exercises.length) ? (
+                                <div className="flex justify-start items-center gap-2">
                                     <Button
                                         variant={ButtonVariant.SECONDARY}
                                         onClick={() =>
-                                            setActiveExerciseIndex((prev) => prev + 1)
+                                            setActiveExerciseIndex((prev) =>
+                                                prev > 0 ? prev - 1 : prev
+                                            )
                                         }
                                     >
-                                        Next
+                                        Back
                                     </Button>
-                                ) : (
-                                    <Button
-                                        variant={ButtonVariant.PRIMARY}
-                                        onClick={async () => {
-                                            setActiveExerciseIndex((prev) => prev + 1);
-                                            await evaluateAnswers();
-                                        }}
-                                    >
-                                        Finish and Evaluate Answers
-                                    </Button>
-                                )}
+
+                                    {!(activeExerciseIndex + 1 === exercises.length) ? (
+                                        <Button
+                                            variant={ButtonVariant.SECONDARY}
+                                            onClick={() =>
+                                                setActiveExerciseIndex((prev) => prev + 1)
+                                            }
+                                        >
+                                            Next
+                                        </Button>
+                                    ) : (
+                                        <Button
+                                            variant={ButtonVariant.PRIMARY}
+                                            onClick={async () => {
+                                                setActiveExerciseIndex((prev) => prev + 1);
+                                                await evaluateAnswers();
+                                            }}
+                                        >
+                                            Finish and Evaluate Answers
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )
-            ) : (
-                <div className={``}>undefined</div>
-            )}
+                    )
+                ) : (
+                    <div className={``}>undefined</div>
+                )}
+            </div>
         </div>
     );
 }

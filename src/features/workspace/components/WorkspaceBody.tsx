@@ -4,9 +4,8 @@ import { SECTION_COMPONENTS } from 'src/features/workspace/constants/section-com
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
-import { resolveSectionStrategy } from 'src/features/workspace/strategies/section/resolve-section-strategy';
+import { sectionStrategyFactory } from 'src/features/workspace/strategies/section/section-strategy.factory';
 import type { BuildPropsResponse } from 'src/features/workspace/strategies/section/types/build-props.response';
-import { BodyModalPortalContext } from 'src/shared/contexts/body-modal-portal.context';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -45,7 +44,7 @@ export function WorkspaceBody() {
     }, []);
 
     async function buildProps(tab: TabsStateElement): Promise<BuildPropsResponse | undefined> {
-        const strategy = resolveSectionStrategy(tab.section);
+        const strategy = sectionStrategyFactory.resolveStrategy(tab.section);
 
         if (strategy) {
             return await strategy.buildProps(tab);

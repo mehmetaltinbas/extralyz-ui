@@ -5,7 +5,7 @@ import { ActionMenu } from 'src/shared/components/ActionMenu';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
-import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { useAppSelector } from 'src/store/hooks';
 
 export function ExerciseSetActionMenu({
     isHidden,
@@ -24,7 +24,6 @@ export function ExerciseSetActionMenu({
     toggleUpdateExerciseSetForm: () => void;
     toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }) {
-    const dispatch = useAppDispatch();
     const user = useAppSelector((state) => state.user);
 
     function handleCopyPublicLink() {

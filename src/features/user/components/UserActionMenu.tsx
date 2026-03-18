@@ -5,6 +5,7 @@ import { ActionMenu } from 'src/shared/components/ActionMenu';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAppSelector } from 'src/store/hooks';
 
 export function UserActionMenu({
     isHidden,
@@ -16,6 +17,7 @@ export function UserActionMenu({
     ref: React.RefObject<HTMLDivElement | null>;
 }) {
     const { openUpdateUserForm, openUpdatePasswordForm } = useUserPopups();
+    const user = useAppSelector((state) => state.user);
 
     async function handleSignOut(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
@@ -23,6 +25,17 @@ export function UserActionMenu({
         await AuthService.signOut();
 
         window.location.href = '/';
+    }
+
+    function handleCopyPublicLink() {
+        if (!user) return;
+
+        const uiUrl = import.meta.env.VITE_UI_URL || window.location.origin;
+        const url = `${uiUrl}/user/${user.userName}`;
+
+        navigator.clipboard.writeText(url);
+
+        alert('Public link copied to clipboard!');
     }
 
     return (
@@ -47,6 +60,17 @@ export function UserActionMenu({
                 }}
             >
                 Change Password
+            </Button>
+
+            <Button
+                size={ButtonSize.SM}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    handleCopyPublicLink();
+                    setIsHidden(true);
+                }}
+            >
+                Copy Public Link
             </Button>
 
             <Button

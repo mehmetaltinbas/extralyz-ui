@@ -33,8 +33,8 @@ export function CreateExerciseSetForm({
     const initialDto: CreateExerciseSetDto = {
         title: '',
         count: 5,
-        type: ExerciseSetType.MCQ,
-        difficulty: ExerciseSetDifficulty.MEDIUM,
+        type: ExerciseSetType.MIX,
+        difficulty: ExerciseSetDifficulty.MIX,
         visibility: ExerciseSetVisibility.PRIVATE,
     };
 
@@ -157,9 +157,9 @@ export function CreateExerciseSetForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    <option value={ExerciseSetType.MCQ}>Multiple Choice</option>
-                    <option value={ExerciseSetType.TRUE_FALSE}>True False</option>
-                    <option value={ExerciseSetType.OPEN_ENDED}>Open Ended</option>
+                    {Object.values(ExerciseSetType).map((exerciseSetTypeValue) => (
+                        <option value={ExerciseSetType.MCQ}>{exerciseSetTypeValue}</option>
+                    ))}
                 </select>
             </div>
 
@@ -171,9 +171,9 @@ export function CreateExerciseSetForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    <option value={ExerciseSetDifficulty.EASY}>Easy</option>
-                    <option value={ExerciseSetDifficulty.MEDIUM}>Medium</option>
-                    <option value={ExerciseSetDifficulty.HARD}>Hard</option>
+                    {Object.values(ExerciseSetDifficulty).map((exerciseSetDifficultyValue) => (
+                        <option value={exerciseSetDifficultyValue}>{exerciseSetDifficultyValue}</option>
+                    ))}
                 </select>
             </div>
 

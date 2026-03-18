@@ -1,5 +1,5 @@
 import type { Source } from 'src/features/source/types/source.interface';
-import type { ResponseBase } from 'src/shared/types/response-base';
+import type { ResponseBase } from 'src/shared/types/response-base.interface';
 
 export interface ReadAllSourcesResponse extends ResponseBase {
     sources?: Source[];

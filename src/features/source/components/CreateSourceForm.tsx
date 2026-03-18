@@ -1,7 +1,7 @@
 import React from 'react';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
 import { SourceService } from 'src/features/source/services/source.service';
-import { resolveSourceTypeStrategy } from 'src/features/source/strategies/type/resolve-source-type-strategy';
+import { sourceTypeFactory } from 'src/features/source/strategies/type/source-type.factory';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
@@ -24,13 +24,13 @@ export function CreateSourceForm({
     onClose: () => void;
     updateSources: () => void;
 }) {
-    const defaultStrategy = resolveSourceTypeStrategy(defaultType)!;
+    const defaultStrategy = sourceTypeFactory.resolveStrategy(defaultType)!;
     const [dto, setDto] = React.useState<CreateSourceDto>(defaultStrategy.buildInitialCreateSourceDto());
     const [uploadedFile, setUploadedFile] = React.useState<File>();
     const [fileInputKey, setFileInputKey] = React.useState(0);
     const isSubmittingRef = React.useRef(false);
 
-    const strategy = resolveSourceTypeStrategy(dto.type as SourceType);
+    const strategy = sourceTypeFactory.resolveStrategy(dto.type as SourceType);
 
     function resetForm() {
         setUploadedFile(undefined);
@@ -45,7 +45,7 @@ export function CreateSourceForm({
     }, [isHidden]);
 
     function handleTypeChange(newType: SourceType) {
-        const newStrategy = resolveSourceTypeStrategy(newType);
+        const newStrategy = sourceTypeFactory.resolveStrategy(newType);
 
         if (!newStrategy) return;
 

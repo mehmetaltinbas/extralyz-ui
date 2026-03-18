@@ -15,6 +15,7 @@ export function StartPracticeDecision({
     onClose,
     exerciseSet,
     refreshData,
+    isPublicAccess
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,19 +24,24 @@ export function StartPracticeDecision({
     onClose: () => void;
     exerciseSet: ExerciseSet;
     refreshData: () => void;
+    isPublicAccess: boolean;
 }) {
     const dispatch = useAppDispatch();
 
-    async function startPractice(mode: ExerciseSetMode) {
+    function startPractice(mode: ExerciseSetMode) {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
         try {
             refreshData();
+
+            let section: Section = Section.EXERCISE_SET_PRACTICE;
             
+            if (isPublicAccess) section = Section.PUBLIC_EXERCISE_SET_PRACTICE;
+
             dispatch(
                 tabsActions.openTab({
-                    section: Section.EXERCISE_SET_PRACTICE,
+                    section,
                     id: exerciseSet._id,
                     title: exerciseSet.title,
                     mode: mode,
@@ -56,18 +62,18 @@ export function StartPracticeDecision({
             <p className='text-center'>Do you want to practice exercises in order?</p>
 
             <Button
-                onClick={async (event) => {
+                onClick={(event) => {
                     event.stopPropagation();
-                    await startPractice(ExerciseSetMode.PRACTICE);
+                    startPractice(ExerciseSetMode.PRACTICE);
                 }}
             >
                 Yes
             </Button>
 
             <Button
-                onClick={async (event) => {
+                onClick={(event) => {
                     event.stopPropagation();
-                    await startPractice(ExerciseSetMode.SHUFFLE_PRACTICE);
+                    startPractice(ExerciseSetMode.SHUFFLE_PRACTICE);
                 }}
             >
                 No, I want to practice in shuffle mode

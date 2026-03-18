@@ -1,4 +1,4 @@
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
+import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExercisePracticeCard({
@@ -12,7 +12,7 @@ export function ExercisePracticeCard({
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
 }) {
-    const strategy = resolveExerciseTypeStrategy(exercise.type);
+    const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
 
     return (
         <div

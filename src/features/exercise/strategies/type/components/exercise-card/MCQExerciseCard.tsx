@@ -17,7 +17,7 @@ export function MCQExerciseCard({
 
     return (
         <div className="w-full h-full flex flex-col gap-2 ">
-            <p className=''>{exercise.prompt}</p>
+            <p className=''><span className='font-bold'>{exercise.order + 1}</span> - {exercise.prompt}</p>
 
             <div className="flex flex-col justify-start items-start">
                 {!isAnswersHidden && (
@@ -27,7 +27,7 @@ export function MCQExerciseCard({
                 )}
 
                 {exercise.choices!.map((choice, index) => (
-                    <p className="text-sm">
+                    <p key={`choice-${index}`} className="text-sm">
                         {optionLattersMap.get(index)} - {choice}
                     </p>
                 ))}

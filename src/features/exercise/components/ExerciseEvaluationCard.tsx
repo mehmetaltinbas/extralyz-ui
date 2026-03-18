@@ -1,5 +1,5 @@
 import type { ExerciseAnswerEvaluationResult } from 'src/features/exercise-set/types/response/evaluate-answers.response';
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
+import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function ExerciseEvaluationCard({
@@ -11,7 +11,7 @@ export function ExerciseEvaluationCard({
     evaluation: ExerciseAnswerEvaluationResult;
     index: number;
 }) {
-    const strategy = resolveExerciseTypeStrategy(exercise.type);
+    const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
 
     return (
         <div

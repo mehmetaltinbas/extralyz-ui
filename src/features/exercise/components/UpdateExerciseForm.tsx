@@ -2,7 +2,7 @@ import React from 'react';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
+import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
@@ -37,7 +37,7 @@ export function UpdateExerciseForm({
     };
     const [dto, setDto] = React.useState<UpdateExerciseDto>(initialDto);
 
-    const activeStrategy = resolveExerciseTypeStrategy(dto.type ?? exercise.type);
+    const activeStrategy = exerciseTypeFactory.resolveStrategy(dto.type ?? exercise.type);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -77,7 +77,7 @@ export function UpdateExerciseForm({
     }
 
     function changeExerciseType(type: ExerciseType) {
-        const strategy = resolveExerciseTypeStrategy(type);
+        const strategy = exerciseTypeFactory.resolveStrategy(type);
 
         if (!strategy) {
             alert(`The type ${type} is not a valid exercise type.`);

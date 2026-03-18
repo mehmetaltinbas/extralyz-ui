@@ -1,5 +1,5 @@
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
+import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
@@ -13,7 +13,7 @@ export function ExerciseCard({
 }) {
     const { openExerciseActionMenu } = useExerciseSetPopups();
 
-    const strategy = resolveExerciseTypeStrategy(exercise.type);
+    const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
 
     return (
         <div

@@ -1,8 +1,8 @@
 import type { UpdateSourceDto } from 'src/features/source/types/dto/update-source.dto';
 import type { ReadAllSourcesResponse } from 'src/features/source/types/response/read-all-sources.response';
 import type { ReadSingleSourceResponse } from 'src/features/source/types/response/read-single-source.response';
-import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { ResponseBase } from 'src/shared/types/response-base';
+import { axiosInstance } from 'src/shared/api/axios-instance';
+import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
 const baseUrl = `/source`;

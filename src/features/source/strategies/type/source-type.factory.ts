@@ -4,6 +4,7 @@ import { DocumentSourceTypeStrategy } from 'src/features/source/strategies/type/
 import { RawTextSourceTypeStrategy } from 'src/features/source/strategies/type/implementations/raw-text-source-type.strategy';
 import { YouTubeVideoSourceTypeStrategy } from 'src/features/source/strategies/type/implementations/youtube-video-source-type.strategy';
 import type { SourceTypeStrategy } from 'src/features/source/strategies/type/source-type-strategy.interface';
+import type { StrategyFactory } from 'src/shared/types/strategy-factory.interface';
 
 const map = new Map<SourceType, SourceTypeStrategy>([
     [SourceType.DOCUMENT, new DocumentSourceTypeStrategy()],
@@ -12,6 +13,8 @@ const map = new Map<SourceType, SourceTypeStrategy>([
     [SourceType.AUDIO, new AudioSourceTypeStrategy()],
 ]);
 
-export function resolveSourceTypeStrategy(type: SourceType): SourceTypeStrategy | undefined {
-    return map.get(type);
-}
+export const sourceTypeFactory: StrategyFactory<SourceType, SourceTypeStrategy> = {
+    resolveStrategy: function (kind: SourceType): SourceTypeStrategy | undefined {
+        return map.get(kind);
+    }
+};

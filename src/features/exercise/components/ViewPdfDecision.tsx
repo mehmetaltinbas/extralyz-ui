@@ -1,6 +1,8 @@
 import React from 'react';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import { PublicExerciseSetService } from 'src/features/exercise-set/services/public-exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
+import type { GetPdfResponse } from 'src/features/exercise-set/types/response/get-pdf.response';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 
@@ -11,6 +13,7 @@ export function ViewPdfDecision({
     setIsLoadingPageHidden,
     onClose,
     exerciseSet,
+    isPublicAccess
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,13 +21,20 @@ export function ViewPdfDecision({
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: () => void;
     exerciseSet: ExerciseSet;
+    isPublicAccess: boolean;
 }) {
     async function viewPdf(withAnswers: boolean) {
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await ExerciseSetService.getPdf(exerciseSet._id, withAnswers);
+            let response: GetPdfResponse = { isSuccess: false, message: "request couldn't be sent" };
+
+            if (isPublicAccess) {
+                response = await PublicExerciseSetService.getPdf(exerciseSet._id, withAnswers);
+            } else {
+                response = await ExerciseSetService.getPdf(exerciseSet._id, withAnswers);
+            }
 
             if (!response.isSuccess || !response.pdfBase64) {
                 alert(response.message);

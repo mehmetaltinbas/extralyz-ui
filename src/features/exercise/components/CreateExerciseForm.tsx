@@ -6,7 +6,7 @@ import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-c
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
-import { resolveExerciseTypeStrategy } from 'src/features/exercise/strategies/type/resolve-exercise-type-strategy';
+import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
@@ -40,7 +40,7 @@ export function CreateExerciseForm({
     };
     const [dto, setDto] = React.useState<CreateExerciseDto>(initialDto);
 
-    const activeStrategy = resolveExerciseTypeStrategy(dto.type);
+    const activeStrategy = exerciseTypeFactory.resolveStrategy(dto.type);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -80,7 +80,7 @@ export function CreateExerciseForm({
     }
 
     function changeExerciseType(type: ExerciseType) {
-        const strategy = resolveExerciseTypeStrategy(type);
+        const strategy = exerciseTypeFactory.resolveStrategy(type);
 
         if (!strategy) {
             alert(`The type ${type} is not a valid exercise type.`);

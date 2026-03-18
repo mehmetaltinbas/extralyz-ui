@@ -1,9 +1,9 @@
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
 import type { TransferExerciseDto } from 'src/features/exercise/types/dto/transfer-exercise.dto';
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
-import type { ReadAllExercisesResponse } from 'src/features/exercise/types/response/read-all-exercises.response';
-import { axiosInstance } from 'src/shared/api/axiosInstance';
-import type { ResponseBase } from 'src/shared/types/response-base';
+import type { ReadMultipleExercisesResponse } from 'src/features/exercise/types/response/read-multiple-exercises.response';
+import { axiosInstance } from 'src/shared/api/axios-instance';
+import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
 const baseUrl = `/exercise`;
@@ -42,7 +42,7 @@ export class ExerciseService {
     
     static async readAllByExerciseSetId(
         exerciseSetId: string
-    ): Promise<ReadAllExercisesResponse> {
+    ): Promise<ReadMultipleExercisesResponse> {
         try {
             const response = (
                 await axiosInstance.get(`${baseUrl}/read-all-by-exercise-set-id/${exerciseSetId}`)

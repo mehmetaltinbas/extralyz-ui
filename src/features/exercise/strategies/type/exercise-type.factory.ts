@@ -3,6 +3,7 @@ import type { ExerciseTypeStrategy } from "src/features/exercise/strategies/type
 import { McqExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/mcq-exercise-type.strategy";
 import { OpenEndedExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/open-ended-exercise-type.strategy";
 import { TrueFalseExerciseTypeStrategy } from "src/features/exercise/strategies/type/implementations/true-false-exercise-type.strategy";
+import type { StrategyFactory } from "src/shared/types/strategy-factory.interface";
 
 const map: Map<ExerciseType, ExerciseTypeStrategy> = new Map([
     [ExerciseType.MCQ, new McqExerciseTypeStrategy()],
@@ -10,8 +11,8 @@ const map: Map<ExerciseType, ExerciseTypeStrategy> = new Map([
     [ExerciseType.OPEN_ENDED, new OpenEndedExerciseTypeStrategy()],
 ]);
 
-export function resolveExerciseTypeStrategy(
-    type: ExerciseType
-): ExerciseTypeStrategy | undefined {
-    return map.get(type);
-}
+export const exerciseTypeFactory: StrategyFactory<ExerciseType, ExerciseTypeStrategy> = {
+    resolveStrategy: function (kind: ExerciseType): ExerciseTypeStrategy | undefined {
+        return map.get(kind);
+    }
+};

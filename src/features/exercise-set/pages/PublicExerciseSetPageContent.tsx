@@ -118,22 +118,24 @@ export function PublicExerciseSetPageContent({
                 </div>
             </div>
 
-            <div className="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {exercises.map((exercise) => {
-                    const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
+            <div className='w-full h-full flex justify-center'>
+                <div className="w-auto h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {exercises.map((exercise) => {
+                        const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
 
-                    return (
-                        <div key={exercise._id} className='flex justify-center items-start'>
-                            <div
-                                className="relative w-full max-w-[250px] md:max-w-[300px] aspect-square border rounded-[10px] px-8 py-8 text-sm md:text-base"
-                            >
-                                <div className='w-full h-full overflow-y-auto'>
-                                    {strategy?.getRestOfExerciseCard(exercise, isAnswersHidden)}
+                        return (
+                            <div key={exercise._id} className='flex justify-center items-start'>
+                                <div
+                                    className="relative w-full max-w-[250px] md:max-w-[300px] aspect-square border rounded-[10px] px-8 py-8 text-sm md:text-base"
+                                >
+                                    <div className='w-full h-full overflow-y-auto'>
+                                        {strategy?.getRestOfExerciseCard(exercise, isAnswersHidden)}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

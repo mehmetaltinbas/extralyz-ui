@@ -56,7 +56,7 @@ export function ExerciseSetPageContent({
                 flex flex-col justif-center items-start gap-2"
             >
                 <div className='w-full h-auto flex flex-col justify-start items-center gap-4'>
-                    <p className='text-lg font-bold'>{exerciseSet.title}</p>
+                    <p className='text-2xl font-bold'>{exerciseSet.title}</p>
 
                     <div className='flex gap-2'>
                         <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.sourceType === ExerciseSetSourceType.SOURCE ? sources.find((source) => source._id === exerciseSet.sourceId)?.title : exerciseSet.sourceType}</span></p>
@@ -141,16 +141,18 @@ export function ExerciseSetPageContent({
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext items={localExercises.map((e) => e._id)} strategy={rectSortingStrategy}>
-                    <div className="w-full h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {localExercises.map((exercise) => (
-                            <div className='flex justify-center items-center'>
-                                <SortableExerciseCard
-                                    key={exercise._id}
-                                    exercise={exercise}
-                                    isAnswersHidden={isAnswersHidden}
-                                />
-                            </div>
-                        ))}
+                    <div className='w-full h-full flex justify-center'>
+                        <div className="w-auto h-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {localExercises.map((exercise) => (
+                                <div className='flex justify-center items-center'>
+                                    <SortableExerciseCard
+                                        key={exercise._id}
+                                        exercise={exercise}
+                                        isAnswersHidden={isAnswersHidden}
+                                        />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </SortableContext>
 

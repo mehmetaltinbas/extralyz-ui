@@ -4,6 +4,7 @@ import { SourceActionMenu } from 'src/features/source/components/SourceActionMen
 import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
 import { SourcePopupsContext } from 'src/features/source/contexts/source-popups.context';
 import { SourceService } from 'src/features/source/services/source.service';
+import { sourcesActions } from 'src/features/source/store/sources.slice';
 import type { Source } from 'src/features/source/types/source.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
@@ -80,7 +81,10 @@ export function SourcePopupsProvider({
         const response = await SourceService.deleteById(source._id);
 
         if (!response.isSuccess) alert(response.message);
-        else invalidateTab();
+        else {
+            dispatch(sourcesActions.fetchData());
+            dispatch(tabsActions.closeTabById(source._id));
+        }
 
         return { isSuccess: response.isSuccess };
     }

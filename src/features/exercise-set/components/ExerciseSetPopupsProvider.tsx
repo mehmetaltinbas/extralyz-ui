@@ -42,7 +42,7 @@ export function ExerciseSetPopupsProvider({
     const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] = React.useState(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
-    const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState('');
+    const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string | null>(null);
 
     const exerciseActionMenuRef = React.useRef<HTMLDivElement>(null);
 
@@ -136,21 +136,27 @@ export function ExerciseSetPopupsProvider({
         if (!response.isSuccess) alert(response.message);
         else {
             dispatch(refreshExerciseSetData());
+            dispatch(tabsActions.closeTabById(exerciseSet._id));
         }
 
         return { isSuccess: response.isSuccess };
     }
 
     async function deleteExercise(): Promise<{ isSuccess: boolean }> {
-        const response = await ExerciseService.deleteById(actionMenuExerciseId);
-
-        if (!response.isSuccess) {
-            alert(response.message);
-        } else {
-            invalidateTab();
+        if (actionMenuExerciseId) {
+            const response = await ExerciseService.deleteById(actionMenuExerciseId);
+    
+            if (!response.isSuccess) {
+                alert(response.message);
+            } else {
+                invalidateTab();
+            }
+    
+            return { isSuccess: response.isSuccess };
         }
 
-        return { isSuccess: response.isSuccess };
+        alert('no exercise set found to delete');
+        return { isSuccess: false };
     }
 
     return (
@@ -160,7 +166,7 @@ export function ExerciseSetPopupsProvider({
             <ExerciseActionMenu
                 isHidden={isExerciseActionMenuHidden}
                 setIsHidden={setIsExerciseActionMenuHidden}
-                exerciseId={actionMenuExerciseId}
+                exerciseId={actionMenuExerciseId!}
                 ref={exerciseActionMenuRef}
                 toggleUpdateExerciseForm={toggleUpdateExerciseForm}
                 toggleTransferExerciseForm={toggleTransferExerciseForm}
@@ -198,7 +204,7 @@ export function ExerciseSetPopupsProvider({
                         isHidden={isTransferExerciseFormHidden}
                         setIsHidden={setIsTransferExerciseFormHidden}
                         setIsPopUpActive={setIsPopUpActive}
-                        exerciseId={actionMenuExerciseId}
+                        exerciseId={actionMenuExerciseId!}
                         currentExerciseSetId={exerciseSet._id}
                         onClose={closePopups}
                         refreshData={invalidateTab}

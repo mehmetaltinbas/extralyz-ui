@@ -1,23 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthService } from 'src/features/auth/services/auth.service';
+import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function ProtectedRoute({ element }: { element: React.JSX.Element }) {
-    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
+    const { isAuthenticated, isAuthLoading } = useAuth();
 
-    React.useEffect(() => {
-        AuthService
-            .authorize()
-            .then((response) => {
-                setIsAuthenticated(response.isSuccess);
-            })
-            .catch((error) => {
-                setIsAuthenticated(false);
-            });
-    }, []);
-
-    return isAuthenticated === null ? (
+    return isAuthLoading ? (
         <LoadingPage />
     ) : isAuthenticated ? (
         element

@@ -1,23 +1,15 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import { Button } from 'src/shared/components/Button';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAuth } from 'src/shared/hooks/use-auth.hook';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function PublicPageHeader() {
     const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
-
-    React.useEffect(() => {
-        async function checkAuth() {
-            const response = await AuthService.authorize();
-            setIsAuthenticated(response.isSuccess);
-        }
-
-        checkAuth();
-    }, []);
+    const { isAuthenticated, setIsAuthenticated, isAuthLoading} = useAuth();
 
     async function handleSignOut() {
         await AuthService.signOut();
@@ -38,7 +30,7 @@ export function PublicPageHeader() {
                     <LightDarkModeButton />
                 </div>
 
-                {isAuthenticated === null ? null : isAuthenticated ? (
+                {isAuthLoading ? <LoadingPage /> : isAuthenticated ? (
                     <div className="flex items-center gap-2 flex-wrap">
                         <Button
                             variant={ButtonVariant.PRIMARY}

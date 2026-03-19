@@ -6,19 +6,12 @@ import { FEATURES } from 'src/features/public-visit/constants/features.constant'
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAuth } from 'src/shared/hooks/use-auth.hook';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function Home() {
     const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
-
-    React.useEffect(() => {
-        async function checkAuth() {
-            const response = await AuthService.authorize();
-            setIsAuthenticated(response.isSuccess);
-        }
-
-        checkAuth();
-    }, []);
+    const { isAuthenticated, isAuthLoading} = useAuth();
 
     function handleGetStarted() {
         navigate('/sign-up');
@@ -53,7 +46,7 @@ export function Home() {
                     </p>
 
                     <div className="flex items-center gap-4 mt-4">
-                        {isAuthenticated ? (
+                        {isAuthLoading? <LoadingPage /> : isAuthenticated ? (
                             <Button
                                 variant={ButtonVariant.PRIMARY}
                                 onClick={handleContinueToWorkspace}

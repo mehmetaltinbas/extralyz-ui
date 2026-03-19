@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthService } from 'src/features/auth/services/auth.service';
 import { usePublicExerciseSetPopups } from 'src/features/exercise-set/hooks/use-public-exercise-set-popups.hook';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
@@ -9,6 +8,7 @@ import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { storeAuthRedirectUrl } from 'src/shared/utils/auth-redirect/store-auth-redirect-url.util';
 import { useAppDispatch } from 'src/store/hooks';
 
@@ -24,19 +24,10 @@ export function PublicExerciseSetViewPageContent({
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
-    const [isAuthenticated, setIsAuthenticated] = React.useState<boolean | null>(null);
+    const { isAuthenticated, isAuthLoading} = useAuth();
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
 
     const { openCloneExerciseSetForm, openViewPdfDecision } = usePublicExerciseSetPopups();
-
-    React.useEffect(() => {
-        async function checkAuth() {
-            const response = await AuthService.authorize();
-            setIsAuthenticated(response.isSuccess);
-        }
-
-        checkAuth();
-    }, []);
 
     function openInWorkspaceOrRedirect(section: Section, mode?: string) {
         if (!exerciseSet || !userName) return;
@@ -61,7 +52,7 @@ export function PublicExerciseSetViewPageContent({
     }
 
     function validateOrRedirect(): boolean {
-        if (!exerciseSet) return false;
+        if (!exerciseSet || isAuthLoading) return false;
 
         if (!isAuthenticated) {
             storeAuthRedirectUrl(window.location.pathname);

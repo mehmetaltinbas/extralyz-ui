@@ -45,6 +45,8 @@ body,
 .overflow-y-auto::-webkit-scrollbar-thumb {
     background-color: var(--color-scrollbar-thumb);
     border-radius: 10px;
+    /* Use padding-box to ensure the border acts as a 'gap' around the thumb */
+    background-clip: padding-box;
     border: 2px solid var(--color-scrollbar-track);
 }
 
@@ -53,19 +55,20 @@ body,
 .overflow-x-auto::-webkit-scrollbar-thumb:hover,
 .overflow-y-scroll::-webkit-scrollbar-thumb:hover,
 .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-scrollbar-thumb-hover);
+    /* Falling back to a standard dark grey if the hover variable isn't defined */
+    background-color: var(--color-scrollbar-thumb-hover, #555);
 }
 
 /* --- Horizontal Specifics --- */
 .overflow-x-scroll::-webkit-scrollbar,
 .overflow-x-auto::-webkit-scrollbar {
     height: 8px;
-    display: block !important;
+    /* display: block removed to allow 'auto' to hide when not needed */
 }
 
 /* --- Vertical Specifics --- */
 .overflow-y-scroll::-webkit-scrollbar,
 .overflow-y-auto::-webkit-scrollbar {
     width: 8px;
-    display: block !important;
+    /* display: block removed to allow 'auto' to hide when not needed */
 }

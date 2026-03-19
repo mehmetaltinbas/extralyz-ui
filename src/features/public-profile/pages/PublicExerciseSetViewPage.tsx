@@ -5,7 +5,9 @@ import { PublicExerciseSetService } from 'src/features/exercise-set/services/pub
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { PublicExerciseService } from 'src/features/exercise/services/public-exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { PublicPageHeader } from 'src/features/public-profile/components/PublicPageHeader';
 import { PublicExerciseSetViewPageContent } from 'src/features/public-profile/pages/PublicExerciseSetViewPageContent';
+import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function PublicExerciseSetViewPage() {
     const containerRef = React.useRef<HTMLDivElement>(null);
@@ -47,26 +49,30 @@ export function PublicExerciseSetViewPage() {
 
     return (
         <div className={`w-full h-full`}>
-            {exerciseSet && exercises && userName ? (
                 <div
                     ref={containerRef}
                     className={`w-full h-full relative w-full h-full`}
                 >
-                    <PublicExerciseSetPopupsProvider
-                        containerRef={containerRef}
-                        exerciseSet={exerciseSet}
-                        exercises={exercises}
-                    >
-                        <PublicExerciseSetViewPageContent
-                            exerciseSet={exerciseSet}
-                            exercises={exercises}
-                            userName={userName}
-                        />
-                    </PublicExerciseSetPopupsProvider>
+                    <div className="w-full min-h-screen flex flex-col justify-start items-center">
+                        <PublicPageHeader />
+
+                        {exerciseSet && exercises && userName ? (
+                            <PublicExerciseSetPopupsProvider
+                                containerRef={containerRef}
+                                exerciseSet={exerciseSet}
+                                exercises={exercises}
+                            >
+                                <PublicExerciseSetViewPageContent
+                                    exerciseSet={exerciseSet}
+                                    exercises={exercises}
+                                    userName={userName}
+                                />
+                            </PublicExerciseSetPopupsProvider>
+                        ) : (
+                            <LoadingPage />
+                        )}
+                    </div>
                 </div>
-            ) : (
-                <div>undefined</div>
-            )}
         </div>
     );
 }

@@ -8,7 +8,7 @@ export interface TabsStateElement {
     id?: string;
     title?: string;
     mode?: string;
-    meta?: Record<string, string>;
+    meta?: string;
 }
 
 export interface TabsState {

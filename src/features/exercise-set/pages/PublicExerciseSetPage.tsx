@@ -1,8 +1,8 @@
+import React from 'react';
+import { PublicExerciseSetPopupsProvider } from 'src/features/exercise-set/components/PublicExerciseSetPopupsProvider';
+import { PublicExerciseSetPageContent } from 'src/features/exercise-set/pages/PublicExerciseSetPageContent';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { PublicExerciseSetPageContent } from 'src/features/exercise-set/pages/PublicExerciseSetPageContent';
-import { PublicExerciseSetPopupsProvider } from 'src/features/exercise-set/components/PublicExerciseSetPopupsProvider';
-import React from 'react';
 
 export function PublicExerciseSetPage({
     exerciseSet,
@@ -24,7 +24,7 @@ export function PublicExerciseSetPage({
                     ref={containerRef}
                     className={`w-full h-full relative w-full h-full`}
                 >
-                    <PublicExerciseSetPopupsProvider containerRef={containerRef} exerciseSet={exerciseSet} exercises={exercises}>
+                    <PublicExerciseSetPopupsProvider exerciseSet={exerciseSet} exercises={exercises} ownerUserName={ownerUserName} >
                             <PublicExerciseSetPageContent
                                 exerciseSet={exerciseSet}
                                 exercises={exercises}

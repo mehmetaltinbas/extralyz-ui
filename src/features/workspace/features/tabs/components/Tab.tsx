@@ -58,10 +58,17 @@ export function Tab({
             flex-shrink-0 flex justify-center items-center gap-[10px]
             hover:bg-surface`}
         >
-            <div className="max-w-[80px] md:max-w-[150px] flex justify-center items-center">
-                <p className="truncate text-xs md:text-sm" title={displayTitle}>
-                    {displayTitle}
-                </p>
+            <div className='max-w-[80px] md:max-w-[150px] truncate flex flex-col justify start items-start gap-0'>
+                <div className="flex justify-center items-center">
+                    <p className="text-xs md:text-sm" title={displayTitle}>
+                        {displayTitle}
+                    </p>
+                </div>
+                {tab.meta &&
+                    <div>
+                        <p className="text-xs md:text-sm">{tab.meta}</p>
+                    </div>
+                }
             </div>
 
             <div className="w-[24px] flex justify-center items-center">

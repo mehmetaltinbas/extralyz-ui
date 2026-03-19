@@ -96,6 +96,7 @@ export function PublicExerciseSetPageContent({
                                         id: exerciseSet._id,
                                         title: exerciseSet.title,
                                         mode: ExerciseSetMode.PAPER_EVALUATION,
+                                        meta: `@${ownerUserName}`
                                     })
                                 )
                             }

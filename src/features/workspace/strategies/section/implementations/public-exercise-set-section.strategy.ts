@@ -18,9 +18,7 @@ export class PublicExerciseSetSectionStrategy implements SectionStrategy {
         }
 
         return {
-            title: tab.meta?.ownerUserName
-                ? `@${tab.meta.ownerUserName}: ${exerciseSet.title}`
-                : exerciseSet.title,
+            title: exerciseSet.title,
             exerciseSet: exerciseSet,
             exercises: exercises ?? [],
             ownerUserName: user?.userName,

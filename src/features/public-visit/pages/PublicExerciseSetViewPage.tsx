@@ -58,9 +58,9 @@ export function PublicExerciseSetViewPage() {
 
                         {exerciseSet && exercises && userName ? (
                             <PublicExerciseSetPopupsProvider
-                                containerRef={containerRef}
                                 exerciseSet={exerciseSet}
                                 exercises={exercises}
+                                ownerUserName={userName}
                             >
                                 <PublicExerciseSetViewPageContent
                                     exerciseSet={exerciseSet}

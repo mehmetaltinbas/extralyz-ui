@@ -12,14 +12,14 @@ import { useAppDispatch } from 'src/store/hooks';
 
 export function PublicExerciseSetPopupsProvider({
     children,
-    containerRef,
     exerciseSet,
     exercises,
+    ownerUserName,
 }: {
     children: React.ReactNode;
-    containerRef: React.RefObject<HTMLDivElement | null>;
     exerciseSet: ExerciseSet;
     exercises: Exercise[];
+    ownerUserName: string;
 }) {
     const dispatch = useAppDispatch();
 
@@ -79,6 +79,7 @@ export function PublicExerciseSetPopupsProvider({
                         exerciseSet={exerciseSet}
                         refreshData={invalidateTab}
                         isPublicAccess={true}
+                        meta={ownerUserName}
                     />,
                     <CloneExerciseSetForm
                         key='clone-exercise-set-form'

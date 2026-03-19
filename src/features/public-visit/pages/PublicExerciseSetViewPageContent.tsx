@@ -29,7 +29,7 @@ export function PublicExerciseSetViewPageContent({
 
     const { openCloneExerciseSetForm, openViewPdfDecision } = usePublicExerciseSetPopups();
 
-    function openInWorkspaceOrRedirect(section: Section, mode?: string) {
+    function openInWorkspaceOrRedirect(section: Section) {
         if (!exerciseSet || !userName) return;
 
         if (isAuthenticated) {
@@ -38,8 +38,7 @@ export function PublicExerciseSetViewPageContent({
                     section,
                     id: exerciseSet._id,
                     title: exerciseSet.title,
-                    mode,
-                    meta: { ownerUserName: userName },
+                    meta: `@${userName}`,
                 })
             );
 

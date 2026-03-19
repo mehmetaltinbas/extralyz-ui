@@ -15,7 +15,8 @@ export function StartPracticeDecision({
     onClose,
     exerciseSet,
     refreshData,
-    isPublicAccess
+    isPublicAccess,
+    meta,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,6 +26,7 @@ export function StartPracticeDecision({
     exerciseSet: ExerciseSet;
     refreshData: () => void;
     isPublicAccess: boolean;
+    meta?: string;
 }) {
     const dispatch = useAppDispatch();
 
@@ -45,6 +47,7 @@ export function StartPracticeDecision({
                     id: exerciseSet._id,
                     title: exerciseSet.title,
                     mode: mode,
+                    meta: meta && `@${meta}`
                 })
             );
 

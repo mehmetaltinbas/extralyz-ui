@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
-import { FEATURES } from 'src/features/home/constants/features.constant';
-import { PublicPageHeader } from 'src/features/public-profile/components/PublicPageHeader';
+import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { FEATURES } from 'src/features/public-visit/constants/features.constant';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';

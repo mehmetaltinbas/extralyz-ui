@@ -5,8 +5,8 @@ import { PublicExerciseSetService } from 'src/features/exercise-set/services/pub
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { PublicExerciseService } from 'src/features/exercise/services/public-exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { PublicPageHeader } from 'src/features/public-profile/components/PublicPageHeader';
-import { PublicExerciseSetViewPageContent } from 'src/features/public-profile/pages/PublicExerciseSetViewPageContent';
+import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { PublicExerciseSetViewPageContent } from 'src/features/public-visit/pages/PublicExerciseSetViewPageContent';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function PublicExerciseSetViewPage() {

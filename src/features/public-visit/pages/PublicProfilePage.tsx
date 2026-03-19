@@ -2,8 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { PublicExerciseSetService } from 'src/features/exercise-set/services/public-exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { PublicExerciseSetCard } from 'src/features/public-profile/components/PublicExerciseSetCard';
-import { PublicPageHeader } from 'src/features/public-profile/components/PublicPageHeader';
+import { PublicExerciseSetCard } from 'src/features/public-visit/components/PublicExerciseSetCard';
+import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
 import { UserService } from 'src/features/user/services/user.service';
 
 export function PublicProfilePage() {

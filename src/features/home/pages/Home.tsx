@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import { FEATURES } from 'src/features/home/constants/features.constant';
+import { PublicPageHeader } from 'src/features/public-profile/components/PublicPageHeader';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -31,41 +32,10 @@ export function Home() {
         navigate('/workspace');
     }
 
-    async function handleSignOut() {
-        await AuthService.signOut();
-        setIsAuthenticated(false);
-    }
-
     return (
         <div className="w-full min-h-screen flex flex-col">
             {/* Navigation Header */}
-            <header className="sticky top-0 z-50 w-full bg-surface border-b border-border">
-                <div className="max-w-6xl mx-auto px-4 sm:px-8 h-14 flex items-center justify-between">
-                    <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
-
-                    {isAuthenticated === null ? null : isAuthenticated ? (
-                        <div className="flex items-center gap-3">
-                            <Button variant={ButtonVariant.PRIMARY} onClick={handleContinueToWorkspace}>
-                                Continue to Workspace
-                            </Button>
-
-                            <Button variant={ButtonVariant.DANGER} onClick={handleSignOut}>
-                                Sign Out
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className="flex items-center gap-3">
-                            <Button variant={ButtonVariant.SECONDARY} onClick={handleSignIn}>
-                                Sign In
-                            </Button>
-
-                            <Button variant={ButtonVariant.PRIMARY} onClick={handleGetStarted}>
-                                Get Started
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            </header>
+            <PublicPageHeader />
 
             {/* Hero Section */}
             <section className="w-full flex flex-col justify-center items-center px-4 sm:px-8 py-20">

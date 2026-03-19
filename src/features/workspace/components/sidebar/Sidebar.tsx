@@ -1,4 +1,3 @@
-import { Moon, Sun } from 'lucide-react';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
@@ -7,9 +6,9 @@ import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { SidebarNavSection } from 'src/features/workspace/components/sidebar/SidebarNavSection';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
+import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
-import { themeActions } from 'src/store/theme.slice';
 
 export function Sidebar() {
     const dispatch = useAppDispatch();
@@ -17,7 +16,7 @@ export function Sidebar() {
     const sources = useAppSelector((state) => state.sources);
     const exerciseSets = useAppSelector((state) => state.exerciseSets);
     const user = useAppSelector((state) => state.user);
-    const themeMode = useAppSelector((state) => state.theme.mode);
+
     const { isDesktop } = useBreakpoint();
 
     const navigate = useNavigate();
@@ -148,13 +147,7 @@ export function Sidebar() {
                     </div>
 
                     <div className="w-full flex flex-col items-start gap-3">
-                        <button
-                            onClick={() => dispatch(themeActions.toggle())}
-                            className="w-8 h-8 rounded-full bg-surface-hover text-text-primary cursor-pointer flex justify-center items-center hover:bg-surface-muted"
-                            title={themeMode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-                        >
-                            {themeMode === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-                        </button>
+                        <LightDarkModeButton />
 
                         <div ref={containerRef} className="relative w-full flex flex-col items-start">
                             <UserActionMenu
@@ -250,13 +243,7 @@ export function Sidebar() {
                 </div>
 
                 <div className={`w-full flex flex-col ${sidebar.isOpen ? 'items-start' : 'items-center'} gap-3`}>
-                    <button
-                        onClick={() => dispatch(themeActions.toggle())}
-                        className="w-8 h-8 rounded-full bg-surface-hover text-text-primary cursor-pointer flex justify-center items-center hover:bg-surface-muted"
-                        title={themeMode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-                    >
-                        {themeMode === 'light' ? <Moon size={16} /> : <Sun size={16} />}
-                    </button>
+                    <LightDarkModeButton />
 
                 <div ref={containerRef} className={`relative w-full flex flex-col ${sidebar.isOpen ? 'items-start' : 'items-center'}`}>
                     <UserActionMenu

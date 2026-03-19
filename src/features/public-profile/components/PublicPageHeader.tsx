@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import { Button } from 'src/shared/components/Button';
+import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
@@ -26,12 +27,16 @@ export function PublicPageHeader() {
     return (
         <header className="sticky top-0 z-50 w-full bg-surface border-b border-border">
             <div className="max-w-6xl mx-auto px-4 sm:px-8 h-14 flex items-center justify-between">
-                <span
-                    className="text-lg font-bold tracking-tight cursor-pointer"
-                    onClick={() => navigate('/')}
-                >
-                    {APP_NAME}
-                </span>
+                <div className='flex justify-center items-center gap-4'>
+                    <span
+                        className="text-lg font-bold tracking-tight cursor-pointer"
+                        onClick={() => navigate('/')}
+                    >
+                        {APP_NAME}
+                    </span>
+
+                    <LightDarkModeButton />
+                </div>
 
                 {isAuthenticated === null ? null : isAuthenticated ? (
                     <div className="flex items-center gap-2 flex-wrap">

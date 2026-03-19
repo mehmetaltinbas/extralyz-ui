@@ -157,8 +157,8 @@ export function CreateExerciseSetForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {Object.values(ExerciseSetType).map((exerciseSetTypeValue) => (
-                        <option value={ExerciseSetType.MCQ}>{exerciseSetTypeValue}</option>
+                    {Object.values(ExerciseSetType).map((exerciseSetTypeValue, index) => (
+                        <option key={`exercise-set-type-value-${index}`} value={ExerciseSetType.MCQ}>{exerciseSetTypeValue}</option>
                     ))}
                 </select>
             </div>
@@ -171,8 +171,8 @@ export function CreateExerciseSetForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {Object.values(ExerciseSetDifficulty).map((exerciseSetDifficultyValue) => (
-                        <option value={exerciseSetDifficultyValue}>{exerciseSetDifficultyValue}</option>
+                    {Object.values(ExerciseSetDifficulty).map((exerciseSetDifficultyValue, index) => (
+                        <option key={`exercise-set-difficulty-value-${index}`} value={exerciseSetDifficultyValue}>{exerciseSetDifficultyValue}</option>
                     ))}
                 </select>
             </div>

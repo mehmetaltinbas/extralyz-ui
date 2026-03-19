@@ -1,12 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { UserService } from 'src/features/user/services/user.service';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchUserData } from 'src/features/user/store/fetch-user-data.thunk';
 import type { User } from 'src/features/user/types/user.interface';
-
-const fetchData = createAsyncThunk('user/fetch-data', async () => {
-    const response = await UserService.readByToken();
-
-    return response.user;
-});
 
 const initialState: User | null = null;
 
@@ -19,7 +13,7 @@ const userSlice = createSlice({
         },
     },
     extraReducers(builder) {
-        builder.addCase(fetchData.fulfilled, (_state, action) => {
+        builder.addCase(fetchUserData.fulfilled, (_state, action) => {
             return action.payload ?? null;
         });
     },
@@ -27,7 +21,7 @@ const userSlice = createSlice({
 
 export const userActions = {
     ...userSlice.actions,
-    fetchData,
+    fetchData: fetchUserData,
 };
 
 export const userReducer = userSlice.reducer;

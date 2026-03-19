@@ -1,4 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { fetchUserData } from 'src/features/user/store/fetch-user-data.thunk';
+import { userActions } from 'src/features/user/store/user.slice';
 import type { Section } from 'src/features/workspace/enums/section.enum';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { findTabIndex } from 'src/features/workspace/features/tabs/store/utils/find-tab-index.util';
@@ -17,18 +19,16 @@ export interface TabsState {
     propsInvalidatedTabIds: string[];
 }
 
-const STORAGE_KEY = 'tabs';
+const EMPTY_STATE: TabsState = { elements: [], activeTabIndex: -1, propsInvalidatedTabIds: [] };
 
-function loadPersistedTabs(): TabsState {
-    const fallback: TabsState = { elements: [], activeTabIndex: -1, propsInvalidatedTabIds: [] };
-
+function loadPersistedTabs(userId: string): TabsState {
     try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(`tabs:${userId}`);
 
-        if (!raw) return fallback;
+        if (!raw) return { ...EMPTY_STATE };
 
         const parsed = JSON.parse(raw);
-        
+
         return {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             elements: parsed.elements ?? [],
@@ -37,11 +37,11 @@ function loadPersistedTabs(): TabsState {
             propsInvalidatedTabIds: [],
         };
     } catch {
-        return fallback;
+        return { ...EMPTY_STATE };
     }
 }
 
-const initialState: TabsState = loadPersistedTabs();
+const initialState: TabsState = { ...EMPTY_STATE };
 
 const tabsSlice = createSlice({
     name: 'tabs',
@@ -75,7 +75,7 @@ const tabsSlice = createSlice({
                 // 1. If it exists, remove it from its current position first
                 const [existingTab] = state.elements.splice(existingIndex, 1);
 
-                // 2. Adjust target index: if we removed an item from BEFORE the target, 
+                // 2. Adjust target index: if we removed an item from BEFORE the target,
                 // the target index shifted down by 1.
                 const adjustedTargetIndex = existingIndex < atIndex ? atIndex - 1 : atIndex;
 
@@ -154,6 +154,18 @@ const tabsSlice = createSlice({
         clearPropsInvalidations: (state) => {
             state.propsInvalidatedTabIds = [];
         },
+    },
+    extraReducers(builder) {
+        builder.addCase(fetchUserData.fulfilled, (_state, action) => {
+            const user = action.payload;
+
+            if (!user?._id) return { ...EMPTY_STATE };
+
+            return loadPersistedTabs(user._id);
+        });
+        builder.addCase(userActions.clear, () => {
+            return { ...EMPTY_STATE };
+        });
     },
 });
 

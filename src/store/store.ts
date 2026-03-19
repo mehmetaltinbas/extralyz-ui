@@ -28,7 +28,11 @@ store.subscribe(() => {
 
     previousTabs = currentTabs;
 
-    localStorage.setItem('tabs', JSON.stringify({
+    const userId = store.getState().user?._id;
+
+    if (!userId) return;
+
+    localStorage.setItem(`tabs:${userId}`, JSON.stringify({
         elements: currentTabs.elements,
         activeTabIndex: currentTabs.activeTabIndex,
     }));

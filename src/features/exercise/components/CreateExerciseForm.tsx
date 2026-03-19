@@ -120,8 +120,8 @@ export function CreateExerciseForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {Object.values(ExerciseType).map((exerciseTypeValue) => (
-                        <option value={exerciseTypeValue}>{exerciseTypeValue}</option>
+                    {Object.values(ExerciseType).map((exerciseTypeValue, index) => (
+                        <option key={`exercise-type-value-${index}`} value={exerciseTypeValue}>{exerciseTypeValue}</option>
                     ))}
                 </select>
             </div>
@@ -134,8 +134,8 @@ export function CreateExerciseForm({
                     onChange={(e) => onChangeForEnum(e)}
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {Object.values(ExerciseDifficulty).map((exerciseDifficultyValue) => (
-                        <option value={exerciseDifficultyValue}>{exerciseDifficultyValue}</option>
+                    {Object.values(ExerciseDifficulty).map((exerciseDifficultyValue, index) => (
+                        <option key={`exercise-difficulty-value-${index}`} value={exerciseDifficultyValue}>{exerciseDifficultyValue}</option>
                     ))}
                 </select>
             </div>

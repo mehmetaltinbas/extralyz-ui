@@ -62,8 +62,8 @@ export function PublicExerciseSetPracticePage({
     }
 
     return (
-        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full relative`}>
-                <div className='w-full h-auto absolute overflow-y-auto flex justify-start items-start'>
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} relative w-full h-full`}>
+                <div className='absolute w-full h-full flex justify-start items-start'>
                 {exerciseSet && exercises ? (
                     activeExerciseIndex === exercises.length ? (
                         evaluation ? (

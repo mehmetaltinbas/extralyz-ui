@@ -13,7 +13,7 @@ export function SourcesPageContent({ sources }: { sources: Source[] }) {
             grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8`}
         >
             <div
-                className="relative w-full h-auto p-4 col-span-1 sm:col-span-2 lg:col-span-3
+                className="w-full h-auto p-4 col-span-1 sm:col-span-2 lg:col-span-3
                 flex flex justify-center items-center gap-2"
             >
                 <p className="text-2xl font-bold">Sources</p>

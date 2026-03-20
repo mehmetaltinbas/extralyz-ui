@@ -42,7 +42,7 @@ export function PublicExerciseSetPageContent({
 
     return (
         <div
-            className="absolute w-full h-full overflow-auto
+            className="absolute w-full h-full
             flex flex-col justify-start items-start gap-8 p-4 sm:p-8"
         >
             <div

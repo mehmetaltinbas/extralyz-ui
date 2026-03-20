@@ -16,12 +16,15 @@ export function SourcesPage({ isActiveComponent }: { isActiveComponent: boolean 
 
     return (
         <div
+            id='source-page'
             ref={containerRef}
-            className={`relative ${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}
+            className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}
         >
-            <SourcesPopupsProvider containerRef={containerRef}>
-                <SourcesPageContent sources={sources} />
-            </SourcesPopupsProvider>
+            <div className={`w-full h-full relative`}>
+                <SourcesPopupsProvider containerRef={containerRef}>
+                    <SourcesPageContent sources={sources} />
+                </SourcesPopupsProvider>
+            </div>
         </div>
     );
 }

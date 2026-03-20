@@ -10,7 +10,7 @@ export function SourcePageContent({ source }: { source: Source }) {
 
     return (
         <div
-            className="w-full h-auto pb-4 absolute
+            className="absolute w-full h-full pb-4
             flex flex-col justify-start items-center gap-4"
         >
             <div className='w-auto h-auto flex flex-col justify-start items-center gap-2'>

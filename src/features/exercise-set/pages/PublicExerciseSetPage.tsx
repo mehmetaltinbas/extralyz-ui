@@ -17,24 +17,20 @@ export function PublicExerciseSetPage({
 }) {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
-    return (
-        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
-            {exerciseSet && exercises ? (
-                <div
-                    ref={containerRef}
-                    className={`w-full h-full relative w-full h-full`}
-                >
-                    <PublicExerciseSetPopupsProvider exerciseSet={exerciseSet} exercises={exercises} ownerUserName={ownerUserName} >
-                            <PublicExerciseSetPageContent
-                                exerciseSet={exerciseSet}
-                                exercises={exercises}
-                                ownerUserName={ownerUserName}
-                            />
-                    </PublicExerciseSetPopupsProvider>
-                </div>
-            ) : (
-                <div>undefined</div>
-            )}
+    return exerciseSet && exercises ? (
+        <div
+            ref={containerRef}
+            className={`relative w-full h-full ${isActiveComponent ? 'block' : 'hidden'}`}
+        >
+            <PublicExerciseSetPopupsProvider exerciseSet={exerciseSet} exercises={exercises} ownerUserName={ownerUserName} >
+                    <PublicExerciseSetPageContent
+                        exerciseSet={exerciseSet}
+                        exercises={exercises}
+                        ownerUserName={ownerUserName}
+                    />
+            </PublicExerciseSetPopupsProvider>
         </div>
+    ) : (
+        <div className={`${isActiveComponent ? 'block' : 'hidden'}`}>undefined</div>
     );
 }

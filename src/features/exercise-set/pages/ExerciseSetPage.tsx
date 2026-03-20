@@ -16,11 +16,11 @@ export function ExerciseSetPage({
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     return (
-        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full`}>
+        <div className={`${isActiveComponent ? 'block' : 'hidden'} w-full h-full overflow-auto`}>
             {exerciseSet && exercises ? (
                 <div
                     ref={containerRef}
-                    className={`w-full h-full relative w-full h-full`}
+                    className={`w-full h-full relative`}
                 >
                     <ExerciseSetPopupsProvider containerRef={containerRef} exerciseSet={exerciseSet} exercises={exercises}>
                         <ExerciseSetPageContent

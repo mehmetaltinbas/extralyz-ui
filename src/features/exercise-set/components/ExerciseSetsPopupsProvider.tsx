@@ -47,12 +47,13 @@ export function ExerciseSetsPopupsProvider({
         const exerciseSetActionMenu = actionMenuRef.current;
         const container = containerRef.current;
 
-        if (exerciseSetActionMenu && container) {
+        if (exerciseSetActionMenu && container && actionMenuRef.current) {
             const containerRect = container.getBoundingClientRect();
-            const positionOfButton = event.currentTarget.getBoundingClientRect();
+            const buttonRect = event.currentTarget.getBoundingClientRect();
+            const actionMenuRect = actionMenuRef.current.getBoundingClientRect();
 
-            exerciseSetActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
-            exerciseSetActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
+            exerciseSetActionMenu.style.top = `${buttonRect.bottom - containerRect.top}px`;
+            exerciseSetActionMenu.style.left = `${buttonRect.right - (buttonRect.width / 2) - (actionMenuRect.width / 2) - containerRect.left}px`;
 
             if (!isExerciseSetActionMenuHidden && actionMenuExerciseSet?._id === exerciseSet._id) {
                 setIsExerciseSetActionMenuHidden(true);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
-import { SourceActionMenu } from 'src/features/source/components/SourceActionMenu';
 import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceForm';
 import { SourcePopupsContext } from 'src/features/source/contexts/source-popups.context';
 import { SourceService } from 'src/features/source/services/source.service';
@@ -25,12 +24,10 @@ export function SourcePopupsProvider({
 
     const [isPopUpActive, setIsPopUpActive] = React.useState(false);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState(true);
-    const [isActionMenuHidden, setIsActionMenuHidden] = React.useState(true);
+
     const [isCreateExerciseSetFormHidden, setIsCreateExerciseSetFormHidden] = React.useState(true);
     const [isUpdateSourceFormHidden, setIsUpdateSourceFormHidden] = React.useState(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState(true);
-
-    const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
     function openCreateExerciseSetForm() {
         setIsPopUpActive(true);
@@ -55,21 +52,6 @@ export function SourcePopupsProvider({
         dispatch(tabsActions.invalidateTabPropsById(source._id));
     }
 
-    function toggleCreateExerciseSetForm() {
-        setIsCreateExerciseSetFormHidden((prev) => !prev);
-        setIsPopUpActive((prev) => !prev);
-    }
-
-    function toggleUpdateSourceForm() {
-        setIsUpdateSourceFormHidden((prev) => !prev);
-        setIsPopUpActive((prev) => !prev);
-    }
-
-    function toggleDeleteApproval() {
-        setIsDeleteApprovalHidden((prev) => !prev);
-        setIsPopUpActive((prev) => !prev);
-    }
-
     function closePopups() {
         setIsPopUpActive(false);
         setIsCreateExerciseSetFormHidden(true);
@@ -92,16 +74,6 @@ export function SourcePopupsProvider({
     return (
         <SourcePopupsContext value={{ openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval }}>
             {children}
-
-            <SourceActionMenu
-                isHidden={isActionMenuHidden}
-                setIsHidden={setIsActionMenuHidden}
-                sourceId={source._id}
-                ref={actionMenuRef}
-                toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
-                toggleUpdateSourceForm={toggleUpdateSourceForm}
-                toggleDeleteApproval={toggleDeleteApproval}
-            />
 
             <BodyModal
                 isPopUpActive={isPopUpActive}

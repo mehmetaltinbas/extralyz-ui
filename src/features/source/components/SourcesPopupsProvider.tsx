@@ -50,12 +50,13 @@ export function SourcesPopupsProvider({
         const sourceActionMenu = actionMenuRef.current;
         const container = containerRef.current;
 
-        if (sourceActionMenu && container) {
+        if (sourceActionMenu && container && actionMenuRef.current) {
             const containerRect = container.getBoundingClientRect();
-            const positionOfButton = event.currentTarget.getBoundingClientRect();
+            const buttonRect = event.currentTarget.getBoundingClientRect();
+            const actionMenuRect = actionMenuRef.current.getBoundingClientRect();
 
-            sourceActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
-            sourceActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
+            sourceActionMenu.style.top = `${buttonRect.bottom - containerRect.top}px`;
+            sourceActionMenu.style.left = `${buttonRect.right - (buttonRect.width / 2) - (actionMenuRect.width / 2) - containerRect.left}px`;
 
             if (!isSourceActionMenuHidden && actionMenuSourceId === sourceId) {
                 setIsSourceActionMenuHidden(true);

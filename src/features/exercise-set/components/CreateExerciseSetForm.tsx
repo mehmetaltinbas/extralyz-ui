@@ -158,7 +158,7 @@ export function CreateExerciseSetForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseSetType).map((exerciseSetTypeValue, index) => (
-                        <option key={`exercise-set-type-value-${index}`} value={ExerciseSetType.MCQ}>{exerciseSetTypeValue}</option>
+                        <option key={`exercise-set-type-value-${index}`} value={exerciseSetTypeValue}>{exerciseSetTypeValue}</option>
                     ))}
                 </select>
             </div>

@@ -44,7 +44,7 @@ export function ExerciseSetPopupsProvider({
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string | null>(null);
 
-    const exerciseActionMenuRef = React.useRef<HTMLDivElement>(null);
+    const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
     function openCreateExerciseForm() {
         setIsPopUpActive(true);
@@ -76,15 +76,16 @@ export function ExerciseSetPopupsProvider({
         exerciseId: string
     ) {
         event.stopPropagation();
-        const exerciseActionMenu = exerciseActionMenuRef.current;
+        const exerciseActionMenu = actionMenuRef.current;
         const container = containerRef.current;
 
-        if (exerciseActionMenu && container) {
+        if (exerciseActionMenu && container && actionMenuRef.current) {
             const containerRect = container.getBoundingClientRect();
-            const positionOfButton = event.currentTarget.getBoundingClientRect();
+            const buttonRect = event.currentTarget.getBoundingClientRect();
+            const actionMenuRect = actionMenuRef.current.getBoundingClientRect();
 
-            exerciseActionMenu.style.top = `${positionOfButton.bottom - containerRect.top}px`;
-            exerciseActionMenu.style.left = `${positionOfButton.right - containerRect.left}px`;
+            exerciseActionMenu.style.top = `${buttonRect.bottom - containerRect.top}px`;
+            exerciseActionMenu.style.left = `${buttonRect.right - (buttonRect.width / 2) - (actionMenuRect.width / 2) - containerRect.left}px`;
 
             if (!isExerciseActionMenuHidden && actionMenuExerciseId === exerciseId) {
                 setIsExerciseActionMenuHidden(true);
@@ -167,7 +168,7 @@ export function ExerciseSetPopupsProvider({
                 isHidden={isExerciseActionMenuHidden}
                 setIsHidden={setIsExerciseActionMenuHidden}
                 exerciseId={actionMenuExerciseId!}
-                ref={exerciseActionMenuRef}
+                ref={actionMenuRef}
                 toggleUpdateExerciseForm={toggleUpdateExerciseForm}
                 toggleTransferExerciseForm={toggleTransferExerciseForm}
                 toggleDeleteApproval={toggleExerciseDeleteApproval}

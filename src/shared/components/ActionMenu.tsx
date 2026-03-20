@@ -21,7 +21,7 @@ export function ActionMenu({
             ref={ref}
             className={`absolute border border-border px-4.5 py-5 bg-surface rounded-[10px] shadow-md z-10
             flex flex-col justify-center items-center gap-2
-            ${isHidden && 'hidden'}`}
+            ${isHidden && 'invisible'}`}
         >
             <div className='absolute top-0.5 right-1'>
                 <Button

@@ -128,6 +128,7 @@ export function WorkspaceBody() {
 
     return (
         <div
+            id='workspace-body'
             ref={containerDiv}
             className={`relative z-0 w-full
             flex-1`}

@@ -68,6 +68,7 @@ export function PublicExerciseSetPopupsProvider({
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 onOverlayClick={closePopups}
+                isOverlayClickDisabled={!isLoadingPageHidden}
                 components={[
                     <StartPracticeDecision
                         key='start-practice-decision'

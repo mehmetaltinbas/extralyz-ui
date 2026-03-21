@@ -40,6 +40,7 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
                 isPopUpActive={isPopUpActive}
                 zIndex={50}
                 onOverlayClick={closePopups}
+                isOverlayClickDisabled={!isLoadingPageHidden}
                 components={[
                     ...[user &&
                         <UpdateUserProfileInfoForm

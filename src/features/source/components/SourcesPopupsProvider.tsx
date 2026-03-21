@@ -119,6 +119,7 @@ export function SourcesPopupsProvider({
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 onOverlayClick={closePopups}
+                isOverlayClickDisabled={!isLoadingPageHidden}
                 components={[
                     <CreateSourceForm
                         key='create-source-form'

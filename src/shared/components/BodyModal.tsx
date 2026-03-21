@@ -12,11 +12,13 @@ export function BodyModal({
     components,
     zIndex,
     onOverlayClick,
+    isOverlayClickDisabled,
 }: {
     isPopUpActive: boolean;
     components: React.ReactNode[];
     zIndex?: number;
     onOverlayClick?: () => void;
+    isOverlayClickDisabled?: boolean;
 }) {
     const portalTargetRef = useContext(BodyModalPortalContext);
     const overlayZ = zIndex ? zIndex - 10 : 10;
@@ -27,13 +29,13 @@ export function BodyModal({
             <div // overlay
                 className={`${!isPopUpActive ? 'hidden' : ''} fixed inset-0 backdrop-blur-xs`}
                 style={{ zIndex: overlayZ }}
-                onClick={onOverlayClick}
+                onClick={!isOverlayClickDisabled ? onOverlayClick : undefined}
             ></div>
 
             <div // pop up
                 className={`${!isPopUpActive ? 'hidden' : ''} fixed inset-0`}
                 style={{ zIndex: popupZ }}
-                onClick={onOverlayClick}
+                onClick={!isOverlayClickDisabled ? onOverlayClick : undefined}
             >
                 <div
                     className="w-full h-[95%] h-[80%] flex justify-center items-center"

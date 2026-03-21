@@ -78,6 +78,7 @@ export function SourcePopupsProvider({
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 onOverlayClick={closePopups}
+                isOverlayClickDisabled={!isLoadingPageHidden}
                 components={[
                     <CreateExerciseSetForm
                         key='create-exercise-set-form'

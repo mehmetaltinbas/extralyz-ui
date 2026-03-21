@@ -177,6 +177,7 @@ export function ExerciseSetPopupsProvider({
             <BodyModal
                 isPopUpActive={isPopUpActive}
                 onOverlayClick={closePopups}
+                isOverlayClickDisabled={!isLoadingPageHidden}
                 components={[
                     <CreateExerciseForm
                         key='create-exercise-form'

@@ -3,6 +3,7 @@ import type { UpdateUserPasswordDto } from 'src/features/user/types/dto/update-u
 import type { UpdateUserDto } from 'src/features/user/types/dto/update-user.dto';
 import type { ReadSinglePublicUserResponse } from 'src/features/user/types/response/read-single-public-user.response';
 import type { ReadSingleUserResponse } from 'src/features/user/types/response/read-single-user.response';
+import type { SearchPublicUsersResponse } from 'src/features/user/types/response/search-public-users.response';
 import { axiosInstance } from 'src/shared/api/axios-instance';
 import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
@@ -60,6 +61,19 @@ export class UserService {
 
             return response;
         } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async searchByUserName(userName: string, signal?: AbortSignal): Promise<SearchPublicUsersResponse> {
+        try {
+            const response = (
+                await axiosInstance.get(`${baseUrl}/search-by-user-name/${userName}`, { signal })
+            ).data;
+
+            return response;
+        } catch (error) {
+            if (signal?.aborted) return { isSuccess: false, message: 'aborted' };
             return handleServiceError(error);
         }
     }

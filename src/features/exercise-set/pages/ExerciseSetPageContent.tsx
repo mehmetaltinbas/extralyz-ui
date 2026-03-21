@@ -48,7 +48,7 @@ export function ExerciseSetPageContent({
 
     return (
         <div
-            className="absolute w-full h-full
+            className="absolute w-full h-auto
             flex flex-col justify-start items-start gap-8 p-8"
         >
             <div

@@ -2,8 +2,8 @@ import React from 'react';
 import { exerciseSetsActions } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
 import { SidebarOpenContent } from 'src/features/workspace/components/sidebar/SidebarOpenContent';
+import { SidebarUserSection } from 'src/features/workspace/components/sidebar/SidebarUserSection';
 import { sidebarActions } from 'src/features/workspace/store/sidebar.slice';
-import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -112,25 +112,9 @@ export function Sidebar() {
                                 </button>
                             </div>
 
-                            <div className="w-full flex flex-col items-center gap-3">
-                                <LightDarkModeButton />
-
-                                <div className="flex flex-col items-center gap-1">
-                                    {user && (
-                                        <>
-                                            <span className="text-xs text-text-secondary cursor-pointer">
-                                                {user.creditBalance}
-                                            </span>
-
-                                            <div
-                                                className="w-8 h-8 rounded-full bg-btn-primary-bg text-btn-primary-text cursor-pointer flex justify-center items-center"
-                                            >
-                                                {user.userName.charAt(0).toUpperCase() ?? '?'}
-                                            </div>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
+                            <SidebarUserSection
+                                layout='vertical'
+                            />
                         </>
                     )}
                 </div>

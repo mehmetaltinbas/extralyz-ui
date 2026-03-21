@@ -2,8 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { SidebarNavSection } from 'src/features/workspace/components/sidebar/SidebarNavSection';
+import { SidebarUserSection } from 'src/features/workspace/components/sidebar/SidebarUserSection';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { useAppSelector } from 'src/store/hooks';
 
 export function SidebarOpenContent({ onClose }: { onClose: () => void }) {
@@ -75,37 +77,9 @@ export function SidebarOpenContent({ onClose }: { onClose: () => void }) {
                 />
             </div>
 
-            <div className="w-full flex flex-col items-start gap-3">
-                <LightDarkModeButton />
-
-                <div ref={containerRef} className="relative w-full flex flex-col items-start">
-                    <UserActionMenu
-                        isHidden={isActionMenuHidden}
-                        setIsHidden={setIsActionMenuHidden}
-                        ref={actionMenuRef}
-                    />
-
-                    <div
-                        className="flex flex-row items-center gap-2"
-                        onClick={toggleActionMenu}
-                    >
-                        {user && (
-                            <>
-                                <div
-                                    ref={profileButtonRef}
-                                    className="w-8 h-8 rounded-full bg-btn-primary-bg text-btn-primary-text cursor-pointer flex justify-center items-center"
-                                >
-                                    {user.userName.charAt(0).toUpperCase() ?? '?'}
-                                </div>
-
-                                <span className="text-xs text-text-secondary cursor-pointer">
-                                    {user.creditBalance}
-                                </span>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
+            <SidebarUserSection
+                layout={'horizontal'}
+            />
         </>
     );
 }

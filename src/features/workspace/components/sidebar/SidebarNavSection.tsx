@@ -37,8 +37,8 @@ export function SidebarNavSection({
 
     return (
         <div
-            className="w-full h-auto overflow-y-auto
-            flex flex-col justify-start items-start gap-1"
+            className="w-full min-h-0
+            flex-1 flex flex-col justify-start items-start gap-1"
         >
             <div
                 className="w-full h-auto
@@ -64,7 +64,7 @@ export function SidebarNavSection({
             </div>
 
             <div
-                className="w-full h-auto pl-8
+                className="w-full pl-8 flex-1 min-h-0 overflow-y-auto
                 flex flex-col justify-start items-start gap-[2px]"
             >
                 {items?.map((item) => (
@@ -84,82 +84,7 @@ export function SidebarNavSection({
                                 title: item.title,
                             })
                         }
-                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
-                            flex justify-start
-                            hover:bg-surface-hover"
-                    >
-                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
-                    </button>
-                ))}
-
-                {items?.map((item) => (
-                    <button
-                        key={item._id}
-                        draggable="true"
-                        onDragStart={(event) => onDragStart(event)}
-                        data-tab-element={JSON.stringify({
-                            section: section.slice(0, -1),
-                            id: item._id,
-                            title: item.title,
-                        })}
-                        onClick={() =>
-                            handleItemClick({
-                                section: section.slice(0, -1) as Section,
-                                id: item._id,
-                                title: item.title,
-                            })
-                        }
-                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
-                            flex justify-start
-                            hover:bg-surface-hover"
-                    >
-                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
-                    </button>
-                ))}
-
-                {items?.map((item) => (
-                    <button
-                        key={item._id}
-                        draggable="true"
-                        onDragStart={(event) => onDragStart(event)}
-                        data-tab-element={JSON.stringify({
-                            section: section.slice(0, -1),
-                            id: item._id,
-                            title: item.title,
-                        })}
-                        onClick={() =>
-                            handleItemClick({
-                                section: section.slice(0, -1) as Section,
-                                id: item._id,
-                                title: item.title,
-                            })
-                        }
-                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
-                            flex justify-start
-                            hover:bg-surface-hover"
-                    >
-                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
-                    </button>
-                ))}
-
-                {items?.map((item) => (
-                    <button
-                        key={item._id}
-                        draggable="true"
-                        onDragStart={(event) => onDragStart(event)}
-                        data-tab-element={JSON.stringify({
-                            section: section.slice(0, -1),
-                            id: item._id,
-                            title: item.title,
-                        })}
-                        onClick={() =>
-                            handleItemClick({
-                                section: section.slice(0, -1) as Section,
-                                id: item._id,
-                                title: item.title,
-                            })
-                        }
-                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
+                        className="w-full shrink-0 cursor-pointer truncate px-[8px] py-[1px]
                             flex justify-start
                             hover:bg-surface-hover"
                     >

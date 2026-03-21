@@ -10,7 +10,7 @@ import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { storeAuthRedirectUrl } from 'src/shared/utils/auth-redirect/store-auth-redirect-url.util';
-import { useAppDispatch } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function PublicExerciseSetViewPageContent({
     exerciseSet,
@@ -24,21 +24,24 @@ export function PublicExerciseSetViewPageContent({
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
+    const user = useAppSelector(state => state.user);
     const { isAuthenticated, isAuthLoading} = useAuth();
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
 
     const { openCloneExerciseSetForm, openViewPdfDecision } = usePublicExerciseSetPopups();
 
-    function openInWorkspaceOrRedirect(section: Section) {
+    function openInWorkspaceOrRedirect() {
         if (!exerciseSet || !userName) return;
 
         if (isAuthenticated) {
+            const isOwner = user?.userName === userName;
+
             dispatch(
                 tabsActions.openTab({
-                    section,
+                    section: isOwner ? Section.EXERCISE_SET : Section.PUBLIC_EXERCISE_SET,
                     id: exerciseSet._id,
                     title: exerciseSet.title,
-                    meta: `@${userName}`,
+                    ...(isOwner ? {} : { meta: `@${userName}` }),
                 })
             );
 
@@ -90,11 +93,7 @@ export function PublicExerciseSetViewPageContent({
 
                 <div className="flex flex-wrap gap-2 justify-center">
                     <Button
-                        onClick={() =>
-                            openInWorkspaceOrRedirect(
-                                Section.PUBLIC_EXERCISE_SET,
-                            )
-                        }
+                        onClick={() => openInWorkspaceOrRedirect()}
                     >
                         Open in Workspace
                     </Button>

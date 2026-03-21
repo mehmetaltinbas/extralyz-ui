@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { exerciseSetsReducer } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { sourcesReducer } from 'src/features/source/store/sources.slice';
+import { fetchUserData } from 'src/features/user/store/fetch-user-data.thunk';
 import { userReducer } from 'src/features/user/store/user.slice';
 import { tabsReducer } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { layoutDimensionsReducer } from 'src/features/workspace/store/layout-dimensions.slice';
@@ -61,5 +62,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export type AppStore = typeof store;
+
+store.dispatch(fetchUserData());
 
 export default store;

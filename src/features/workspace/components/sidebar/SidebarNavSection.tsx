@@ -58,13 +58,90 @@ export function SidebarNavSection({
                             {section}
                         </p>
                     </button>
+
                     <span className="w-full h-[1px] bg-border-strong"></span>
                 </div>
             </div>
+
             <div
                 className="w-full h-auto pl-8
                 flex flex-col justify-start items-start gap-[2px]"
             >
+                {items?.map((item) => (
+                    <button
+                        key={item._id}
+                        draggable="true"
+                        onDragStart={(event) => onDragStart(event)}
+                        data-tab-element={JSON.stringify({
+                            section: section.slice(0, -1),
+                            id: item._id,
+                            title: item.title,
+                        })}
+                        onClick={() =>
+                            handleItemClick({
+                                section: section.slice(0, -1) as Section,
+                                id: item._id,
+                                title: item.title,
+                            })
+                        }
+                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
+                            flex justify-start
+                            hover:bg-surface-hover"
+                    >
+                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
+                    </button>
+                ))}
+
+                {items?.map((item) => (
+                    <button
+                        key={item._id}
+                        draggable="true"
+                        onDragStart={(event) => onDragStart(event)}
+                        data-tab-element={JSON.stringify({
+                            section: section.slice(0, -1),
+                            id: item._id,
+                            title: item.title,
+                        })}
+                        onClick={() =>
+                            handleItemClick({
+                                section: section.slice(0, -1) as Section,
+                                id: item._id,
+                                title: item.title,
+                            })
+                        }
+                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
+                            flex justify-start
+                            hover:bg-surface-hover"
+                    >
+                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
+                    </button>
+                ))}
+
+                {items?.map((item) => (
+                    <button
+                        key={item._id}
+                        draggable="true"
+                        onDragStart={(event) => onDragStart(event)}
+                        data-tab-element={JSON.stringify({
+                            section: section.slice(0, -1),
+                            id: item._id,
+                            title: item.title,
+                        })}
+                        onClick={() =>
+                            handleItemClick({
+                                section: section.slice(0, -1) as Section,
+                                id: item._id,
+                                title: item.title,
+                            })
+                        }
+                        className="w-full cursor-pointer truncate px-[8px] py-[1px]
+                            flex justify-start
+                            hover:bg-surface-hover"
+                    >
+                        <p>{item.title === '' || item.title === undefined ? item._id : item.title}</p>
+                    </button>
+                ))}
+
                 {items?.map((item) => (
                     <button
                         key={item._id}

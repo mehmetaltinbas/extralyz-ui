@@ -2,12 +2,15 @@ import type React from "react";
 import { MULTIPLE_CHOICE_CHOICES_COUNT } from "src/features/exercise/constants/multiple-choice-choices-count.constant";
 import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-exercise.dto";
 import { Textarea } from "src/shared/components/Textarea";
+import { useBreakpoint } from "src/shared/hooks/use-breakpoint.hook";
 import { getAlphabetLetter } from "src/shared/utils/get-alphabet-letter.util";
 
 export function MultipleChoiceCreateForm({ dto, setDto }: {
     dto: CreateExerciseDto;
     setDto: (value: React.SetStateAction<CreateExerciseDto>) => void;
 }) {
+    const { isMobile } = useBreakpoint();
+
     return (
         <>
             {Array.from({ length: MULTIPLE_CHOICE_CHOICES_COUNT }).map((value, index) => (
@@ -28,6 +31,7 @@ export function MultipleChoiceCreateForm({ dto, setDto }: {
                                 ],
                             })
                         }
+                        rows={isMobile ? 1 : 2}
                     />
                 </div>
             ))}

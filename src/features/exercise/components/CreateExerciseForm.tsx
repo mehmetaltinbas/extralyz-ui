@@ -12,6 +12,7 @@ import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { Textarea } from 'src/shared/components/Textarea';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 export function CreateExerciseForm({
@@ -44,6 +45,8 @@ export function CreateExerciseForm({
     const activeStrategy = exerciseTypeFactory.resolveStrategy(dto.type);
 
     const isSubmittingRef = React.useRef(false);
+
+    const { isMobile } = useBreakpoint();
 
     React.useEffect(() => {
         if (isHidden && !isSubmittingRef.current) {
@@ -151,6 +154,7 @@ export function CreateExerciseForm({
                             prompt: e.currentTarget.value,
                         })
                     }
+                    rows={isMobile ? 1 : 2}
                 />
             </div>
 

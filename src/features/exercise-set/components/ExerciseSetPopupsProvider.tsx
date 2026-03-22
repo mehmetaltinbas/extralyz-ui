@@ -1,6 +1,9 @@
 import React from 'react';
+import { GenerateAdditionalExercisesForm } from 'src/features/exercise-set/components/GenerateAdditionalExercisesForm';
+import { GenerateExerciseDecision } from 'src/features/exercise-set/components/GenerateExerciseDecision';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/exercise-set-popups.context';
+import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
@@ -41,6 +44,8 @@ export function ExerciseSetPopupsProvider({
     const [isViewPdfDecisionHidden, setIsViewPdfDecisionHidden] = React.useState(true);
     const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState(true);
     const [isExerciseSetDeleteApprovalHidden, setIsExerciseSetDeleteApprovalHidden] = React.useState(true);
+    const [isGenerateExerciseDecisionHidden, setIsGenerateExerciseDecisionHidden] = React.useState(true);
+    const [isGenerateAdditionalFormHidden, setIsGenerateAdditionalFormHidden] = React.useState(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string | null>(null);
 
@@ -48,7 +53,22 @@ export function ExerciseSetPopupsProvider({
 
     function openCreateExerciseForm() {
         setIsPopUpActive(true);
+
+        if (exerciseSet.sourceType === ExerciseSetSourceType.SOURCE) {
+            setIsGenerateExerciseDecisionHidden(false);
+        } else {
+            setIsCreateExerciseFormHidden(false);
+        }
+    }
+
+    function onDecisionSelectManual() {
+        setIsGenerateExerciseDecisionHidden(true);
         setIsCreateExerciseFormHidden(false);
+    }
+
+    function onDecisionSelectAI() {
+        setIsGenerateExerciseDecisionHidden(true);
+        setIsGenerateAdditionalFormHidden(false);
     }
 
     function openStartPracticeDecision() {
@@ -119,6 +139,8 @@ export function ExerciseSetPopupsProvider({
         setIsStartPracticeDecisionHidden(true);
         setIsViewPdfDecisionHidden(true);
         setIsUpdateExerciseSetFormHidden(true);
+        setIsGenerateExerciseDecisionHidden(true);
+        setIsGenerateAdditionalFormHidden(true);
         setIsExerciseSetDeleteApprovalHidden(true);
         setIsExerciseDeleteApprovalHidden(true);
     }
@@ -179,6 +201,25 @@ export function ExerciseSetPopupsProvider({
                 onOverlayClick={closePopups}
                 isOverlayClickDisabled={!isLoadingPageHidden}
                 components={[
+                    <GenerateExerciseDecision
+                        key='generate-exercise-decision'
+                        isHidden={isGenerateExerciseDecisionHidden}
+                        setIsHidden={setIsGenerateExerciseDecisionHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        onClose={closePopups}
+                        onSelectManual={onDecisionSelectManual}
+                        onSelectAI={onDecisionSelectAI}
+                    />,
+                    <GenerateAdditionalExercisesForm
+                        key='generate-additional-exercises-form'
+                        isHidden={isGenerateAdditionalFormHidden}
+                        setIsHidden={setIsGenerateAdditionalFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        onClose={closePopups}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        refreshData={invalidateTab}
+                        exerciseSet={exerciseSet}
+                    />,
                     <CreateExerciseForm
                         key='create-exercise-form'
                         isHidden={isCreateExerciseFormHidden}

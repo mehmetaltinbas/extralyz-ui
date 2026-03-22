@@ -1,6 +1,7 @@
 import type { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
+import type { GenerateAdditionalExercisesDto } from 'src/features/exercise-set/types/dto/generate-additional-exercises.dto';
 import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import type { GetPdfResponse } from 'src/features/exercise-set/types/response/get-pdf.response';
@@ -24,6 +25,16 @@ export class ExerciseSetService {
         try {
             const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
             const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async generateAdditional(exerciseSetId: string, dto: GenerateAdditionalExercisesDto): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/generate-additional/${exerciseSetId}`, dto)).data;
     
             return response;
         } catch (error) {

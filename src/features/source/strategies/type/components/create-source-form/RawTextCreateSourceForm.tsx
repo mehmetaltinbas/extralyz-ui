@@ -14,13 +14,14 @@ export function RawTextCreateSourceForm({
 }) {
     return (
         <>
-            <div className={'flex justify-center items-center gap-2'}>
+            <div className={'w-72 sm:w-108 flex justify-center items-center gap-2'}>
                 <p>text: </p>
                 <Textarea
                     onChange={(e) => setDto((prev) => ({ ...prev, rawText: e.target.value }))}
                     value={dto.rawText ?? ''}
                     placeholder="paste your text..."
                     size={TextareaSize.LG}
+                    rows={3}
                 />
             </div>
 

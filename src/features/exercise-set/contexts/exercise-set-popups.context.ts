@@ -6,6 +6,7 @@ interface ExerciseSetPopupsContextValue {
     openViewPdfDecision: () => void;
     openUpdateExerciseSetForm: () => void;
     openExerciseSetDeleteApproval: () => void;
+    openChangeSourceForm: () => void;
     openExerciseActionMenu: (event: React.MouseEvent<HTMLButtonElement>, exerciseId: string) => void;
 }
 

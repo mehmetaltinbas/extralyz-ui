@@ -140,7 +140,7 @@ export function CreateExerciseForm({
                 </select>
             </div>
 
-            <div className="flex justify-start items-center gap-2">
+            <div className="w-64 sm:w-96 flex justify-start items-center gap-2">
                 <p>prompt: </p>
                 <Textarea
                     value={dto.prompt}

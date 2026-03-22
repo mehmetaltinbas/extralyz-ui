@@ -30,7 +30,7 @@ export function ExerciseSetPageContent({
 
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
 
-    const { openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval } = useExerciseSetPopups();
+    const { openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openChangeSourceForm } = useExerciseSetPopups();
     const { localExercises, sensors, activeExercise, handleDragStart, handleDragEnd } = useExerciseReorder(exercises, exerciseSet._id);
 
     function toggleAnswerVisibility() {
@@ -112,6 +112,12 @@ export function ExerciseSetPageContent({
                             onClick={openUpdateExerciseSetForm}
                         >
                             Update
+                        </Button>
+
+                        <Button
+                            onClick={openChangeSourceForm}
+                        >
+                            Change Source
                         </Button>
 
                         <Button

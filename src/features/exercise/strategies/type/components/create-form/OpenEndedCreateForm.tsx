@@ -7,7 +7,7 @@ export function OpenEndedCreateForm({ dto, setDto }: {
     setDto: (value: React.SetStateAction<CreateExerciseDto>) => void;
 }) {
     return(
-        <div className="w-80 flex justify-start items-center gap-2">
+        <div className="w-72 sm:w-108 flex justify-start items-center gap-2">
             <p>solution: </p>
             <Textarea
                 value={dto.solution}

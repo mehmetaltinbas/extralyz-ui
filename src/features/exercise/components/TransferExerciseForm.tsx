@@ -23,28 +23,51 @@ export default function TransferExerciseForm({
     currentExerciseSetId: string;
     onClose: () => void;
     refreshData: () => void;
+    setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const dispatch = useAppDispatch();
     
     const exerciseSets = useAppSelector(state => state.exerciseSets);
     const otherExerciseSets = exerciseSets.filter(exerciseSet => exerciseSet._id !== currentExerciseSetId);
     
-    const [dto, setDto] = React.useState<TransferExerciseDto>({
+    const initialDto: TransferExerciseDto = {
         exerciseSetId: otherExerciseSets[0] ? otherExerciseSets[0]._id : ''
-    });
+    };
+    const [dto, setDto] = React.useState<TransferExerciseDto>(initialDto);
+
+    const isSubmittingRef = React.useRef(false);
+
+    React.useEffect(() => {
+        if (isHidden && !isSubmittingRef.current) {
+            setDto(initialDto);
+        }
+    }, [isHidden]);
 
     async function transfer() {
-        const response = await ExerciseService.transfer(exerciseId, dto);
+        isSubmittingRef.current = true;
+        setIsHidden(true);
+        setIsLoadingPageHidden(false);
 
-        if (!response.isSuccess) {
-            alert(response.message);   
-        } else {
-            dispatch(refreshExerciseSetData());
-            dispatch(tabsActions.invalidateTabPropsById(dto.exerciseSetId));
+        try {
+            const response = await ExerciseService.transfer(exerciseId, dto);
 
-            onClose();
-
-            refreshData();
+            if (!response.isSuccess) {
+                alert(response.message);
+                isSubmittingRef.current = false;
+                setIsHidden(false);
+            } else {
+                isSubmittingRef.current = false;
+                dispatch(refreshExerciseSetData());
+                dispatch(tabsActions.invalidateTabPropsById(dto.exerciseSetId));
+                refreshData();
+                setIsPopUpActive(false);
+            }
+        } catch (error) {
+            alert('internal error');
+            isSubmittingRef.current = false;
+            setIsHidden(false);
+        } finally {
+            setIsLoadingPageHidden(true);
         }
     }
 

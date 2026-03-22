@@ -1,4 +1,5 @@
 import type { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
+import type { ChangeSourceDto } from 'src/features/exercise-set/types/dto/change-source.dto';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { GenerateAdditionalExercisesDto } from 'src/features/exercise-set/types/dto/generate-additional-exercises.dto';
@@ -84,6 +85,18 @@ export class ExerciseSetService {
         try {
             const response = (
                 await axiosInstance.patch(`${baseUrl}/update-by-id/${id}`, dto)
+            ).data;
+    
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async changeSource(exerciseSetId: string, dto: ChangeSourceDto): Promise<ResponseBase> {
+        try {
+            const response = (
+                await axiosInstance.patch(`${baseUrl}/change-source/${exerciseSetId}`, dto)
             ).data;
     
             return response;

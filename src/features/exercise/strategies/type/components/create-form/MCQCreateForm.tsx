@@ -13,7 +13,7 @@ export function MCQCreateForm({ dto, setDto }: {
             {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
                 <div 
                     key={`choice-${index}`}
-                    className="w-80 flex justify-start items-center gap-2"
+                    className="w-72 sm:w-108 flex justify-start items-center gap-2"
                 >
                     <p>{getAlphabetLetter(index)}</p>
                     <Textarea

@@ -4,7 +4,7 @@ import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
-export function MCQExercisePracticeCard({
+export function MultipleChoiceExercisePracticeCard({
     exercise,
     index,
     recordAnswer,

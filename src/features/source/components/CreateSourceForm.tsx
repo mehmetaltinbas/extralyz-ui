@@ -6,6 +6,7 @@ import type { CreateSourceDto } from 'src/features/source/types/dto/create-sourc
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 const defaultType = SourceType.DOCUMENT;
 
@@ -96,7 +97,7 @@ export function CreateSourceForm({
                 >
                     {Object.values(SourceType).map((value) => (
                         <option key={value} value={value}>
-                            {value}
+                            {camelToTitleCase(value)}
                         </option>
                     ))}
                 </select>

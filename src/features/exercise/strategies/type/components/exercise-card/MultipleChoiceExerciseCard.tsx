@@ -1,6 +1,6 @@
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
-export function MCQExerciseCard({
+export function MultipleChoiceExerciseCard({
     exercise,
     isAnswersHidden,
 }: {

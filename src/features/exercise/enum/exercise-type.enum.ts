@@ -1,5 +1,5 @@
 export enum ExerciseType {
-    MCQ = 'mcq',
+    MULTIPLE_CHOICE = 'multipleChoice',
     TRUE_FALSE = 'trueFalse',
     OPEN_ENDED = 'openEnded',
 }

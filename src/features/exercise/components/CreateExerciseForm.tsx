@@ -2,7 +2,7 @@ import React from 'react';
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
-import { MCQ_CHOICES_COUNT } from 'src/features/exercise/constants/mcq-choices-count.constant';
+import { MULTIPLE_CHOICE_CHOICES_COUNT } from 'src/features/exercise/constants/multiple-choice-choices-count.constant';
 import { ExerciseDifficulty } from 'src/features/exercise/enum/exercise-difficulty.enum';
 import { ExerciseType } from 'src/features/exercise/enum/exercise-type.enum';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
@@ -12,6 +12,7 @@ import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { Textarea } from 'src/shared/components/Textarea';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 export function CreateExerciseForm({
     isHidden,
@@ -31,11 +32,11 @@ export function CreateExerciseForm({
     exerciseSet: ExerciseSet;
 }) {
     const initialDto: CreateExerciseDto = {
-        type: exerciseSet.type === ExerciseSetType.MIX ? ExerciseType.MCQ : exerciseSet.type as ExerciseType,
+        type: exerciseSet.type === ExerciseSetType.MIX ? ExerciseType.MULTIPLE_CHOICE : exerciseSet.type as ExerciseType,
         difficulty: exerciseSet.difficulty === ExerciseSetDifficulty.MIX ? ExerciseDifficulty.MEDIUM : exerciseSet.difficulty as ExerciseDifficulty,
         prompt: '',
         solution: undefined,
-        choices: Array(MCQ_CHOICES_COUNT).fill(''),
+        choices: Array(MULTIPLE_CHOICE_CHOICES_COUNT).fill(''),
         correctChoiceIndex: 0,
     };
     const [dto, setDto] = React.useState<CreateExerciseDto>(initialDto);
@@ -121,7 +122,7 @@ export function CreateExerciseForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseType).map((exerciseTypeValue, index) => (
-                        <option key={`exercise-type-value-${index}`} value={exerciseTypeValue}>{exerciseTypeValue}</option>
+                        <option key={`exercise-type-value-${index}`} value={exerciseTypeValue}>{camelToTitleCase(exerciseTypeValue)}</option>
                     ))}
                 </select>
             </div>
@@ -135,7 +136,7 @@ export function CreateExerciseForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseDifficulty).map((exerciseDifficultyValue, index) => (
-                        <option key={`exercise-difficulty-value-${index}`} value={exerciseDifficultyValue}>{exerciseDifficultyValue}</option>
+                        <option key={`exercise-difficulty-value-${index}`} value={exerciseDifficultyValue}>{camelToTitleCase(exerciseDifficultyValue)}</option>
                     ))}
                 </select>
             </div>

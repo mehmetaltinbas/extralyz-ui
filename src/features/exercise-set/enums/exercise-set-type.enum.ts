@@ -1,6 +1,6 @@
 export enum ExerciseSetType {
     MIX = 'mix',
-    MCQ = 'mcq',
+    MULTIPLE_CHOICE = 'multipleChoice',
     TRUE_FALSE = 'trueFalse',
     OPEN_ENDED = 'openEnded',
 }

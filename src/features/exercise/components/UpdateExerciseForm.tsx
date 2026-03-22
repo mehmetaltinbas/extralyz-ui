@@ -9,6 +9,7 @@ import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { Textarea } from 'src/shared/components/Textarea';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 export function UpdateExerciseForm({
     isHidden,
@@ -118,7 +119,7 @@ export function UpdateExerciseForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseType).map((exerciseTypeValue, index) => (
-                        <option key={`exercise-type-value-${index}`} value={exerciseTypeValue}>{exerciseTypeValue}</option>
+                        <option key={`exercise-type-value-${index}`} value={exerciseTypeValue}>{camelToTitleCase(exerciseTypeValue)}</option>
                     ))}
                 </select>
             </div>
@@ -132,7 +133,7 @@ export function UpdateExerciseForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseDifficulty).map((exerciseDifficultyValue, index) => (
-                        <option key={`exercise-difficulty-value-${index}`} value={exerciseDifficultyValue}>{exerciseDifficultyValue}</option>
+                        <option key={`exercise-difficulty-value-${index}`} value={exerciseDifficultyValue}>{camelToTitleCase(exerciseDifficultyValue)}</option>
                     ))}
                 </select>
             </div>

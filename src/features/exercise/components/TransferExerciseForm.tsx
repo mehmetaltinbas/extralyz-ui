@@ -15,6 +15,7 @@ export default function TransferExerciseForm({
     currentExerciseSetId,
     onClose,
     refreshData,
+    setIsLoadingPageHidden
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>,

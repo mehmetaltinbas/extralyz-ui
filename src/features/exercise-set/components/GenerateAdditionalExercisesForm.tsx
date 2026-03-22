@@ -7,6 +7,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 export function GenerateAdditionalExercisesForm({
     isHidden,
@@ -80,7 +81,7 @@ export function GenerateAdditionalExercisesForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseSetType).map((value, index) => (
-                        <option key={`exercise-set-type-${index}`} value={value}>{value}</option>
+                        <option key={`exercise-set-type-${index}`} value={value}>{camelToTitleCase(value)}</option>
                     ))}
                 </select>
             </div>
@@ -94,7 +95,7 @@ export function GenerateAdditionalExercisesForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseSetDifficulty).map((value, index) => (
-                        <option key={`exercise-set-difficulty-${index}`} value={value}>{value}</option>
+                        <option key={`exercise-set-difficulty-${index}`} value={value}>{camelToTitleCase(value)}</option>
                     ))}
                 </select>
             </div>

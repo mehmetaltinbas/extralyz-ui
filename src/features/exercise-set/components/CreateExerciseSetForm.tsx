@@ -11,6 +11,7 @@ import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputType } from 'src/shared/enums/input-type.enum';
+import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function CreateExerciseSetForm({
@@ -158,7 +159,7 @@ export function CreateExerciseSetForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseSetType).map((exerciseSetTypeValue, index) => (
-                        <option key={`exercise-set-type-value-${index}`} value={exerciseSetTypeValue}>{exerciseSetTypeValue}</option>
+                        <option key={`exercise-set-type-value-${index}`} value={exerciseSetTypeValue}>{camelToTitleCase(exerciseSetTypeValue)}</option>
                     ))}
                 </select>
             </div>
@@ -172,7 +173,7 @@ export function CreateExerciseSetForm({
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
                     {Object.values(ExerciseSetDifficulty).map((exerciseSetDifficultyValue, index) => (
-                        <option key={`exercise-set-difficulty-value-${index}`} value={exerciseSetDifficultyValue}>{exerciseSetDifficultyValue}</option>
+                        <option key={`exercise-set-difficulty-value-${index}`} value={exerciseSetDifficultyValue}>{camelToTitleCase(exerciseSetDifficultyValue)}</option>
                     ))}
                 </select>
             </div>

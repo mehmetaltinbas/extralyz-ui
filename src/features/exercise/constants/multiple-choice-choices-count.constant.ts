@@ -1,0 +1,1 @@
+export const MULTIPLE_CHOICE_CHOICES_COUNT = 5;

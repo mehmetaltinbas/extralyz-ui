@@ -3,7 +3,7 @@ import { ScoreBadge } from 'src/features/exercise/components/ScoreBadge';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
-export function MCQExerciseEvaluationCard({
+export function MultipleChoiceExerciseEvaluationCard({
     exercise,
     evaluation,
 }: {

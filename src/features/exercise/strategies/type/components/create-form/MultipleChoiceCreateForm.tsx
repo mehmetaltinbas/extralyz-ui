@@ -1,19 +1,19 @@
 import type React from "react";
-import { MCQ_CHOICES_COUNT } from "src/features/exercise/constants/mcq-choices-count.constant";
-import type { UpdateExerciseDto } from "src/features/exercise/types/dto/update-exercise.dto";
+import { MULTIPLE_CHOICE_CHOICES_COUNT } from "src/features/exercise/constants/multiple-choice-choices-count.constant";
+import type { CreateExerciseDto } from "src/features/exercise/types/dto/create-exercise.dto";
 import { Textarea } from "src/shared/components/Textarea";
 import { getAlphabetLetter } from "src/shared/utils/get-alphabet-letter.util";
 
-export function MCQUpdateForm({ dto, setDto }: {
-    dto: UpdateExerciseDto;
-    setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void;
+export function MultipleChoiceCreateForm({ dto, setDto }: {
+    dto: CreateExerciseDto;
+    setDto: (value: React.SetStateAction<CreateExerciseDto>) => void;
 }) {
     return (
         <>
-            {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
+            {Array.from({ length: MULTIPLE_CHOICE_CHOICES_COUNT }).map((value, index) => (
                 <div 
                     key={`choice-${index}`}
-                    className="flex justify-start items-center gap-2"
+                    className="w-72 sm:w-108 flex justify-start items-center gap-2"
                 >
                     <p>{getAlphabetLetter(index)}</p>
                     <Textarea
@@ -45,8 +45,8 @@ export function MCQUpdateForm({ dto, setDto }: {
                     }
                     className="py-[2px] px-2 border rounded-[10px]"
                 >
-                    {Array.from({ length: MCQ_CHOICES_COUNT }).map((value, index) => (
-                        <option value={index}>{getAlphabetLetter(index)}</option>
+                    {Array.from({ length: MULTIPLE_CHOICE_CHOICES_COUNT }).map((value, index) => (
+                        <option key={`mcq-choice-${index}`} value={index}>{getAlphabetLetter(index)}</option>
                     ))}
                 </select>
             </div>

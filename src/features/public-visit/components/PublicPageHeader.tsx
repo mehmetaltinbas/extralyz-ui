@@ -1,6 +1,6 @@
+import { ArrowLeft, LoaderCircle, Search } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search } from 'lucide-react';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import { UserSearchBar } from 'src/features/user/components/UserSearchBar';
 import { Button } from 'src/shared/components/Button';
@@ -9,7 +9,6 @@ import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
-import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
 export function PublicPageHeader() {
     const navigate = useNavigate();
@@ -23,7 +22,10 @@ export function PublicPageHeader() {
         setIsAuthenticated(false);
     }
 
-    const authButtons = isAuthLoading ? <LoadingPage /> : isAuthenticated ? (
+    const authButtons = isAuthLoading ? 
+        <LoaderCircle className="size-5 text-text-secondary animate-spin" />
+        : 
+        isAuthenticated ? (
         <div className="flex items-center gap-2">
             <Button
                 variant={ButtonVariant.PRIMARY}
@@ -66,6 +68,7 @@ export function PublicPageHeader() {
                             >
                                 <ArrowLeft size={20} />
                             </Button>
+
                             <div className="flex-1">
                                 <UserSearchBar />
                             </div>
@@ -79,7 +82,9 @@ export function PublicPageHeader() {
                                 >
                                     {APP_NAME}
                                 </span>
+
                                 <LightDarkModeButton />
+
                                 <Button
                                     variant={ButtonVariant.ICON}
                                     onClick={() => setIsSearchOpen(true)}
@@ -87,6 +92,7 @@ export function PublicPageHeader() {
                                     <Search size={20} />
                                 </Button>
                             </div>
+
                             {authButtons}
                         </>
                     )
@@ -99,6 +105,7 @@ export function PublicPageHeader() {
                             >
                                 {APP_NAME}
                             </span>
+
                             <LightDarkModeButton />
                         </div>
 

@@ -91,7 +91,7 @@ export function PublicExerciseSetPracticePage({
                                         exercise={exercise}
                                         index={index}
                                         recordAnswer={recordAnswer}
-                                        className={`${!(index === activeExerciseIndex) && 'hidden'}`}
+                                        isHidden={index !== activeExerciseIndex}
                                     />
                                 ))}
 

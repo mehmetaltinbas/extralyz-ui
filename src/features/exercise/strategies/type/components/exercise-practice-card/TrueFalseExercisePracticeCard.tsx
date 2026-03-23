@@ -24,7 +24,7 @@ export function TrueFalseExercisePracticeCard({
                 }}
                 isSelected={selectedIndex === 1}
             >
-                False
+                True
             </ExercisePracticeChoiceButton>
 
             <ExercisePracticeChoiceButton

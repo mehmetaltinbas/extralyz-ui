@@ -7,7 +7,7 @@ export function OpenEndedUpdateForm({ dto, setDto }: {
     setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void;
 }) {
     return (
-        <div className="flex justify-start items-center gap-2">
+        <div className="w-72 sm:w-108 flex justify-start items-center gap-2">
             <p>solution: </p>
             <Textarea
                 value={dto.solution}
@@ -17,6 +17,7 @@ export function OpenEndedUpdateForm({ dto, setDto }: {
                         solution: e.currentTarget.value,
                     })
                 }
+                rows={4}
             />
         </div>
     );

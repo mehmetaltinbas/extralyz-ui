@@ -9,6 +9,7 @@ import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { Textarea } from 'src/shared/components/Textarea';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 export function UpdateExerciseForm({
@@ -41,6 +42,8 @@ export function UpdateExerciseForm({
     const activeStrategy = exerciseTypeFactory.resolveStrategy(dto.type ?? exercise.type);
 
     const isSubmittingRef = React.useRef(false);
+
+    const { isMobile } = useBreakpoint();
 
     React.useEffect(() => {
         if (isHidden && !isSubmittingRef.current) {
@@ -138,7 +141,7 @@ export function UpdateExerciseForm({
                 </select>
             </div>
 
-            <div className="flex justify-start items-center gap-2">
+            <div className="w-64 sm:w-96 flex justify-start items-center gap-2">
                 <p>prompt: </p>
                 <Textarea
                     value={dto.prompt}
@@ -148,6 +151,7 @@ export function UpdateExerciseForm({
                             prompt: e.currentTarget.value,
                         })
                     }
+                    rows={isMobile ? 1 : 2}
                 />
             </div>
 

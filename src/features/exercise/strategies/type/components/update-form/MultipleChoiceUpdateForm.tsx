@@ -2,18 +2,21 @@ import type React from "react";
 import { MULTIPLE_CHOICE_CHOICES_COUNT } from "src/features/exercise/constants/multiple-choice-choices-count.constant";
 import type { UpdateExerciseDto } from "src/features/exercise/types/dto/update-exercise.dto";
 import { Textarea } from "src/shared/components/Textarea";
+import { useBreakpoint } from "src/shared/hooks/use-breakpoint.hook";
 import { getAlphabetLetter } from "src/shared/utils/get-alphabet-letter.util";
 
 export function MultipleChoiceUpdateForm({ dto, setDto }: {
     dto: UpdateExerciseDto;
     setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void;
 }) {
+    const { isMobile } = useBreakpoint();
+
     return (
         <>
             {Array.from({ length: MULTIPLE_CHOICE_CHOICES_COUNT }).map((value, index) => (
                 <div 
                     key={`choice-${index}`}
-                    className="flex justify-start items-center gap-2"
+                    className="w-72 sm:w-108 flex justify-start items-center gap-2"
                 >
                     <p>{getAlphabetLetter(index)}</p>
                     <Textarea
@@ -28,6 +31,7 @@ export function MultipleChoiceUpdateForm({ dto, setDto }: {
                                 ],
                             })
                         }
+                        rows={isMobile ? 1 : 2}
                     />
                 </div>
             ))}

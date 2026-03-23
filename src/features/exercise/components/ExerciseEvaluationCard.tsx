@@ -18,7 +18,7 @@ export function ExerciseEvaluationCard({
             className="w-80 sm:w-160 lg:w-200 h-auto px-2 sm:px-10 py-2 border-t border-b border-border
             flex flex-col justify-center items-center gap-0"
         >
-            <p className="p-2">
+            <p className="p-2 whitespace-pre-wrap">
                 <span className="font-serif font-semibold">Exercise {index + 1}</span> -{' '}
                 {exercise.prompt}
             </p>

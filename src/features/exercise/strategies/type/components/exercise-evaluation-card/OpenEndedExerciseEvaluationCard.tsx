@@ -11,17 +11,17 @@ export function OpenEndedExerciseEvaluationCard({
 }) {
     return (
         <div className="flex flex-col justify-center items-center gap-1 text-center">
-            <p>
+            <p className='whitespace-pre-wrap'>
                 <span className="font-serif">Your answer</span>:{' '}
                 <span className="text-text-secondary">{evaluation.userAnswer}</span>
             </p>
 
-            <p>
+            <p className='whitespace-pre-wrap'>
                 <span className="font-serif">Correct answer</span>:{' '}
                 <span className="text-text-correct">{exercise.solution}</span>
             </p>
 
-            <p>
+            <p className='whitespace-pre-wrap'>
                 <span className="font-serif">Feedback</span>: {evaluation.feedback}
             </p>
 

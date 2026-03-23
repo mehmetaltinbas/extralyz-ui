@@ -17,6 +17,7 @@ export function OpenEndedCreateForm({ dto, setDto }: {
                         solution: e.currentTarget.value,
                     })
                 }
+                rows={4}
             />
         </div>
     );

@@ -77,12 +77,12 @@ export function ExerciseSetPracticePage({
                         )
                     ) : (
                         <div
-                            className={`w-full h-[50%]
+                            className={`w-full h-auto
                             flex justify-center items-center
                         `}
                         >
                             <div
-                                className={`w-auto h-auto
+                                className={`w-80 sm:w-160 h-auto
                                 flex-col justify-center items-center gap-4
                             `}
                             >
@@ -91,7 +91,7 @@ export function ExerciseSetPracticePage({
                                         exercise={exercise}
                                         index={index}
                                         recordAnswer={recordAnswer}
-                                        className={`${!(index === activeExerciseIndex) && 'hidden'}`}
+                                        isHidden={index === activeExerciseIndex ? false : true}
                                     />
                                 ))}
 

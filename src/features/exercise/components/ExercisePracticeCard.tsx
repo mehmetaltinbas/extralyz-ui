@@ -5,22 +5,22 @@ export function ExercisePracticeCard({
     exercise,
     index,
     recordAnswer,
-    className,
+    isHidden,
 }: {
     exercise: Exercise;
     index: number;
     recordAnswer: (exerciseId: string, answer: string | number) => void;
-    className?: string;
+    isHidden: boolean;
 }) {
     const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
 
     return (
         <div
-            className={`w-full max-w-[400px] md:max-w-[600px] h-auto p-2
+            className={`w-auto h-auto p-2
             flex flex-col justify-center items-center gap-2
-            ${className ?? ''}`}
+            ${isHidden && 'hidden'}`}
         >
-            <p className="border-b p-2">
+            <p className="border-b p-4">
                 <span className="font-serif font-semibold">Exercise {index + 1}</span> -{' '}
                 {exercise.prompt}
             </p>

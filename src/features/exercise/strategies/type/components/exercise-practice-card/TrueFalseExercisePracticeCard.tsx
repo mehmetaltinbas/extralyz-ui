@@ -1,8 +1,6 @@
 import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { Button } from 'src/shared/components/Button';
-import { ButtonSize } from 'src/shared/enums/button-size.enum';
-import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { ExercisePracticeChoiceButton } from 'src/shared/ExercisePracticeChoiceButton';
 
 export function TrueFalseExercisePracticeCard({
     exercise,
@@ -18,28 +16,26 @@ export function TrueFalseExercisePracticeCard({
     const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
 
     return (
-        <div>
-            <Button
-                variant={ButtonVariant.GHOST}
-                size={ButtonSize.LG}
-                onClick={(event) => {
+        <div className='w-full flex justify-center items-center gap-4'>
+            <ExercisePracticeChoiceButton
+                onClick={() => {
                     recordAnswer(exercise._id, 1);
                     setSelectedIndex(1);
                 }}
+                isSelected={selectedIndex === 1}
             >
-                <p className={`${selectedIndex === 1 && 'font-bold bg-surface-hover rounded px-2'}`}>True</p>
-            </Button>
+                False
+            </ExercisePracticeChoiceButton>
 
-            <Button
-                variant={ButtonVariant.GHOST}
-                size={ButtonSize.LG}
-                onClick={(event) => {
+            <ExercisePracticeChoiceButton
+                onClick={() => {
                     recordAnswer(exercise._id, 0);
                     setSelectedIndex(0);
                 }}
+                isSelected={selectedIndex === 0}
             >
-                <p className={`${selectedIndex === 0 && 'font-bold bg-surface-hover rounded px-2'}`}>False</p>
-            </Button>
+                False
+            </ExercisePracticeChoiceButton>
         </div>
     );
 }

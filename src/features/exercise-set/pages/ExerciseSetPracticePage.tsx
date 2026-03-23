@@ -78,11 +78,11 @@ export function ExerciseSetPracticePage({
                     ) : (
                         <div
                             className={`w-full h-auto
-                            flex justify-center items-center
+                            flex justify-center items-start
                         `}
                         >
                             <div
-                                className={`w-80 sm:w-160 h-auto
+                                className={`w-80 sm:w-160 h-auto sm:pt-16 lg:pt-24
                                 flex-col justify-center items-center gap-4
                             `}
                             >

@@ -29,13 +29,13 @@ export function BodyModal({
             <div // overlay
                 className={`${!isPopUpActive ? 'hidden' : ''} fixed inset-0 backdrop-blur-xs`}
                 style={{ zIndex: overlayZ }}
-                onClick={!isOverlayClickDisabled ? onOverlayClick : undefined}
+                onMouseDown={!isOverlayClickDisabled ? onOverlayClick : undefined}
             ></div>
 
             <div // pop up
                 className={`${!isPopUpActive ? 'hidden' : ''} fixed inset-0`}
                 style={{ zIndex: popupZ }}
-                onClick={!isOverlayClickDisabled ? onOverlayClick : undefined}
+                onMouseDown={!isOverlayClickDisabled ? onOverlayClick : undefined}
             >
                 <div
                     className="w-full h-[95%] h-[80%] flex justify-center items-center"

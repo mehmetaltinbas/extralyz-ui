@@ -25,9 +25,9 @@ instance.interceptors.response.use(
         if (error.status === 401) {
             // 401: unauthorized
 
-            // if (window.location.pathname !== '/') {
-            //     window.location.href = '/';
-            // }
+            if (window.location.pathname === '/workspace') {
+                window.location.href = '/';
+            }
         } else if (error.status === 403) {
             // 403: forbidden
             alert('forbidden');

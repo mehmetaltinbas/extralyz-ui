@@ -1,6 +1,4 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthService } from 'src/features/auth/services/auth.service';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
 import { FEATURES } from 'src/features/public-visit/constants/features.constant';
 import { Button } from 'src/shared/components/Button';

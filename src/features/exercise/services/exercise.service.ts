@@ -16,7 +16,6 @@ export class ExerciseService {
         dto: CreateExerciseDto
     ): Promise<ResponseBase> {
         try {
-            console.log(dto);
             const response = (
                 await axiosInstance.post(
                     `${baseUrl}/create-by-exercise-set-id/${exerciseSetId}`,

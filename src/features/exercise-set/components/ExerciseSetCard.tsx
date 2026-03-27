@@ -1,7 +1,7 @@
 import { Globe, Lock } from 'lucide-react';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
-import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { useExerciseSetsPopups } from 'src/features/exercise-set/hooks/use-exercise-sets-popups.hook';
+import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
@@ -31,21 +31,21 @@ export function ExerciseSetCard({
             hover:border-border-strong"
         >
             <div
-                className="w-full h-[35px] border-b-1 border-border
-                flex justify-center items-center"
+                className="w-full h-[30px] md:h-[35px] border-b-1 border-border
+                flex justify-between items-center gap-1 md:gap-2 px-1"
             >
-                <div className="flex-1 h-full flex justify-center items-center gap-1">
+                <div className="flex-1 h-full flex justify-start items-center gap-1 md:gap-2">
                     {exerciseSet.visibility === ExerciseSetVisibility.PUBLIC ? (
                         <Globe size={14} className="flex-shrink-0" />
                     ) : (
                         <Lock size={14} className="flex-shrink-0" />
                     )}
-                    <p className="max-w-[125px] px-2 font-serif font-semibold truncate text-xs md:text-base">
+                    <p title={exerciseSet.title} className={`max-w-[120px] md:max-w-[170px] font-serif font-semibold truncate text-xs ${exerciseSet.title.length > 10 ? 'md:text-sm' : 'md:text-base'} md:text-base`}>
                         {exerciseSet.title}
                     </p>
                 </div>
 
-                <div className="w-[50px] h-auto">
+                <div className="w-[27px] md:w-[36px] h-auto flex justify-center items-center">
                     <ActionMenuTriggerer
                         onClick={(event) => openExerciseSetActionMenu(event, exerciseSet)}
                         size={ButtonSize.SM}

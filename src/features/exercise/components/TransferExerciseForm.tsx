@@ -75,12 +75,12 @@ export default function TransferExerciseForm({
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
-                <p>transfer to: </p>
+                <p className="whitespace-nowrap">transfer to: </p>
                 <select
                     name="exerciseSetId"
                     value={dto.exerciseSetId}
                     onChange={(event) => setDto({ ...dto, exerciseSetId: event.currentTarget.value })}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                 >
                     {otherExerciseSets.map(exerciseSet => (
                         <option

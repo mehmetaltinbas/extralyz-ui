@@ -8,8 +8,8 @@ export function TrueFalseExerciseCard({
     isAnswersHidden: boolean;
 }) {
     const answers: Record<number, string> = {
-        [0]: "True",
-        [1]: "False"
+        [0]: "False",
+        [1]: "True"
     };
 
     return (

@@ -109,7 +109,7 @@ export function ExerciseSetPopupsProvider({
 
     function openExerciseActionMenu(
         event: React.MouseEvent<HTMLButtonElement>,
-        exerciseId: string
+        exerciseId: string,
     ) {
         event.stopPropagation();
         const exerciseActionMenu = actionMenuRef.current;
@@ -239,29 +239,31 @@ export function ExerciseSetPopupsProvider({
                         refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
-                    ...[exercises.find(localExercise => localExercise._id === actionMenuExerciseId) &&
-                        <UpdateExerciseForm
-                            key='update-exercise-form'
-                            isHidden={isUpdateExerciseFormHidden}
-                            setIsHidden={setIsUpdateExerciseFormHidden}
-                            setIsPopUpActive={setIsPopUpActive}
-                            setIsLoadingPageHidden={setIsLoadingPageHidden}
-                            onClose={closePopups}
-                            refreshData={refreshData}
-                            exercise={exercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
-                        />
+                    ...[
+                            exercises.find(localExercise => localExercise._id === actionMenuExerciseId) &&
+                            <UpdateExerciseForm
+                                key='update-exercise-form'
+                                isHidden={isUpdateExerciseFormHidden}
+                                setIsHidden={setIsUpdateExerciseFormHidden}
+                                setIsPopUpActive={setIsPopUpActive}
+                                setIsLoadingPageHidden={setIsLoadingPageHidden}
+                                onClose={closePopups}
+                                refreshData={refreshData}
+                                exercise={exercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
+                            />,
+                            exercises.find(localExercise => localExercise._id === actionMenuExerciseId) &&
+                            <TransferExerciseForm
+                                key='transfer-exercise-form'
+                                isHidden={isTransferExerciseFormHidden}
+                                setIsHidden={setIsTransferExerciseFormHidden}
+                                setIsPopUpActive={setIsPopUpActive}
+                                exercise={exercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
+                                currentExerciseSetId={exerciseSet._id}
+                                onClose={closePopups}
+                                refreshData={refreshData}
+                                setIsLoadingPageHidden={setIsLoadingPageHidden}
+                            />
                     ],
-                    <TransferExerciseForm
-                        key='transfer-exercise-form'
-                        isHidden={isTransferExerciseFormHidden}
-                        setIsHidden={setIsTransferExerciseFormHidden}
-                        setIsPopUpActive={setIsPopUpActive}
-                        exerciseId={actionMenuExerciseId!}
-                        currentExerciseSetId={exerciseSet._id}
-                        onClose={closePopups}
-                        refreshData={refreshData}
-                        setIsLoadingPageHidden={setIsLoadingPageHidden}
-                    />,
                     <StartPracticeDecision
                         key='start-practice-decision'
                         isHidden={isStartPracticeDecisionHidden}

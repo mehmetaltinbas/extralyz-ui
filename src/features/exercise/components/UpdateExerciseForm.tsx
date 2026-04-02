@@ -19,7 +19,7 @@ export function UpdateExerciseForm({
     setIsLoadingPageHidden,
     onClose,
     refreshData,
-    exercise,
+    exercise
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -113,6 +113,10 @@ export function UpdateExerciseForm({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
+            <div className='absolute left-2 top-1'>
+                <p className='font-bold'>{exercise.order + 1}</p>
+            </div>
+
             <div className="flex justify-start items-center gap-2">
                 <p>type: </p>
                 <select

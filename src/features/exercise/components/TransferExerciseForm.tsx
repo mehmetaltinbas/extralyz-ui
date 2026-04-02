@@ -2,6 +2,7 @@ import React from "react";
 import { refreshExerciseSetsData } from "src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk";
 import { ExerciseService } from "src/features/exercise/services/exercise.service";
 import type { TransferExerciseDto } from "src/features/exercise/types/dto/transfer-exercise.dto";
+import type { Exercise } from "src/features/exercise/types/exercise.interface";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
 import { Modal } from "src/shared/components/Modal";
@@ -11,7 +12,7 @@ export default function TransferExerciseForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
-    exerciseId,
+    exercise,
     currentExerciseSetId,
     onClose,
     refreshData,
@@ -20,7 +21,7 @@ export default function TransferExerciseForm({
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>,
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
-    exerciseId: string;
+    exercise: Exercise;
     currentExerciseSetId: string;
     onClose: () => void;
     refreshData: () => void;
@@ -50,7 +51,7 @@ export default function TransferExerciseForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await ExerciseService.transfer(exerciseId, dto);
+            const response = await ExerciseService.transfer(exercise._id, dto);
 
             if (!response.isSuccess) {
                 alert(response.message);
@@ -74,6 +75,10 @@ export default function TransferExerciseForm({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
+            <div className='absolute left-2 top-1'>
+                <p className='font-bold'>{exercise.order + 1}</p>
+            </div>
+
             <div className="flex justify-start items-center gap-2">
                 <p className="whitespace-nowrap">transfer to: </p>
                 <select

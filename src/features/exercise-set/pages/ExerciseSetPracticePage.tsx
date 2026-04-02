@@ -82,7 +82,7 @@ export function ExerciseSetPracticePage({
                         `}
                         >
                             <div
-                                className={`w-80 sm:w-160 h-auto sm:pt-16 lg:pt-24
+                                className={`w-80 sm:w-160 h-auto sm:py-16 lg:py-24
                                 flex-col justify-center items-center gap-4
                             `}
                             >

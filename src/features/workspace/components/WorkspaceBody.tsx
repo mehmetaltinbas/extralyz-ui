@@ -134,7 +134,7 @@ export function WorkspaceBody() {
             flex-1`}
             style={{ transform: 'translateZ(0)' }}
         >
-            <div className="w-full h-full overflow-y-auto p-4 pb-12 flex justify-center items-center">
+            <div className="w-full h-full overflow-y-auto p-4 flex justify-center items-center">
                     {tabs.elements?.map((element, index) => {
                         const Component = SECTION_COMPONENTS[element.section];
                         const key = computeTabKey(element);

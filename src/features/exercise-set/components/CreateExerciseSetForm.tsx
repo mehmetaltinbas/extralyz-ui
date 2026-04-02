@@ -4,7 +4,7 @@ import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-ty
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
+import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
@@ -91,7 +91,7 @@ export function CreateExerciseSetForm({
 
         resetForm();
 
-        dispatch(refreshExerciseSetData());
+        dispatch(refreshExerciseSetsData());
 
         setIsPopUpActive(false);
     }

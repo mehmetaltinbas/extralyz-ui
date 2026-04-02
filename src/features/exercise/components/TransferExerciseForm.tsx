@@ -1,5 +1,5 @@
 import React from "react";
-import { refreshExerciseSetData } from "src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk";
+import { refreshExerciseSetsData } from "src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk";
 import { ExerciseService } from "src/features/exercise/services/exercise.service";
 import type { TransferExerciseDto } from "src/features/exercise/types/dto/transfer-exercise.dto";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
@@ -58,7 +58,7 @@ export default function TransferExerciseForm({
                 setIsHidden(false);
             } else {
                 isSubmittingRef.current = false;
-                dispatch(refreshExerciseSetData());
+                dispatch(refreshExerciseSetsData());
                 dispatch(tabsActions.invalidateTabPropsById(dto.exerciseSetId));
                 refreshData();
                 setIsPopUpActive(false);

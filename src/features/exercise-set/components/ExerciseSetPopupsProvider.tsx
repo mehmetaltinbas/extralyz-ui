@@ -6,7 +6,7 @@ import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/Upda
 import { ExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/exercise-set-popups.context';
 import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
+import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
@@ -52,6 +52,15 @@ export function ExerciseSetPopupsProvider({
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string | null>(null);
 
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
+
+    function refreshData() {
+        if (!exerciseSet?._id) {
+            return;
+        }
+    
+        dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
+        dispatch(refreshExerciseSetsData());
+    }
 
     function openCreateExerciseForm() {
         setIsPopUpActive(true);
@@ -153,20 +162,12 @@ export function ExerciseSetPopupsProvider({
         setIsChangeSourceFormHidden(true);
     }
 
-    function invalidateTab() {
-        if (!exerciseSet?._id) {
-            return;
-        }
-
-        dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
-    }
-
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
         const response = await ExerciseSetService.deleteById(exerciseSet._id);
 
         if (!response.isSuccess) alert(response.message);
         else {
-            dispatch(refreshExerciseSetData());
+            dispatch(refreshExerciseSetsData());
             dispatch(tabsActions.closeTabById(exerciseSet._id));
         }
 
@@ -180,7 +181,7 @@ export function ExerciseSetPopupsProvider({
             if (!response.isSuccess) {
                 alert(response.message);
             } else {
-                invalidateTab();
+                refreshData();
             }
     
             return { isSuccess: response.isSuccess };
@@ -225,7 +226,7 @@ export function ExerciseSetPopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         onClose={closePopups}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
                     <CreateExerciseForm
@@ -235,7 +236,7 @@ export function ExerciseSetPopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         onClose={closePopups}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
                     ...[exercises.find(localExercise => localExercise._id === actionMenuExerciseId) &&
@@ -246,7 +247,7 @@ export function ExerciseSetPopupsProvider({
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             onClose={closePopups}
-                            refreshData={invalidateTab}
+                            refreshData={refreshData}
                             exercise={exercises.find(localExercise => localExercise._id === actionMenuExerciseId)!}
                         />
                     ],
@@ -258,7 +259,7 @@ export function ExerciseSetPopupsProvider({
                         exerciseId={actionMenuExerciseId!}
                         currentExerciseSetId={exerciseSet._id}
                         onClose={closePopups}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                     />,
                     <StartPracticeDecision
@@ -269,7 +270,7 @@ export function ExerciseSetPopupsProvider({
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
                         exerciseSet={exerciseSet}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         isPublicAccess={false}
                     />,
                     <ViewPdfDecision
@@ -289,7 +290,7 @@ export function ExerciseSetPopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
                     <ChangeSourceForm
@@ -299,7 +300,7 @@ export function ExerciseSetPopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
                     <CriticOperationApproval // for exercise set

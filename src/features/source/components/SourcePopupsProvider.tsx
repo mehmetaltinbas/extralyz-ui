@@ -29,6 +29,15 @@ export function SourcePopupsProvider({
     const [isUpdateSourceFormHidden, setIsUpdateSourceFormHidden] = React.useState(true);
     const [isDeleteApproavelHidden, setIsDeleteApprovalHidden] = React.useState(true);
 
+    function refreshData() {
+        if (!source._id) {
+            return;
+        }
+
+        dispatch(tabsActions.invalidateTabPropsById(source._id));
+        dispatch(sourcesActions.fetchData());
+    }
+
     function openCreateExerciseSetForm() {
         setIsPopUpActive(true);
         setIsCreateExerciseSetFormHidden(false);
@@ -42,14 +51,6 @@ export function SourcePopupsProvider({
     function openDeleteApproval() {
         setIsPopUpActive(true);
         setIsDeleteApprovalHidden(false);
-    }
-
-    function invalidateTab() {
-        if (!source._id) {
-            return;
-        }
-
-        dispatch(tabsActions.invalidateTabPropsById(source._id));
     }
 
     function closePopups() {
@@ -96,7 +97,7 @@ export function SourcePopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         source={source}
                     />,
                     <CriticOperationApproval

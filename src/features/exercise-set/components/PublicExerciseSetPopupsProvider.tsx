@@ -30,6 +30,14 @@ export function PublicExerciseSetPopupsProvider({
     const [isOpenCloneExerciseSetFormHidden, setIsOpenCloneExerciseSetFormHidden] = React.useState(true);
     const [isViewPdfDecisionHidden, setIsViewPdfDecisionHidden] = React.useState(true);
 
+    function refreshData() {
+        if (!exerciseSet?._id) {
+            return;
+        }
+
+        dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
+    }
+
     function openStartPracticeDecision() {
         setIsPopUpActive(true);
         setIsStartPracticeDecisionHidden(false);
@@ -53,14 +61,6 @@ export function PublicExerciseSetPopupsProvider({
         setIsOpenCloneExerciseSetFormHidden(true);
     }
 
-    function invalidateTab() {
-        if (!exerciseSet?._id) {
-            return;
-        }
-
-        dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
-    }
-
     return (
         <PublicExerciseSetPopupsContext value={{ openStartPracticeDecision, openCloneExerciseSetForm, openViewPdfDecision }}>
             {children}
@@ -78,7 +78,7 @@ export function PublicExerciseSetPopupsProvider({
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
                         exerciseSet={exerciseSet}
-                        refreshData={invalidateTab}
+                        refreshData={refreshData}
                         isPublicAccess={true}
                         meta={ownerUserName}
                     />,

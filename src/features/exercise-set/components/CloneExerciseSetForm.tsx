@@ -1,7 +1,7 @@
 import React from 'react';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import { PublicExerciseSetService } from 'src/features/exercise-set/services/public-exercise-set.service';
-import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
+import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { CloneExerciseSetDto } from 'src/features/exercise-set/types/dto/clone-exercise-set.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { Button } from 'src/shared/components/Button';
@@ -61,7 +61,7 @@ export function CloneExerciseSetForm({
 
                 setDto(initialDto);
 
-                dispatch(refreshExerciseSetData());
+                dispatch(refreshExerciseSetsData());
 
                 setIsPopUpActive(false);
             }

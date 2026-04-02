@@ -4,7 +4,7 @@ import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/Exer
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetsPopupsContext } from 'src/features/exercise-set/contexts/exercise-sets-popups.context';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
-import { refreshExerciseSetData } from 'src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk';
+import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { StartPracticeDecision } from 'src/features/exercise/components/StartPracticeDecision';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -33,6 +33,10 @@ export function ExerciseSetsPopupsProvider({
     const [actionMenuExerciseSet, setActionMenuExerciseSet] = React.useState<ExerciseSet>();
 
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
+
+    function refreshData() {
+        dispatch(refreshExerciseSetsData());
+    }
 
     function openCreateExerciseSetForm() {
         setIsPopUpActive(true);
@@ -93,7 +97,7 @@ export function ExerciseSetsPopupsProvider({
 
             if (!response.isSuccess) alert(response.message);
             else {
-                dispatch(refreshExerciseSetData());
+                dispatch(refreshExerciseSetsData());
                 dispatch(tabsActions.closeTabById(actionMenuExerciseSet._id));
             }
 
@@ -141,7 +145,7 @@ export function ExerciseSetsPopupsProvider({
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             onClose={closePopups}
                             exerciseSet={actionMenuExerciseSet}
-                            refreshData={() => dispatch(refreshExerciseSetData())}
+                            refreshData={refreshData}
                             isPublicAccess={false}
                         />
                     ],
@@ -152,7 +156,7 @@ export function ExerciseSetsPopupsProvider({
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             onClose={closePopups}
-                            refreshData={() => dispatch(refreshExerciseSetData())}
+                            refreshData={refreshData}
                             exerciseSet={actionMenuExerciseSet}
                         />
                     ],

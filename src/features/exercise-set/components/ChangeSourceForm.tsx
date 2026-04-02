@@ -1,9 +1,9 @@
 import React from "react";
 import { ExerciseSetSourceType } from "src/features/exercise-set/enums/exercise-set-source-type.enum";
 import { ExerciseSetService } from "src/features/exercise-set/services/exercise-set.service";
-import { refreshExerciseSetData } from "src/features/exercise-set/store/thunks/refresh-exercise-set-data.thunk";
-import type { ExerciseSet } from "src/features/exercise-set/types/exercise-set.interface";
+import { refreshExerciseSetsData } from "src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk";
 import type { ChangeSourceDto } from "src/features/exercise-set/types/dto/change-source.dto";
+import type { ExerciseSet } from "src/features/exercise-set/types/exercise-set.interface";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
 import { Modal } from "src/shared/components/Modal";
@@ -71,7 +71,7 @@ export function ChangeSourceForm({
                 setIsHidden(false);
             } else {
                 isSubmittingRef.current = false;
-                dispatch(refreshExerciseSetData());
+                dispatch(refreshExerciseSetsData());
                 dispatch(tabsActions.invalidateTabPropsById(exerciseSet._id));
                 refreshData();
                 setIsPopUpActive(false);

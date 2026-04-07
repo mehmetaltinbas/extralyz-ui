@@ -16,10 +16,12 @@ export function ExerciseSetPracticePage({
     exerciseSet,
     exercises,
     isActiveComponent,
+    shuffleChoices,
 }: {
     exerciseSet?: ExerciseSet;
     exercises?: Exercise[];
     isActiveComponent: boolean;
+    shuffleChoices?: boolean;
 }) {
     const dispatch = useAppDispatch();
     const [activeExerciseIndex, setActiveExerciseIndex] = React.useState<number>(0);
@@ -92,6 +94,7 @@ export function ExerciseSetPracticePage({
                                         index={index}
                                         recordAnswer={recordAnswer}
                                         isHidden={index === activeExerciseIndex ? false : true}
+                                        shuffleChoices={shuffleChoices}
                                     />
                                 ))}
 

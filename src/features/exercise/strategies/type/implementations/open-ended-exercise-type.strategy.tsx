@@ -61,7 +61,7 @@ export class OpenEndedExerciseTypeStrategy implements ExerciseTypeStrategy {
         );
     }
 
-    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) {
+    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void, _shuffleChoices?: boolean) {
         return (
             <OpenEndedExercisePracticeCard
                 exercise={exercise}

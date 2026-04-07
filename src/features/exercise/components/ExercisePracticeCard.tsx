@@ -6,11 +6,13 @@ export function ExercisePracticeCard({
     index,
     recordAnswer,
     isHidden,
+    shuffleChoices,
 }: {
     exercise: Exercise;
     index: number;
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     isHidden: boolean;
+    shuffleChoices?: boolean;
 }) {
     const strategy = exerciseTypeFactory.resolveStrategy(exercise.type);
 
@@ -25,7 +27,7 @@ export function ExercisePracticeCard({
                 {exercise.prompt}
             </p>
 
-            {strategy?.getRestOfExercisePracticeCard(exercise, index, recordAnswer)}
+            {strategy?.getRestOfExercisePracticeCard(exercise, index, recordAnswer, shuffleChoices)}
         </div>
     );
 }

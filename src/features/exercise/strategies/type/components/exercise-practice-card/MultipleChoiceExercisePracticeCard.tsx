@@ -1,36 +1,49 @@
 import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { Button } from 'src/shared/components/Button';
-import { ButtonSize } from 'src/shared/enums/button-size.enum';
-import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { ExercisePracticeChoiceButton } from 'src/shared/ExercisePracticeChoiceButton';
+import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function MultipleChoiceExercisePracticeCard({
     exercise,
     index,
     recordAnswer,
     className,
+    shuffleChoices,
 }: {
     exercise: Exercise;
     index: number;
     recordAnswer: (exerciseId: string, answer: string | number) => void;
     className?: string;
+    shuffleChoices?: boolean;
 }) {
-    const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
-    const optionLetters = ['A', 'B', 'C', 'D', 'E'];
+    const [selectedOriginalIndex, setSelectedOriginalIndex] = React.useState<number | null>(null);
+
+    const displayOrder = React.useMemo(() => {
+        const indices = Array.from({ length: exercise.choices!.length }, (_, i) => i);
+
+        if (shuffleChoices) {
+            for (let i = indices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indices[i], indices[j]] = [indices[j], indices[i]];
+            }
+        }
+
+        return indices;
+    }, [exercise._id, shuffleChoices]);
 
     return (
         <div className="flex flex-col gap-2 w-full max-w-full">
-            {exercise.choices!.map((choice, idx) => (
+            {displayOrder.map((originalIndex, displayIndex) => (
                 <ExercisePracticeChoiceButton
+                    key={originalIndex}
                     onClick={() => {
-                        recordAnswer(exercise._id, idx);
-                        setSelectedIndex(idx);
+                        recordAnswer(exercise._id, originalIndex);
+                        setSelectedOriginalIndex(originalIndex);
                     }}
-                    isSelected={idx === selectedIndex}
+                    isSelected={originalIndex === selectedOriginalIndex}
                 >
-                    <span className="font-bold">{optionLetters[idx]} - </span>
-                    {choice}
+                    <span className="font-bold">{getAlphabetLetter(displayIndex)} - </span>
+                    {exercise.choices![originalIndex]}
                 </ExercisePracticeChoiceButton>
             ))}
         </div>

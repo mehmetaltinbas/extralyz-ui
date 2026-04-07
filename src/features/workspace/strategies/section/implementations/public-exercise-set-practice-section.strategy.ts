@@ -32,6 +32,7 @@ export class PublicExerciseSetPracticeSectionStrategy implements SectionStrategy
             title: exerciseSet.title,
             exerciseSet: exerciseSet,
             exercises: processedExercises,
+            shuffleChoices: tab.mode === ExerciseSetMode.SHUFFLE_PRACTICE,
         };
     }
 }

@@ -14,7 +14,7 @@ export interface ExerciseTypeStrategy {
     changeUpdateExerciseDto: (setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void
 ) => void;
     getRestOfUpdateExerciseForm: (dto: UpdateExerciseDto, setDto: (value: React.SetStateAction<UpdateExerciseDto>) => void) => React.JSX.Element;
-    getRestOfExercisePracticeCard: (exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) => React.JSX.Element;
+    getRestOfExercisePracticeCard: (exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void, shuffleChoices?: boolean) => React.JSX.Element;
     getRestOfExerciseEvaluationCard: (exercise: Exercise, evaluation: ExerciseAnswerEvaluationResult) => React.JSX.Element;
     getRestOfExerciseCard: (exercise: Exercise, isAnswersHidden: boolean) => React.JSX.Element;
 }

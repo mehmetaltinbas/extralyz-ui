@@ -61,7 +61,7 @@ export class TrueFalseExerciseTypeStrategy implements ExerciseTypeStrategy {
         );
     }
 
-    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) {
+    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void, _shuffleChoices?: boolean) {
         return (
             <TrueFalseExercisePracticeCard
                 exercise={exercise}

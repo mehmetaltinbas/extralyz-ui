@@ -62,12 +62,13 @@ export class MultipleChoiceExerciseTypeStrategy implements ExerciseTypeStrategy 
         );
     }
 
-    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void) {
+    getRestOfExercisePracticeCard(exercise: Exercise, index: number, recordAnswer: (exerciseId: string, answer: string | number) => void, shuffleChoices?: boolean) {
         return (
             <MultipleChoiceExercisePracticeCard
                 exercise={exercise}
                 index={index}
                 recordAnswer={recordAnswer}
+                shuffleChoices={shuffleChoices}
             />
         );
     }

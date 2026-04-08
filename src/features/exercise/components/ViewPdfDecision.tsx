@@ -55,7 +55,14 @@ export function ViewPdfDecision({
 
             const url = window.URL.createObjectURL(blob);
 
-            window.open(url, '_blank');
+            const newWindow = window.open(url, '_blank');
+
+            if (!newWindow) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${exerciseSet.title}.pdf`;
+                a.click();
+            }
 
             setIsPopUpActive(false);
         } catch (error) {

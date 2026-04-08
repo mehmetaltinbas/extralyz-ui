@@ -17,9 +17,10 @@ export interface TabsState {
     elements: TabsStateElement[];
     activeTabIndex: number;
     propsInvalidatedTabIds: string[];
+    propsInvalidatedTabKeys: string[];
 }
 
-const EMPTY_STATE: TabsState = { elements: [], activeTabIndex: -1, propsInvalidatedTabIds: [] };
+const EMPTY_STATE: TabsState = { elements: [], activeTabIndex: -1, propsInvalidatedTabIds: [], propsInvalidatedTabKeys: [] };
 
 function loadPersistedTabs(userId: string): TabsState {
     try {
@@ -35,6 +36,7 @@ function loadPersistedTabs(userId: string): TabsState {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             activeTabIndex: parsed.activeTabIndex ?? -1,
             propsInvalidatedTabIds: [],
+            propsInvalidatedTabKeys: [],
         };
     } catch {
         return { ...EMPTY_STATE };
@@ -153,6 +155,12 @@ const tabsSlice = createSlice({
         },
         clearPropsInvalidations: (state) => {
             state.propsInvalidatedTabIds = [];
+        },
+        invalidateTabPropsByKey: (state, action: PayloadAction<string>) => {
+            state.propsInvalidatedTabKeys.push(action.payload);
+        },
+        clearKeyInvalidations: (state) => {
+            state.propsInvalidatedTabKeys = [];
         },
     },
     extraReducers(builder) {

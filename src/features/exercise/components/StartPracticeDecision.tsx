@@ -4,6 +4,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { WEAK_POINT_PASS_THRESHOLD } from 'src/features/exercise/constants/weak-point-pass-threshold.constant';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { useAppDispatch } from 'src/store/hooks';
@@ -39,8 +40,12 @@ export function StartPracticeDecision({
             refreshData();
 
             let section: Section = Section.EXERCISE_SET_PRACTICE;
-            
+
             if (isPublicAccess) section = Section.PUBLIC_EXERCISE_SET_PRACTICE;
+
+            dispatch(tabsActions.invalidateTabPropsByKey(
+                computeTabKey({ section, id: exerciseSet._id })
+            ));
 
             dispatch(
                 tabsActions.openTab({

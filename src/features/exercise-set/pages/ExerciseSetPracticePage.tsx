@@ -5,7 +5,9 @@ import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { ExercisePracticeCard } from 'src/features/exercise/components/ExercisePracticeCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
@@ -36,7 +38,7 @@ export function ExerciseSetPracticePage({
                             <ExerciseSetEvaluationPage
                                 exercises={practice.currentExercises}
                                 evaluation={practice.evaluation}
-                                startOver={() => dispatch(tabsActions.invalidateTabPropsById(exerciseSet!._id))}
+                                startOver={() => dispatch(tabsActions.invalidateTabPropsByKey(computeTabKey({ section: Section.EXERCISE_SET_PRACTICE, id: exerciseSet!._id })))}
                                 mode={mode}
                                 round={practice.round}
                                 onContinueWithWeakPoints={practice.continueWithWeakPoints}

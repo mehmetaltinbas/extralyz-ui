@@ -4,6 +4,7 @@ import { SECTION_COMPONENTS } from 'src/features/workspace/constants/section-com
 import { tabsActions, type TabsStateElement } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { layoutDimensionsActions } from 'src/features/workspace/store/layout-dimensions.slice';
+import { Section } from 'src/features/workspace/enums/section.enum';
 import { sectionStrategyFactory } from 'src/features/workspace/strategies/section/section-strategy.factory';
 import type { BuildPropsResponse } from 'src/features/workspace/strategies/section/types/build-props.response';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
@@ -93,8 +94,15 @@ export function WorkspaceBody() {
 
         const invalidatedTabs: { tab: TabsStateElement; key: string }[] = [];
 
+        const PRACTICE_SECTIONS: Set<Section> = new Set([
+            Section.EXERCISE_SET_PRACTICE,
+            Section.PUBLIC_EXERCISE_SET_PRACTICE,
+        ]);
+
         for (const invalidatedId of tabs.propsInvalidatedTabIds) {
-            const matchingTabs = tabs.elements.filter((el) => el.id === invalidatedId);
+            const matchingTabs = tabs.elements.filter(
+                (el) => el.id === invalidatedId && !PRACTICE_SECTIONS.has(el.section)
+            );
             for (const tab of matchingTabs) {
                 invalidatedTabs.push({ tab, key: computeTabKey(tab) });
             }
@@ -125,6 +133,43 @@ export function WorkspaceBody() {
 
         dispatch(tabsActions.clearPropsInvalidations());
     }, [tabs.propsInvalidatedTabIds]);
+
+    React.useEffect(() => {
+        if (tabs.propsInvalidatedTabKeys.length === 0) return;
+
+        const keysToInvalidate = new Set(tabs.propsInvalidatedTabKeys);
+        const invalidatedTabs: { tab: TabsStateElement; key: string }[] = [];
+
+        for (const tab of tabs.elements) {
+            const key = computeTabKey(tab);
+            if (keysToInvalidate.has(key)) {
+                invalidatedTabs.push({ tab, key });
+            }
+        }
+
+        setBuiltPropsRecord((prev) => {
+            const updated = { ...prev };
+            for (const { key } of invalidatedTabs) {
+                delete updated[key];
+            }
+            return updated;
+        });
+
+        for (const { tab, key } of invalidatedTabs) {
+            buildProps(tab).then((builtProps) => {
+                setBuiltPropsRecord((prev) => ({
+                    ...prev,
+                    [key]: builtProps,
+                }));
+
+                if (builtProps?.title) {
+                    dispatch(tabsActions.setTitle({ key, title: builtProps.title }));
+                }
+            });
+        }
+
+        dispatch(tabsActions.clearKeyInvalidations());
+    }, [tabs.propsInvalidatedTabKeys]);
 
     return (
         <div

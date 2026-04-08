@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
+import { WEAK_POINT_PASS_THRESHOLD } from 'src/features/exercise/constants/weak-point-pass-threshold.constant';
 import { Section } from 'src/features/workspace/enums/section.enum';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { Button } from 'src/shared/components/Button';
@@ -62,7 +63,7 @@ export function StartPracticeDecision({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
-            <p className='text-center'>Do you want to practice exercises in order?</p>
+            <p className='text-center'>Choose your practice mode.</p>
 
             <Button
                 onClick={(event) => {
@@ -70,7 +71,10 @@ export function StartPracticeDecision({
                     startPractice(ExerciseSetMode.PRACTICE);
                 }}
             >
-                Yes
+                <span className='whitespace-normal text-center'>
+                    In Order
+                    <span className='block text-sm opacity-70'>Practice exercises in their original sequence.</span>
+                </span>
             </Button>
 
             <Button
@@ -79,7 +83,22 @@ export function StartPracticeDecision({
                     startPractice(ExerciseSetMode.SHUFFLE_PRACTICE);
                 }}
             >
-                No, I want to practice in shuffle mode
+                <span className='whitespace-normal text-center'>
+                    Shuffle
+                    <span className='block text-sm opacity-70'>Randomize exercise order and multiple choice options.</span>
+                </span>
+            </Button>
+
+            <Button
+                onClick={(event) => {
+                    event.stopPropagation();
+                    startPractice(ExerciseSetMode.WEAK_POINT_FOCUS_PRACTICE);
+                }}
+            >
+                <span className='whitespace-normal text-center'>
+                    Weak Point Focus
+                    <span className='block text-sm opacity-70'>Repeat the set, each round dropping exercises you scored above {WEAK_POINT_PASS_THRESHOLD}/100. Focus narrows to your weak points.</span>
+                </span>
             </Button>
         </Modal>
     );

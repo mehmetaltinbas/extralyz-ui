@@ -2,5 +2,6 @@ export enum ExerciseSetMode {
     OVERVIEW = 'Overview',
     PRACTICE = 'Practice',
     SHUFFLE_PRACTICE = 'Shuffle Practice',
-    PAPER_EVALUATION = 'Paper Evaluation'
+    WEAK_POINT_FOCUS_PRACTICE = 'Weak Point Focus Practice',
+    PAPER_EVALUATION = 'Paper Evaluation',
 }

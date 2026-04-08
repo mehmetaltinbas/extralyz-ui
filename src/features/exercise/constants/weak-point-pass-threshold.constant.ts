@@ -1,0 +1,1 @@
+export const WEAK_POINT_PASS_THRESHOLD = 90;

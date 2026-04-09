@@ -9,6 +9,7 @@ export function GenerateExerciseDecision({
     onClose,
     onSelectManual,
     onSelectAI,
+    onSelectContext,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ export function GenerateExerciseDecision({
     onClose: () => void;
     onSelectManual: () => void;
     onSelectAI: () => void;
+    onSelectContext: () => void;
 }) {
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
@@ -29,7 +31,19 @@ export function GenerateExerciseDecision({
             >
                 <span className='whitespace-normal text-center'>
                     Generate with AI
-                    <span className='block text-sm opacity-70'>AI creates exercises from parts of your source not yet covered.</span>
+                    <span className='block text-sm opacity-70'>AI creates exercises from parts of your associated source not yet covered.</span>
+                </span>
+            </Button>
+
+            <Button
+                onClick={(event) => {
+                    event.stopPropagation();
+                    onSelectContext();
+                }}
+            >
+                <span className='whitespace-normal text-center'>
+                    Generate with Context
+                    <span className='block text-sm opacity-70'>AI creates a single exercise from text you provide.</span>
                 </span>
             </Button>
 

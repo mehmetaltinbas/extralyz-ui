@@ -41,8 +41,8 @@ export function CreateExerciseSetForm({
 
     const [createExerciseSetDto, setCreateExerciseSetDto] =
         React.useState<CreateExerciseSetDto>(initialDto);
-    const [selectedSourceId, setSelectedSourceId] = React.useState<string | undefined>(
-        sourceId
+    const [selectedSourceId, setSelectedSourceId] = React.useState<string>(
+        sourceId ?? ExerciseSetSourceType.INDEPENDENT
     );
     const sources = useAppSelector((state) => state.sources);
 
@@ -59,7 +59,7 @@ export function CreateExerciseSetForm({
     }, [isHidden]);
 
     React.useEffect(() => {
-        setSelectedSourceId(sourceId);
+        setSelectedSourceId(sourceId ?? ExerciseSetSourceType.INDEPENDENT);
     }, [sourceId]);
 
     async function createExerciseSet() {
@@ -211,7 +211,7 @@ export function CreateExerciseSetForm({
             )}
 
             <Button variant={ButtonVariant.PRIMARY} onClick={createExerciseSet}>
-                Generate
+                Create
             </Button>
         </Modal>
     );

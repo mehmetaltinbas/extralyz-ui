@@ -164,7 +164,7 @@ export function CreateExerciseForm({
                 variant={ButtonVariant.PRIMARY}
                 onClick={async (event) => await create()}
             >
-                Generate
+                Create
             </Button>
         </Modal>
     );

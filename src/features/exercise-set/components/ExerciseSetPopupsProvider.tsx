@@ -10,6 +10,7 @@ import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { CreateExerciseForm } from 'src/features/exercise/components/CreateExerciseForm';
 import { ExerciseActionMenu } from 'src/features/exercise/components/ExerciseActionMenu';
+import { GenerateWithContextForm } from 'src/features/exercise/components/GenerateWithContextForm';
 import { StartPracticeDecision } from 'src/features/exercise/components/StartPracticeDecision';
 import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
@@ -48,6 +49,7 @@ export function ExerciseSetPopupsProvider({
     const [isGenerateExerciseDecisionHidden, setIsGenerateExerciseDecisionHidden] = React.useState(true);
     const [isGenerateAdditionalFormHidden, setIsGenerateAdditionalFormHidden] = React.useState(true);
     const [isChangeSourceFormHidden, setIsChangeSourceFormHidden] = React.useState(true);
+    const [isGenerateWithContextFormHidden, setIsGenerateWithContextFormHidden] = React.useState(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string | null>(null);
 
@@ -80,6 +82,11 @@ export function ExerciseSetPopupsProvider({
     function onDecisionSelectAI() {
         setIsGenerateExerciseDecisionHidden(true);
         setIsGenerateAdditionalFormHidden(false);
+    }
+
+    function onDecisionSelectContext() {
+        setIsGenerateExerciseDecisionHidden(true);
+        setIsGenerateWithContextFormHidden(false);
     }
 
     function openStartPracticeDecision() {
@@ -160,6 +167,7 @@ export function ExerciseSetPopupsProvider({
         setIsExerciseSetDeleteApprovalHidden(true);
         setIsExerciseDeleteApprovalHidden(true);
         setIsChangeSourceFormHidden(true);
+        setIsGenerateWithContextFormHidden(true);
     }
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
@@ -218,6 +226,17 @@ export function ExerciseSetPopupsProvider({
                         onClose={closePopups}
                         onSelectManual={onDecisionSelectManual}
                         onSelectAI={onDecisionSelectAI}
+                        onSelectContext={onDecisionSelectContext}
+                    />,
+                    <GenerateWithContextForm
+                        key='generate-with-context-form'
+                        isHidden={isGenerateWithContextFormHidden}
+                        setIsHidden={setIsGenerateWithContextFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        onClose={closePopups}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        refreshData={refreshData}
+                        exerciseSet={exerciseSet}
                     />,
                     <GenerateAdditionalExercisesForm
                         key='generate-additional-exercises-form'

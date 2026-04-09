@@ -1,6 +1,8 @@
 import type { CreateExerciseDto } from 'src/features/exercise/types/dto/create-exercise.dto';
+import type { GenerateExerciseWithContextDto } from 'src/features/exercise/types/dto/generate-exercise-with-context.dto';
 import type { TransferExerciseDto } from 'src/features/exercise/types/dto/transfer-exercise.dto';
 import type { UpdateExerciseDto } from 'src/features/exercise/types/dto/update-exercise.dto';
+import type { GenerateExerciseWithContextResponse } from 'src/features/exercise/types/response/generate-exercise-with-context.response';
 import type { ReadMultipleExercisesResponse } from 'src/features/exercise/types/response/read-multiple-exercises.response';
 import { axiosInstance } from 'src/shared/api/axios-instance';
 import type { ResponseBase } from 'src/shared/types/response-base.interface';
@@ -23,6 +25,24 @@ export class ExerciseService {
                 )
             ).data;
     
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async generateWithContext(
+        exerciseSetId: string,
+        dto: GenerateExerciseWithContextDto
+    ): Promise<GenerateExerciseWithContextResponse> {
+        try {
+            const response = (
+                await axiosInstance.post(
+                    `${baseUrl}/generate-with-context/${exerciseSetId}`,
+                    dto
+                )
+            ).data;
+
             return response;
         } catch (error) {
             return handleServiceError(error);

@@ -18,8 +18,39 @@ export function WorkspaceBody() {
         Record<string, object | undefined>
     >({});
     const containerDiv = React.useRef<HTMLDivElement | null>(null);
+    const scrollContainerRef = React.useRef<HTMLDivElement | null>(null);
+    const scrollPositions = React.useRef<Record<string, number>>({});
+    const activeTabKeyRef = React.useRef<string | null>(null);
     const buildingKeys = React.useRef<Set<string>>(new Set());
 
+    // Continuously track scroll position for the active tab via scroll events
+    React.useEffect(() => {
+        const scrollContainer = scrollContainerRef.current;
+        if (!scrollContainer) return;
+
+        const handleScroll = () => {
+            if (activeTabKeyRef.current) {
+                scrollPositions.current[activeTabKeyRef.current] = scrollContainer.scrollTop;
+            }
+        };
+
+        scrollContainer.addEventListener('scroll', handleScroll);
+        return () => scrollContainer.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Restore scroll position when switching between tabs
+    React.useEffect(() => {
+        const activeTab = tabs.elements[tabs.activeTabIndex];
+        const currentKey = activeTab ? computeTabKey(activeTab) : null;
+
+        if (scrollContainerRef.current && currentKey && currentKey !== activeTabKeyRef.current) {
+            scrollContainerRef.current.scrollTop = scrollPositions.current[currentKey] ?? 0;
+        }
+
+        activeTabKeyRef.current = currentKey;
+    }, [tabs.activeTabIndex]);
+
+    // Track workspace body height changes for responsive layout calculations
     React.useEffect(() => {
         if (!containerDiv.current) return;
 
@@ -54,6 +85,7 @@ export function WorkspaceBody() {
         return undefined;
     }
 
+    // Clean up stale props/scroll positions for closed tabs and build props for new tabs
     React.useEffect(() => {
         const activeKeys = new Set(tabs.elements.map((tab) => computeTabKey(tab)));
 
@@ -66,6 +98,10 @@ export function WorkspaceBody() {
 
             return cleaned;
         });
+
+        for (const key of Object.keys(scrollPositions.current)) {
+            if (!activeKeys.has(key)) delete scrollPositions.current[key];
+        }
 
         for (const tab of tabs.elements) {
             const key = computeTabKey(tab);
@@ -89,6 +125,7 @@ export function WorkspaceBody() {
         }
     }, [tabs.elements]);
 
+    // Rebuild props for tabs invalidated by ID (e.g. after data updates), excluding practice tabs
     React.useEffect(() => {
         if (tabs.propsInvalidatedTabIds.length === 0) return;
 
@@ -134,6 +171,7 @@ export function WorkspaceBody() {
         dispatch(tabsActions.clearPropsInvalidations());
     }, [tabs.propsInvalidatedTabIds]);
 
+    // Rebuild props for tabs invalidated by key
     React.useEffect(() => {
         if (tabs.propsInvalidatedTabKeys.length === 0) return;
 
@@ -179,7 +217,7 @@ export function WorkspaceBody() {
             flex-1`}
             style={{ transform: 'translateZ(0)' }}
         >
-            <div className="w-full h-full overflow-y-auto p-4 flex justify-center items-center">
+            <div ref={scrollContainerRef} className="w-full h-full overflow-y-auto p-4 flex justify-center items-center">
                     {tabs.elements?.map((element, index) => {
                         const Component = SECTION_COMPONENTS[element.section];
                         const key = computeTabKey(element);

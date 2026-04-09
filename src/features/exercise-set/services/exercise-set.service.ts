@@ -3,8 +3,10 @@ import type { ChangeSourceDto } from 'src/features/exercise-set/types/dto/change
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { GenerateAdditionalExercisesDto } from 'src/features/exercise-set/types/dto/generate-additional-exercises.dto';
+import type { SaveGeneratedNotesDto } from 'src/features/exercise-set/types/dto/save-generated-notes.dto';
 import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
+import type { GenerateNotesResponse } from 'src/features/exercise-set/types/response/generate-notes.response';
 import type { GetPdfResponse } from 'src/features/exercise-set/types/response/get-pdf.response';
 import type { ReadAllExerciseSetsGroupedBySources } from 'src/features/exercise-set/types/response/read-all-exerise-sets-grouped-by-sources.response';
 import type { ReadMultipleExerciseSetsResponse } from 'src/features/exercise-set/types/response/read-multiple-exercise-sets.response';
@@ -27,6 +29,26 @@ export class ExerciseSetService {
             const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
             const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
     
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async generateNotes(exerciseSetId: string): Promise<GenerateNotesResponse> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/generate-notes/${exerciseSetId}`)).data;
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async saveGeneratedNotes(exerciseSetId: string, dto: SaveGeneratedNotesDto): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/save-generated-notes/${exerciseSetId}`, dto)).data;
+
             return response;
         } catch (error) {
             return handleServiceError(error);

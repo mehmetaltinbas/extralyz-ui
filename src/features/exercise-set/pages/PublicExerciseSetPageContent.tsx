@@ -76,6 +76,7 @@ export function PublicExerciseSetPageContent({
                             onClick={() =>
                                 openStartPracticeDecision()
                             }
+                            disabled={exercises.length === 0}
                         >
                             Start Practice
                         </Button>

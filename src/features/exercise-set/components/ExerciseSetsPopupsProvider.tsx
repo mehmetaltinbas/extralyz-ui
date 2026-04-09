@@ -1,6 +1,7 @@
 import React from 'react';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
+import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetsPopupsContext } from 'src/features/exercise-set/contexts/exercise-sets-popups.context';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
@@ -29,6 +30,7 @@ export function ExerciseSetsPopupsProvider({
     const [isStartPracticeDecisionHidden, setIsStartPracticeDecisionHidden] = React.useState(true);
     const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState(true);
     const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = React.useState(true);
+    const [isGenerateNotesFormHidden, setIsGenerateNotesFormHidden] = React.useState(true);
 
     const [actionMenuExerciseSet, setActionMenuExerciseSet] = React.useState<ExerciseSet>();
 
@@ -83,12 +85,18 @@ export function ExerciseSetsPopupsProvider({
         setIsDeleteApprovalHidden((prev) => !prev);
     }
 
+    function toggleGenerateNotesForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsGenerateNotesFormHidden((prev) => !prev);
+    }
+
     function closePopups() {
         setIsPopUpActive(false);
         setIsCreateExerciseSetFormHidden(true);
         setIsStartPracticeDecisionHidden(true);
         setIsUpdateExerciseSetFormHidden(true);
         setIsDeleteApprovalHidden(true);
+        setIsGenerateNotesFormHidden(true);
     }
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
@@ -120,6 +128,7 @@ export function ExerciseSetsPopupsProvider({
                 toggleStartPracticeDecision={toggleStartPracticeDecision}
                 toggleUpdateExerciseSetForm={toggleUpdateExerciseSetForm}
                 toggleDeleteApproval={toggleDeleteApproval}
+                toggleGenerateNotesForm={toggleGenerateNotesForm}
             />
 
             <BodyModal
@@ -156,6 +165,18 @@ export function ExerciseSetsPopupsProvider({
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             onClose={closePopups}
+                            refreshData={refreshData}
+                            exerciseSet={actionMenuExerciseSet}
+                        />
+                    ],
+                    ...[actionMenuExerciseSet &&
+                        <GenerateNotesForm
+                            key='generate-notes-form'
+                            isHidden={isGenerateNotesFormHidden}
+                            setIsHidden={setIsGenerateNotesFormHidden}
+                            setIsPopUpActive={setIsPopUpActive}
+                            onClose={closePopups}
+                            setIsLoadingPageHidden={setIsLoadingPageHidden}
                             refreshData={refreshData}
                             exerciseSet={actionMenuExerciseSet}
                         />

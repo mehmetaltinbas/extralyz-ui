@@ -15,6 +15,7 @@ export function ExerciseSetActionMenu({
     toggleStartPracticeDecision,
     toggleUpdateExerciseSetForm,
     toggleDeleteApproval,
+    toggleGenerateNotesForm
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ export function ExerciseSetActionMenu({
     toggleStartPracticeDecision: () => void;
     toggleUpdateExerciseSetForm: () => void;
     toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    toggleGenerateNotesForm: () => void;
 }) {
     const user = useAppSelector((state) => state.user);
 
@@ -48,8 +50,20 @@ export function ExerciseSetActionMenu({
                             toggleStartPracticeDecision();
                             setIsHidden(true);
                         }}
+                        disabled={!exerciseSet || exerciseSet.count === 0}
                     >
                         Start Practice
+                    </Button>
+
+                    <Button
+                        size={ButtonSize.SM}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            toggleGenerateNotesForm();
+                            setIsHidden(true);
+                        }}
+                    >
+                        Generate Notes
                     </Button>
 
                     <Button

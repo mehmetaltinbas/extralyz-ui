@@ -30,7 +30,7 @@ export function ExerciseSetPageContent({
 
     const [isAnswersHidden, setIsAnswersHidden] = React.useState<boolean>(true);
 
-    const { openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openChangeSourceForm } = useExerciseSetPopups();
+    const { openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openChangeSourceForm, openGenerateNotesForm } = useExerciseSetPopups();
     const { localExercises, sensors, activeExercise, handleDragStart, handleDragEnd } = useExerciseReorder(exercises, exerciseSet._id);
 
     function toggleAnswerVisibility() {
@@ -83,6 +83,7 @@ export function ExerciseSetPageContent({
 
                         <Button
                             onClick={openStartPracticeDecision}
+                            disabled={exercises.length === 0}
                         >
                             Start Practice
                         </Button>
@@ -91,6 +92,12 @@ export function ExerciseSetPageContent({
                             onClick={openViewPdfDecision}
                         >
                             View as PDF
+                        </Button>
+
+                        <Button
+                            onClick={openGenerateNotesForm}
+                        >
+                            Generate Notes
                         </Button>
 
                         <Button

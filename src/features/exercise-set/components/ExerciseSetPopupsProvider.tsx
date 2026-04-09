@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChangeSourceForm } from 'src/features/exercise-set/components/ChangeSourceForm';
 import { GenerateAdditionalExercisesForm } from 'src/features/exercise-set/components/GenerateAdditionalExercisesForm';
+import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
 import { GenerateExerciseDecision } from 'src/features/exercise-set/components/GenerateExerciseDecision';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/exercise-set-popups.context';
@@ -50,6 +51,7 @@ export function ExerciseSetPopupsProvider({
     const [isGenerateAdditionalFormHidden, setIsGenerateAdditionalFormHidden] = React.useState(true);
     const [isChangeSourceFormHidden, setIsChangeSourceFormHidden] = React.useState(true);
     const [isGenerateWithContextFormHidden, setIsGenerateWithContextFormHidden] = React.useState(true);
+    const [isGenerateNotesFormHidden, setIsGenerateNotesFormHidden] = React.useState(true);
     const [isExerciseDeleteApprovalHidden, setIsExerciseDeleteApprovalHidden] = React.useState(true);
     const [actionMenuExerciseId, setActionMenuExerciseId] = React.useState<string | null>(null);
 
@@ -114,6 +116,11 @@ export function ExerciseSetPopupsProvider({
         setIsChangeSourceFormHidden(false);
     }
 
+    function openGenerateNotesForm() {
+        setIsPopUpActive(true);
+        setIsGenerateNotesFormHidden(false);
+    }
+
     function openExerciseActionMenu(
         event: React.MouseEvent<HTMLButtonElement>,
         exerciseId: string,
@@ -168,6 +175,7 @@ export function ExerciseSetPopupsProvider({
         setIsExerciseDeleteApprovalHidden(true);
         setIsChangeSourceFormHidden(true);
         setIsGenerateWithContextFormHidden(true);
+        setIsGenerateNotesFormHidden(true);
     }
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
@@ -200,7 +208,7 @@ export function ExerciseSetPopupsProvider({
     }
 
     return (
-        <ExerciseSetPopupsContext value={{ openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openChangeSourceForm, openExerciseActionMenu }}>
+        <ExerciseSetPopupsContext value={{ openCreateExerciseForm, openStartPracticeDecision, openViewPdfDecision, openUpdateExerciseSetForm, openExerciseSetDeleteApproval, openChangeSourceForm, openGenerateNotesForm, openExerciseActionMenu }}>
             {children}
 
             <ExerciseActionMenu
@@ -311,6 +319,16 @@ export function ExerciseSetPopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         onClose={closePopups}
+                        refreshData={refreshData}
+                        exerciseSet={exerciseSet}
+                    />,
+                    <GenerateNotesForm
+                        key='generate-notes-form'
+                        isHidden={isGenerateNotesFormHidden}
+                        setIsHidden={setIsGenerateNotesFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        onClose={closePopups}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
                         refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,

@@ -207,7 +207,7 @@ export function CreateExerciseSetForm({
                         name="contextId"
                         value={selectedSourceId}
                         onChange={(e) => setSelectedSourceId(e.currentTarget.value)}
-                        className="py-[2px] px-2 border rounded-[10px]"
+                        className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                     >
                         <option value={ExerciseSetContextType.INDEPENDENT}>Independent</option>
                         {groups.length > 0 && (

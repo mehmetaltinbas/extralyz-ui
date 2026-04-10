@@ -142,7 +142,7 @@ export function ChangeExerciseSetAssociationForm({
                             name="contextId"
                             value={dto.contextId}
                             onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
-                            className="py-[2px] px-2 border rounded-[10px]"
+                            className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                         >
                             {availableGroups.map(group => (
                                 <option

@@ -7,6 +7,7 @@ import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-
 import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import { Button } from 'src/shared/components/Button';
+import { InformationText } from 'src/shared/components/InformationText';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -31,84 +32,84 @@ export function CreateExerciseSetForm({
 }) {
     const dispatch = useAppDispatch();
 
+    const sources = useAppSelector((state) => state.sources);
+    const groups = useAppSelector((state) => state.exerciseSetGroups);
+
     const initialDto: CreateExerciseSetDto = {
+        contextType: sourceId ? ExerciseSetContextType.SOURCE : ExerciseSetContextType.INDEPENDENT,
         title: '',
-        count: 5,
         type: ExerciseSetType.MIX,
         difficulty: ExerciseSetDifficulty.MIX,
+        count: 0,
         visibility: ExerciseSetVisibility.PRIVATE,
     };
 
-    const [createExerciseSetDto, setCreateExerciseSetDto] =
-        React.useState<CreateExerciseSetDto>(initialDto);
-    const [selectedSourceId, setSelectedSourceId] = React.useState<string>(
-        sourceId ?? ExerciseSetContextType.INDEPENDENT
-    );
-    const sources = useAppSelector((state) => state.sources);
-    const groups = useAppSelector((state) => state.exerciseSetGroups);
+    const [dto, setDto] = React.useState<CreateExerciseSetDto>(initialDto);
+    const [selectedContextId, setSelectedContextId] = React.useState<string>(sourceId ?? '');
 
     const isSubmittingRef = React.useRef(false);
 
     function resetForm() {
-        setCreateExerciseSetDto(initialDto);
+        setDto(initialDto);
+        setSelectedContextId(sourceId ?? '');
     }
 
     React.useEffect(() => {
         if (isHidden && !isSubmittingRef.current) {
             resetForm();
         }
-    }, [isHidden]);
+    }, [isHidden, sourceId]);
 
     React.useEffect(() => {
-        setSelectedSourceId(sourceId ?? ExerciseSetContextType.INDEPENDENT);
+        if (sourceId) {
+            setSelectedContextId(sourceId);
+            setDto(prev => ({ ...prev, contextType: ExerciseSetContextType.SOURCE }));
+        }
     }, [sourceId]);
+
+    function handleAssociationTypeChange(type: ExerciseSetContextType) {
+        let firstId = '';
+
+        if (type === ExerciseSetContextType.GROUP && groups.length > 0) {
+            firstId = groups[0]._id;
+        } else if (type === ExerciseSetContextType.SOURCE && sources.length > 0) {
+            firstId = sources[0]._id;
+        }
+
+        setDto({ ...dto, contextType: type });
+        setSelectedContextId(firstId);
+    }
 
     async function createExerciseSet() {
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
-        let resolvedSourceId: string | undefined;
-        if (sourceId) {
-            resolvedSourceId = sourceId;
-        } else if (selectedSourceId === ExerciseSetContextType.INDEPENDENT) {
-            resolvedSourceId = undefined;
-        } else if (selectedSourceId.startsWith('group:')) {
-            resolvedSourceId = selectedSourceId.slice('group:'.length);
-        } else {
-            resolvedSourceId = selectedSourceId;
-        }
+        const resolvedContextId = dto.contextType === ExerciseSetContextType.INDEPENDENT 
+            ? undefined 
+            : selectedContextId;
 
-        const response = await ExerciseSetService.create(
-            resolvedSourceId,
-            createExerciseSetDto
-        );
+        const response = await ExerciseSetService.create(resolvedContextId, dto);
 
         setIsLoadingPageHidden(true);
 
         if (!response.isSuccess) {
             alert(response.message);
-
             setIsHidden(false);
-
             isSubmittingRef.current = false;
-
             return;
         }
 
         isSubmittingRef.current = false;
-
         resetForm();
-
         dispatch(refreshExerciseSetsData());
-
         setIsPopUpActive(false);
     }
 
     function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
         const selectElement = event.currentTarget;
 
-        if (!Object.keys(createExerciseSetDto).includes(selectElement.name)) {
+        if (!Object.keys(dto).includes(selectElement.name)) {
             return;
         }
 
@@ -120,121 +121,145 @@ export function CreateExerciseSetForm({
             return;
         }
 
-        setCreateExerciseSetDto({
-            ...createExerciseSetDto,
+        setDto({
+            ...dto,
             [selectElement.name]: selectElement.value,
         });
     }
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
-            <div className="flex justify-start items-center gap-2">
-                <p>title: </p>
-                <Input
-                    name="title"
-                    value={createExerciseSetDto.title}
-                    onChange={(e) => setCreateExerciseSetDto({ ...createExerciseSetDto, title: e.currentTarget.value })}
-                />
-            </div>
-
-            {selectedSourceId !== ExerciseSetContextType.INDEPENDENT && !selectedSourceId.startsWith('group:') && (
+            <div className="flex flex-col justify-start items-center gap-2">
                 <div className="flex justify-start items-center gap-2">
-                    <p>count: </p>
+                    <p>title: </p>
                     <Input
-                        name="count"
-                        type={InputType.NUMBER}
-                        value={
-                            !selectedSourceId ||
-                            selectedSourceId === ExerciseSetContextType.INDEPENDENT
-                                ? 0
-                                : createExerciseSetDto.count
-                        }
-                        onChange={(e) =>
-                            setCreateExerciseSetDto({
-                                ...createExerciseSetDto,
-                                count: Number(e.target.value),
-                            })
-                        }
+                        name="title"
+                        value={dto.title}
+                        onChange={(e) => setDto({ ...dto, title: e.currentTarget.value })}
                     />
                 </div>
-            )}
 
-            <div className="flex justify-start items-center gap-2">
-                <p>type: </p>
-                <select
-                    name="type"
-                    value={createExerciseSetDto.type}
-                    onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
-                >
-                    {Object.values(ExerciseSetType).map((exerciseSetTypeValue, index) => (
-                        <option key={`exercise-set-type-value-${index}`} value={exerciseSetTypeValue}>{camelToTitleCase(exerciseSetTypeValue)}</option>
-                    ))}
-                </select>
-            </div>
+                {dto.contextType === ExerciseSetContextType.SOURCE && (
+                    <>
+                        <div className="flex justify-start items-center gap-2">
+                            <p>count: </p>
+                            <Input
+                                name="count"
+                                type={InputType.NUMBER}
+                                value={dto.count}
+                                onChange={(e) =>
+                                    setDto({
+                                        ...dto,
+                                        count: Number(e.target.value),
+                                    })
+                                }
+                            />
+                        </div>
 
-            <div className="flex justify-start items-center gap-2">
-                <p>difficulty: </p>
-                <select
-                    name="difficulty"
-                    value={createExerciseSetDto.difficulty}
-                    onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
-                >
-                    {Object.values(ExerciseSetDifficulty).map((exerciseSetDifficultyValue, index) => (
-                        <option key={`exercise-set-difficulty-value-${index}`} value={exerciseSetDifficultyValue}>{camelToTitleCase(exerciseSetDifficultyValue)}</option>
-                    ))}
-                </select>
-            </div>
+                        <InformationText
+                            text="AI will generate specified count of exercises automatically based on source content."
+                        />
+                    </>
+                )}
 
-            <div className="flex justify-start items-center gap-2">
-                <p>visibility: </p>
-                <select
-                    name="visibility"
-                    value={createExerciseSetDto.visibility}
-                    onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
-                >
-                    <option value={ExerciseSetVisibility.PRIVATE}>Private</option>
-                    <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
-                </select>
-            </div>
-
-            {!sourceId && (
                 <div className="flex justify-start items-center gap-2">
-                    <p>association: </p>
+                    <p>type: </p>
                     <select
-                        name="contextId"
-                        value={selectedSourceId}
-                        onChange={(e) => setSelectedSourceId(e.currentTarget.value)}
-                        className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                        name="type"
+                        value={dto.type}
+                        onChange={(e) => onChangeForEnum(e)}
+                        className="py-[2px] px-2 border rounded-[10px]"
                     >
-                        <option value={ExerciseSetContextType.INDEPENDENT}>Independent</option>
-                        {groups.length > 0 && (
-                            <optgroup label="Groups">
-                                {groups.map((group) => (
-                                    <option key={group._id} value={`group:${group._id}`}>
-                                        {group.title}
-                                    </option>
-                                ))}
-                            </optgroup>
-                        )}
-                        {sources.length > 0 && (
-                            <optgroup label="Sources">
-                                {sources.map((source) => (
-                                    <option key={source._id} value={source._id}>
-                                        {source.title}
-                                    </option>
-                                ))}
-                            </optgroup>
-                        )}
+                        {Object.values(ExerciseSetType).map((val, index) => (
+                            <option key={`type-${index}`} value={val}>{camelToTitleCase(val)}</option>
+                        ))}
                     </select>
                 </div>
-            )}
 
-            <Button variant={ButtonVariant.PRIMARY} onClick={createExerciseSet}>
-                Create
-            </Button>
+                <div className="flex justify-start items-center gap-2">
+                    <p>difficulty: </p>
+                    <select
+                        name="difficulty"
+                        value={dto.difficulty}
+                        onChange={(e) => onChangeForEnum(e)}
+                        className="py-[2px] px-2 border rounded-[10px]"
+                    >
+                        {Object.values(ExerciseSetDifficulty).map((val, index) => (
+                            <option key={`diff-${index}`} value={val}>{camelToTitleCase(val)}</option>
+                        ))}
+                    </select>
+                </div>
+
+                <InformationText
+                    text="Type and Difficuly are not permanent, they change dynamically based on exercises within the set."
+                />
+
+                <div className="flex justify-start items-center gap-2">
+                    <p>visibility: </p>
+                    <select
+                        name="visibility"
+                        value={dto.visibility}
+                        onChange={(e) => onChangeForEnum(e)}
+                        className="py-[2px] px-2 border rounded-[10px]"
+                    >
+                        <option value={ExerciseSetVisibility.PRIVATE}>Private</option>
+                        <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
+                    </select>
+                </div>
+
+                {!sourceId && (
+                    <div className="flex flex-col justify-start items-center gap-4">
+                        <div className="flex justify-start items-center gap-2">
+                            <p>association: </p>
+                            <select
+                                value={dto.contextType}
+                                onChange={(e) => handleAssociationTypeChange(e.currentTarget.value as ExerciseSetContextType)}
+                                className="py-[2px] px-2 border rounded-[10px]"
+                            >
+                                {Object.values(ExerciseSetContextType).map((type) => (
+                                    <option key={`ctx-${type}`} value={type}>
+                                        {camelToTitleCase(type)}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {dto.contextType === ExerciseSetContextType.GROUP && (
+                            <div className="flex justify-start items-center gap-2">
+                                <p>group: </p>
+                                <select
+                                    value={selectedContextId}
+                                    onChange={(e) => setSelectedContextId(e.currentTarget.value)}
+                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                                >
+                                    {groups.map((group) => (
+                                        <option key={group._id} value={group._id}>{group.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+
+                        {dto.contextType === ExerciseSetContextType.SOURCE && (
+                            <div className="flex justify-start items-center gap-2">
+                                <p>source: </p>
+                                <select
+                                    value={selectedContextId}
+                                    onChange={(e) => setSelectedContextId(e.currentTarget.value)}
+                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                                >
+                                    {sources.map((source) => (
+                                        <option key={source._id} value={source._id}>{source.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                <Button variant={ButtonVariant.PRIMARY} onClick={createExerciseSet}>
+                    Create
+                </Button>
+            </div>
         </Modal>
     );
 }

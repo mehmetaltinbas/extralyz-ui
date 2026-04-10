@@ -22,12 +22,12 @@ export class ExerciseSetService {
     private constructor() {}
 
     static async create(
-        sourceId: string | undefined,
-        createExerciseSetDto: CreateExerciseSetDto
+        contextId: string | undefined,
+        dto: CreateExerciseSetDto
     ): Promise<ResponseBase> {
         try {
-            const requestURL = sourceId ? `${baseUrl}/create/${sourceId}` : `${baseUrl}/create`;
-            const response = (await axiosInstance.post(requestURL, createExerciseSetDto)).data;
+            const requestURL = contextId ? `${baseUrl}/create/${contextId}` : `${baseUrl}/create`;
+            const response = (await axiosInstance.post(requestURL, dto)).data;
     
             return response;
         } catch (error) {

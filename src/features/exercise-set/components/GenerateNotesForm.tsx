@@ -3,6 +3,7 @@ import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
 import { Button } from 'src/shared/components/Button';
+import { InformationText } from 'src/shared/components/InformationText';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { Textarea } from 'src/shared/components/Textarea';
@@ -149,9 +150,9 @@ export function GenerateNotesForm({
                         />
                     </div>
 
-                    <p className="text-xs text-center opacity-60 max-w-72 sm:max-w-96">
-                        This exercise set will be linked to the created source. If already linked to a source, the existing link will be replaced.
-                    </p>
+                    <InformationText
+                        text="This exercise set will be linked to the created source. If already linked to a source, the existing link will be replaced."
+                    />
 
                     <Button
                         variant={ButtonVariant.PRIMARY}

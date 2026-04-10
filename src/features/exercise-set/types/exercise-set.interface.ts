@@ -8,9 +8,9 @@ export interface ExerciseSet {
     userId: string;
     contextType: ExerciseSetContextType;
     contextId: string;
+    title: string;
     type: ExerciseSetType;
     difficulty: ExerciseSetDifficulty;
     count: number;
-    title: string;
     visibility: ExerciseSetVisibility;
 }

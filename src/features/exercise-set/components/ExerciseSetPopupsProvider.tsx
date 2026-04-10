@@ -1,11 +1,11 @@
 import React from 'react';
-import { ChangeSourceForm } from 'src/features/exercise-set/components/ChangeSourceForm';
+import { ChangeExerciseSetAssociationForm } from 'src/features/exercise-set/components/ChangeExerciseSetAssociationForm';
 import { GenerateAdditionalExercisesForm } from 'src/features/exercise-set/components/GenerateAdditionalExercisesForm';
-import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
 import { GenerateExerciseDecision } from 'src/features/exercise-set/components/GenerateExerciseDecision';
+import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/exercise-set-popups.context';
-import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
+import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
@@ -69,7 +69,7 @@ export function ExerciseSetPopupsProvider({
     function openCreateExerciseForm() {
         setIsPopUpActive(true);
 
-        if (exerciseSet.sourceType === ExerciseSetSourceType.SOURCE) {
+        if (exerciseSet.contextType === ExerciseSetContextType.SOURCE) {
             setIsGenerateExerciseDecisionHidden(false);
         } else {
             setIsCreateExerciseFormHidden(false);
@@ -332,7 +332,7 @@ export function ExerciseSetPopupsProvider({
                         refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
-                    <ChangeSourceForm
+                    <ChangeExerciseSetAssociationForm
                         key='change-source-form'
                         isHidden={isChangeSourceFormHidden}
                         setIsHidden={setIsChangeSourceFormHidden}

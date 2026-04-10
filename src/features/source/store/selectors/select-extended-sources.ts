@@ -8,6 +8,6 @@ export const selectExtendedSources = createSelector(
     (sources, exerciseSets): ExtendedSource[] =>
         sources.map((source) => ({
             ...source,
-            exerciseSets: exerciseSets.filter((es) => es.sourceId === source._id),
+            exerciseSets: exerciseSets.filter((es) => es.contextId === source._id),
         }))
 );

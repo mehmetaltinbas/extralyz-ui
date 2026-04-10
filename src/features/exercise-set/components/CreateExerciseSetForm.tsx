@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
+import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
@@ -42,7 +42,7 @@ export function CreateExerciseSetForm({
     const [createExerciseSetDto, setCreateExerciseSetDto] =
         React.useState<CreateExerciseSetDto>(initialDto);
     const [selectedSourceId, setSelectedSourceId] = React.useState<string>(
-        sourceId ?? ExerciseSetSourceType.INDEPENDENT
+        sourceId ?? ExerciseSetContextType.INDEPENDENT
     );
     const sources = useAppSelector((state) => state.sources);
     const groups = useAppSelector((state) => state.exerciseSetGroups);
@@ -60,7 +60,7 @@ export function CreateExerciseSetForm({
     }, [isHidden]);
 
     React.useEffect(() => {
-        setSelectedSourceId(sourceId ?? ExerciseSetSourceType.INDEPENDENT);
+        setSelectedSourceId(sourceId ?? ExerciseSetContextType.INDEPENDENT);
     }, [sourceId]);
 
     async function createExerciseSet() {
@@ -71,7 +71,7 @@ export function CreateExerciseSetForm({
         let resolvedSourceId: string | undefined;
         if (sourceId) {
             resolvedSourceId = sourceId;
-        } else if (selectedSourceId === ExerciseSetSourceType.INDEPENDENT) {
+        } else if (selectedSourceId === ExerciseSetContextType.INDEPENDENT) {
             resolvedSourceId = undefined;
         } else if (selectedSourceId.startsWith('group:')) {
             resolvedSourceId = selectedSourceId.slice('group:'.length);
@@ -137,7 +137,7 @@ export function CreateExerciseSetForm({
                 />
             </div>
 
-            {selectedSourceId !== ExerciseSetSourceType.INDEPENDENT && !selectedSourceId.startsWith('group:') && (
+            {selectedSourceId !== ExerciseSetContextType.INDEPENDENT && !selectedSourceId.startsWith('group:') && (
                 <div className="flex justify-start items-center gap-2">
                     <p>count: </p>
                     <Input
@@ -145,7 +145,7 @@ export function CreateExerciseSetForm({
                         type={InputType.NUMBER}
                         value={
                             !selectedSourceId ||
-                            selectedSourceId === ExerciseSetSourceType.INDEPENDENT
+                            selectedSourceId === ExerciseSetContextType.INDEPENDENT
                                 ? 0
                                 : createExerciseSetDto.count
                         }
@@ -202,14 +202,14 @@ export function CreateExerciseSetForm({
 
             {!sourceId && (
                 <div className="flex justify-start items-center gap-2">
-                    <p>source: </p>
+                    <p>association: </p>
                     <select
-                        name="sourceId"
+                        name="contextId"
                         value={selectedSourceId}
                         onChange={(e) => setSelectedSourceId(e.currentTarget.value)}
                         className="py-[2px] px-2 border rounded-[10px]"
                     >
-                        <option value={ExerciseSetSourceType.INDEPENDENT}>Independent</option>
+                        <option value={ExerciseSetContextType.INDEPENDENT}>Independent</option>
                         {groups.length > 0 && (
                             <optgroup label="Groups">
                                 {groups.map((group) => (

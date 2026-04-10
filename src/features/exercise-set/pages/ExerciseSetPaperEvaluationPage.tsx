@@ -1,6 +1,6 @@
 import React from 'react';
 import { MAX_PAPER_EVALUATION_UPLOAD_COUNT } from 'src/features/exercise-set/constants/max-paper-evaluation-upload-count.constant';
-import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
+import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import { ExerciseSetEvaluationPage } from 'src/features/exercise-set/pages/ExerciseSetEvaluationPage';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
@@ -91,7 +91,7 @@ export function ExerciseSetPaperEvaluationPage({
                             <p className='text-lg font-bold'>{exerciseSet.title}</p>
 
                             <div className='flex gap-2'>
-                                <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.sourceType === ExerciseSetSourceType.SOURCE ? sources.find((source) => source._id === exerciseSet.sourceId)?.title : exerciseSet.sourceType}</span></p>
+                                <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.contextType === ExerciseSetContextType.SOURCE ? sources.find((source) => source._id === exerciseSet.contextId)?.title : exerciseSet.contextType}</span></p>
 
                                 <p>|</p>
 

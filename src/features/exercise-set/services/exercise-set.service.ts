@@ -1,5 +1,5 @@
-import type { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
-import type { ChangeSourceDto } from 'src/features/exercise-set/types/dto/change-source.dto';
+import type { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
+import type { ChangeExerciseSetContextDto } from 'src/features/exercise-set/types/dto/change-exercise-set-context.dto';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { GenerateAdditionalExercisesDto } from 'src/features/exercise-set/types/dto/generate-additional-exercises.dto';
@@ -76,7 +76,7 @@ export class ExerciseSetService {
     }
     
     static async readAllByUserId(
-        sourceType?: ExerciseSetSourceType
+        sourceType?: ExerciseSetContextType
     ): Promise<ReadMultipleExerciseSetsResponse> {
         try {
             const response = (
@@ -115,10 +115,10 @@ export class ExerciseSetService {
         }
     }
 
-    static async changeSource(exerciseSetId: string, dto: ChangeSourceDto): Promise<ResponseBase> {
+    static async changeContext(exerciseSetId: string, dto: ChangeExerciseSetContextDto): Promise<ResponseBase> {
         try {
             const response = (
-                await axiosInstance.patch(`${baseUrl}/change-source/${exerciseSetId}`, dto)
+                await axiosInstance.patch(`${baseUrl}/change-context/${exerciseSetId}`, dto)
             ).data;
     
             return response;

@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { ExerciseSetSourceType } from 'src/features/exercise-set/enums/exercise-set-source-type.enum';
 import type { ExtendedExerciseSetGroup } from 'src/features/exercise-set-group/types/extended-exercise-set-group.interface';
+import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import type { RootState } from 'src/store/store';
 
 export const selectExtendedExerciseSetGroups = createSelector(
@@ -10,7 +10,7 @@ export const selectExtendedExerciseSetGroups = createSelector(
         groups.map((group) => ({
             ...group,
             exerciseSets: exerciseSets.filter(
-                (es) => es.sourceType === ExerciseSetSourceType.GROUP && es.sourceId === group._id
+                (es) => es.contextType === ExerciseSetContextType.GROUP && es.contextId === group._id
             ),
         }))
 );

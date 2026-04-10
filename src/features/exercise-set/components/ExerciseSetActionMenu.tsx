@@ -87,7 +87,7 @@ export function ExerciseSetActionMenu({
                             setIsHidden(true);
                         }}
                     >
-                        Change Source
+                        Change Association
                     </Button>
 
                     <Button

@@ -1,15 +1,15 @@
 import React from "react";
-import { ExerciseSetSourceType } from "src/features/exercise-set/enums/exercise-set-source-type.enum";
+import { ExerciseSetContextType } from "src/features/exercise-set/enums/exercise-set-context-type.enum";
 import { ExerciseSetService } from "src/features/exercise-set/services/exercise-set.service";
 import { refreshExerciseSetsData } from "src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk";
-import type { ChangeSourceDto } from "src/features/exercise-set/types/dto/change-source.dto";
+import type { ChangeExerciseSetContextDto } from "src/features/exercise-set/types/dto/change-exercise-set-context.dto";
 import type { ExerciseSet } from "src/features/exercise-set/types/exercise-set.interface";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
 import { Modal } from "src/shared/components/Modal";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
-export function ChangeSourceForm({
+export function ChangeExerciseSetAssociationForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
@@ -31,21 +31,23 @@ export function ChangeSourceForm({
     const sources = useAppSelector(state => state.sources);
     const groups = useAppSelector(state => state.exerciseSetGroups);
     const availableSources = sources.filter(source =>
-        exerciseSet.sourceType === ExerciseSetSourceType.SOURCE
-            ? source._id !== exerciseSet.sourceId
+        exerciseSet.contextType === ExerciseSetContextType.SOURCE
+            ? source._id !== exerciseSet.contextId
             : true
     );
     const availableGroups = groups.filter(group =>
-        exerciseSet.sourceType === ExerciseSetSourceType.GROUP
-            ? group._id !== exerciseSet.sourceId
+        exerciseSet.contextType === ExerciseSetContextType.GROUP
+            ? group._id !== exerciseSet.contextId
             : true
     );
 
-    const initialDto: ChangeSourceDto = {
-        sourceType: exerciseSet.sourceType,
-        sourceId: exerciseSet.sourceId,
+    const initialDto: ChangeExerciseSetContextDto = {
+        contextType: exerciseSet.contextType,
+        contextId: exerciseSet.contextType === ExerciseSetContextType.SOURCE && availableSources.length > 0 ? availableSources[0]._id :
+            exerciseSet.contextType === ExerciseSetContextType.GROUP && availableGroups.length > 0 ? availableGroups[0]._id :
+            '',
     };
-    const [dto, setDto] = React.useState<ChangeSourceDto>(initialDto);
+    const [dto, setDto] = React.useState<ChangeExerciseSetContextDto>(initialDto);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -53,15 +55,15 @@ export function ChangeSourceForm({
         if (isHidden && !isSubmittingRef.current) {
             setDto(initialDto);
         }
-    }, [isHidden]);
+    }, [isHidden, exerciseSet._id, exerciseSet.contextId, exerciseSet.contextType]);
 
-    function handleSourceTypeChange(sourceType: string) {
-        if (sourceType === ExerciseSetSourceType.INDEPENDENT) {
-            setDto({ sourceType, sourceId: '' });
-        } else if (sourceType === ExerciseSetSourceType.GROUP) {
-            setDto({ sourceType, sourceId: availableGroups[0]?._id ?? '' });
+    function handleSourceTypeChange(contextType: ExerciseSetContextType) {
+        if (contextType === ExerciseSetContextType.INDEPENDENT) {
+            setDto({ contextType, contextId: '' });
+        } else if (contextType === ExerciseSetContextType.GROUP) {
+            setDto({ contextType, contextId: availableGroups[0]?._id ?? '' });
         } else {
-            setDto({ sourceType, sourceId: availableSources[0]?._id ?? '' });
+            setDto({ contextType, contextId: availableSources[0]?._id ?? '' });
         }
     }
 
@@ -71,7 +73,7 @@ export function ChangeSourceForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await ExerciseSetService.changeSource(exerciseSet._id, dto);
+            const response = await ExerciseSetService.changeContext(exerciseSet._id, dto);
 
             if (!response.isSuccess) {
                 alert(response.message);
@@ -97,14 +99,14 @@ export function ChangeSourceForm({
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex flex-col justify-start items-center gap-4">
                 <div className="flex justify-start items-center gap-2">
-                    <p>Source Type:</p>
+                    <p>Association Type:</p>
                     <select
-                        name="sourceType"
-                        value={dto.sourceType}
-                        onChange={(event) => handleSourceTypeChange(event.currentTarget.value)}
+                        name="contextType"
+                        value={dto.contextType}
+                        onChange={(event) => handleSourceTypeChange(event.currentTarget.value as ExerciseSetContextType)}
                         className="py-[2px] px-2 border rounded-[10px]"
                     >
-                        {Object.values(ExerciseSetSourceType).map(type => (
+                        {Object.values(ExerciseSetContextType).map(type => (
                             <option key={`source-type-${type}`} value={type}>
                                 {type}
                             </option>
@@ -112,13 +114,13 @@ export function ChangeSourceForm({
                     </select>
                 </div>
 
-                {dto.sourceType === ExerciseSetSourceType.SOURCE && (
+                {dto.contextType === ExerciseSetContextType.SOURCE && (
                     <div className="flex justify-start items-center gap-2">
                         <p>Source:</p>
                         <select
-                            name="sourceId"
-                            value={dto.sourceId}
-                            onChange={(event) => setDto({ ...dto, sourceId: event.currentTarget.value })}
+                            name="contextId"
+                            value={dto.contextId}
+                            onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
                             className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                         >
                             {availableSources.map(source => (
@@ -133,13 +135,13 @@ export function ChangeSourceForm({
                     </div>
                 )}
 
-                {dto.sourceType === ExerciseSetSourceType.GROUP && (
+                {dto.contextType === ExerciseSetContextType.GROUP && (
                     <div className="flex justify-start items-center gap-2">
                         <p>Group:</p>
                         <select
-                            name="sourceId"
-                            value={dto.sourceId}
-                            onChange={(event) => setDto({ ...dto, sourceId: event.currentTarget.value })}
+                            name="contextId"
+                            value={dto.contextId}
+                            onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
                             className="py-[2px] px-2 border rounded-[10px]"
                         >
                             {availableGroups.map(group => (
@@ -156,7 +158,7 @@ export function ChangeSourceForm({
             </div>
 
             <Button onClick={submit}>
-                Change Source
+                Change
             </Button>
         </Modal>
     );

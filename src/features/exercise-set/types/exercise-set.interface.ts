@@ -1,4 +1,4 @@
-import type { ExerciseSetSourceType } from "src/features/exercise-set/enums/exercise-set-source-type.enum";
+import type { ExerciseSetContextType } from "src/features/exercise-set/enums/exercise-set-context-type.enum";
 import type { ExerciseSetType } from "src/features/exercise-set/enums/exercise-set-type.enum";
 import type { ExerciseSetVisibility } from "src/features/exercise-set/enums/exercise-set-visibility.enum";
 import type { ExerciseSetDifficulty } from "src/features/exercise-set/enums/exericse-set-difficulty.enum";
@@ -6,8 +6,8 @@ import type { ExerciseSetDifficulty } from "src/features/exercise-set/enums/exer
 export interface ExerciseSet {
     _id: string;
     userId: string;
-    sourceType: ExerciseSetSourceType;
-    sourceId: string;
+    contextType: ExerciseSetContextType;
+    contextId: string;
     type: ExerciseSetType;
     difficulty: ExerciseSetDifficulty;
     count: number;

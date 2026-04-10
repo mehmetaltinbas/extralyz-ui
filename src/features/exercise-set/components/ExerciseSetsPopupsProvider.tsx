@@ -1,6 +1,6 @@
 import React from 'react';
 import { CreateExerciseSetGroupForm } from 'src/features/exercise-set-group/components/CreateExerciseSetGroupForm';
-import { ChangeSourceForm } from 'src/features/exercise-set/components/ChangeSourceForm';
+import { ChangeExerciseSetAssociationForm } from 'src/features/exercise-set/components/ChangeExerciseSetAssociationForm';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
@@ -195,7 +195,7 @@ export function ExerciseSetsPopupsProvider({
                         />
                     ],
                     ...[actionMenuExerciseSet &&
-                        <ChangeSourceForm
+                        <ChangeExerciseSetAssociationForm
                             isHidden={isChangeSourceFormHidden}
                             setIsHidden={setIsChangeSourceFormHidden}
                             setIsPopUpActive={setIsPopUpActive}

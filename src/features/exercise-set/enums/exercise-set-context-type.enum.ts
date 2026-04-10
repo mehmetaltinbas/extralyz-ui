@@ -1,4 +1,4 @@
-export enum ExerciseSetSourceType {
+export enum ExerciseSetContextType {
     SOURCE = 'source',
     INDEPENDENT = 'independent',
     GROUP = 'group',

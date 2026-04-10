@@ -14,6 +14,7 @@ export function ExerciseSetActionMenu({
     ref,
     toggleStartPracticeDecision,
     toggleUpdateExerciseSetForm,
+    toggleChangeSourceForm,
     toggleDeleteApproval,
     toggleGenerateNotesForm
 }: {
@@ -23,6 +24,7 @@ export function ExerciseSetActionMenu({
     ref: React.RefObject<HTMLDivElement | null>;
     toggleStartPracticeDecision: () => void;
     toggleUpdateExerciseSetForm: () => void;
+    toggleChangeSourceForm: () => void;
     toggleDeleteApproval: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     toggleGenerateNotesForm: () => void;
 }) {
@@ -75,6 +77,17 @@ export function ExerciseSetActionMenu({
                         }}
                     >
                         Update
+                    </Button>
+
+                    <Button
+                        size={ButtonSize.SM}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            toggleChangeSourceForm();
+                            setIsHidden(true);
+                        }}
+                    >
+                        Change Source
                     </Button>
 
                     <Button

@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { exerciseSetsReducer } from 'src/features/exercise-set/store/exercise-sets.slice';
+import { exerciseSetGroupsReducer } from 'src/features/exercise-set-group/store/exercise-set-groups.slice';
 import { sourcesReducer } from 'src/features/source/store/sources.slice';
 import { fetchUserData } from 'src/features/user/store/fetch-user-data.thunk';
 import { userReducer } from 'src/features/user/store/user.slice';
@@ -15,6 +16,7 @@ export const store = configureStore({
         layoutDimensions: layoutDimensionsReducer,
         sources: sourcesReducer,
         exerciseSets: exerciseSetsReducer,
+        exerciseSetGroups: exerciseSetGroupsReducer,
         user: userReducer,
         theme: themeReducer,
     },

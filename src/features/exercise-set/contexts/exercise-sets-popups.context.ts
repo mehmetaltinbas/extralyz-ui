@@ -3,6 +3,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 
 interface ExerciseSetsPopupsContextValue {
     openCreateExerciseSetForm: () => void;
+    openCreateGroupForm: () => void;
     openExerciseSetActionMenu: (event: React.MouseEvent<HTMLButtonElement>, exerciseSet: ExerciseSet) => void;
 }
 

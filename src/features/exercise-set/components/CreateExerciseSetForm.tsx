@@ -45,6 +45,7 @@ export function CreateExerciseSetForm({
         sourceId ?? ExerciseSetSourceType.INDEPENDENT
     );
     const sources = useAppSelector((state) => state.sources);
+    const groups = useAppSelector((state) => state.exerciseSetGroups);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -67,11 +68,19 @@ export function CreateExerciseSetForm({
         setIsHidden(true);
         setIsLoadingPageHidden(false);
 
+        let resolvedSourceId: string | undefined;
+        if (sourceId) {
+            resolvedSourceId = sourceId;
+        } else if (selectedSourceId === ExerciseSetSourceType.INDEPENDENT) {
+            resolvedSourceId = undefined;
+        } else if (selectedSourceId.startsWith('group:')) {
+            resolvedSourceId = selectedSourceId.slice('group:'.length);
+        } else {
+            resolvedSourceId = selectedSourceId;
+        }
+
         const response = await ExerciseSetService.create(
-            sourceId ??
-                (selectedSourceId === ExerciseSetSourceType.INDEPENDENT
-                    ? undefined
-                    : selectedSourceId),
+            resolvedSourceId,
             createExerciseSetDto
         );
 
@@ -128,7 +137,7 @@ export function CreateExerciseSetForm({
                 />
             </div>
 
-            {selectedSourceId !== ExerciseSetSourceType.INDEPENDENT && (
+            {selectedSourceId !== ExerciseSetSourceType.INDEPENDENT && !selectedSourceId.startsWith('group:') && (
                 <div className="flex justify-start items-center gap-2">
                     <p>count: </p>
                     <Input
@@ -201,11 +210,24 @@ export function CreateExerciseSetForm({
                         className="py-[2px] px-2 border rounded-[10px]"
                     >
                         <option value={ExerciseSetSourceType.INDEPENDENT}>Independent</option>
-                        {sources.map((source) => (
-                            <option key={source._id} value={source._id}>
-                                {source.title}
-                            </option>
-                        ))}
+                        {groups.length > 0 && (
+                            <optgroup label="Groups">
+                                {groups.map((group) => (
+                                    <option key={group._id} value={`group:${group._id}`}>
+                                        {group.title}
+                                    </option>
+                                ))}
+                            </optgroup>
+                        )}
+                        {sources.length > 0 && (
+                            <optgroup label="Sources">
+                                {sources.map((source) => (
+                                    <option key={source._id} value={source._id}>
+                                        {source.title}
+                                    </option>
+                                ))}
+                            </optgroup>
+                        )}
                     </select>
                 </div>
             )}

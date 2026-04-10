@@ -2,18 +2,21 @@ import React from 'react';
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
 import { useExerciseSetsPopups } from 'src/features/exercise-set/hooks/use-exercise-sets-popups.hook';
 import { selectIndependentExerciseSets } from 'src/features/exercise-set/store/selectors/select-independent-exercise-sets';
+import { selectExtendedExerciseSetGroups } from 'src/features/exercise-set-group/store/selectors/select-extended-exercise-set-groups';
 import { selectExtendedSources } from 'src/features/source/store/selectors/select-extended-sources';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function ExerciseSetsPageContent({
     independentExerciseSets,
+    extendedGroups,
     extendedSources,
 }: {
     independentExerciseSets: ReturnType<typeof selectIndependentExerciseSets>;
+    extendedGroups: ReturnType<typeof selectExtendedExerciseSetGroups>;
     extendedSources: ReturnType<typeof selectExtendedSources>;
 }) {
-    const { openCreateExerciseSetForm } = useExerciseSetsPopups();
+    const { openCreateExerciseSetForm, openCreateGroupForm } = useExerciseSetsPopups();
 
     return (
         <div
@@ -31,6 +34,13 @@ export function ExerciseSetsPageContent({
                     onClick={openCreateExerciseSetForm}
                 >
                     New Exercise Set
+                </Button>
+
+                <Button
+                    variant={ButtonVariant.PRIMARY}
+                    onClick={openCreateGroupForm}
+                >
+                    New Group
                 </Button>
             </div>
 
@@ -57,6 +67,36 @@ export function ExerciseSetsPageContent({
                         ))}
                     </div>
                 </div>
+
+                {extendedGroups.map((extendedGroup) => (
+                    <div
+                        key={`extended-group-${extendedGroup._id}`}
+                        className="w-full h-auto p-4
+                            flex flex-col justify-start items-start gap-4"
+                    >
+                        <div className="w-full flex justify-start items-center gap-2 border-b-1">
+                            <p className="font-serif font-semibold">
+                                Group:{' '}
+                            </p>
+                            <p>
+                                {extendedGroup.title}
+                            </p>
+                        </div>
+                        <div
+                            className="w-full flex justify-start items-center gap-4 overflow-x-auto pb-1"
+                        >
+                            {extendedGroup.exerciseSets &&
+                                extendedGroup.exerciseSets.map(
+                                    (exerciseSet) => (
+                                        <ExerciseSetCard
+                                            key={`exercise-set-card-${exerciseSet._id}`}
+                                            exerciseSet={exerciseSet}
+                                        />
+                                    )
+                                )}
+                        </div>
+                    </div>
+                ))}
 
                 {extendedSources.map((extendedSource) => (
                     <React.Fragment key={`extended-source-${extendedSource._id}`}>

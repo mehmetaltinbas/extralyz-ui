@@ -33,8 +33,8 @@ export function CreateExerciseForm({
     exerciseSet: ExerciseSet;
 }) {
     const initialDto: CreateExerciseDto = {
-        type: exerciseSet.type === ExerciseSetType.MIX ? ExerciseType.MULTIPLE_CHOICE : exerciseSet.type as ExerciseType,
-        difficulty: exerciseSet.difficulty === ExerciseSetDifficulty.MIX ? ExerciseDifficulty.MEDIUM : exerciseSet.difficulty as ExerciseDifficulty,
+        type: exerciseSet.type === ExerciseSetType.MIX ? ExerciseType.MULTIPLE_CHOICE : exerciseSet.type as unknown as ExerciseType,
+        difficulty: exerciseSet.difficulty === ExerciseSetDifficulty.MIX ? ExerciseDifficulty.MEDIUM : exerciseSet.difficulty as unknown as ExerciseDifficulty,
         prompt: '',
         solution: undefined,
         choices: Array(MULTIPLE_CHOICE_CHOICES_COUNT).fill(''),

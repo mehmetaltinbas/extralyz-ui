@@ -1,4 +1,6 @@
 import React from 'react';
+import { CreateExerciseSetGroupForm } from 'src/features/exercise-set-group/components/CreateExerciseSetGroupForm';
+import { ChangeSourceForm } from 'src/features/exercise-set/components/ChangeSourceForm';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
 import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
@@ -29,8 +31,10 @@ export function ExerciseSetsPopupsProvider({
     const [isExerciseSetActionMenuHidden, setIsExerciseSetActionMenuHidden] = React.useState(true);
     const [isStartPracticeDecisionHidden, setIsStartPracticeDecisionHidden] = React.useState(true);
     const [isUpdateExerciseSetFormHidden, setIsUpdateExerciseSetFormHidden] = React.useState(true);
+    const [isChangeSourceFormHidden, setIsChangeSourceFormHidden] = React.useState(true);
     const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = React.useState(true);
     const [isGenerateNotesFormHidden, setIsGenerateNotesFormHidden] = React.useState(true);
+    const [isCreateGroupFormHidden, setIsCreateGroupFormHidden] = React.useState(true);
 
     const [actionMenuExerciseSet, setActionMenuExerciseSet] = React.useState<ExerciseSet>();
 
@@ -43,6 +47,11 @@ export function ExerciseSetsPopupsProvider({
     function openCreateExerciseSetForm() {
         setIsPopUpActive(true);
         setIsCreateExerciseSetFormHidden(false);
+    }
+
+    function openCreateGroupForm() {
+        setIsPopUpActive(true);
+        setIsCreateGroupFormHidden(false);
     }
 
     function openExerciseSetActionMenu(
@@ -80,6 +89,11 @@ export function ExerciseSetsPopupsProvider({
         setIsUpdateExerciseSetFormHidden((prev) => !prev);
     }
 
+    function toggleChangeSourceForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsChangeSourceFormHidden((prev) => !prev);
+    }
+
     function toggleDeleteApproval() {
         setIsPopUpActive((prev) => !prev);
         setIsDeleteApprovalHidden((prev) => !prev);
@@ -93,8 +107,10 @@ export function ExerciseSetsPopupsProvider({
     function closePopups() {
         setIsPopUpActive(false);
         setIsCreateExerciseSetFormHidden(true);
+        setIsCreateGroupFormHidden(true);
         setIsStartPracticeDecisionHidden(true);
         setIsUpdateExerciseSetFormHidden(true);
+        setIsChangeSourceFormHidden(true);
         setIsDeleteApprovalHidden(true);
         setIsGenerateNotesFormHidden(true);
     }
@@ -117,7 +133,7 @@ export function ExerciseSetsPopupsProvider({
     }
 
     return (
-        <ExerciseSetsPopupsContext value={{ openCreateExerciseSetForm, openExerciseSetActionMenu }}>
+        <ExerciseSetsPopupsContext value={{ openCreateExerciseSetForm, openCreateGroupForm, openExerciseSetActionMenu }}>
             {children}
 
             <ExerciseSetActionMenu
@@ -127,6 +143,7 @@ export function ExerciseSetsPopupsProvider({
                 ref={actionMenuRef}
                 toggleStartPracticeDecision={toggleStartPracticeDecision}
                 toggleUpdateExerciseSetForm={toggleUpdateExerciseSetForm}
+                toggleChangeSourceForm={toggleChangeSourceForm}
                 toggleDeleteApproval={toggleDeleteApproval}
                 toggleGenerateNotesForm={toggleGenerateNotesForm}
             />
@@ -143,6 +160,14 @@ export function ExerciseSetsPopupsProvider({
                         setIsPopUpActive={setIsPopUpActive}
                         onClose={closePopups}
                         sourceId={undefined}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                    />,
+                    <CreateExerciseSetGroupForm
+                        key='create-exercise-set-group-form'
+                        isHidden={isCreateGroupFormHidden}
+                        setIsHidden={setIsCreateGroupFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        onClose={closePopups}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                     />,
                     ...[actionMenuExerciseSet &&
@@ -162,6 +187,17 @@ export function ExerciseSetsPopupsProvider({
                         <UpdateExerciseSetForm
                             isHidden={isUpdateExerciseSetFormHidden}
                             setIsHidden={setIsUpdateExerciseSetFormHidden}
+                            setIsPopUpActive={setIsPopUpActive}
+                            setIsLoadingPageHidden={setIsLoadingPageHidden}
+                            onClose={closePopups}
+                            refreshData={refreshData}
+                            exerciseSet={actionMenuExerciseSet}
+                        />
+                    ],
+                    ...[actionMenuExerciseSet &&
+                        <ChangeSourceForm
+                            isHidden={isChangeSourceFormHidden}
+                            setIsHidden={setIsChangeSourceFormHidden}
                             setIsPopUpActive={setIsPopUpActive}
                             setIsLoadingPageHidden={setIsLoadingPageHidden}
                             onClose={closePopups}

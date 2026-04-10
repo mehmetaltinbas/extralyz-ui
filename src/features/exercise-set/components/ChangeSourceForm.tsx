@@ -29,9 +29,15 @@ export function ChangeSourceForm({
     const dispatch = useAppDispatch();
 
     const sources = useAppSelector(state => state.sources);
+    const groups = useAppSelector(state => state.exerciseSetGroups);
     const availableSources = sources.filter(source =>
         exerciseSet.sourceType === ExerciseSetSourceType.SOURCE
             ? source._id !== exerciseSet.sourceId
+            : true
+    );
+    const availableGroups = groups.filter(group =>
+        exerciseSet.sourceType === ExerciseSetSourceType.GROUP
+            ? group._id !== exerciseSet.sourceId
             : true
     );
 
@@ -52,6 +58,8 @@ export function ChangeSourceForm({
     function handleSourceTypeChange(sourceType: string) {
         if (sourceType === ExerciseSetSourceType.INDEPENDENT) {
             setDto({ sourceType, sourceId: '' });
+        } else if (sourceType === ExerciseSetSourceType.GROUP) {
+            setDto({ sourceType, sourceId: availableGroups[0]?._id ?? '' });
         } else {
             setDto({ sourceType, sourceId: availableSources[0]?._id ?? '' });
         }
@@ -87,7 +95,7 @@ export function ChangeSourceForm({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
-            <div className="flex flex-col justify-start items-start gap-4">
+            <div className="flex flex-col justify-start items-center gap-4">
                 <div className="flex justify-start items-center gap-2">
                     <p>Source Type:</p>
                     <select
@@ -111,7 +119,7 @@ export function ChangeSourceForm({
                             name="sourceId"
                             value={dto.sourceId}
                             onChange={(event) => setDto({ ...dto, sourceId: event.currentTarget.value })}
-                            className="py-[2px] px-2 border rounded-[10px]"
+                            className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                         >
                             {availableSources.map(source => (
                                 <option
@@ -119,6 +127,27 @@ export function ChangeSourceForm({
                                     value={source._id}
                                 >
                                     {source.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
+                {dto.sourceType === ExerciseSetSourceType.GROUP && (
+                    <div className="flex justify-start items-center gap-2">
+                        <p>Group:</p>
+                        <select
+                            name="sourceId"
+                            value={dto.sourceId}
+                            onChange={(event) => setDto({ ...dto, sourceId: event.currentTarget.value })}
+                            className="py-[2px] px-2 border rounded-[10px]"
+                        >
+                            {availableGroups.map(group => (
+                                <option
+                                    key={`option-group-${group._id}`}
+                                    value={group._id}
+                                >
+                                    {group.title}
                                 </option>
                             ))}
                         </select>

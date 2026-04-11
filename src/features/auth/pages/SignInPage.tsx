@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
-import type { SignInDto } from 'src/features/auth/types/auth-dtos';
+import type { SignInDto } from 'src/features/auth/types/dto/sign-in.dto';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -15,16 +15,26 @@ export function SignInPage() {
         password: '',
     });
     const [isSignedIn, setIsSignedIn] = React.useState<boolean>(false);
+    const [verificationRedirectEmail, setVerificationRedirectEmail] = React.useState<string | null>(null);
 
     const navigate = useNavigate();
 
     async function handleSignInSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         const response = await AuthService.signIn(signInDto);
 
+        if (response.isEmailVerificationRequired && response.email) {
+            setVerificationRedirectEmail(response.email);
+            return;
+        }
+
         if (!response.isSuccess)
             alert(response.message);
 
         setIsSignedIn(response.isSuccess);
+    }
+
+    if (verificationRedirectEmail) {
+        return <Navigate to={`/verify-email?email=${encodeURIComponent(verificationRedirectEmail)}`} />;
     }
 
     return isSignedIn ? (

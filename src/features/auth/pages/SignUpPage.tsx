@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { UserService } from 'src/features/user/services/user.service';
-import type { SignUpUserDto } from 'src/features/user/types/dto/sign-up-user.dto';
+import { AuthService } from 'src/features/auth/services/auth.service';
+import type { SignUpUserDto } from 'src/features/auth/types/dto/sign-up.dto';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -19,7 +19,7 @@ export function SignUpPage() {
     const navigate = useNavigate();
 
     async function signUp() {
-        const response = await UserService.signUp(signUpDto);
+        const response = await AuthService.signUp(signUpDto);
 
         alert(response.message);
 
@@ -27,7 +27,7 @@ export function SignUpPage() {
     }
 
     return isSignedUp ? (
-        <Navigate to="/sign-in" />
+        <Navigate to={`/verify-email?email=${encodeURIComponent(signUpDto.email)}`} />
     ) : (
         <div className='h-[75%] flex justify-center items-center'>
             <p onClick={() => navigate('/')} className='absolute top-4 sm:left-8 left-4 sm:left-8 text-lg font-bold tracking-tight cursor-pointer'>Home</p>

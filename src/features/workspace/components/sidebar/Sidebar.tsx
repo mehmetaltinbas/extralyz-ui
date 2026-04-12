@@ -66,13 +66,13 @@ export function Sidebar() {
     return !isDesktop ? ( // mobile
             !sidebar.isOpen ? null : 
                 <div className="fixed inset-0 z-40 flex">
-                    {/* Backdrop */}
+                    {/* backdrop */}
                     <div
                         className="fixed inset-0 bg-black/30"
                         onClick={() => dispatch(sidebarActions.close())}
                     />
 
-                    {/* Drawer panel */}
+                    {/* drawer panel */}
                     <div
                         className="relative w-[300px] h-full bg-surface-alt shadow-xl z-50
                         flex flex-col justify-between p-2 overflow-hidden"
@@ -81,7 +81,7 @@ export function Sidebar() {
                     </div>
                 </div>
         ) : ( 
-            <div // Desktop
+            <div // desktop
                 style={{ width: `${sidebar.width}px` }}
                 className="h-full sticky z-20 shadow-xl flex flex-shrink-0 overflow-hidden"
             >

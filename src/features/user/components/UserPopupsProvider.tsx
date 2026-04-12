@@ -1,4 +1,5 @@
 import React from 'react';
+import { SendFeedbackForm } from 'src/features/feedback/components/SendFeedbackForm';
 import { UpdatePasswordForm } from 'src/features/user/components/UpdatePasswordForm';
 import { UpdateUserProfileInfoForm } from 'src/features/user/components/UpdateUserProfileInfoForm';
 import { UserPopupsContext } from 'src/features/user/contexts/user-popups.context';
@@ -13,27 +14,32 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState(true);
     const [isUpdateUserFormHidden, setIsUpdateUserFormHidden] = React.useState(true);
     const [isUpdatePasswordFormHidden, setIsUpdatePasswordFormHidden] = React.useState(true);
+    const [isSendFeedbackFormHidden, setIsSendFeedbackFormHidden] = React.useState(true);
 
     function openUpdateUserForm() {
         setIsPopUpActive(true);
         setIsUpdateUserFormHidden(false);
-        setIsUpdatePasswordFormHidden(true);
     }
 
     function openUpdatePasswordForm() {
         setIsPopUpActive(true);
         setIsUpdatePasswordFormHidden(false);
-        setIsUpdateUserFormHidden(true);
+    }
+
+    function openSendFeedbackForm() {
+        setIsPopUpActive(true);
+        setIsSendFeedbackFormHidden(false);
     }
 
     function closePopups() {
         setIsPopUpActive(false);
         setIsUpdateUserFormHidden(true);
         setIsUpdatePasswordFormHidden(true);
+        setIsSendFeedbackFormHidden(true);
     }
 
     return (
-        <UserPopupsContext.Provider value={{ openUpdateUserForm, openUpdatePasswordForm }}>
+        <UserPopupsContext.Provider value={{ openUpdateUserForm, openUpdatePasswordForm, openSendFeedbackForm }}>
             {children}
 
             <BodyModal
@@ -63,6 +69,13 @@ export function UserPopupsProvider({ children }: { children: React.ReactNode }) 
                             onClose={closePopups}
                         />,
                     ],
+                    <SendFeedbackForm
+                        isHidden={isSendFeedbackFormHidden}
+                        setIsHidden={setIsSendFeedbackFormHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        onClose={closePopups}
+                    />,
                     <LoadingPage
                         key="loading"
                         isHidden={isLoadingPageHidden}

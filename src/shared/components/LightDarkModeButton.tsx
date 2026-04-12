@@ -1,4 +1,5 @@
 import { Moon, Sun } from 'lucide-react';
+import { USER_SECTION_BUTTON_STLES } from 'src/shared/constants/user-section-button-styles.constant';
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { themeActions } from "src/store/theme.slice";
 
@@ -9,7 +10,7 @@ export function LightDarkModeButton() {
     return (
         <button
             onClick={() => dispatch(themeActions.toggle())}
-            className="w-8 h-8 rounded-full bg-surface-hover text-text-primary cursor-pointer flex justify-center items-center hover:bg-surface-muted"
+            className={USER_SECTION_BUTTON_STLES}
         >
             {themeMode === 'light' ? <Moon size={16} /> : <Sun size={16} />}
         </button>

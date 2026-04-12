@@ -148,11 +148,11 @@ export class ExerciseSetService {
     }
     
     static async evaluateAnswers(
-        evaluateAnswersDto: EvaluateAnswersDto
+        dto: EvaluateAnswersDto
     ): Promise<EvaluateAnswersResponse> {
         try {
             const response = (
-                await axiosInstance.post(`${baseUrl}/evaluate-answers`, evaluateAnswersDto)
+                await axiosInstance.post(`${baseUrl}/evaluate-answers`, dto)
             ).data;
     
             return response;

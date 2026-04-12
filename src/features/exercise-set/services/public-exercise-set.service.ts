@@ -50,11 +50,11 @@ export class PublicExerciseSetService {
     }
 
     static async evaluatePublicAnswers(
-        evaluateAnswersDto: EvaluateAnswersDto
+        dto: EvaluateAnswersDto
     ): Promise<EvaluateAnswersResponse> {
         try {
             const response = (
-                await axiosInstance.post(`${baseUrl}/evaluate-answers`, evaluateAnswersDto)
+                await axiosInstance.post(`${baseUrl}/evaluate-answers`, dto)
             ).data;
 
             return response;

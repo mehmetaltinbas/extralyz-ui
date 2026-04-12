@@ -1,0 +1,1 @@
+export const USER_SECTION_BUTTON_ICON_SIZE = 16;

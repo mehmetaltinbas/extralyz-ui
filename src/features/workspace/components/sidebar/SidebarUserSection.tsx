@@ -1,6 +1,7 @@
 import React from 'react';
 import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
+import { SendFeedbackButton } from 'src/shared/components/SendFeedbackButton';
 import { useAppSelector } from 'src/store/hooks';
 
 export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizontal' }) {
@@ -38,6 +39,8 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
 
     return (
         <div className={`w-full flex flex-col ${isVertical ? 'items-center' : 'items-start'} gap-3`}>
+            <SendFeedbackButton />
+
             <LightDarkModeButton />
 
             <div className={`relative flex ${isVertical ? 'flex-col items-center gap-1' : 'flex-row items-center gap-2'}`}>

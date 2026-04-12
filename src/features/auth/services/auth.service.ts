@@ -15,9 +15,9 @@ const baseUrl = `/auth`;
 export class AuthService {
     private constructor() {}
     
-    static async signUp(signUpUserDto: SignUpUserDto): Promise<ResponseBase> {
+    static async signUp(dto: SignUpUserDto): Promise<ResponseBase> {
         try {
-            const response = (await axiosInstance.post(`${baseUrl}/sign-up`, signUpUserDto)).data;
+            const response = (await axiosInstance.post(`${baseUrl}/sign-up`, dto)).data;
     
             return response;
         } catch (error) {
@@ -25,10 +25,10 @@ export class AuthService {
         }
     }
 
-    static async signIn(signInDto: SignInDto): Promise<SignInResponse> {
+    static async signIn(dto: SignInDto): Promise<SignInResponse> {
         try {
             const signInResponse: SignInResponse = (
-                await axiosInstance.post(`${baseUrl}/sign-in`, signInDto)
+                await axiosInstance.post(`${baseUrl}/sign-in`, dto)
             ).data;
 
             console.log("signInResponse: ", signInResponse);

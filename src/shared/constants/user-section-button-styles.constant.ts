@@ -1,0 +1,1 @@
+export const USER_SECTION_BUTTON_STLES = "w-8 h-8 rounded-full bg-surface-hover text-text-primary cursor-pointer flex justify-center items-center hover:bg-surface-muted";

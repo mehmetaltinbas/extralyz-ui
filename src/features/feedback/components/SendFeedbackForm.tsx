@@ -63,27 +63,29 @@ export function SendFeedbackForm({
 
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
-            <div className="w-full flex flex-col justify-center items-center gap-2">
-                <div className="w-full flex flex-col justify-center items-center gap-2">
-                    <p className='w-48 sm:w-72'>
-                        Help us improve {APP_NAME}. Whether it is a bug report or a feature suggestion, we value your input. That is how we enhance our app, so please don't hesitate. We may reach out to you if we need more details.
+            <div className="w-full flex flex-col items-center gap-4 py-2">
+                <div className="text-center space-y-1">
+                    <h3 className="text-lg font-bold text-gray-900">
+                        Help shape {APP_NAME}
+                    </h3>
+                    <p className="text-sm text-gray-600 max-w-[280px]">
+                        Share your bugs or ideas. Your input drives our growth, so please don't hesitate. We may contact you if needed.
                     </p>
-
-                    <Textarea
-                        value={dto.content}
-                        onChange={(e) =>
-                            setDto({ ...dto, content: e.currentTarget.value })
-                        }
-                        rows={4}
-                    />
                 </div>
-            </div>
 
-            <Button
-                onClick={async () => await send()}
-            >
-                Send
-            </Button>
+                <Textarea
+                    value={dto.content}
+                    placeholder="Type your feedback here..."
+                    onChange={(e) => setDto({ ...dto, content: e.currentTarget.value })}
+                    rows={4}
+                />
+
+                <Button 
+                    onClick={async () => await send()}
+                >
+                    Send Feedback
+                </Button>
+            </div>
         </Modal>
     );
 }

@@ -7,6 +7,7 @@ import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
 import { InputType } from 'src/shared/enums/input-type.enum';
+import { GoogleSignInButton } from 'src/features/auth/components/GoogleSignInButton';
 import { consumeAuthRedirectUrl } from 'src/shared/utils/auth-redirect/consume-auth-redirect-url.util';
 
 export function SignInPage() {
@@ -45,6 +46,7 @@ export function SignInPage() {
 
             <div className="h-auto w-48 flex flex-col justify-center items-center gap-2">
                 <p className=" text-lg">Sign In</p>
+                
                 <Input
                     onChange={(event) =>
                         setSignInDto({
@@ -56,6 +58,7 @@ export function SignInPage() {
                     value={signInDto.userName}
                     placeholder="username..."
                 />
+
                 <Input
                     onChange={(event) =>
                         setSignInDto({
@@ -68,18 +71,26 @@ export function SignInPage() {
                     size={InputSize.LG}
                     placeholder="password..."
                 />
+
                 <p onClick={() => navigate('/forgot-password')} className="text-sm text-text-secondary cursor-pointer hover:underline">
                     forgot password?
                 </p>
+
                 <Button variant={ButtonVariant.PRIMARY} onClick={handleSignInSubmit}>
-                    sign in
+                    Sign In
                 </Button>
+
                 <p>or</p>
+
+                <GoogleSignInButton />
+
+                <p>or</p>
+
                 <Button
                     variant={ButtonVariant.PRIMARY}
                     onClick={(event) => (window.location.href = '/sign-up')}
                 >
-                    sign up
+                    Sign Up
                 </Button>
             </div>
         </div>

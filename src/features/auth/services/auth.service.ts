@@ -1,4 +1,5 @@
 import type { ForgotPasswordDto } from 'src/features/auth/types/dto/forgot-password.dto';
+import type { GoogleSignInDto } from 'src/features/auth/types/dto/google-sign-in.dto';
 import type { ResendVerificationDto } from 'src/features/auth/types/dto/resend-verification.dto';
 import type { ResetPasswordDto } from 'src/features/auth/types/dto/reset-password.dto';
 import type { SignInDto } from 'src/features/auth/types/dto/sign-in.dto';
@@ -32,6 +33,18 @@ export class AuthService {
 
             console.log("signInResponse: ", signInResponse);
             return signInResponse;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async googleSignIn(dto: GoogleSignInDto): Promise<SignInResponse> {
+        try {
+            const response: SignInResponse = (
+                await axiosInstance.post(`${baseUrl}/google-sign-in`, dto)
+            ).data;
+
+            return response;
         } catch (error) {
             return handleServiceError(error);
         }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { GoogleSignInButton } from 'src/features/auth/components/GoogleSignInButton';
 import { AuthService } from 'src/features/auth/services/auth.service';
 import type { SignUpUserDto } from 'src/features/auth/types/dto/sign-up.dto';
 import { Button } from 'src/shared/components/Button';
@@ -34,6 +35,7 @@ export function SignUpPage() {
 
             <div className="h-auto w-48 flex flex-col justify-center items-center gap-2">
                 <p className=" text-lg">Sign Up</p>
+
                 <Input
                     onChange={(event) =>
                         setSignUpDto({
@@ -44,6 +46,7 @@ export function SignUpPage() {
                     size={InputSize.LG}
                     placeholder="userName..."
                 />
+
                 <Input
                     onChange={(event) =>
                         setSignUpDto({
@@ -54,6 +57,7 @@ export function SignUpPage() {
                     size={InputSize.LG}
                     placeholder="email..."
                 />
+
                 <Input
                     onChange={(event) =>
                         setSignUpDto({
@@ -65,15 +69,22 @@ export function SignUpPage() {
                     size={InputSize.LG}
                     placeholder={InputType.PASSWORD}
                 />
+                
                 <Button variant={ButtonVariant.PRIMARY} onClick={signUp}>
-                    sign up
+                    Sign Up
                 </Button>
+
                 <p>or</p>
+
+                <GoogleSignInButton />
+                
+                <p>or</p>
+
                 <Button
                     variant={ButtonVariant.PRIMARY}
                     onClick={(event) => (window.location.href = '/sign-in')}
                 >
-                    sign in
+                    Sign In
                 </Button>
             </div>
         </div>

@@ -64,6 +64,7 @@ export function ExerciseSetActionMenu({
                             toggleGenerateNotesForm();
                             setIsHidden(true);
                         }}
+                        disabled={!exerciseSet || exerciseSet.count === 0}
                     >
                         Generate Notes
                     </Button>

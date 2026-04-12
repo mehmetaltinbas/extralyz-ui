@@ -96,6 +96,7 @@ export function ExerciseSetPageContent({
 
                         <Button
                             onClick={openGenerateNotesForm}
+                            disabled={exercises.length === 0}
                         >
                             Generate Notes
                         </Button>

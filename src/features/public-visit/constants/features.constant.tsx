@@ -4,7 +4,7 @@ export const FEATURES: { title: string; description: string; icon: React.JSX.Ele
     {
         title: 'Smart Exercise Generation',
         description:
-            'Convert sources into custom practice exercise sets in types of multiple choice, true/false, or open-ended.',
+            'Convert sources into custom practice exercise sets in types of multiple-choice, true-false, or open-ended.',
         icon: (
             <svg
                 width="20"
@@ -25,7 +25,7 @@ export const FEATURES: { title: string; description: string; icon: React.JSX.Ele
     {
         title: 'AI-Powered Grading',
         description:
-            'Get immediate results on multiple-choice and true/false exercises, plus AI grading and feedback on your open-ended answers; no manual review required.',
+            'Get immediate results on multiple-choice and true-false exercises, plus AI grading and feedback on your open-ended answers; no manual review required.',
         icon: (
             <svg
                 width="20"

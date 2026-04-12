@@ -1,4 +1,4 @@
 export interface VerifyEmailDto {
     email: string;
-    code: string;
+    code: number;
 }

@@ -5,12 +5,13 @@ import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
+import { InputType } from 'src/shared/enums/input-type.enum';
 
 export function VerifyEmailPage() {
     const [searchParams] = useSearchParams();
     const email = searchParams.get('email') ?? '';
 
-    const [code, setCode] = React.useState('');
+    const [code, setCode] = React.useState(0);
     const [isVerified, setIsVerified] = React.useState(false);
 
     const navigate = useNavigate();
@@ -45,9 +46,10 @@ export function VerifyEmailPage() {
                     A verification code has been sent to {email}
                 </p>
                 <Input
-                    onChange={(event) => setCode(event.target.value)}
+                    onChange={(event) => setCode(Number(event.target.value))}
+                    type={InputType.NUMBER}
                     size={InputSize.LG}
-                    value={code}
+                    value={code || ''}
                     placeholder="verification code..."
                 />
                 <Button variant={ButtonVariant.PRIMARY} onClick={verify}>

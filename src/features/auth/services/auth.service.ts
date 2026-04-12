@@ -1,4 +1,6 @@
+import type { ForgotPasswordDto } from 'src/features/auth/types/dto/forgot-password.dto';
 import type { ResendVerificationDto } from 'src/features/auth/types/dto/resend-verification.dto';
+import type { ResetPasswordDto } from 'src/features/auth/types/dto/reset-password.dto';
 import type { SignInDto } from 'src/features/auth/types/dto/sign-in.dto';
 import type { SignUpUserDto } from 'src/features/auth/types/dto/sign-up.dto';
 import type { VerifyEmailDto } from 'src/features/auth/types/dto/verify-email.dto';
@@ -55,6 +57,26 @@ export class AuthService {
         }
     }
     
+    static async forgotPassword(dto: ForgotPasswordDto): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/forgot-password`, dto)).data;
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async resetPassword(dto: ResetPasswordDto): Promise<ResponseBase> {
+        try {
+            const response = (await axiosInstance.post(`${baseUrl}/reset-password`, dto)).data;
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
     static async authorize() {
         try {
             const authorizeResponse: ResponseBase = (await axiosInstance.get(`${baseUrl}/authorize`))

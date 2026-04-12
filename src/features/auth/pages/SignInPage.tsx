@@ -68,6 +68,9 @@ export function SignInPage() {
                     size={InputSize.LG}
                     placeholder="password..."
                 />
+                <p onClick={() => navigate('/forgot-password')} className="text-sm text-text-secondary cursor-pointer hover:underline">
+                    forgot password?
+                </p>
                 <Button variant={ButtonVariant.PRIMARY} onClick={handleSignInSubmit}>
                     sign in
                 </Button>

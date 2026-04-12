@@ -2,6 +2,7 @@ import React from 'react';
 import { FeedbackService } from 'src/features/feedback/services/feedback.service';
 import type { CreateFeedbackDto } from 'src/features/feedback/types/dto/create-feedback.dto';
 import { Button } from 'src/shared/components/Button';
+import { InformationText } from 'src/shared/components/InformationText';
 import { Modal } from 'src/shared/components/Modal';
 import { Textarea } from 'src/shared/components/Textarea';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
@@ -68,9 +69,10 @@ export function SendFeedbackForm({
                     <h3 className="text-lg font-bold text-gray-900">
                         Help shape {APP_NAME}
                     </h3>
-                    <p className="text-sm text-gray-600 max-w-[280px]">
-                        Share your bugs or ideas. Your input drives our growth, so please don't hesitate. We may contact you if needed.
-                    </p>
+
+                    <InformationText
+                        text="Share your bugs or ideas. Your input drives our growth, so please don't hesitate. We may contact you if needed."
+                    />
                 </div>
 
                 <Textarea

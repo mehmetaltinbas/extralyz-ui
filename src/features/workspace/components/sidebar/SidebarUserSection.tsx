@@ -60,7 +60,7 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
                             {user.userName.charAt(0).toUpperCase() ?? '?'}
                         </div>
 
-                        <span className="text-xs text-text-secondary">
+                        <span className="text-sm text-text-secondary">
                             {user.creditBalance}
                         </span>
                     </>

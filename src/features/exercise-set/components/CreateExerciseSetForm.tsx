@@ -11,7 +11,9 @@ import { InformationText } from 'src/shared/components/InformationText';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InformationTextSize } from 'src/shared/enums/information-text-size.enum';
 import { InputType } from 'src/shared/enums/input-type.enum';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -31,6 +33,8 @@ export function CreateExerciseSetForm({
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const dispatch = useAppDispatch();
+
+    const { isDesktop } = useBreakpoint();
 
     const sources = useAppSelector((state) => state.sources);
     const groups = useAppSelector((state) => state.exerciseSetGroups);
@@ -157,6 +161,7 @@ export function CreateExerciseSetForm({
                         </div>
 
                         <InformationText
+                            size={isDesktop ? InformationTextSize.MD : InformationTextSize.SM}
                             text="AI will generate specified count of exercises automatically based on source content."
                         />
                     </>
@@ -191,6 +196,7 @@ export function CreateExerciseSetForm({
                 </div>
 
                 <InformationText
+                    size={isDesktop ? InformationTextSize.MD : InformationTextSize.SM}
                     text="Type and Difficuly are not permanent, they change dynamically based on exercises within the set."
                 />
 

@@ -33,7 +33,7 @@ export function UpdateUserProfileInfoForm({
     };
     const [dto, setDto] = React.useState<UpdateUserDto>(initialDto);
     const [pendingEmail, setPendingEmail] = React.useState<string | null>(null);
-    const [verificationCode, setVerificationCode] = React.useState('');
+    const [verificationCode, setVerificationCode] = React.useState(0);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -41,7 +41,7 @@ export function UpdateUserProfileInfoForm({
         if (isHidden && !isSubmittingRef.current) {
             setDto(initialDto);
             setPendingEmail(null);
-            setVerificationCode('');
+            setVerificationCode(0);
         }
     }, [isHidden, user]);
 
@@ -92,7 +92,7 @@ export function UpdateUserProfileInfoForm({
             } else {
                 isSubmittingRef.current = false;
                 setPendingEmail(null);
-                setVerificationCode('');
+                setVerificationCode(0);
                 dispatch(userActions.fetchData());
                 setIsPopUpActive(false);
             }
@@ -124,7 +124,7 @@ export function UpdateUserProfileInfoForm({
                         <p>code: </p>
                         <Input
                             value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.currentTarget.value)}
+                            onChange={(e) => setVerificationCode(Number(e.currentTarget.value))}
                         />
                     </div>
                     <Button

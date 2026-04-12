@@ -58,20 +58,20 @@ export function ExerciseSetPageContent({
                 <div className='w-full h-auto flex flex-col justify-start items-center gap-4'>
                     <p className='text-2xl font-bold'>{exerciseSet.title}</p>
 
-                    <div className='flex gap-2'>
-                        <p><span className=''>Source:</span> <span className='italic'>{exerciseSet.contextType === ExerciseSetContextType.SOURCE ? sources.find((source) => source._id === exerciseSet.contextId)?.title : exerciseSet.contextType}</span></p>
+                    <div className='flex flex-col sm:flex-row gap-2'>
+                        <p><span className='font-bold'>Source:</span> <span className='italic text-sm sm:text-base'>{exerciseSet.contextType === ExerciseSetContextType.SOURCE ? sources.find((source) => source._id === exerciseSet.contextId)?.title : exerciseSet.contextType}</span></p>
 
-                        <p>|</p>
+                        <p className='hidden sm:block'>|</p>
 
-                        <p><span className=''>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
+                        <p><span className='font-bold'>Type:</span> <span className='italic'>{exerciseSet.type}</span></p>
 
-                        <p>|</p>
+                        <p className='hidden sm:block'>|</p>
 
-                        <p><span className=''>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
+                        <p><span className='font-bold'>Difficulty:</span><span className='italic'> {exerciseSet.difficulty}</span></p>
 
-                        <p>|</p>
+                        <p className='hidden sm:block'>|</p>
 
-                        <p><span className=''>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
+                        <p><span className='font-bold'>Count:</span> <span className='italic'>{exerciseSet.count}</span></p>
                     </div>
 
                     <div className='flex flex-wrap gap-2'>

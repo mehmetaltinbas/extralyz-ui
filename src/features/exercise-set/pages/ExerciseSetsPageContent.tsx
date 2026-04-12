@@ -25,7 +25,8 @@ export function ExerciseSetsPageContent({
         >
             <div
                 className="w-full h-[auto]
-                flex justify-center items-center p-4 gap-2"
+                flex flex-col justify-start
+                sm:flex-row sm:justify-center items-center p-4 gap-2"
             >
                 <p className="text-2xl font-bold">Exercise Sets</p>
 
@@ -110,16 +111,19 @@ export function ExerciseSetsPageContent({
                                         <p className="font-serif font-semibold">
                                             Source:{' '}
                                         </p>
-                                        <p>
+
+                                        <p className='text-sm sm:text-base'>
                                             {extendedSource.title ||
                                             extendedSource.title.length > 0
                                                 ? extendedSource.title
                                                 : extendedSource._id}
                                         </p>
-                                        <p className="font-serif italic">
+
+                                        <p className="font-serif italic text-sm sm:text-base">
                                             {extendedSource.type}
                                         </p>
                                     </div>
+
                                     <div
                                         className="w-full flex justify-start items-center gap-4 overflow-x-auto pb-1"
                                     >

@@ -5,7 +5,8 @@ import type { SectionStrategy } from 'src/features/workspace/strategies/section/
 export class SourcesSectionStrategy implements SectionStrategy {
     async buildProps(tab: TabsStateElement) {
         return {
-            title: Section.SOURCES
+            title: Section.SOURCES,
+            exists: true,
         };
     }
 }

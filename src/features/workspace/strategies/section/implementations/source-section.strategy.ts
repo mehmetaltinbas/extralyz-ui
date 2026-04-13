@@ -9,12 +9,14 @@ export class SourceSectionStrategy implements SectionStrategy {
 
         if (!source) {
             return {
-                title: Section.SOURCE
+                title: Section.SOURCE,
+                exists: false,
             };
         }
 
         return {
             title: source.title,
+            exists: true,
             source: source,
         };
     }

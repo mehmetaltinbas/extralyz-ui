@@ -12,11 +12,13 @@ export class ExerciseSetPaperEvaluationSectionStrategy implements SectionStrateg
         if (!exerciseSet) {
             return {
                 title: Section.EXERCISE_SET_PAPER_EVALUATION,
+                exists: false,
             };
         }
 
         return {
             title: exerciseSet.title,
+            exists: true,
             exerciseSet: exerciseSet,
             exercises: exercises ?? [],
         };

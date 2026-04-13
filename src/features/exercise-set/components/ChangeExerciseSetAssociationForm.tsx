@@ -6,6 +6,7 @@ import type { ChangeExerciseSetContextDto } from "src/features/exercise-set/type
 import type { ExerciseSet } from "src/features/exercise-set/types/exercise-set.interface";
 import { tabsActions } from "src/features/workspace/features/tabs/store/tabs.slice";
 import { Button } from "src/shared/components/Button";
+import { InformationText } from "src/shared/components/InformationText";
 import { Modal } from "src/shared/components/Modal";
 import { useAppDispatch, useAppSelector } from "src/store/hooks";
 
@@ -57,7 +58,7 @@ export function ChangeExerciseSetAssociationForm({
         }
     }, [isHidden, exerciseSet._id, exerciseSet.contextId, exerciseSet.contextType]);
 
-    function handleSourceTypeChange(contextType: ExerciseSetContextType) {
+    function handleContextTypeChange(contextType: ExerciseSetContextType) {
         if (contextType === ExerciseSetContextType.INDEPENDENT) {
             setDto({ contextType, contextId: '' });
         } else if (contextType === ExerciseSetContextType.GROUP) {
@@ -103,8 +104,8 @@ export function ChangeExerciseSetAssociationForm({
                     <select
                         name="contextType"
                         value={dto.contextType}
-                        onChange={(event) => handleSourceTypeChange(event.currentTarget.value as ExerciseSetContextType)}
-                        className="py-[2px] px-2 border rounded-[10px]"
+                        onChange={(event) => handleContextTypeChange(event.currentTarget.value as ExerciseSetContextType)}
+                        className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                     >
                         {Object.values(ExerciseSetContextType).map(type => (
                             <option key={`source-type-${type}`} value={type}>
@@ -115,24 +116,27 @@ export function ChangeExerciseSetAssociationForm({
                 </div>
 
                 {dto.contextType === ExerciseSetContextType.SOURCE && (
-                    <div className="flex justify-start items-center gap-2">
-                        <p>Source:</p>
-                        <select
-                            name="contextId"
-                            value={dto.contextId}
-                            onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
-                            className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
-                        >
-                            {availableSources.map(source => (
-                                <option
-                                    key={`option-source-${source._id}`}
-                                    value={source._id}
+                    availableSources.length > 0 ? 
+                            <div className="flex justify-start items-center gap-2">
+                                <p>Source:</p>
+                                <select
+                                    name="contextId"
+                                    value={dto.contextId}
+                                    onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
+                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
                                 >
-                                    {source.title}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                                    {availableSources.map(source => (
+                                        <option
+                                            key={`option-source-${source._id}`}
+                                            value={source._id}
+                                        >
+                                            {source.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        :
+                        <InformationText text="No available sources."/>
                 )}
 
                 {dto.contextType === ExerciseSetContextType.GROUP && (
@@ -157,7 +161,12 @@ export function ChangeExerciseSetAssociationForm({
                 )}
             </div>
 
-            <Button onClick={submit}>
+            <Button 
+                onClick={submit}
+                disabled={
+                    (dto.contextType === ExerciseSetContextType.SOURCE && availableSources.length === 0) || 
+                    (dto.contextType === ExerciseSetContextType.GROUP && availableGroups.length === 0)}
+            >
                 Change
             </Button>
         </Modal>

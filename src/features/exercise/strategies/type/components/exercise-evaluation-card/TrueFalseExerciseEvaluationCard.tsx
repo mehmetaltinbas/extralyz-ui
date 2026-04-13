@@ -11,15 +11,15 @@ export function TrueFalseExerciseEvaluationCard({
 }) {
     const userAnswer =
         Number(evaluation.userAnswer) === 1
-            ? 'true'
+            ? 'True'
             : Number(evaluation.userAnswer) === 0
-              ? 'false'
+              ? 'False'
               : 'empty';
     const correctAnswer =
         exercise.correctChoiceIndex === 1
-            ? 'true'
+            ? 'True'
             : exercise.correctChoiceIndex === 0
-              ? 'false'
+              ? 'False'
               : undefined;
 
     return (

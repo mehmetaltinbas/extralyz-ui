@@ -37,7 +37,7 @@ export function Input({
             name={name}
             accept={accept}
             multiple={multiple}
-            className="w-[200px] border border-border focus:outline-none rounded-[20px] p-1 cursor-pointer text-xs hover:bg-surface-hover"
+            className="w-[200px] border border-border focus:outline-none rounded-[20px] px-2.5 py-1.5 cursor-pointer text-xs hover:bg-surface-hover"
         />
         :
         <input

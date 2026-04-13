@@ -24,12 +24,14 @@ export class ExerciseSetPracticeSectionStrategy implements SectionStrategy {
 
         if (!exerciseSet) {
             return {
-                title: Section.EXERCISE_SET
+                title: Section.EXERCISE_SET,
+                exists: false,
             };
         }
 
         return {
             title: exerciseSet.title,
+            exists: true,
             exerciseSet: exerciseSet,
             exercises:  processedExercises,
             shuffleChoices: tab.mode === ExerciseSetMode.SHUFFLE_PRACTICE,

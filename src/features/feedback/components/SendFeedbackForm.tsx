@@ -66,7 +66,7 @@ export function SendFeedbackForm({
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="w-full flex flex-col items-center gap-4 py-2">
                 <div className="text-center space-y-1">
-                    <h3 className="text-lg font-bold text-gray-900">
+                    <h3 className="text-lg font-bold">
                         Help shape {APP_NAME}
                     </h3>
 

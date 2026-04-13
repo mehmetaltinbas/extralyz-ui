@@ -8,6 +8,14 @@ import type { SectionStrategy } from 'src/features/workspace/strategies/section/
 export class PublicExerciseSetPracticeSectionStrategy implements SectionStrategy {
     async buildProps(tab: TabsStateElement) {
         const { exerciseSet } = await PublicExerciseSetService.readPublicById(tab.id!);
+
+        if (!exerciseSet) {
+            return {
+                title: Section.PUBLIC_EXERCISE_SET_PRACTICE,
+                exists: false,
+            };
+        }
+
         const { exercises } = await PublicExerciseService.readAllPublicByExerciseSetId(tab.id!);
 
         let processedExercises = exercises ?? [];
@@ -22,14 +30,9 @@ export class PublicExerciseSetPracticeSectionStrategy implements SectionStrategy
             }
         }
 
-        if (!exerciseSet) {
-            return {
-                title: Section.PUBLIC_EXERCISE_SET_PRACTICE,
-            };
-        }
-
         return {
             title: exerciseSet.title,
+            exists: true,
             exerciseSet: exerciseSet,
             exercises: processedExercises,
             shuffleChoices: tab.mode === ExerciseSetMode.SHUFFLE_PRACTICE,

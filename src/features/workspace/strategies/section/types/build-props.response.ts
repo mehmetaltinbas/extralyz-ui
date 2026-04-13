@@ -1,1 +1,1 @@
-export type BuildPropsResponse = { title: string; } & Record<string, unknown>;
+export type BuildPropsResponse = { title: string; exists: boolean; } & Record<string, unknown>;

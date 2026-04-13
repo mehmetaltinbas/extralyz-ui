@@ -112,8 +112,19 @@ export function WorkspaceBody() {
 
                 buildingKeys.current.add(key);
                 buildProps(tab).then((builtProps) => {
-                    setBuiltPropsRecord((p) => ({ ...p, [key]: builtProps }));
                     buildingKeys.current.delete(key);
+
+                    if (builtProps && !builtProps.exists) {
+                        const currentIndex = tabs.elements.findIndex(
+                            (el) => computeTabKey(el) === key
+                        );
+                        if (currentIndex !== -1) {
+                            dispatch(tabsActions.closeTab(currentIndex));
+                        }
+                        return;
+                    }
+
+                    setBuiltPropsRecord((p) => ({ ...p, [key]: builtProps }));
 
                     if (builtProps?.title) {
                         dispatch(tabsActions.setTitle({ key, title: builtProps.title }));
@@ -157,6 +168,16 @@ export function WorkspaceBody() {
 
         for (const { tab, key } of invalidatedTabs) {
             buildProps(tab).then((builtProps) => {
+                if (builtProps && !builtProps.exists) {
+                    const currentIndex = tabs.elements.findIndex(
+                        (el) => computeTabKey(el) === key
+                    );
+                    if (currentIndex !== -1) {
+                        dispatch(tabsActions.closeTab(currentIndex));
+                    }
+                    return;
+                }
+
                 setBuiltPropsRecord((prev) => ({
                     ...prev,
                     [key]: builtProps,
@@ -195,6 +216,16 @@ export function WorkspaceBody() {
 
         for (const { tab, key } of invalidatedTabs) {
             buildProps(tab).then((builtProps) => {
+                if (builtProps && !builtProps.exists) {
+                    const currentIndex = tabs.elements.findIndex(
+                        (el) => computeTabKey(el) === key
+                    );
+                    if (currentIndex !== -1) {
+                        dispatch(tabsActions.closeTab(currentIndex));
+                    }
+                    return;
+                }
+
                 setBuiltPropsRecord((prev) => ({
                     ...prev,
                     [key]: builtProps,

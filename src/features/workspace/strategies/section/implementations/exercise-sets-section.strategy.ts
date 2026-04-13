@@ -5,7 +5,8 @@ import type { SectionStrategy } from 'src/features/workspace/strategies/section/
 export class ExerciseSetsSectionStrategy implements SectionStrategy {
     async buildProps(tab: TabsStateElement) {
         return {
-            title: Section.EXERCISE_SETS
+            title: Section.EXERCISE_SETS,
+            exists: true,
         };
     }
 }

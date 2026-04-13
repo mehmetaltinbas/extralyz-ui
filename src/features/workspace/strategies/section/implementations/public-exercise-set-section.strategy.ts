@@ -8,17 +8,20 @@ import type { SectionStrategy } from 'src/features/workspace/strategies/section/
 export class PublicExerciseSetSectionStrategy implements SectionStrategy {
     async buildProps(tab: TabsStateElement) {
         const { exerciseSet } = await PublicExerciseSetService.readPublicById(tab.id!);
-        const { exercises } = await PublicExerciseService.readAllPublicByExerciseSetId(tab.id!);
-        const { user } = await UserService.readPublicById(exerciseSet!.userId);
 
         if (!exerciseSet) {
             return {
                 title: Section.PUBLIC_EXERCISE_SET,
+                exists: false,
             };
         }
 
+        const { exercises } = await PublicExerciseService.readAllPublicByExerciseSetId(tab.id!);
+        const { user } = await UserService.readPublicById(exerciseSet.userId);
+
         return {
             title: exerciseSet.title,
+            exists: true,
             exerciseSet: exerciseSet,
             exercises: exercises ?? [],
             ownerUserName: user?.userName,

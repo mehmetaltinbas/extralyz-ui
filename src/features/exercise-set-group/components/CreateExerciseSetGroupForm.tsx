@@ -60,11 +60,14 @@ export function CreateExerciseSetGroupForm({
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
                 <p>title: </p>
-                <Input
-                    name="title"
-                    value={dto.title}
-                    onChange={(e) => setDto({ ...dto, title: e.currentTarget.value })}
-                />
+
+                <div className='w-48 sm:w-72'>
+                    <Input
+                        name="title"
+                        value={dto.title}
+                        onChange={(e) => setDto({ ...dto, title: e.currentTarget.value })}
+                    />
+                </div>
             </div>
 
             <Button variant={ButtonVariant.PRIMARY} onClick={createGroup}>

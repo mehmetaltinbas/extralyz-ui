@@ -1,10 +1,12 @@
 import React from 'react';
+import { selectExtendedExerciseSetGroups } from 'src/features/exercise-set-group/store/selectors/select-extended-exercise-set-groups';
 import { ExerciseSetCard } from 'src/features/exercise-set/components/ExerciseSetCard';
 import { useExerciseSetsPopups } from 'src/features/exercise-set/hooks/use-exercise-sets-popups.hook';
 import { selectIndependentExerciseSets } from 'src/features/exercise-set/store/selectors/select-independent-exercise-sets';
-import { selectExtendedExerciseSetGroups } from 'src/features/exercise-set-group/store/selectors/select-extended-exercise-set-groups';
 import { selectExtendedSources } from 'src/features/source/store/selectors/select-extended-sources';
+import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
 import { Button } from 'src/shared/components/Button';
+import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function ExerciseSetsPageContent({
@@ -16,7 +18,7 @@ export function ExerciseSetsPageContent({
     extendedGroups: ReturnType<typeof selectExtendedExerciseSetGroups>;
     extendedSources: ReturnType<typeof selectExtendedSources>;
 }) {
-    const { openCreateExerciseSetForm, openCreateGroupForm } = useExerciseSetsPopups();
+    const { openCreateExerciseSetForm, openCreateGroupForm, openGroupActionMenu } = useExerciseSetsPopups();
 
     return (
         <div
@@ -82,6 +84,10 @@ export function ExerciseSetsPageContent({
                             <p>
                                 {extendedGroup.title}
                             </p>
+                            <ActionMenuTriggerer
+                                size={ButtonSize.SM}
+                                onClick={(e) => openGroupActionMenu(e, extendedGroup._id)}
+                            />
                         </div>
                         <div
                             className="w-full flex justify-start items-center gap-4 overflow-x-auto pb-1"

@@ -1,5 +1,8 @@
 import React from 'react';
 import { CreateExerciseSetGroupForm } from 'src/features/exercise-set-group/components/CreateExerciseSetGroupForm';
+import { ExerciseSetGroupActionMenu } from 'src/features/exercise-set-group/components/ExerciseSetGroupActionMenu';
+import { UpdateExerciseSetGroupForm } from 'src/features/exercise-set-group/components/UpdateExerciseSetGroupForm';
+import { ExerciseSetGroupService } from 'src/features/exercise-set-group/services/exercise-set-group.service';
 import { ChangeExerciseSetAssociationForm } from 'src/features/exercise-set/components/ChangeExerciseSetAssociationForm';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
@@ -14,7 +17,7 @@ import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.sli
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
-import { useAppDispatch } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function ExerciseSetsPopupsProvider({
     children,
@@ -24,6 +27,7 @@ export function ExerciseSetsPopupsProvider({
     containerRef: React.RefObject<HTMLDivElement | null>;
 }) {
     const dispatch = useAppDispatch();
+    const exerciseSetGroups = useAppSelector((state) => state.exerciseSetGroups);
 
     const [isPopUpActive, setIsPopUpActive] = React.useState(false);
     const [isLoadingPageHidden, setIsLoadingPageHidden] = React.useState(true);
@@ -35,10 +39,15 @@ export function ExerciseSetsPopupsProvider({
     const [isDeleteApprovalHidden, setIsDeleteApprovalHidden] = React.useState(true);
     const [isGenerateNotesFormHidden, setIsGenerateNotesFormHidden] = React.useState(true);
     const [isCreateGroupFormHidden, setIsCreateGroupFormHidden] = React.useState(true);
+    const [isGroupActionMenuHidden, setIsGroupActionMenuHidden] = React.useState(true);
+    const [isUpdateGroupFormHidden, setIsUpdateGroupFormHidden] = React.useState(true);
+    const [isDeleteGroupApprovalHidden, setIsDeleteGroupApprovalHidden] = React.useState(true);
 
     const [actionMenuExerciseSet, setActionMenuExerciseSet] = React.useState<ExerciseSet>();
+    const [actionMenuGroupId, setActionMenuGroupId] = React.useState('');
 
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
+    const groupActionMenuRef = React.useRef<HTMLDivElement>(null);
 
     function refreshData() {
         dispatch(refreshExerciseSetsData());
@@ -79,6 +88,41 @@ export function ExerciseSetsPopupsProvider({
         }
     }
 
+    function openGroupActionMenu(
+        event: React.MouseEvent<HTMLButtonElement>,
+        groupId: string
+    ) {
+        event.stopPropagation();
+        const groupActionMenu = groupActionMenuRef.current;
+        const container = containerRef.current;
+
+        if (groupActionMenu && container && groupActionMenuRef.current) {
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = event.currentTarget.getBoundingClientRect();
+            const actionMenuRect = groupActionMenuRef.current.getBoundingClientRect();
+
+            groupActionMenu.style.top = `${buttonRect.bottom - containerRect.top}px`;
+            groupActionMenu.style.left = `${buttonRect.right - (buttonRect.width / 2) - (actionMenuRect.width / 2) - containerRect.left}px`;
+
+            if (!isGroupActionMenuHidden && actionMenuGroupId === groupId) {
+                setIsGroupActionMenuHidden(true);
+            } else {
+                setActionMenuGroupId(groupId);
+                setIsGroupActionMenuHidden(false);
+            }
+        }
+    }
+
+    function toggleUpdateGroupForm() {
+        setIsPopUpActive((prev) => !prev);
+        setIsUpdateGroupFormHidden((prev) => !prev);
+    }
+
+    function toggleDeleteGroupApproval() {
+        setIsPopUpActive((prev) => !prev);
+        setIsDeleteGroupApprovalHidden((prev) => !prev);
+    }
+
     function toggleStartPracticeDecision() {
         setIsPopUpActive((prev) => !prev);
         setIsStartPracticeDecisionHidden((prev) => !prev);
@@ -113,6 +157,8 @@ export function ExerciseSetsPopupsProvider({
         setIsChangeSourceFormHidden(true);
         setIsDeleteApprovalHidden(true);
         setIsGenerateNotesFormHidden(true);
+        setIsUpdateGroupFormHidden(true);
+        setIsDeleteGroupApprovalHidden(true);
     }
 
     async function deleteExerciseSet(): Promise<{ isSuccess: boolean }> {
@@ -132,9 +178,34 @@ export function ExerciseSetsPopupsProvider({
         return { isSuccess: false };
     }
 
+    async function deleteExerciseSetGroup(): Promise<{ isSuccess: boolean }> {
+        if (actionMenuGroupId) {
+            const response = await ExerciseSetGroupService.deleteById(actionMenuGroupId);
+
+            if (!response.isSuccess) alert(response.message);
+            else {
+                dispatch(refreshExerciseSetsData());
+            }
+
+            return { isSuccess: response.isSuccess };
+        }
+
+        alert('no group found to delete');
+        return { isSuccess: false };
+    }
+
     return (
-        <ExerciseSetsPopupsContext value={{ openCreateExerciseSetForm, openCreateGroupForm, openExerciseSetActionMenu }}>
+        <ExerciseSetsPopupsContext value={{ openCreateExerciseSetForm, openCreateGroupForm, openExerciseSetActionMenu, openGroupActionMenu }}>
             {children}
+
+            <ExerciseSetGroupActionMenu
+                isHidden={isGroupActionMenuHidden}
+                setIsHidden={setIsGroupActionMenuHidden}
+                groupId={actionMenuGroupId || undefined}
+                ref={groupActionMenuRef}
+                toggleUpdateForm={toggleUpdateGroupForm}
+                toggleDeleteApproval={toggleDeleteGroupApproval}
+            />
 
             <ExerciseSetActionMenu
                 isHidden={isExerciseSetActionMenuHidden}
@@ -217,14 +288,37 @@ export function ExerciseSetsPopupsProvider({
                             exerciseSet={actionMenuExerciseSet}
                         />
                     ],
+                    ...[exerciseSetGroups.find((g) => g._id === actionMenuGroupId) &&
+                        <UpdateExerciseSetGroupForm
+                            key='update-exercise-set-group-form'
+                            isHidden={isUpdateGroupFormHidden}
+                            setIsHidden={setIsUpdateGroupFormHidden}
+                            setIsPopUpActive={setIsPopUpActive}
+                            setIsLoadingPageHidden={setIsLoadingPageHidden}
+                            onClose={closePopups}
+                            refreshData={refreshData}
+                            exerciseSetGroup={exerciseSetGroups.find((g) => g._id === actionMenuGroupId)!}
+                        />
+                    ],
                     <CriticOperationApproval
                         key='exercise-set-delete-approval'
+                        warningMessage='All associated exercises will also be deleted.'
                         isHidden={isDeleteApprovalHidden}
                         setIsHidden={setIsDeleteApprovalHidden}
                         setIsLoadingPageHidden={setIsLoadingPageHidden}
                         setIsPopUpActive={setIsPopUpActive}
                         onClose={closePopups}
                         onDelete={deleteExerciseSet}
+                    />,
+                    <CriticOperationApproval
+                        key='exercise-set-group-delete-approval'
+                        warningMessage='All associated exercise sets and their exercises will also be deleted.'
+                        isHidden={isDeleteGroupApprovalHidden}
+                        setIsHidden={setIsDeleteGroupApprovalHidden}
+                        setIsLoadingPageHidden={setIsLoadingPageHidden}
+                        setIsPopUpActive={setIsPopUpActive}
+                        onClose={closePopups}
+                        onDelete={deleteExerciseSetGroup}
                     />,
                     <LoadingPage key='loading-page' isHidden={isLoadingPageHidden} />,
                 ]}

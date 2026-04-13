@@ -50,7 +50,7 @@ export function SourcePageContent({ source }: { source: Source }) {
                 </div>
 
                 {!isEditing && (
-                    <div className='flex gap-2'>
+                    <div className='flex flex-wrap gap-2'>
                         <Button
                             onClick={(event) => openCreateExerciseSetForm(event)}
                         >

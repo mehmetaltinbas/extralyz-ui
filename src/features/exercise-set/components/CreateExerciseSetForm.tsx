@@ -134,7 +134,7 @@ export function CreateExerciseSetForm({
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex flex-col justify-start items-center gap-2">
-                <div className="flex justify-start items-center gap-2">
+                <div className="w-48 sm:w-72 flex justify-start items-center gap-2">
                     <p>title: </p>
                     <Input
                         name="title"

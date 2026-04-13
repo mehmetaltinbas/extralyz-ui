@@ -6,7 +6,7 @@ import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
 export function SourcePageContent({ source }: { source: Source }) {
-    const { openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval } = useSourcePopups();
+    const { openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval, viewSourcePdf } = useSourcePopups();
 
     return (
         <div
@@ -25,6 +25,12 @@ export function SourcePageContent({ source }: { source: Source }) {
                         onClick={(event) => openCreateExerciseSetForm(event)}
                     >
                         Generate Exercise Set
+                    </Button>
+
+                    <Button
+                        onClick={(event) => viewSourcePdf(event)}
+                    >
+                        View as PDF
                     </Button>
 
                     <Button

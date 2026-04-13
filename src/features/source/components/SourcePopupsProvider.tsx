@@ -10,6 +10,7 @@ import { BodyModal } from 'src/shared/components/BodyModal';
 import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
+import type { GetSourcePdfResponse } from 'src/features/source/types/response/get-source-pdf.response';
 
 export function SourcePopupsProvider({
     children,
@@ -53,6 +54,42 @@ export function SourcePopupsProvider({
         setIsDeleteApprovalHidden(false);
     }
 
+    async function viewSourcePdf() {
+        setIsLoadingPageHidden(false);
+
+        try {
+            const response: GetSourcePdfResponse = await SourceService.getPdf(source._id);
+
+            if (!response.isSuccess || !response.pdfBase64) {
+                alert(response.message);
+                return;
+            }
+
+            const byteCharacters = atob(response.pdfBase64);
+            const byteNumbers = new Array(byteCharacters.length);
+
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const newWindow = window.open(url, '_blank');
+
+            if (!newWindow) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${source.title}.pdf`;
+                a.click();
+            }
+        } catch (error) {
+            alert('internal error');
+        } finally {
+            setIsLoadingPageHidden(true);
+        }
+    }
+
     function closePopups() {
         setIsPopUpActive(false);
         setIsCreateExerciseSetFormHidden(true);
@@ -73,7 +110,7 @@ export function SourcePopupsProvider({
     }
 
     return (
-        <SourcePopupsContext value={{ openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval }}>
+        <SourcePopupsContext value={{ openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval, viewSourcePdf }}>
             {children}
 
             <BodyModal

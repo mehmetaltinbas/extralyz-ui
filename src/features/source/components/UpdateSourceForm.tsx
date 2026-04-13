@@ -78,15 +78,18 @@ export function UpdateSourceForm({
             <div className="flex justify-start items-center gap-2">
                 <div className="flex justify-start items-center gap-2">
                     <p>title: </p>
-                    <Input
-                        value={dto.title}
-                        onChange={(e) =>
-                            setDto({
-                                ...dto,
-                                title: e.currentTarget.value,
-                            })
-                        }
-                    />
+
+                    <div className='w-48 sm:w-72'>
+                        <Input
+                            value={dto.title}
+                            onChange={(e) =>
+                                setDto({
+                                    ...dto,
+                                    title: e.currentTarget.value,
+                                })
+                            }
+                        />
+                    </div>
                 </div>
             </div>
 

@@ -6,6 +6,7 @@ import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceFor
 import { SourcesPopupsContext } from 'src/features/source/contexts/sources-popups.context';
 import { SourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
+import type { GetSourcePdfResponse } from 'src/features/source/types/response/get-source-pdf.response';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
@@ -82,6 +83,46 @@ export function SourcesPopupsProvider({
         setIsPopUpActive((prev) => !prev);
     }
 
+    async function viewSourcePdf() {
+        setIsLoadingPageHidden(false);
+        setIsPopUpActive(true);
+
+        try {
+            const source = sources.find((s) => s._id === actionMenuSourceId);
+            const response: GetSourcePdfResponse = await SourceService.getPdf(actionMenuSourceId);
+
+            if (!response.isSuccess || !response.pdfBase64) {
+                alert(response.message);
+                return;
+            }
+
+            const byteCharacters = atob(response.pdfBase64);
+            const byteNumbers = new Array(byteCharacters.length);
+
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const newWindow = window.open(url, '_blank');
+
+            if (!newWindow) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${source?.title ?? 'source'}.pdf`;
+                a.click();
+            }
+
+            setIsPopUpActive(false);
+        } catch (error) {
+            alert('internal error');
+        } finally {
+            setIsLoadingPageHidden(true);
+        }
+    }
+
     function closePopups() {
         setIsPopUpActive(false);
         setIsSourceCreateFormHidden(true);
@@ -112,6 +153,7 @@ export function SourcesPopupsProvider({
                 sourceId={actionMenuSourceId}
                 ref={actionMenuRef}
                 toggleCreateExerciseSetForm={toggleCreateExerciseSetForm}
+                toggleViewPdf={viewSourcePdf}
                 toggleUpdateSourceForm={toggleUpdateSourceForm}
                 toggleDeleteApproval={toggleDeleteApproval}
             />

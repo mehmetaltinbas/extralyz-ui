@@ -1,5 +1,6 @@
 import type { UpdateSourceDto } from 'src/features/source/types/dto/update-source.dto';
 import type { CreateSourceResponse } from 'src/features/source/types/response/create-source.response';
+import type { GetSourcePdfResponse } from 'src/features/source/types/response/get-source-pdf.response';
 import type { ReadAllSourcesResponse } from 'src/features/source/types/response/read-all-sources.response';
 import type { ReadSingleSourceResponse } from 'src/features/source/types/response/read-single-source.response';
 import { axiosInstance } from 'src/shared/api/axios-instance';
@@ -54,7 +55,19 @@ export class SourceService {
     static async deleteById(id: string): Promise<ResponseBase> {
         try {
             const response = (await axiosInstance.delete(`${baseUrl}/delete-by-id/${id}`)).data;
-    
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async getPdf(id: string): Promise<GetSourcePdfResponse> {
+        try {
+            const response = (
+                await axiosInstance.get(`${baseUrl}/get-pdf/${id}`)
+            ).data;
+
             return response;
         } catch (error) {
             return handleServiceError(error);

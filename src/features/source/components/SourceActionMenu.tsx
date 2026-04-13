@@ -10,6 +10,7 @@ export function SourceActionMenu({
     sourceId,
     ref,
     toggleCreateExerciseSetForm,
+    toggleViewPdf,
     toggleUpdateSourceForm,
     toggleDeleteApproval,
 }: {
@@ -18,6 +19,7 @@ export function SourceActionMenu({
     sourceId?: string;
     ref: React.RefObject<HTMLDivElement | null>;
     toggleCreateExerciseSetForm: () => void;
+    toggleViewPdf: () => void;
     toggleUpdateSourceForm: () => void;
     toggleDeleteApproval: () => void;
 }) {
@@ -34,6 +36,17 @@ export function SourceActionMenu({
                         }}
                     >
                         Generate Exercise Set
+                    </Button>
+
+                    <Button
+                        size={ButtonSize.SM}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            toggleViewPdf();
+                            setIsHidden((prev) => !prev);
+                        }}
+                    >
+                        View as PDF
                     </Button>
 
                     <Button

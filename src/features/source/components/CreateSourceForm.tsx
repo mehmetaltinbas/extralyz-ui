@@ -4,8 +4,10 @@ import { SourceService } from 'src/features/source/services/source.service';
 import { sourceTypeFactory } from 'src/features/source/strategies/type/source-type.factory';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import { Button } from 'src/shared/components/Button';
+import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { InputSize } from 'src/shared/enums/input-size.enum';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 const defaultType = SourceType.DOCUMENT;
@@ -101,6 +103,16 @@ export function CreateSourceForm({
                         </option>
                     ))}
                 </select>
+            </div>
+
+            <div className="w-48 sm:w-72 flex justify-center items-center gap-2">
+                <p>title: </p>
+                <Input
+                    onChange={(e) => setDto((prev) => ({ ...prev, title: e.target.value }))}
+                    size={InputSize.LG}
+                    value={dto.title ?? ''}
+                    placeholder="title..."
+                />
             </div>
 
             {strategy?.renderCreateSourceFormFields(dto, setDto, {

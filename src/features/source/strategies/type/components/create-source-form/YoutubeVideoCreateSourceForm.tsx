@@ -21,16 +21,6 @@ export function YoutubeVideoCreateSourceForm({
                     placeholder="https://youtube.com/watch?v=..."
                 />
             </div>
-
-            <div className={'flex justify-center items-center gap-2'}>
-                <p>title: </p>
-                <Input
-                    onChange={(e) => setDto((prev) => ({ ...prev, title: e.target.value }))}
-                    size={InputSize.LG}
-                    value={dto.title ?? ''}
-                    placeholder="title..."
-                />
-            </div>
         </>
     );
 }

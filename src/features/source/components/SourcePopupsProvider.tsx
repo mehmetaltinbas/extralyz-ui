@@ -110,7 +110,7 @@ export function SourcePopupsProvider({
     }
 
     return (
-        <SourcePopupsContext value={{ openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval, viewSourcePdf }}>
+        <SourcePopupsContext value={{ openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval, viewSourcePdf, refreshData }}>
             {children}
 
             <BodyModal

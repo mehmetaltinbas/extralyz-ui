@@ -195,6 +195,7 @@ export function SourcesPopupsProvider({
                     ],
                     <CriticOperationApproval
                         key='delete-approval'
+                        warningMessage='All associated exercise sets and their exercises will also be deleted.'
                         isHidden={isDeleteApproavelHidden}
                         setIsHidden={setIsDeleteApprovalHidden}
                         setIsPopUpActive={setIsPopUpActive}

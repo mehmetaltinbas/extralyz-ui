@@ -4,13 +4,13 @@ import { UpdateSourceForm } from 'src/features/source/components/UpdateSourceFor
 import { SourcePopupsContext } from 'src/features/source/contexts/source-popups.context';
 import { SourceService } from 'src/features/source/services/source.service';
 import { sourcesActions } from 'src/features/source/store/sources.slice';
+import type { GetSourcePdfResponse } from 'src/features/source/types/response/get-source-pdf.response';
 import type { Source } from 'src/features/source/types/source.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';
 import { CriticOperationApproval } from 'src/shared/components/CriticOperationApproval';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 import { useAppDispatch } from 'src/store/hooks';
-import type { GetSourcePdfResponse } from 'src/features/source/types/response/get-source-pdf.response';
 
 export function SourcePopupsProvider({
     children,
@@ -139,6 +139,7 @@ export function SourcePopupsProvider({
                     />,
                     <CriticOperationApproval
                         key='delete-approval'
+                        warningMessage='All associated exercise sets and their exercises will also be deleted.'
                         isHidden={isDeleteApproavelHidden}
                         setIsHidden={setIsDeleteApprovalHidden}
                         setIsPopUpActive={setIsPopUpActive}

@@ -8,4 +8,5 @@ export enum Section {
     PUBLIC_EXERCISE_SET = 'PublicExerciseSet',
     PUBLIC_EXERCISE_SET_PRACTICE = 'PublicExerciseSetPractice',
     PUBLIC_EXERCISE_SET_PAPER_EVALUATION = 'PublicExerciseSetPaperEvaluation',
+    PUBLIC_SOURCE = 'PublicSource',
 }

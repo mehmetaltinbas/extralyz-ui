@@ -1,4 +1,5 @@
 import React from 'react';
+import { SourceVisibility } from 'src/features/source/enums/source-visibility.enum';
 import { SourceService } from 'src/features/source/services/source.service';
 import type { UpdateSourceDto } from 'src/features/source/types/dto/update-source.dto';
 import type { Source } from 'src/features/source/types/source.interface';
@@ -30,6 +31,7 @@ export function UpdateSourceForm({
 
     const initialDto: UpdateSourceDto = {
         title: source.title,
+        visibility: source.visibility as SourceVisibility,
     };
     const [dto, setDto] = React.useState<UpdateSourceDto>(initialDto);
 
@@ -91,6 +93,24 @@ export function UpdateSourceForm({
                         />
                     </div>
                 </div>
+            </div>
+
+            <div className="flex justify-start items-center gap-2">
+                <p>visibility: </p>
+                <select
+                    name="visibility"
+                    value={dto.visibility}
+                    onChange={(e) =>
+                        setDto({
+                            ...dto,
+                            visibility: e.currentTarget.value as SourceVisibility,
+                        })
+                    }
+                    className="py-[2px] px-2 border rounded-[10px]"
+                >
+                    <option value={SourceVisibility.PUBLIC}>Public</option>
+                    <option value={SourceVisibility.PRIVATE}>Private</option>
+                </select>
             </div>
 
             <Button

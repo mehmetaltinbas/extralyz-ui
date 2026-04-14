@@ -6,6 +6,7 @@ import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPa
 import { PublicExerciseSetPage } from 'src/features/exercise-set/pages/PublicExerciseSetPage';
 import { PublicExerciseSetPaperEvaluationPage } from 'src/features/exercise-set/pages/PublicExerciseSetPaperEvaluationPage';
 import { PublicExerciseSetPracticePage } from 'src/features/exercise-set/pages/PublicExerciseSetPracticePage';
+import { PublicSourcePage } from 'src/features/source/pages/PublicSourcePage';
 import { SourcePage } from 'src/features/source/pages/SourcePage';
 import { SourcesPage } from 'src/features/source/pages/SourcesPage';
 import { Section } from 'src/features/workspace/enums/section.enum';
@@ -20,4 +21,5 @@ export const SECTION_COMPONENTS: Record<Section, React.ComponentType<any>> = {
     [Section.PUBLIC_EXERCISE_SET]: PublicExerciseSetPage,
     [Section.PUBLIC_EXERCISE_SET_PRACTICE]: PublicExerciseSetPracticePage,
     [Section.PUBLIC_EXERCISE_SET_PAPER_EVALUATION]: PublicExerciseSetPaperEvaluationPage,
+    [Section.PUBLIC_SOURCE]: PublicSourcePage,
 };

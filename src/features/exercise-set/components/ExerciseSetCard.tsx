@@ -40,6 +40,7 @@ export function ExerciseSetCard({
                     ) : (
                         <Lock size={14} className="flex-shrink-0" />
                     )}
+
                     <p title={exerciseSet.title} className={`max-w-[120px] md:max-w-[170px] font-serif font-semibold truncate text-xs ${exerciseSet.title.length > 10 ? 'md:text-sm' : 'md:text-base'} md:text-base`}>
                         {exerciseSet.title}
                     </p>

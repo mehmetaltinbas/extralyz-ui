@@ -1,13 +1,16 @@
 import React from 'react';
 import { SourceTextEditor } from 'src/features/source/components/SourceTextEditor';
 import { SourceTextRenderer } from 'src/features/source/components/SourceTextRenderer';
+import { SourceVisibility } from 'src/features/source/enums/source-visibility.enum';
 import { useSourcePopups } from 'src/features/source/hooks/use-source-popups.hook';
 import { SourceService } from 'src/features/source/services/source.service';
 import { type Source } from 'src/features/source/types/source.interface';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAppSelector } from 'src/store/hooks';
 
 export function SourcePageContent({ source }: { source: Source }) {
+    const user = useAppSelector((state) => state.user);
     const { openCreateExerciseSetForm, openUpdateSourceForm, openDeleteApproval, viewSourcePdf, refreshData } = useSourcePopups();
 
     const [isEditing, setIsEditing] = React.useState(false);
@@ -82,6 +85,20 @@ export function SourcePageContent({ source }: { source: Source }) {
                         >
                             Delete
                         </Button>
+
+                        {source.visibility === SourceVisibility.PUBLIC && user?.userName && (
+                            <Button
+                                variant={ButtonVariant.OUTLINE}
+                                onClick={() => {
+                                    const uiUrl = import.meta.env.VITE_UI_URL || window.location.origin;
+                                    const url = `${uiUrl}/user/${user.userName}/source/${encodeURIComponent(source.title)}`;
+                                    navigator.clipboard.writeText(url);
+                                    alert('Public link copied to clipboard!');
+                                }}
+                            >
+                                Copy Public Link
+                            </Button>
+                        )}
                     </div>
                 )}
             </div>

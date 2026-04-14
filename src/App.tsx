@@ -7,6 +7,7 @@ import { SignInPage } from 'src/features/auth/pages/SignInPage';
 import { Home } from 'src/features/public-visit/pages/Home';
 import { PublicExerciseSetViewPage } from 'src/features/public-visit/pages/PublicExerciseSetViewPage';
 import { PublicProfilePage } from 'src/features/public-visit/pages/PublicProfilePage';
+import { PublicSourceViewPage } from 'src/features/public-visit/pages/PublicSourceViewPage';
 import { SignUpPage } from 'src/features/auth/pages/SignUpPage';
 import { VerifyEmailPage } from 'src/features/user/components/VerifyEmailPage';
 import { WorkspacePage } from 'src/features/workspace/pages/WorkspacePage';
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/verify-email" element={<VerifyEmailPage />} />
                 <Route path="/user/:userName" element={<PublicProfilePage />} />
                 <Route path="/user/:userName/exercise-set/:title" element={<PublicExerciseSetViewPage />} />
+                <Route path="/user/:userName/source/:title" element={<PublicSourceViewPage />} />
                 <Route
                     path="/workspace"
                     element={<ProtectedRoute element={<WorkspacePage />} />}

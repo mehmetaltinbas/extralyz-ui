@@ -1,12 +1,12 @@
-import { Dumbbell } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
+import type { Source } from 'src/features/source/types/source.interface';
 
-export function PublicExerciseSetCard({
-    exerciseSet,
+export function PublicSourceCard({
+    source,
     userName,
 }: {
-    exerciseSet: ExerciseSet;
+    source: Source;
     userName: string;
 }) {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export function PublicExerciseSetCard({
     return (
         <div
             onClick={() =>
-                navigate(`/user/${userName}/exercise-set/${encodeURIComponent(exerciseSet.title)}`)
+                navigate(`/user/${userName}/source/${encodeURIComponent(source.title)}`)
             }
             className="relative w-[180px] md:w-[250px] h-[120px] md:h-[150px] cursor-pointer rounded-[10px]
             flex-shrink-0 flex flex-col justify-start items-center gap-1
@@ -26,19 +26,14 @@ export function PublicExerciseSetCard({
                 flex justify-center items-center"
             >
                 <div className="flex-1 h-full flex justify-center items-center gap-1">
-                    <Dumbbell size={14} className="flex-shrink-0" />
-
+                    <FileText size={14} className="flex-shrink-0" />
                     <p className="max-w-[150px] px-2 font-serif font-semibold truncate text-sm md:text-base">
-                        {exerciseSet.title}
+                        {source.title}
                     </p>
                 </div>
             </div>
 
-            <p className='text-sm md:text-base'>{exerciseSet.type}</p>
-
-            <p className='text-sm md:text-base'>{exerciseSet.count}</p>
-
-            <p className='text-sm md:text-base'>{exerciseSet.difficulty}</p>
+            <p className="text-sm md:text-base">{source.type}</p>
         </div>
     );
 }

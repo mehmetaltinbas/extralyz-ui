@@ -1,3 +1,5 @@
+import { Globe, Lock } from 'lucide-react';
+import { SourceVisibility } from 'src/features/source/enums/source-visibility.enum';
 import { useSourcesPopups } from 'src/features/source/hooks/use-sources-popups.hook';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/section.enum';
@@ -31,6 +33,14 @@ export function SourceCard({
                 className="w-[150px] h-full px-2
                 flex flex-col justify-center items-center"
             >
+                <div className='absolute left-4 top-4'>
+                    {source.visibility === SourceVisibility.PUBLIC ? (
+                        <Globe size={14} className="flex-shrink-0" />
+                    ) : (
+                        <Lock size={14} className="flex-shrink-0" />
+                    )}
+                </div>
+
                 <p
                     className="max-w-[150px] font-serif font-semibold truncate"
                     title={source.title ? source.title : source._id}

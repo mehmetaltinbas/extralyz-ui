@@ -6,6 +6,7 @@ import { ExerciseSetsSectionStrategy } from 'src/features/workspace/strategies/s
 import { PublicExerciseSetPaperEvaluationSectionStrategy } from 'src/features/workspace/strategies/section/implementations/public-exercise-set-paper-evaluation-section.strategy';
 import { PublicExerciseSetPracticeSectionStrategy } from 'src/features/workspace/strategies/section/implementations/public-exercise-set-practice-section.strategy';
 import { PublicExerciseSetSectionStrategy } from 'src/features/workspace/strategies/section/implementations/public-exercise-set-section.strategy';
+import { PublicSourceSectionStrategy } from 'src/features/workspace/strategies/section/implementations/public-source-section.strategy';
 import { SourceSectionStrategy } from 'src/features/workspace/strategies/section/implementations/source-section.strategy';
 import { SourcesSectionStrategy } from 'src/features/workspace/strategies/section/implementations/sources-section.strategy';
 import type { SectionStrategy } from 'src/features/workspace/strategies/section/section-strategy.interface';
@@ -21,6 +22,7 @@ const map: Map<Section, SectionStrategy> = new Map<Section, SectionStrategy>([
     [Section.PUBLIC_EXERCISE_SET, new PublicExerciseSetSectionStrategy()],
     [Section.PUBLIC_EXERCISE_SET_PRACTICE, new PublicExerciseSetPracticeSectionStrategy()],
     [Section.PUBLIC_EXERCISE_SET_PAPER_EVALUATION, new PublicExerciseSetPaperEvaluationSectionStrategy()],
+    [Section.PUBLIC_SOURCE, new PublicSourceSectionStrategy()],
 ]);
 
 export const sectionStrategyFactory: StrategyFactory<Section, SectionStrategy> = {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
+import { SourceVisibility } from 'src/features/source/enums/source-visibility.enum';
 import { SourceService } from 'src/features/source/services/source.service';
 import { sourceTypeFactory } from 'src/features/source/strategies/type/source-type.factory';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
@@ -28,7 +29,10 @@ export function CreateSourceForm({
     updateSources: () => void;
 }) {
     const defaultStrategy = sourceTypeFactory.resolveStrategy(defaultType)!;
-    const [dto, setDto] = React.useState<CreateSourceDto>(defaultStrategy.buildInitialCreateSourceDto());
+    const [dto, setDto] = React.useState<CreateSourceDto>({
+        ...defaultStrategy.buildInitialCreateSourceDto(),
+        visibility: SourceVisibility.PRIVATE,
+    });
     const [uploadedFile, setUploadedFile] = React.useState<File>();
     const [fileInputKey, setFileInputKey] = React.useState(0);
     const isSubmittingRef = React.useRef(false);
@@ -37,7 +41,7 @@ export function CreateSourceForm({
 
     function resetForm() {
         setUploadedFile(undefined);
-        setDto(defaultStrategy.buildInitialCreateSourceDto());
+        setDto({ ...defaultStrategy.buildInitialCreateSourceDto(), visibility: SourceVisibility.PRIVATE });
         setFileInputKey((prev) => prev + 1);
     }
 
@@ -52,9 +56,10 @@ export function CreateSourceForm({
 
         if (!newStrategy) return;
 
+        const currentVisibility = dto.visibility;
         setUploadedFile(undefined);
         setFileInputKey((prev) => prev + 1);
-        setDto(newStrategy.buildInitialCreateSourceDto());
+        setDto({ ...newStrategy.buildInitialCreateSourceDto(), visibility: currentVisibility });
     }
 
     async function createSource() {
@@ -65,6 +70,7 @@ export function CreateSourceForm({
         setIsLoadingPageHidden(false);
 
         const formData = strategy.buildCreateSourceFormData(dto, uploadedFile);
+        if (dto.visibility) formData.append('visibility', dto.visibility);
         const response = await SourceService.create(formData);
 
         if (!response.isSuccess) {
@@ -86,6 +92,25 @@ export function CreateSourceForm({
         setIsLoadingPageHidden(true);
 
         setIsPopUpActive(false);
+    }
+
+    function onChangeForEnum(event: React.ChangeEvent<HTMLSelectElement>) {
+        const selectElement = event.currentTarget;
+
+        if (!Object.keys(dto).includes(selectElement.name)) {
+            return;
+        }
+
+        if (
+            !(Object.values(SourceVisibility) as string[]).includes(selectElement.value)
+        ) {
+            return;
+        }
+
+        setDto({
+            ...dto,
+            [selectElement.name]: selectElement.value,
+        });
     }
 
     return (
@@ -113,6 +138,19 @@ export function CreateSourceForm({
                     value={dto.title ?? ''}
                     placeholder="title..."
                 />
+            </div>
+
+            <div className="flex justify-center items-center gap-2">
+                <p>visibility: </p>
+                <select
+                    name='visibility'
+                    value={dto.visibility ?? SourceVisibility.PRIVATE}
+                    onChange={(e) => onChangeForEnum(e)}
+                    className="py-[2px] px-2 border rounded-[10px]"
+                >
+                    <option value={SourceVisibility.PRIVATE}>Private</option>
+                    <option value={SourceVisibility.PUBLIC}>Public</option>
+                </select>
             </div>
 
             {strategy?.renderCreateSourceFormFields(dto, setDto, {

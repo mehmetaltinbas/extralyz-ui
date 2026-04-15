@@ -1,4 +1,5 @@
 import { useExerciseSetPopups } from 'src/features/exercise-set/hooks/use-exercise-set-popups.hook';
+import { EXERCISE_CARD_STYLES } from 'src/features/exercise/constants/exercise-card-styles.constant';
 import { exerciseTypeFactory } from 'src/features/exercise/strategies/type/exercise-type.factory';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import ActionMenuTriggerer from 'src/shared/components/ActionMenuTriggerer';
@@ -17,7 +18,7 @@ export function ExerciseCard({
 
     return (
         <div
-            className={`relative w-[250px] md:w-[300px] aspect-square border rounded-[10px] px-8 py-8 text-sm md:text-base`}
+            className={`${EXERCISE_CARD_STYLES}`}
         >
             <div className="absolute top-1 right-1">
                 <ActionMenuTriggerer

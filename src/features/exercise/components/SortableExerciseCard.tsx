@@ -30,11 +30,11 @@ export function SortableExerciseCard({
     return (
         <div ref={setNodeRef} style={style} className="relative">
             <div
-                className="absolute top-1 left-1 z-10 cursor-grab active:cursor-grabbing text-text-muted hover:text-text-secondary"
+                className="absolute top-2 left-1 z-10 cursor-grab active:cursor-grabbing text-text-muted hover:text-text-secondary"
                 {...attributes}
                 {...listeners}
             >
-                <GripVertical size={20} />
+                <GripVertical size={22} />
             </div>
 
             <ExerciseCard exercise={exercise} isAnswersHidden={isAnswersHidden} />

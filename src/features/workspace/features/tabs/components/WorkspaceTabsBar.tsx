@@ -1,5 +1,8 @@
 import React from 'react';
+import { DndContext, type DragEndEvent, TouchSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import { Tab } from 'src/features/workspace/features/tabs/components/Tab';
+import { TOUCH_SENSOR_ACTIVATION } from 'src/features/workspace/features/tabs/constants/touch-sensor-activation.constant';
 import { TabDropSide } from 'src/features/workspace/features/tabs/enums/tab-drop-side.enum';
 import {
     tabsActions,
@@ -8,15 +11,34 @@ import {
 import { computeDropIndex } from 'src/features/workspace/features/tabs/store/utils/compute-drop-index.util';
 import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import type { OnDragOverTab } from 'src/features/workspace/features/tabs/types/on-drag-over-tab.interface';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function WorkspaceTabsBar() {
     const dispatch = useAppDispatch();
     const tabs = useAppSelector((state) => state.tabs);
+    const { isMobile } = useBreakpoint();
 
     const containerRef = React.useRef<HTMLDivElement>(null);
     const [onDragOverTab, setOnDragOverTab] = React.useState<OnDragOverTab | null>(null);
     const [dragSourceIndex, setDragSourceIndex] = React.useState<number | null>(null);
+
+    const sensors = useSensors(
+        useSensor(TouchSensor, { activationConstraint: TOUCH_SENSOR_ACTIVATION })
+    );
+
+    const tabIds = tabs.elements.map((tab) => computeTabKey(tab));
+
+    function handleDragEnd(event: DragEndEvent) {
+        const { active, over } = event;
+        if (!over || active.id === over.id) return;
+
+        const oldIndex = tabIds.indexOf(String(active.id));
+        const newIndex = tabIds.indexOf(String(over.id));
+        if (oldIndex === -1 || newIndex === -1) return;
+
+        dispatch(tabsActions.moveTab({ fromIndex: oldIndex, toIndex: newIndex }));
+    }
 
     React.useEffect(() => {
         if (!containerRef.current || tabs.activeTabIndex < 0) return;
@@ -125,20 +147,36 @@ export function WorkspaceTabsBar() {
         }
     }
 
-    return (
+    const tabList = (
         <div
             ref={containerRef}
-            onDragOver={(event) => onDragOver(event)}
-            onDragLeave={(event) => onDragLeave(event)}
-            onDragEnd={onDragEnd}
-            onDrop={(event) => onDrop(event)}
+            onDragOver={!isMobile ? (event) => onDragOver(event) : undefined}
+            onDragLeave={!isMobile ? (event) => onDragLeave(event) : undefined}
+            onDragEnd={!isMobile ? onDragEnd : undefined}
+            onDrop={!isMobile ? (event) => onDrop(event) : undefined}
             className={`w-full h-[40px] bg-surface-alt z-10
             flex justify-start items-center
-            border-1 border-surface overflow-x-auto touch-pan-x`}
+            border-1 border-surface overflow-x-auto ${!isMobile ? 'touch-pan-x' : ''}`}
         >
             {tabs.elements.map((tab, index) => (
                 <Tab key={computeTabKey(tab)} tab={tab} index={index} onDragOverTab={onDragOverTab} dragSourceIndex={dragSourceIndex} setDragSourceIndex={setDragSourceIndex} />
             ))}
         </div>
     );
+
+    if (isMobile) {
+        return (
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <SortableContext items={tabIds} strategy={horizontalListSortingStrategy}>
+                    {tabList}
+                </SortableContext>
+            </DndContext>
+        );
+    }
+
+    return tabList;
 }

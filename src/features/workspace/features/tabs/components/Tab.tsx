@@ -1,8 +1,11 @@
 import type React from 'react';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
     tabsActions,
     type TabsStateElement,
 } from 'src/features/workspace/features/tabs/store/tabs.slice';
+import { computeTabKey } from 'src/features/workspace/features/tabs/store/utils/compute-tab-key.util';
 import { computeTabTitle } from 'src/features/workspace/features/tabs/store/utils/compute-tab-title.util';
 import type { OnDragOverTab } from 'src/features/workspace/features/tabs/types/on-drag-over-tab.interface';
 import { Button } from 'src/shared/components/Button';
@@ -28,6 +31,15 @@ export function Tab({
     const activeTabIndex = useAppSelector((state) => state.tabs.activeTabIndex);
     const { isMobile } = useBreakpoint();
 
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+        isDragging,
+    } = useSortable({ id: computeTabKey(tab), disabled: !isMobile });
+
     const displayTitle = computeTabTitle(tab);
 
     function onDragStart(event: React.DragEvent<HTMLDivElement>) {
@@ -48,10 +60,17 @@ export function Tab({
         dispatch(tabsActions.closeTab(index));
     }
 
+    const sortableStyle: React.CSSProperties = isMobile
+        ? { transform: CSS.Translate.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }
+        : {};
+
     return (
         <div
+            ref={isMobile ? setNodeRef : undefined}
+            style={sortableStyle}
+            {...(isMobile ? { ...attributes, ...listeners } : {})}
             draggable={!isMobile}
-            onDragStart={(event) => onDragStart(event)}
+            onDragStart={!isMobile ? (event) => onDragStart(event) : undefined}
             data-tab-element={JSON.stringify({ arrayIndex: index })}
             onClick={displayTab}
             className={`max-w-[120px] md:max-w-[200px] h-full ${index === activeTabIndex && 'bg-surface'} ${onDragOverTab?.index === index && index !== dragSourceIndex && (onDragOverTab.side === 'left' ? 'border-l border-l-border-strong' : 'border-r border-r-border-strong')} cursor-pointer p-2

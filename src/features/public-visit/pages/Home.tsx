@@ -31,7 +31,7 @@ export function Home() {
             {/* Hero Section */}
             <section className="w-full flex flex-col justify-center items-center px-4 sm:px-8 py-20">
                 <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
-                    <h1 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight md:hidden">Extralyz</h1>
+                    <h1 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight md:hidden">{APP_NAME}</h1>
                     <h2 className="text-2xl md:text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
                         Turn Your Sources Into
                         <br />

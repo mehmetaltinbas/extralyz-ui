@@ -2,32 +2,32 @@
 
 ## Overview
 
-Extralyz uses CSS custom properties (variables) combined with Tailwind CSS v4's `@theme` directive and a `.dark` class on `<html>` to implement dark mode. The theme is toggled via a Redux slice and persisted to `localStorage`.
+App uses CSS custom properties (variables) combined with Tailwind CSS v4's `@theme` directive and a `.dark` class on `<html>` to implement dark mode. The theme is toggled via a Redux slice and persisted to `localStorage`.
 
 ## Token table
 
-| Token                         | Light value | Dark value  | Purpose                        |
-| ----------------------------- | ----------- | ----------- | ------------------------------ |
-| `--color-surface`             | `#FFFFFF`   | `#111111`   | Main background                |
-| `--color-surface-alt`         | `#F5F5F5`   | `#1A1A1A`   | Alternate/secondary background |
-| `--color-surface-hover`       | `#E5E5E5`   | `#2A2A2A`   | Hover state background         |
-| `--color-surface-muted`       | `#F0F0F0`   | `#222222`   | Muted/subtle background        |
-| `--color-border`              | `#D1D5DB`   | `#333333`   | Default border                 |
-| `--color-border-strong`       | `#000000`   | `#FFFFFF`   | High-contrast border           |
-| `--color-text-primary`        | `#000000`   | `#F5F5F5`   | Primary text                   |
-| `--color-text-secondary`      | `#4B5563`   | `#A0A0A0`   | Secondary text                 |
-| `--color-text-muted`          | `#9CA3AF`   | `#666666`   | Muted/disabled text            |
-| `--color-text-inverted`       | `#FFFFFF`   | `#000000`   | Inverted text (on accent bg)   |
-| `--color-text-correct`        | `#14532D`   | `#6EE7B7`   | Correct-answer green text      |
-| `--color-accent`              | `#9B1B30`   | `#9B1B30`   | Brand accent (claret)          |
-| `--color-accent-hover`        | `#FFFFFF`   | `#1A1A1A`   | Accent hover background        |
-| `--color-btn-primary-bg`      | `#000000`   | `#FFFFFF`   | Primary button background      |
-| `--color-btn-primary-text`    | `#FFFFFF`   | `#000000`   | Primary button text            |
-| `--color-btn-primary-hover-bg`   | `#FFFFFF` | `#111111` | Primary button hover bg        |
-| `--color-btn-primary-hover-text` | `#000000` | `#FFFFFF` | Primary button hover text      |
-| `--color-scrollbar-track`     | `#F5F5F5`   | `#1A1A1A`   | Scrollbar track                |
-| `--color-scrollbar-thumb`     | `#CCCCCC`   | `#444444`   | Scrollbar thumb                |
-| `--color-scrollbar-thumb-hover` | `#999999` | `#666666`   | Scrollbar thumb hover          |
+| Token                            | Light value | Dark value | Purpose                        |
+| -------------------------------- | ----------- | ---------- | ------------------------------ |
+| `--color-surface`                | `#FFFFFF`   | `#111111`  | Main background                |
+| `--color-surface-alt`            | `#F5F5F5`   | `#1A1A1A`  | Alternate/secondary background |
+| `--color-surface-hover`          | `#E5E5E5`   | `#2A2A2A`  | Hover state background         |
+| `--color-surface-muted`          | `#F0F0F0`   | `#222222`  | Muted/subtle background        |
+| `--color-border`                 | `#D1D5DB`   | `#333333`  | Default border                 |
+| `--color-border-strong`          | `#000000`   | `#FFFFFF`  | High-contrast border           |
+| `--color-text-primary`           | `#000000`   | `#F5F5F5`  | Primary text                   |
+| `--color-text-secondary`         | `#4B5563`   | `#A0A0A0`  | Secondary text                 |
+| `--color-text-muted`             | `#9CA3AF`   | `#666666`  | Muted/disabled text            |
+| `--color-text-inverted`          | `#FFFFFF`   | `#000000`  | Inverted text (on accent bg)   |
+| `--color-text-correct`           | `#14532D`   | `#6EE7B7`  | Correct-answer green text      |
+| `--color-accent`                 | `#9B1B30`   | `#9B1B30`  | Brand accent (claret)          |
+| `--color-accent-hover`           | `#FFFFFF`   | `#1A1A1A`  | Accent hover background        |
+| `--color-btn-primary-bg`         | `#000000`   | `#FFFFFF`  | Primary button background      |
+| `--color-btn-primary-text`       | `#FFFFFF`   | `#000000`  | Primary button text            |
+| `--color-btn-primary-hover-bg`   | `#FFFFFF`   | `#111111`  | Primary button hover bg        |
+| `--color-btn-primary-hover-text` | `#000000`   | `#FFFFFF`  | Primary button hover text      |
+| `--color-scrollbar-track`        | `#F5F5F5`   | `#1A1A1A`  | Scrollbar track                |
+| `--color-scrollbar-thumb`        | `#CCCCCC`   | `#444444`  | Scrollbar thumb                |
+| `--color-scrollbar-thumb-hover`  | `#999999`   | `#666666`  | Scrollbar thumb hover          |
 
 ## How the toggle works
 
@@ -40,7 +40,7 @@ Extralyz uses CSS custom properties (variables) combined with Tailwind CSS v4's 
 An inline `<script>` in the `<body>` of `index.html` runs **before** React mounts:
 
 ```js
-(function() {
+(function () {
     var theme = localStorage.getItem('theme');
     if (theme === 'dark') document.documentElement.classList.add('dark');
 })();

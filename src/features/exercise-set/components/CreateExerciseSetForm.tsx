@@ -49,12 +49,14 @@ export function CreateExerciseSetForm({
     };
 
     const [dto, setDto] = React.useState<CreateExerciseSetDto>(initialDto);
+    const [countStr, setCountStr] = React.useState(String(initialDto.count));
     const [selectedContextId, setSelectedContextId] = React.useState<string>(sourceId ?? '');
 
     const isSubmittingRef = React.useRef(false);
 
     function resetForm() {
         setDto(initialDto);
+        setCountStr(String(initialDto.count));
         setSelectedContextId(sourceId ?? '');
     }
 
@@ -150,13 +152,14 @@ export function CreateExerciseSetForm({
                             <Input
                                 name="count"
                                 type={InputType.NUMBER}
-                                value={dto.count}
-                                onChange={(e) =>
+                                value={countStr}
+                                onChange={(e) => {
+                                    setCountStr(e.target.value);
                                     setDto({
                                         ...dto,
-                                        count: Number(e.target.value),
-                                    })
-                                }
+                                        count: e.target.value === '' ? 0 : Number(e.target.value),
+                                    });
+                                }}
                             />
                         </div>
 

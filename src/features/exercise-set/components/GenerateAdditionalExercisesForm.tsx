@@ -8,6 +8,8 @@ import { Button } from 'src/shared/components/Button';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
+import { Input } from 'src/shared/components/Input';
+import { InputType } from 'src/shared/enums/input-type.enum';
 
 export function GenerateAdditionalExercisesForm({
     isHidden,
@@ -32,12 +34,14 @@ export function GenerateAdditionalExercisesForm({
         count: 5,
     };
     const [dto, setDto] = React.useState<GenerateAdditionalExercisesDto>(initialDto);
+    const [countStr, setCountStr] = React.useState(String(initialDto.count));
 
     const isSubmittingRef = React.useRef(false);
 
     React.useEffect(() => {
         if (isHidden && !isSubmittingRef.current) {
             setDto(initialDto);
+            setCountStr(String(initialDto.count));
         }
     }, [isHidden]);
 
@@ -102,12 +106,13 @@ export function GenerateAdditionalExercisesForm({
 
             <div className="flex justify-start items-center gap-2">
                 <p>count: </p>
-                <input
-                    type="number"
-                    min={1}
-                    value={dto.count}
-                    onChange={(e) => setDto({ ...dto, count: Number(e.currentTarget.value) })}
-                    className="py-[2px] px-2 border rounded-[10px] w-20"
+                <Input
+                    type={InputType.NUMBER}
+                    value={countStr}
+                    onChange={(e) => {
+                        setCountStr(e.currentTarget.value);
+                        setDto({ ...dto, count: e.currentTarget.value === '' ? 0 : Number(e.currentTarget.value) });
+                    }}
                 />
             </div>
 

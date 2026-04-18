@@ -31,7 +31,6 @@ export class AuthService {
                 await axiosInstance.post(`${baseUrl}/sign-in`, dto)
             ).data;
 
-            console.log("signInResponse: ", signInResponse);
             return signInResponse;
         } catch (error) {
             return handleServiceError(error);

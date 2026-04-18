@@ -33,15 +33,13 @@ export function Home() {
                 <div className="max-w-4xl mx-auto text-center flex flex-col items-center gap-6">
                     <h1 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight md:hidden">{APP_NAME}</h1>
                     <h2 className="text-2xl md:text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
-                        Turn Your Sources Into
+                        Create Practice Exercises
                         <br />
-                        Practice Exercises
+                        From Anything
                     </h2>
 
                     <p className="text-xl text-text-secondary max-w-2xl">
-                        Stop passive reading. Start active mastering.
-                        Convert your notes, audio recordings, and youtube videos into interactive practice exercises in seconds.
-                        Master any subject faster with AI-powered automated grading and instant feedback.
+                        Convert your notes, audio, and videos into interactive practice, or build custom exercise sets from scratch. Master any subject faster with AI-powered automated grading for open-ended exercises.
                     </p>
 
                     <div className="flex items-center gap-4 mt-4">

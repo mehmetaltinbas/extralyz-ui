@@ -34,7 +34,8 @@ export function SidebarNavSection({
 
     function handleItemClick(tabData: Parameters<typeof tabsActions.openTab>[0]) {
         dispatch(tabsActions.openTab(tabData));
-        if (sidebarMode === "sidebar") {
+
+        if (sidebarMode === "drawer") {
             dispatch(sidebarActions.close());
         }
     }

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
 import { FEATURES } from 'src/features/public-visit/constants/features.constant';
+import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { Button } from 'src/shared/components/Button';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
@@ -24,6 +25,7 @@ export function Home() {
     }
 
     return (
+        <UserPopupsProvider>
         <div className="w-full min-h-screen flex flex-col">
             {/* Navigation Header */}
             <PublicPageHeader />
@@ -111,5 +113,6 @@ export function Home() {
                 </div>
             </footer>
         </div>
+        </UserPopupsProvider>
     );
 }

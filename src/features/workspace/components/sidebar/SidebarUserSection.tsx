@@ -12,6 +12,8 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
     const profileButtonRef = React.useRef<HTMLDivElement>(null);
     const actionMenuRef = React.useRef<HTMLDivElement>(null);
 
+    const isVertical = layout === 'vertical';
+
     function toggleActionMenu(event: React.MouseEvent) {
         event.stopPropagation();
 
@@ -34,8 +36,6 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
             setIsActionMenuHidden(false);
         }
     }
-
-    const isVertical = layout === 'vertical';
 
     return (
         <div className={`w-full flex flex-col ${isVertical ? 'items-center' : 'items-start'} gap-3`}>

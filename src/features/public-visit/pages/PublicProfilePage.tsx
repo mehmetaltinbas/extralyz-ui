@@ -7,6 +7,7 @@ import type { Source } from 'src/features/source/types/source.interface';
 import { PublicExerciseSetCard } from 'src/features/public-visit/components/PublicExerciseSetCard';
 import { PublicSourceCard } from 'src/features/public-visit/components/PublicSourceCard';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { UserService } from 'src/features/user/services/user.service';
 
 export function PublicProfilePage() {
@@ -46,6 +47,7 @@ export function PublicProfilePage() {
     }, [userName]);
 
     return (
+        <UserPopupsProvider>
         <div className="w-full min-h-screen flex flex-col justify-start items-center">
             <PublicPageHeader />
 
@@ -104,5 +106,6 @@ export function PublicProfilePage() {
                 )}
             </main>
         </div>
+        </UserPopupsProvider>
     );
 }

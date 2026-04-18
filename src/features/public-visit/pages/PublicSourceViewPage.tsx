@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PublicSourceService } from 'src/features/source/services/public-source.service';
 import type { Source } from 'src/features/source/types/source.interface';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { PublicSourceViewPageContent } from 'src/features/public-visit/pages/PublicSourceViewPageContent';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
@@ -36,6 +37,7 @@ export function PublicSourceViewPage() {
     }, [userName, decodedTitle]);
 
     return (
+        <UserPopupsProvider>
         <div className="w-full min-h-screen flex flex-col justify-start items-center">
             <PublicPageHeader />
 
@@ -48,5 +50,6 @@ export function PublicSourceViewPage() {
                 <LoadingPage />
             )}
         </div>
+        </UserPopupsProvider>
     );
 }

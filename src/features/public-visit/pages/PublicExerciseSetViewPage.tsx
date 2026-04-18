@@ -6,6 +6,7 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { PublicExerciseService } from 'src/features/exercise/services/public-exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { PublicExerciseSetViewPageContent } from 'src/features/public-visit/pages/PublicExerciseSetViewPageContent';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
@@ -48,6 +49,7 @@ export function PublicExerciseSetViewPage() {
     }, [userName, decodedTitle]);
 
     return (
+        <UserPopupsProvider>
         <div className={`w-full h-full`}>
                 <div
                     ref={containerRef}
@@ -74,5 +76,6 @@ export function PublicExerciseSetViewPage() {
                     </div>
                 </div>
         </div>
+        </UserPopupsProvider>
     );
 }

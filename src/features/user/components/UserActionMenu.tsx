@@ -5,6 +5,7 @@ import { ActionMenu } from 'src/shared/components/ActionMenu';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
+import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { useAppSelector } from 'src/store/hooks';
 
 export function UserActionMenu({
@@ -19,10 +20,14 @@ export function UserActionMenu({
     const { openUpdateUserForm, openUpdatePasswordForm } = useUserPopups();
     const user = useAppSelector((state) => state.user);
 
+    const { setIsAuthenticated } = useAuth();
+
     async function handleSignOut(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         event.stopPropagation();
 
         await AuthService.signOut();
+
+        setIsAuthenticated(false);
 
         window.location.href = '/';
     }

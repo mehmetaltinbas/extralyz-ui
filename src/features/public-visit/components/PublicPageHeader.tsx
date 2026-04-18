@@ -1,10 +1,11 @@
-import { ArrowLeft, LoaderCircle, Search } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthService } from 'src/features/auth/services/auth.service';
+import { AuthButtons } from 'src/features/public-visit/components/AuthButtons';
 import { UserSearchBar } from 'src/features/user/components/UserSearchBar';
 import { Button } from 'src/shared/components/Button';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
+import { SendFeedbackButton } from 'src/shared/components/SendFeedbackButton';
 import { APP_NAME } from 'src/shared/constants/app-name.constant';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAuth } from 'src/shared/hooks/use-auth.hook';
@@ -12,49 +13,11 @@ import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 
 export function PublicPageHeader() {
     const navigate = useNavigate();
-    const { isAuthenticated, setIsAuthenticated, isAuthLoading} = useAuth();
 
-    const { isDesktop, isMobile } = useBreakpoint();
+    const { isMobile } = useBreakpoint();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-    async function handleSignOut() {
-        await AuthService.signOut();
-        setIsAuthenticated(false);
-    }
-
-    const authButtons = isAuthLoading ? 
-        <LoaderCircle className="size-5 text-text-secondary animate-spin" />
-        : 
-        isAuthenticated ? (
-        <div className="flex items-center gap-2">
-            <Button
-                variant={ButtonVariant.PRIMARY}
-                onClick={() => navigate('/workspace')}
-            >
-                {isDesktop ? 'Continue to Workspace' : 'Workspace'}
-            </Button>
-
-            <Button variant={ButtonVariant.DANGER} onClick={handleSignOut}>
-                Sign Out
-            </Button>
-        </div>
-    ) : (
-        <div className="flex items-center gap-2">
-            <Button
-                variant={ButtonVariant.SECONDARY}
-                onClick={() => navigate('/sign-in')}
-            >
-                Sign In
-            </Button>
-
-            <Button
-                variant={ButtonVariant.PRIMARY}
-                onClick={() => navigate('/sign-up')}
-            >
-                Get Started
-            </Button>
-        </div>
-    );
+    const { isAuthenticated } = useAuth();
 
     return (
         <header className="sticky top-0 z-50 w-full bg-surface border-b border-border">
@@ -91,9 +54,11 @@ export function PublicPageHeader() {
                                 >
                                     <Search size={20} />
                                 </Button>
+
+                                {isAuthenticated && <SendFeedbackButton />}
                             </div>
 
-                            {authButtons}
+                            <AuthButtons />
                         </>
                     )
                 ) : (
@@ -111,7 +76,7 @@ export function PublicPageHeader() {
 
                         <UserSearchBar />
 
-                        {authButtons}
+                        <AuthButtons />
                     </>
                 )}
             </div>

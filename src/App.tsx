@@ -9,6 +9,7 @@ import { PublicExerciseSetViewPage } from 'src/features/public-visit/pages/Publi
 import { PublicProfilePage } from 'src/features/public-visit/pages/PublicProfilePage';
 import { PublicSourceViewPage } from 'src/features/public-visit/pages/PublicSourceViewPage';
 import { SignUpPage } from 'src/features/auth/pages/SignUpPage';
+import { AuthProvider } from 'src/shared/components/AuthProvider';
 import { VerifyEmailPage } from 'src/features/user/components/VerifyEmailPage';
 import { WorkspacePage } from 'src/features/workspace/pages/WorkspacePage';
 import { ProtectedRoute } from 'src/ProtectedRoute';
@@ -16,6 +17,7 @@ import { ProtectedRoute } from 'src/ProtectedRoute';
 function App() {
     return (
         <BrowserRouter>
+            <AuthProvider>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignInPage />} />
@@ -31,6 +33,7 @@ function App() {
                     element={<ProtectedRoute element={<WorkspacePage />} />}
                 />
             </Routes>
+            </AuthProvider>
         </BrowserRouter>
     );
 }

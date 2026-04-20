@@ -1,9 +1,11 @@
+import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
 import type { UpdateSourceDto } from 'src/features/source/types/dto/update-source.dto';
 import type { CreateSourceResponse } from 'src/features/source/types/response/create-source.response';
 import type { GetSourcePdfResponse } from 'src/features/source/types/response/get-source-pdf.response';
 import type { ReadAllSourcesResponse } from 'src/features/source/types/response/read-all-sources.response';
 import type { ReadSingleSourceResponse } from 'src/features/source/types/response/read-single-source.response';
 import { axiosInstance } from 'src/shared/api/axios-instance';
+import type { EstimateResponse } from 'src/shared/types/estimate.response';
 import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
@@ -66,6 +68,18 @@ export class SourceService {
         try {
             const response = (
                 await axiosInstance.get(`${baseUrl}/get-pdf/${id}`)
+            ).data;
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async estimate(dto: CreateSourceDto): Promise<EstimateResponse> {
+        try {
+            const response = (
+                await axiosInstance.post(`${baseUrl}/estimate`, dto)
             ).data;
 
             return response;

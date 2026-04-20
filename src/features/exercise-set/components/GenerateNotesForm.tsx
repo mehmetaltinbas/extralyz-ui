@@ -51,9 +51,23 @@ export function GenerateNotesForm({
     React.useEffect(() => {
         if (!isHidden && !isGenerated && !hasTriggeredGenerate.current) {
             hasTriggeredGenerate.current = true;
-            generate();
+            generateWithEstimate();
         }
     }, [isHidden]);
+
+    async function generateWithEstimate() {
+        const estimate = await ExerciseSetService.estimateGenerateNotes(exerciseSet._id);
+
+        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
+            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
+            if (!confirmed) {
+                onClose();
+                return;
+            }
+        }
+
+        await generate();
+    }
 
     async function generate() {
         isSubmittingRef.current = true;

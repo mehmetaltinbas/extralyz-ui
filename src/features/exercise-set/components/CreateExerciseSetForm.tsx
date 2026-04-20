@@ -6,6 +6,7 @@ import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
+import { userActions } from 'src/features/user/store/user.slice';
 import { Button } from 'src/shared/components/Button';
 import { InformationText } from 'src/shared/components/InformationText';
 import { Input } from 'src/shared/components/Input';
@@ -87,13 +88,22 @@ export function CreateExerciseSetForm({
     }
 
     async function createExerciseSet() {
+        const resolvedContextId = dto.contextType === ExerciseSetContextType.INDEPENDENT
+            ? undefined
+            : selectedContextId;
+
+        if (resolvedContextId) {
+            const estimate = await ExerciseSetService.estimateCreate(resolvedContextId, dto);
+
+            if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
+                const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
+                if (!confirmed) return;
+            }
+        }
+
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
-
-        const resolvedContextId = dto.contextType === ExerciseSetContextType.INDEPENDENT 
-            ? undefined 
-            : selectedContextId;
 
         const response = await ExerciseSetService.create(resolvedContextId, dto);
 
@@ -109,6 +119,7 @@ export function CreateExerciseSetForm({
         isSubmittingRef.current = false;
         resetForm();
         dispatch(refreshExerciseSetsData());
+        dispatch(userActions.fetchData());
         setIsPopUpActive(false);
     }
 

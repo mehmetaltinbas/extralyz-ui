@@ -51,6 +51,16 @@ export function ExerciseSetPaperEvaluationPage({
     async function handleSubmit() {
         if (!exerciseSet || files.length === 0) return;
 
+        const estimate = await ExerciseSetService.estimateEvaluatePaperAnswers(
+            exerciseSet._id,
+            { imageCount: files.length }
+        );
+
+        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
+            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
+            if (!confirmed) return;
+        }
+
         setIsSubmitting(true);
 
         const response = await ExerciseSetService.evaluatePaperAnswers(

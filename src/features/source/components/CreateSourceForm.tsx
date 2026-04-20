@@ -65,6 +65,13 @@ export function CreateSourceForm({
     async function createSource() {
         if (!strategy) return;
 
+        const estimate = await SourceService.estimate(dto);
+
+        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
+            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
+            if (!confirmed) return;
+        }
+
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);

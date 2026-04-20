@@ -46,6 +46,13 @@ export function GenerateAdditionalExercisesForm({
     }, [isHidden]);
 
     async function generate() {
+        const estimate = await ExerciseSetService.estimateAdditional(exerciseSet._id, dto);
+
+        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
+            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
+            if (!confirmed) return;
+        }
+
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);

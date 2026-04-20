@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSubscriptionPopups } from 'src/features/subscription/hooks/use-subscription-popups.hook';
 import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { SendFeedbackButton } from 'src/shared/components/SendFeedbackButton';
@@ -6,6 +7,8 @@ import { useAppSelector } from 'src/store/hooks';
 
 export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizontal' }) {
     const user = useAppSelector((state) => state.user);
+    const subscription = useAppSelector((state) => state.subscription);
+    const { openPlanComparison } = useSubscriptionPopups();
 
     const [isActionMenuHidden, setIsActionMenuHidden] = React.useState(true);
 
@@ -63,6 +66,24 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
                         <span className="text-sm text-text-secondary">
                             {user.creditBalance}
                         </span>
+
+                        {subscription.subscription?.plan && (
+                            <span
+                                className="text-xs text-accent cursor-pointer capitalize hover:underline"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    openPlanComparison();
+                                }}
+                            >
+                                {subscription.subscription.plan.name}
+                            </span>
+                        )}
+
+                        {subscription.pendingSubscription?.plan && (
+                            <span className="text-xs text-text-secondary">
+                                → {subscription.pendingSubscription.plan.name}
+                            </span>
+                        )}
                     </>
                 )}
             </div>

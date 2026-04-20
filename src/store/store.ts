@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { exerciseSetsReducer } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { exerciseSetGroupsReducer } from 'src/features/exercise-set-group/store/exercise-set-groups.slice';
 import { sourcesReducer } from 'src/features/source/store/sources.slice';
+import { fetchSubscriptionData } from 'src/features/subscription/store/fetch-subscription-data.thunk';
+import { subscriptionReducer } from 'src/features/subscription/store/subscription.slice';
 import { fetchUserData } from 'src/features/user/store/fetch-user-data.thunk';
 import { userReducer } from 'src/features/user/store/user.slice';
 import { tabsReducer } from 'src/features/workspace/features/tabs/store/tabs.slice';
@@ -18,6 +20,7 @@ export const store = configureStore({
         exerciseSets: exerciseSetsReducer,
         exerciseSetGroups: exerciseSetGroupsReducer,
         user: userReducer,
+        subscription: subscriptionReducer,
         theme: themeReducer,
     },
 });
@@ -66,5 +69,6 @@ export type AppDispatch = typeof store.dispatch;
 export type AppStore = typeof store;
 
 store.dispatch(fetchUserData());
+store.dispatch(fetchSubscriptionData());
 
 export default store;

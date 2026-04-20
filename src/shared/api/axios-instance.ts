@@ -29,8 +29,7 @@ instance.interceptors.response.use(
                 window.location.href = '/';
             }
         } else if (error.status === 403) {
-            // 403: forbidden
-            alert('forbidden');
+            // TODO: handle via shared error-code contract from backend
         }
 
         return Promise.reject(error);

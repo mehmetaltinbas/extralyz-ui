@@ -1,6 +1,6 @@
 import type React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthService } from 'src/features/auth/services/auth.service';
-import { useUserPopups } from 'src/features/user/hooks/use-user-popups.hook';
 import { ActionMenu } from 'src/shared/components/ActionMenu';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';
@@ -17,8 +17,8 @@ export function UserActionMenu({
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     ref: React.RefObject<HTMLDivElement | null>;
 }) {
-    const { openUpdateUserForm, openUpdatePasswordForm } = useUserPopups();
     const user = useAppSelector((state) => state.user);
+    const navigate = useNavigate();
 
     const { setIsAuthenticated } = useAuth();
 
@@ -49,22 +49,11 @@ export function UserActionMenu({
                 size={ButtonSize.SM}
                 onClick={(event) => {
                     event.stopPropagation();
-                    openUpdateUserForm();
+                    navigate('/settings');
                     setIsHidden(true);
                 }}
             >
-                Update Profile Info
-            </Button>
-
-            <Button
-                size={ButtonSize.SM}
-                onClick={(event) => {
-                    event.stopPropagation();
-                    openUpdatePasswordForm();
-                    setIsHidden(true);
-                }}
-            >
-                Change Password
+                Settings
             </Button>
 
             <Button

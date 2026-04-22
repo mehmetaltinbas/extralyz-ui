@@ -1,8 +1,6 @@
 import React from 'react';
 
 interface UserPopupsContextValue {
-    openUpdateUserForm: () => void;
-    openUpdatePasswordForm: () => void;
     openSendFeedbackForm: () => void;
 }
 

@@ -1,24 +1,28 @@
-import './App.css';
-// import './socket/socket';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import 'src/App.css';
 import { ForgotPasswordPage } from 'src/features/auth/pages/ForgotPasswordPage';
 import { ResetPasswordPage } from 'src/features/auth/pages/ResetPasswordPage';
 import { SignInPage } from 'src/features/auth/pages/SignInPage';
+import { SignUpPage } from 'src/features/auth/pages/SignUpPage';
 import { Home } from 'src/features/public-visit/pages/Home';
 import { PublicExerciseSetViewPage } from 'src/features/public-visit/pages/PublicExerciseSetViewPage';
 import { PublicProfilePage } from 'src/features/public-visit/pages/PublicProfilePage';
 import { PublicSourceViewPage } from 'src/features/public-visit/pages/PublicSourceViewPage';
-import { SignUpPage } from 'src/features/auth/pages/SignUpPage';
-import { AuthProvider } from 'src/shared/components/AuthProvider';
+import { BillingSettingsPage } from 'src/features/settings/pages/BillingSettingsPage';
+import { PasswordSettingsPage } from 'src/features/settings/pages/PasswordSettingsPage';
+import { ProfileSettingsPage } from 'src/features/settings/pages/ProfileSettingsPage';
+import { SettingsLayout } from 'src/features/settings/pages/SettingsLayout';
 import { VerifyEmailPage } from 'src/features/user/components/VerifyEmailPage';
 import { WorkspacePage } from 'src/features/workspace/pages/WorkspacePage';
 import { ProtectedRoute } from 'src/ProtectedRoute';
+import { AuthProvider } from 'src/shared/components/AuthProvider';
 
 function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
             <Routes>
+                {/* public routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/sign-in" element={<SignInPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
@@ -28,10 +32,21 @@ function App() {
                 <Route path="/user/:userName" element={<PublicProfilePage />} />
                 <Route path="/user/:userName/exercise-set/:title" element={<PublicExerciseSetViewPage />} />
                 <Route path="/user/:userName/source/:title" element={<PublicSourceViewPage />} />
+
+                {/* protected routes */}
                 <Route
                     path="/workspace"
                     element={<ProtectedRoute element={<WorkspacePage />} />}
                 />
+                <Route
+                    path="/settings"
+                    element={<ProtectedRoute element={<SettingsLayout />} />}
+                >
+                    <Route index element={<Navigate to="profile" replace />} />
+                    <Route path="profile" element={<ProfileSettingsPage />} />
+                    <Route path="password" element={<PasswordSettingsPage />} />
+                    <Route path="billing" element={<BillingSettingsPage />} />
+                </Route>
             </Routes>
             </AuthProvider>
         </BrowserRouter>

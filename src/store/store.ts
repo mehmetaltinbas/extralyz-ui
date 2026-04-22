@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { exerciseSetsReducer } from 'src/features/exercise-set/store/exercise-sets.slice';
 import { exerciseSetGroupsReducer } from 'src/features/exercise-set-group/store/exercise-set-groups.slice';
+import { fetchPaymentMethodsData } from 'src/features/payment-method/store/fetch-payment-methods-data.thunk';
+import { paymentMethodReducer } from 'src/features/payment-method/store/payment-method.slice';
 import { sourcesReducer } from 'src/features/source/store/sources.slice';
 import { fetchSubscriptionData } from 'src/features/subscription/store/fetch-subscription-data.thunk';
 import { subscriptionReducer } from 'src/features/subscription/store/subscription.slice';
@@ -21,6 +23,7 @@ export const store = configureStore({
         exerciseSetGroups: exerciseSetGroupsReducer,
         user: userReducer,
         subscription: subscriptionReducer,
+        paymentMethod: paymentMethodReducer,
         theme: themeReducer,
     },
 });
@@ -70,5 +73,6 @@ export type AppStore = typeof store;
 
 store.dispatch(fetchUserData());
 store.dispatch(fetchSubscriptionData());
+store.dispatch(fetchPaymentMethodsData());
 
 export default store;

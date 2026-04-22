@@ -2,15 +2,8 @@ import React from 'react';
 import { PaymentMethodService } from 'src/features/payment-method/services/payment-method.service';
 import { paymentMethodActions } from 'src/features/payment-method/store/payment-method.slice';
 import { paymentProviderFactory } from 'src/features/payment-method/strategies/provider/payment-provider.factory';
-import { PaymentProviderName } from 'src/features/subscription/enums/payment-provider-name.enum';
+import { resolveDefaultPaymentProvider } from 'src/features/payment-method/utils/resolve-default-payment-provider.util';
 import { useAppDispatch } from 'src/store/hooks';
-
-function resolveDefaultProvider(): PaymentProviderName {
-    const raw = import.meta.env.VITE_DEFAULT_PAYMENT_PROVIDER;
-    const isKnownProvider =
-        !!raw && Object.values(PaymentProviderName).includes(raw as PaymentProviderName);
-    return isKnownProvider ? (raw as PaymentProviderName) : PaymentProviderName.STRIPE;
-}
 
 export function AddPaymentMethodForm({
     onCancel,
@@ -21,7 +14,7 @@ export function AddPaymentMethodForm({
 }) {
     const dispatch = useAppDispatch();
 
-    const providerName = resolveDefaultProvider();
+    const providerName = resolveDefaultPaymentProvider();
     const strategy = paymentProviderFactory.resolveStrategy(providerName);
 
     const [initPayload, setInitPayload] = React.useState<unknown>(null);

@@ -1,4 +1,5 @@
 import { Elements } from '@stripe/react-stripe-js';
+import { PaymentProviderName } from 'src/features/payment-method/enums/payment-provider-name.enum';
 import { PaymentMethodService } from 'src/features/payment-method/services/payment-method.service';
 import { StripeAddCardFormBody } from 'src/features/payment-method/strategies/provider/components/add-card-form/StripeAddCardFormBody';
 import type {
@@ -8,7 +9,6 @@ import type { GetAddCardFormProps } from 'src/features/payment-method/strategies
 import type { InitializeAddResultResponse } from 'src/features/payment-method/strategies/provider/types/response/initialize-add-result.response';
 import type { StripeInitPayload } from 'src/features/payment-method/strategies/provider/types/stripe-init-payload.interface';
 import { getStripePromise } from 'src/features/payment-method/strategies/provider/utils/get-stripe-promise.util';
-import { PaymentProviderName } from 'src/features/subscription/enums/payment-provider-name.enum';
 
 export class StripePaymentProviderStrategy implements PaymentProviderStrategy {
     provider = PaymentProviderName.STRIPE;

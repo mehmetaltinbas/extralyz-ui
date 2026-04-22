@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import React from 'react';
 
 export interface AuthContextValue {
     isAuthenticated: boolean | null;
@@ -7,4 +7,4 @@ export interface AuthContextValue {
     checkAuth: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextValue | null>(null);
+export const AuthContext = React.createContext<AuthContextValue | null>(null);

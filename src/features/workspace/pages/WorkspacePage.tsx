@@ -1,5 +1,4 @@
 import React from 'react';
-import { SubscriptionPopupsProvider } from 'src/features/subscription/components/SubscriptionPopupsProvider';
 import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
 import { userActions } from 'src/features/user/store/user.slice';
 import { Sidebar } from 'src/features/workspace/components/sidebar/Sidebar';
@@ -18,7 +17,6 @@ export function WorkspacePage() {
     }, []);
 
     return (
-        <SubscriptionPopupsProvider>
         <UserPopupsProvider>
             <div
                 className="w-full h-full flex"
@@ -54,6 +52,5 @@ export function WorkspacePage() {
                 </div>
             </div>
         </UserPopupsProvider>
-        </SubscriptionPopupsProvider>
     );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSubscriptionPopups } from 'src/features/subscription/hooks/use-subscription-popups.hook';
+import { useNavigate } from 'react-router-dom';
 import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { SendFeedbackButton } from 'src/shared/components/SendFeedbackButton';
@@ -8,7 +8,7 @@ import { useAppSelector } from 'src/store/hooks';
 export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizontal' }) {
     const user = useAppSelector((state) => state.user);
     const subscription = useAppSelector((state) => state.subscription);
-    const { openPlanComparison } = useSubscriptionPopups();
+    const navigate = useNavigate();
 
     const [isActionMenuHidden, setIsActionMenuHidden] = React.useState(true);
 
@@ -72,7 +72,7 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
                                 className="text-xs text-accent cursor-pointer capitalize hover:underline"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    openPlanComparison();
+                                    navigate('/settings/billing');
                                 }}
                             >
                                 {subscription.subscription.plan.name}

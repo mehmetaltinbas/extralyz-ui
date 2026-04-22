@@ -1,6 +1,6 @@
 import React from 'react';
-import { PlanActionButton } from 'src/features/billing/components/PlanActionButton';
-import { PlanCard } from 'src/features/billing/components/PlanCard';
+import { PlanActionButton } from 'src/features/plan/components/PlanActionButton';
+import { PlanCard } from 'src/features/plan/components/PlanCard';
 import { usePlans } from 'src/features/plan/hooks/use-plans.hook';
 import { PlanName } from 'src/features/subscription/enums/plan-name.enum';
 import { SubscriptionStatus } from 'src/features/subscription/enums/subscription-status.enum';

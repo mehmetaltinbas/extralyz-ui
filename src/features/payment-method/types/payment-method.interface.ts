@@ -1,0 +1,13 @@
+import type { PaymentProviderName } from 'src/features/subscription/enums/payment-provider-name.enum';
+
+export interface PaymentMethod {
+    _id: string;
+    provider: PaymentProviderName;
+    brand: string;
+    last4: string;
+    expMonth: number;
+    expYear: number;
+    holderName?: string;
+    isDefault: boolean;
+    createdAt: string;
+}

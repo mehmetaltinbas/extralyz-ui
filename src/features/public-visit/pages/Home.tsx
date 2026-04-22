@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { PricingSection } from 'src/features/public-visit/components/PricingSection';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
 import { FEATURES } from 'src/features/public-visit/constants/features.constant';
 import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
@@ -104,11 +105,14 @@ export function Home() {
                 </div>
             </section>
 
+            {/* Pricing Section */}
+            <PricingSection />
+
             {/* Footer */}
             <footer className="w-full flex flex-col items-center bg-surface-alt py-8 mt-auto">
                 <div className="max-w-6xl w-full px-8">
                     <p className="text-sm text-text-muted text-center">
-                        Copyright © 2025 {APP_NAME}. All rights reserved.
+                        Copyright © 2026 {APP_NAME}. All rights reserved.
                     </p>
                 </div>
             </footer>

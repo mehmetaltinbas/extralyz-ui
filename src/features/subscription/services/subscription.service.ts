@@ -11,16 +11,6 @@ const baseUrl = `/subscription`;
 export class SubscriptionService {
     private constructor() {}
 
-    static async readActive(): Promise<ReadActiveSubscriptionResponse> {
-        try {
-            const response = (await axiosInstance.get(`${baseUrl}/read-active`)).data;
-
-            return response;
-        } catch (error) {
-            return handleServiceError(error);
-        }
-    }
-
     static async upgrade(dto: UpgradeSubscriptionDto): Promise<ResponseBase> {
         try {
             const response = (await axiosInstance.post(`${baseUrl}/upgrade`, dto)).data;
@@ -46,6 +36,16 @@ export class SubscriptionService {
     static async downgrade(dto: DowngradeSubscriptionDto): Promise<ResponseBase> {
         try {
             const response = (await axiosInstance.post(`${baseUrl}/downgrade`, dto)).data;
+
+            return response;
+        } catch (error) {
+            return handleServiceError(error);
+        }
+    }
+
+    static async readActive(): Promise<ReadActiveSubscriptionResponse> {
+        try {
+            const response = (await axiosInstance.get(`${baseUrl}/read-active`)).data;
 
             return response;
         } catch (error) {

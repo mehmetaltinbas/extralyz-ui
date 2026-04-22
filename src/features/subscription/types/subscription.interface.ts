@@ -1,4 +1,4 @@
-import type { PaymentProviderName } from 'src/features/subscription/enums/payment-provider-name.enum';
+import type { PaymentProviderName } from 'src/features/payment-method/enums/payment-provider-name.enum';
 import type { SubscriptionStatus } from 'src/features/subscription/enums/subscription-status.enum';
 import type { Plan } from 'src/features/subscription/types/plan.interface';
 

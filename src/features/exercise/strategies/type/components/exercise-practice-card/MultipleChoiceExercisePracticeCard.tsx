@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
-import { ExercisePracticeChoiceButton } from 'src/shared/ExercisePracticeChoiceButton';
+import { ExercisePracticeChoiceButton } from 'src/shared/components/ExercisePracticeChoiceButton';
 import { getAlphabetLetter } from 'src/shared/utils/get-alphabet-letter.util';
 
 export function MultipleChoiceExercisePracticeCard({

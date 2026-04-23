@@ -3,7 +3,7 @@ import { AuthService } from 'src/features/auth/services/auth.service';
 import { AuthContext } from 'src/shared/contexts/auth.context';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
 
     const checkAuth = useCallback(async () => {

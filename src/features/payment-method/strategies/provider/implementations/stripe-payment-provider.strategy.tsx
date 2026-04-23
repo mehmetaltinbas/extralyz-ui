@@ -20,7 +20,7 @@ export class StripePaymentProviderStrategy implements PaymentProviderStrategy {
             isSuccess,
             message: response.message,
             initPayload: isSuccess
-                ? ({ clientSecret: response.clientSecret } satisfies StripeInitPayload)
+                ? ({ clientSecret: response.clientSecret! } satisfies StripeInitPayload)
                 : undefined,
         };
     }

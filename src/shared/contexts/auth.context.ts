@@ -1,8 +1,8 @@
 import React from 'react';
 
 export interface AuthContextValue {
-    isAuthenticated: boolean | null;
-    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean | null>>;
+    isAuthenticated: boolean;
+    setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
     isAuthLoading: boolean;
     checkAuth: () => Promise<void>;
 }

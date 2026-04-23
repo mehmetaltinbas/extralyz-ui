@@ -42,7 +42,7 @@ export function Home() {
                     </h2>
 
                     <p className="text-xl text-text-secondary max-w-2xl">
-                        Convert your notes, audio, and videos into interactive practice, or build custom exercise sets from scratch. Master any subject faster with AI-powered automated grading for open-ended exercises.
+                        Convert your notes, audio, and videos into interactive practice automatically with AI, or build custom exercise sets from scratch manually. Master any subject faster with AI-powered automated grading for open-ended exercises.
                     </p>
 
                     <div className="flex items-center gap-4 mt-4">

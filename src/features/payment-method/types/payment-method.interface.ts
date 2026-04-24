@@ -2,6 +2,7 @@ import type { PaymentProviderName } from 'src/features/payment-method/enums/paym
 
 export interface PaymentMethod {
     _id: string;
+    userId: string;
     provider: PaymentProviderName;
     brand: string;
     last4: string;

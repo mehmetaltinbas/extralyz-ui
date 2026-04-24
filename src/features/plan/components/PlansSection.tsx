@@ -26,9 +26,9 @@ export function PlansSection({
 
     const [isCancellingDowngrade, setIsCancellingDowngrade] = React.useState(false);
 
-    const currentPlanName = subscription.subscription?.plan?.name ?? PlanName.FREE;
-    const pendingPlanName = subscription.pendingSubscription?.plan?.name;
-    const isCanceled = subscription.subscription?.status === SubscriptionStatus.CANCELED;
+    const currentPlanName = plans.find(plan => plan._id === subscription.currentSubscription?.planId)?.name ?? PlanName.FREE;
+    const pendingPlanName = plans.find(plan => plan._id === subscription.pendingSubscription?.planId)?.name;
+    const isCanceled = subscription.currentSubscription?.status === SubscriptionStatus.CANCELED;
 
     async function handleCancelDowngrade() {
         setIsCancellingDowngrade(true);

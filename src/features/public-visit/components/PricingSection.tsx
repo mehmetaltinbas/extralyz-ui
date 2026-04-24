@@ -16,8 +16,8 @@ export function PricingSection() {
     const { plans, isLoading } = usePlans();
     const subscription = useAppSelector((state) => state.subscription);
 
-    const currentPlanName = subscription.subscription?.plan?.name ?? PlanName.FREE;
-    const isCanceled = subscription.subscription?.status === SubscriptionStatus.CANCELED;
+    const currentPlanName = plans.find(plan => plan._id === subscription.currentSubscription?.planId)?.name ?? PlanName.FREE;
+    const isCanceled = subscription.currentSubscription?.status === SubscriptionStatus.CANCELED;
 
     const goToBilling = () => navigate('/settings/billing');
 

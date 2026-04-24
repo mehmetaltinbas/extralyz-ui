@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePlans } from 'src/features/plan/hooks/use-plans.hook';
 import { UserActionMenu } from 'src/features/user/components/UserActionMenu';
 import { LightDarkModeButton } from 'src/shared/components/LightDarkModeButton';
 import { SendFeedbackButton } from 'src/shared/components/SendFeedbackButton';
@@ -9,6 +10,7 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
     const user = useAppSelector((state) => state.user);
     const subscription = useAppSelector((state) => state.subscription);
     const navigate = useNavigate();
+    const { plans } = usePlans();
 
     const [isActionMenuHidden, setIsActionMenuHidden] = React.useState(true);
 
@@ -67,7 +69,7 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
                             {user.creditBalance}
                         </span>
 
-                        {subscription.subscription?.plan && (
+                        {subscription.currentSubscription?.planId && (
                             <span
                                 className="text-xs text-accent cursor-pointer capitalize hover:underline"
                                 onClick={(e) => {
@@ -75,13 +77,7 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
                                     navigate('/settings/billing');
                                 }}
                             >
-                                {subscription.subscription.plan.name}
-                            </span>
-                        )}
-
-                        {subscription.pendingSubscription?.plan && (
-                            <span className="text-xs text-text-secondary">
-                                → {subscription.pendingSubscription.plan.name}
+                                {plans.find(plan => plan._id === subscription.currentSubscription?.planId)?.name}
                             </span>
                         )}
                     </>

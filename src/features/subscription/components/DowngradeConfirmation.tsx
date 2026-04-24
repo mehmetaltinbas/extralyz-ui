@@ -18,7 +18,7 @@ export function DowngradeConfirmation({
     targetPlanName: PlanName | null;
 }) {
     const dispatch = useAppDispatch();
-    const subscription = useAppSelector((state) => state.subscription.subscription);
+    const subscription = useAppSelector((state) => state.subscription.currentSubscription);
 
     const [isDowngrading, setIsDowngrading] = React.useState(false);
 

@@ -1,12 +1,15 @@
+import { usePlans } from 'src/features/plan/hooks/use-plans.hook';
 import { SubscriptionStatus } from 'src/features/subscription/enums/subscription-status.enum';
 import { useAppSelector } from 'src/store/hooks';
 
 export function CurrentPlanSection() {
-    const subscription = useAppSelector((state) => state.subscription.subscription);
+    const subscription = useAppSelector((state) => state.subscription.currentSubscription);
     const pendingSubscription = useAppSelector((state) => state.subscription.pendingSubscription);
     const creditBalance = useAppSelector((state) => state.user?.creditBalance ?? 0);
 
-    const planName = subscription?.plan?.name ?? 'free';
+    const { plans } = usePlans();
+
+    const planName = plans.find(plan => plan._id === subscription?.planId)?.name ?? 'free';
     const nextBillingDate = subscription?.nextBillingDate
         ? new Date(subscription.nextBillingDate).toLocaleDateString()
         : '—';
@@ -25,10 +28,10 @@ export function CurrentPlanSection() {
                     <span className="text-xs font-medium text-accent px-2 py-0.5 border border-accent rounded-full capitalize">
                         {status}
                     </span>
-                    {pendingSubscription?.plan && (
+                    {pendingSubscription?.planId && (
                         <span className="text-xs text-text-secondary">
                             → downgrading to{' '}
-                            <span className="capitalize">{pendingSubscription.plan.name}</span>
+                            <span className="capitalize">{plans.find(plan => plan._id === pendingSubscription?.planId)?.name}</span>
                         </span>
                     )}
                 </div>

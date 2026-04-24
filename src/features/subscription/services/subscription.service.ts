@@ -1,7 +1,7 @@
 import type { DowngradeSubscriptionDto } from 'src/features/subscription/types/dto/downgrade-subscription.dto';
 import type { UpgradeSubscriptionDto } from 'src/features/subscription/types/dto/upgrade-subscription.dto';
 import type { CheckPriceToPayResponse } from 'src/features/subscription/types/response/check-price-to-pay.response';
-import type { ReadActiveSubscriptionResponse } from 'src/features/subscription/types/response/read-active-subscription.response';
+import type { ReadCurrentSubscriptionResponse } from 'src/features/subscription/types/response/read-current-subscription.response';
 import { axiosInstance } from 'src/shared/api/axios-instance';
 import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
@@ -43,9 +43,9 @@ export class SubscriptionService {
         }
     }
 
-    static async readActive(): Promise<ReadActiveSubscriptionResponse> {
+    static async readCurrent(): Promise<ReadCurrentSubscriptionResponse> {
         try {
-            const response = (await axiosInstance.get(`${baseUrl}/read-active`)).data;
+            const response = (await axiosInstance.get(`${baseUrl}/read-current`)).data;
 
             return response;
         } catch (error) {

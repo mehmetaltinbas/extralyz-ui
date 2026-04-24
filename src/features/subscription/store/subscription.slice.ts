@@ -3,13 +3,13 @@ import { fetchSubscriptionData } from 'src/features/subscription/store/fetch-sub
 import type { Subscription } from 'src/features/subscription/types/subscription.interface';
 
 interface SubscriptionState {
-    subscription: Subscription | null;
+    currentSubscription: Subscription | null;
     pendingSubscription: Subscription | null;
     isLoading: boolean;
 }
 
 const initialState: SubscriptionState = {
-    subscription: null,
+    currentSubscription: null,
     pendingSubscription: null,
     isLoading: false,
 };
@@ -29,7 +29,7 @@ const subscriptionSlice = createSlice({
             })
             .addCase(fetchSubscriptionData.fulfilled, (_state, action) => {
                 return {
-                    subscription: action.payload.subscription,
+                    currentSubscription: action.payload.currentSubscription,
                     pendingSubscription: action.payload.pendingSubscription,
                     isLoading: false,
                 };

@@ -59,7 +59,7 @@ export function ExerciseSetPageContent({
                     <p className='text-2xl font-bold'>{exerciseSet.title}</p>
 
                     <div className='flex flex-col sm:flex-row gap-2'>
-                        <p><span className='font-bold'>Source:</span> <span className='italic text-sm sm:text-base'>{exerciseSet.contextType === ExerciseSetContextType.SOURCE ? sources.find((source) => source._id === exerciseSet.contextId)?.title : exerciseSet.contextType}</span></p>
+                        <p><span className='font-bold'>Association:</span> <span className='italic text-sm sm:text-base'>{exerciseSet.contextType === ExerciseSetContextType.SOURCE ? sources.find((source) => source._id === exerciseSet.contextId)?.title : exerciseSet.contextType}</span></p>
 
                         <p className='hidden sm:block'>|</p>
 

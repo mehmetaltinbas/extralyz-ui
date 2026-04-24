@@ -10,20 +10,28 @@ export function OpenEndedExerciseEvaluationCard({
     evaluation: ExerciseAnswerEvaluationResult;
 }) {
     return (
-        <div className="flex flex-col justify-center items-center gap-1 text-center">
-            <p className='whitespace-pre-wrap'>
-                <span className="font-serif">Your answer</span>:{' '}
-                <span className="text-text-secondary">{evaluation.userAnswer}</span>
-            </p>
+        <div className="w-full flex flex-col justify-center items-center gap-1">
+            <div className='w-full flex justify-start items-center gap-4'>
+                <p className="w-[120px] shrink-0 font-serif whitespace-nowrap">Your answer:{' '}</p>
 
-            <p className='whitespace-pre-wrap'>
-                <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-text-correct">{exercise.solution}</span>
-            </p>
+                <p className="w-full text-text-secondary">{evaluation.userAnswer}</p>
+            </div>
 
-            <p className='whitespace-pre-wrap'>
-                <span className="font-serif">Feedback</span>: {evaluation.feedback}
-            </p>
+            <span className='w-full h-[1px] bg-gray-200'></span>
+
+            <div className='w-full flex justify-start items-center gap-4'>
+                <p className="w-[120px] shrink-0 font-serif whitespace-nowrap">Correct answer:{' '}</p>
+
+                <p className="w-full text-text-correct">{exercise.solution}</p>
+            </div>
+
+            <span className='w-full h-[1px] bg-gray-200'></span>
+
+            <div className='w-full flex justify-start items-center gap-4'>
+                <p className="w-[120px] shrink-0 font-serif whitespace-nowrap">Feedback:{` `}</p>
+
+                <p className="w-full">{evaluation.feedback}</p>
+            </div>
 
             <ScoreBadge score={evaluation.score} label="Sub-score" />
         </div>

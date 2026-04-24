@@ -19,16 +19,20 @@ export function MultipleChoiceExerciseEvaluationCard({
     );
 
     return (
-        <div className="flex flex-col justify-center items-center gap-1 text-center">
-            <p>
-                <span className="font-serif">Your answer</span>:{' '}
-                <span className="text-text-secondary">{getAlphabetLetter(Number(evaluation.userAnswer))} - {userAnswer}</span>
-            </p>
+        <div className="w-full flex flex-col justify-center items-center gap-1">
+                <div className='w-full flex justify-start items-center gap-4'>
+                    <p className="w-[120px] shrink-0 font-serif whitespace-nowrap">Your answer:{' '}</p>
 
-            <p>
-                <span className="font-serif">Correct answer</span>:{' '}
-                <span className="text-text-correct">{getAlphabetLetter(exercise.correctChoiceIndex!)} - {correctAnswer}</span>
-            </p>
+                    <p className="w-full text-text-secondary">{getAlphabetLetter(Number(evaluation.userAnswer))} - {userAnswer}</p>
+                </div>
+
+                <span className='w-full h-[1px] bg-gray-200'></span>
+
+                <div className='w-full flex justify-start items-center gap-4'>
+                    <p className="w-[120px] shrink-0 font-serif whitespace-nowrap">Correct answer:{' '}</p>
+
+                    <p className="w-full text-text-correct">{getAlphabetLetter(exercise.correctChoiceIndex!)} - {correctAnswer}</p>
+                </div>
 
             <ScoreBadge score={evaluation.score} label="Sub-score" />
         </div>

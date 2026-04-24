@@ -5,6 +5,7 @@ import { ExerciseSetEvaluationPage } from 'src/features/exercise-set/pages/Exerc
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
+import { viewExerciseSetAsPdf } from 'src/features/exercise-set/utils/view-exercise-set-as-pdf.util';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
@@ -80,6 +81,15 @@ export function ExerciseSetPaperEvaluationPage({
         setEvaluation(undefined);
     }
 
+    function viewPdf() {
+        if (!exerciseSet) {
+            alert('exercise set is undefined'); 
+            return;
+        }
+
+        viewExerciseSetAsPdf(false, false, exerciseSet);
+    }
+
     return (
         <div className={`${isActiveComponent ? 'block' : 'hidden'} relative w-full h-full`}>
             <div className='absolute w-full h-full flex justify-start items-start'>
@@ -95,7 +105,14 @@ export function ExerciseSetPaperEvaluationPage({
                     />
                 ) : (
                     <div className={`w-full h-full flex flex-col items-center gap-6 p-4`}>
-                        <p className="text-lg font-bold">Evaluate Paper Answers</p>
+                        <div className='flex flex-col justify-start items-center gap-2 w-[325px] md:w-[900px]'>
+                            <p className="text-lg font-bold">Evaluate Paper Answers</p>
+
+                            <p className='text-center'>
+                                Complete your exercises on paper and get instant digital feedback. Simply <span onClick={viewPdf} className='underline cursor-pointer'>download the PDF</span>, print it, write down your answers on paper, and upload photos of your work for automatic scoring and evaluation.
+                            </p>
+                        </div>
+
 
                         <div className='flex flex-col gap-1 justify-center items-center'>
                             <p className='text-lg font-bold'>{exerciseSet.title}</p>
@@ -161,7 +178,7 @@ export function ExerciseSetPaperEvaluationPage({
                         <Button
                             variant={ButtonVariant.PRIMARY}
                             onClick={handleSubmit}
-                            disabled={files.length === 0 || files.length >= MAX_PAPER_EVALUATION_UPLOAD_COUNT}
+                            disabled={files.length === 0 || files.length > MAX_PAPER_EVALUATION_UPLOAD_COUNT}
                         >
                             Submit for Evaluation
                         </Button>

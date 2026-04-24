@@ -1,9 +1,9 @@
 import React from 'react';
 import { CloneExerciseSetForm } from 'src/features/exercise-set/components/CloneExerciseSetForm';
+import { ViewPdfDecision } from 'src/features/exercise-set/components/ViewPdfDecision';
 import { PublicExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/public-exercise-set-popups.context';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { StartPracticeDecision } from 'src/features/exercise/components/StartPracticeDecision';
-import { ViewPdfDecision } from 'src/features/exercise/components/ViewPdfDecision';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';
 import { BodyModal } from 'src/shared/components/BodyModal';

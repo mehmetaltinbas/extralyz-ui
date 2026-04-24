@@ -4,6 +4,7 @@ import { GenerateAdditionalExercisesForm } from 'src/features/exercise-set/compo
 import { GenerateExerciseDecision } from 'src/features/exercise-set/components/GenerateExerciseDecision';
 import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
+import { ViewPdfDecision } from 'src/features/exercise-set/components/ViewPdfDecision';
 import { ExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/exercise-set-popups.context';
 import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
@@ -15,7 +16,6 @@ import { GenerateWithContextForm } from 'src/features/exercise/components/Genera
 import { StartPracticeDecision } from 'src/features/exercise/components/StartPracticeDecision';
 import TransferExerciseForm from 'src/features/exercise/components/TransferExerciseForm';
 import { UpdateExerciseForm } from 'src/features/exercise/components/UpdateExerciseForm';
-import { ViewPdfDecision } from 'src/features/exercise/components/ViewPdfDecision';
 import { ExerciseService } from 'src/features/exercise/services/exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { tabsActions } from 'src/features/workspace/features/tabs/store/tabs.slice';

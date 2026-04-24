@@ -1,4 +1,6 @@
 import axios, { AxiosError } from 'axios';
+import { authActions } from 'src/features/auth/store/auth.slice';
+import store from 'src/store/store';
 
 function resolveBaseURL(): string {
     const apiPort = import.meta.env.VITE_API_PORT;
@@ -24,6 +26,7 @@ instance.interceptors.response.use(
         // do something with response error
         if (error.status === 401) {
             // 401: unauthorized
+            store.dispatch(authActions.setIsAuthenticated(false));
 
             if (window.location.pathname === '/workspace') {
                 window.location.href = '/';

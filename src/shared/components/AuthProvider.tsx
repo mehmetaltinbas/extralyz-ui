@@ -1,30 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { AuthService } from 'src/features/auth/services/auth.service';
-import { AuthContext } from 'src/shared/contexts/auth.context';
+import React, { useEffect, useRef } from 'react';
+import { authActions } from 'src/features/auth/store/auth.slice';
+import { paymentMethodActions } from 'src/features/payment-method/store/payment-method.slice';
+import { subscriptionActions } from 'src/features/subscription/store/subscription.slice';
+import { userActions } from 'src/features/user/store/user.slice';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
-
-    const checkAuth = useCallback(async () => {
-        setIsAuthLoading(true);
-        try {
-            const response = await AuthService.authorize();
-            setIsAuthenticated(response.isSuccess);
-        } catch (error) {
-            setIsAuthenticated(false);
-        } finally {
-            setIsAuthLoading(false);
-        }
-    }, []);
+    const dispatch = useAppDispatch();
+    const { isAuthenticated, isAuthLoading } = useAppSelector((state) => state.auth);
+    const wasAuthenticatedRef = useRef<boolean>(false);
 
     useEffect(() => {
-        checkAuth();
-    }, [checkAuth]);
+        dispatch(authActions.checkAuth());
+    }, [dispatch]);
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, isAuthLoading, checkAuth }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    useEffect(() => {
+        if (isAuthLoading) return;
+
+        if (isAuthenticated) {
+            dispatch(userActions.fetchData());
+            dispatch(subscriptionActions.fetchData());
+            dispatch(paymentMethodActions.fetchData());
+            wasAuthenticatedRef.current = true;
+        } else if (wasAuthenticatedRef.current) {
+            dispatch(userActions.clear());
+            dispatch(subscriptionActions.clear());
+            dispatch(paymentMethodActions.clear());
+            wasAuthenticatedRef.current = false;
+        }
+    }, [isAuthenticated, isAuthLoading, dispatch]);
+
+    return <>{children}</>;
 }

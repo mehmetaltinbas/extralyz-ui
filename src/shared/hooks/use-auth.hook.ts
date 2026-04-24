@@ -1,12 +1,14 @@
-import React from 'react';
-import { AuthContext } from 'src/shared/contexts/auth.context';
+import { authActions } from 'src/features/auth/store/auth.slice';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function useAuth() {
-    const context = React.useContext(AuthContext);
+    const dispatch = useAppDispatch();
+    const { isAuthenticated, isAuthLoading } = useAppSelector((state) => state.auth);
 
-    if (!context) {
-        throw new Error('useAuth must be used within an AuthProvider');
-    }
-
-    return context;
+    return {
+        isAuthenticated,
+        isAuthLoading,
+        setIsAuthenticated: (value: boolean) => dispatch(authActions.setIsAuthenticated(value)),
+        checkAuth: () => dispatch(authActions.checkAuth()).unwrap().then(() => undefined),
+    };
 }

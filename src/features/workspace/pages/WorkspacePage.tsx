@@ -1,6 +1,4 @@
-import React from 'react';
 import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
-import { userActions } from 'src/features/user/store/user.slice';
 import { Sidebar } from 'src/features/workspace/components/sidebar/Sidebar';
 import { WorkspaceBody } from 'src/features/workspace/components/WorkspaceBody';
 import { WorkspaceTabsBar } from 'src/features/workspace/features/tabs/components/WorkspaceTabsBar';
@@ -11,10 +9,6 @@ import { useAppDispatch } from 'src/store/hooks';
 export function WorkspacePage() {
     const dispatch = useAppDispatch();
     const { isDesktop } = useBreakpoint();
-
-    React.useEffect(() => {
-        dispatch(userActions.fetchData());
-    }, []);
 
     return (
         <UserPopupsProvider>

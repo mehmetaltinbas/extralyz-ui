@@ -21,33 +21,33 @@ function App() {
     return (
         <BrowserRouter>
             <AuthProvider>
-            <Routes>
-                {/* public routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/sign-in" element={<SignInPage />} />
-                <Route path="/sign-up" element={<SignUpPage />} />
-                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/verify-email" element={<VerifyEmailPage />} />
-                <Route path="/user/:userName" element={<PublicProfilePage />} />
-                <Route path="/user/:userName/exercise-set/:title" element={<PublicExerciseSetViewPage />} />
-                <Route path="/user/:userName/source/:title" element={<PublicSourceViewPage />} />
+                <Routes>
+                    {/* public routes */}
+                    <Route path="/" element={<Home />} />
+                    <Route path="/sign-in" element={<SignInPage />} />
+                    <Route path="/sign-up" element={<SignUpPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                    <Route path="/reset-password" element={<ResetPasswordPage />} />
+                    <Route path="/verify-email" element={<VerifyEmailPage />} />
+                    <Route path="/user/:userName" element={<PublicProfilePage />} />
+                    <Route path="/user/:userName/exercise-set/:title" element={<PublicExerciseSetViewPage />} />
+                    <Route path="/user/:userName/source/:title" element={<PublicSourceViewPage />} />
 
-                {/* protected routes */}
-                <Route
-                    path="/workspace"
-                    element={<ProtectedRoute element={<WorkspacePage />} />}
-                />
-                <Route
-                    path="/settings"
-                    element={<ProtectedRoute element={<SettingsLayout />} />}
-                >
-                    <Route index element={<Navigate to="profile" replace />} />
-                    <Route path="profile" element={<ProfileSettingsPage />} />
-                    <Route path="password" element={<PasswordSettingsPage />} />
-                    <Route path="billing" element={<BillingSettingsPage />} />
-                </Route>
-            </Routes>
+                    {/* protected routes */}
+                    <Route
+                        path="/workspace"
+                        element={<ProtectedRoute element={<WorkspacePage />} />}
+                    />
+                    <Route
+                        path="/settings"
+                        element={<ProtectedRoute element={<SettingsLayout />} />}
+                    >
+                        <Route index element={<Navigate to="profile" replace />} />
+                        <Route path="profile" element={<ProfileSettingsPage />} />
+                        <Route path="password" element={<PasswordSettingsPage />} />
+                        <Route path="billing" element={<BillingSettingsPage />} />
+                    </Route>
+                </Routes>
             </AuthProvider>
         </BrowserRouter>
     );

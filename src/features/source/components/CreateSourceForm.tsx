@@ -11,8 +11,6 @@ import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
-const defaultType = SourceType.DOCUMENT;
-
 export function CreateSourceForm({
     isHidden,
     setIsHidden,
@@ -28,7 +26,7 @@ export function CreateSourceForm({
     onClose: () => void;
     updateSources: () => void;
 }) {
-    const defaultStrategy = sourceTypeFactory.resolveStrategy(defaultType)!;
+    const defaultStrategy = sourceTypeFactory.resolveStrategy(SourceType.DOCUMENT)!;
     const [dto, setDto] = React.useState<CreateSourceDto>({
         ...defaultStrategy.buildInitialCreateSourceDto(),
         visibility: SourceVisibility.PRIVATE,

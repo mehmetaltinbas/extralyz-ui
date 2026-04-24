@@ -19,6 +19,15 @@ export function DocumentCreateSourceForm({
                 <Input
                     inputKey={extra.fileInputKey}
                     onChange={(e) => {
+                        const files = e.target.files;
+                        
+                        if (files && files.length > 1) {
+                            alert("Only 1 file can be inputted");
+                            e.target.value = "";
+                            extra.setFile(undefined);
+                            return;
+                        }
+
                         const file = e.target.files?.[0];
                         extra.setFile(file);
                     }}

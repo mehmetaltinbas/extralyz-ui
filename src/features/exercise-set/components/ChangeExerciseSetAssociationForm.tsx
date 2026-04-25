@@ -105,7 +105,7 @@ export function ChangeExerciseSetAssociationForm({
                         name="contextType"
                         value={dto.contextType}
                         onChange={(event) => handleContextTypeChange(event.currentTarget.value as ExerciseSetContextType)}
-                        className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                        className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                     >
                         {Object.values(ExerciseSetContextType).map(type => (
                             <option key={`source-type-${type}`} value={type}>
@@ -123,7 +123,7 @@ export function ChangeExerciseSetAssociationForm({
                                     name="contextId"
                                     value={dto.contextId}
                                     onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
-                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                                 >
                                     {availableSources.map(source => (
                                         <option
@@ -146,7 +146,7 @@ export function ChangeExerciseSetAssociationForm({
                             name="contextId"
                             value={dto.contextId}
                             onChange={(event) => setDto({ ...dto, contextId: event.currentTarget.value })}
-                            className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                            className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                         >
                             {availableGroups.map(group => (
                                 <option

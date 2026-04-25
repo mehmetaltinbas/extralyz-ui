@@ -118,7 +118,7 @@ export function CloneSourceForm({
                     name="visibility"
                     value={dto.visibility}
                     onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     <option value={ExerciseSetVisibility.PRIVATE}>Private</option>
                     <option value={ExerciseSetVisibility.PUBLIC}>Public</option>

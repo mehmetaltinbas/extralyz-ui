@@ -85,7 +85,7 @@ export default function TransferExerciseForm({
                     name="exerciseSetId"
                     value={dto.exerciseSetId}
                     onChange={(event) => setDto({ ...dto, exerciseSetId: event.currentTarget.value })}
-                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {otherExerciseSets.map(exerciseSet => (
                         <option

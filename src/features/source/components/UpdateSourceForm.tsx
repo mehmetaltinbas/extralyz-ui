@@ -106,7 +106,7 @@ export function UpdateSourceForm({
                             visibility: e.currentTarget.value as SourceVisibility,
                         })
                     }
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     <option value={SourceVisibility.PUBLIC}>Public</option>
                     <option value={SourceVisibility.PRIVATE}>Private</option>

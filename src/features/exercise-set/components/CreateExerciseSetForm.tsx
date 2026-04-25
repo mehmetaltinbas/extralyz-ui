@@ -187,7 +187,7 @@ export function CreateExerciseSetForm({
                         name="type"
                         value={dto.type}
                         onChange={(e) => onChangeForEnum(e)}
-                        className="py-[2px] px-2 border rounded-[10px]"
+                        className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                     >
                         {Object.values(ExerciseSetType).map((val, index) => (
                             <option key={`type-${index}`} value={val}>{camelToTitleCase(val)}</option>
@@ -201,7 +201,7 @@ export function CreateExerciseSetForm({
                         name="difficulty"
                         value={dto.difficulty}
                         onChange={(e) => onChangeForEnum(e)}
-                        className="py-[2px] px-2 border rounded-[10px]"
+                        className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                     >
                         {Object.values(ExerciseSetDifficulty).map((val, index) => (
                             <option key={`diff-${index}`} value={val}>{camelToTitleCase(val)}</option>
@@ -220,7 +220,7 @@ export function CreateExerciseSetForm({
                         name="visibility"
                         value={dto.visibility}
                         onChange={(e) => onChangeForEnum(e)}
-                        className="py-[2px] px-2 border rounded-[10px]"
+                        className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                     >
                         <option value={ExerciseSetVisibility.PRIVATE}>Private</option>
                         <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
@@ -234,7 +234,7 @@ export function CreateExerciseSetForm({
                             <select
                                 value={dto.contextType}
                                 onChange={(e) => handleAssociationTypeChange(e.currentTarget.value as ExerciseSetContextType)}
-                                className="py-[2px] px-2 border rounded-[10px]"
+                                className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                             >
                                 {Object.values(ExerciseSetContextType).map((type) => (
                                     <option key={`ctx-${type}`} value={type}>
@@ -250,7 +250,7 @@ export function CreateExerciseSetForm({
                                 <select
                                     value={selectedContextId}
                                     onChange={(e) => setSelectedContextId(e.currentTarget.value)}
-                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                                 >
                                     {groups.map((group) => (
                                         <option key={group._id} value={group._id}>{group.title}</option>
@@ -265,7 +265,7 @@ export function CreateExerciseSetForm({
                                 <select
                                     value={selectedContextId}
                                     onChange={(e) => setSelectedContextId(e.currentTarget.value)}
-                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px]"
+                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                                 >
                                     {sources.map((source) => (
                                         <option key={source._id} value={source._id}>{source.title}</option>

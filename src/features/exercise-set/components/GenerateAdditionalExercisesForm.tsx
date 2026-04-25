@@ -89,7 +89,7 @@ export function GenerateAdditionalExercisesForm({
                     name="type"
                     value={dto.type}
                     onChange={(e) => setDto({ ...dto, type: e.currentTarget.value as ExerciseSetType })}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Object.values(ExerciseSetType).map((value, index) => (
                         <option key={`exercise-set-type-${index}`} value={value}>{camelToTitleCase(value)}</option>
@@ -103,7 +103,7 @@ export function GenerateAdditionalExercisesForm({
                     name="difficulty"
                     value={dto.difficulty}
                     onChange={(e) => setDto({ ...dto, difficulty: e.currentTarget.value as ExerciseSetDifficulty })}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Object.values(ExerciseSetDifficulty).map((value, index) => (
                         <option key={`exercise-set-difficulty-${index}`} value={value}>{camelToTitleCase(value)}</option>

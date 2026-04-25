@@ -164,7 +164,7 @@ export function GenerateWithContextForm({
                                     type: e.currentTarget.value as ExerciseType,
                                 })
                             }
-                            className="py-[2px] px-2 border rounded-[10px]"
+                            className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                         >
                             {Object.values(ExerciseType).map((value, index) => (
                                 <option key={`context-exercise-type-${index}`} value={value}>
@@ -185,7 +185,7 @@ export function GenerateWithContextForm({
                                     difficulty: e.currentTarget.value as ExerciseDifficulty,
                                 })
                             }
-                            className="py-[2px] px-2 border rounded-[10px]"
+                            className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                         >
                             {Object.values(ExerciseDifficulty).map((value, index) => (
                                 <option key={`context-exercise-difficulty-${index}`} value={value}>
@@ -212,7 +212,7 @@ export function GenerateWithContextForm({
                             name="type"
                             value={resultDto.type}
                             disabled
-                            className="py-[2px] px-2 border rounded-[10px] opacity-60"
+                            className="py-[2px] px-2 border rounded-[10px] opacity-60 bg-surface text-text-primary"
                         >
                             {Object.values(ExerciseType).map((value, index) => (
                                 <option key={`result-exercise-type-${index}`} value={value}>
@@ -233,7 +233,7 @@ export function GenerateWithContextForm({
                                     difficulty: e.currentTarget.value as ExerciseDifficulty,
                                 })
                             }
-                            className="py-[2px] px-2 border rounded-[10px]"
+                            className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                         >
                             {Object.values(ExerciseDifficulty).map((value, index) => (
                                 <option key={`result-exercise-difficulty-${index}`} value={value}>

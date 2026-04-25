@@ -135,7 +135,7 @@ export function GenerateNotesForm({
                         <select
                             value={SourceType.RAW_TEXT}
                             disabled
-                            className="py-[2px] px-2 border rounded-[10px] opacity-60"
+                            className="py-[2px] px-2 border rounded-[10px] opacity-60 bg-surface text-text-primary"
                         >
                             <option value={SourceType.RAW_TEXT}>
                                 {camelToTitleCase(SourceType.RAW_TEXT)}

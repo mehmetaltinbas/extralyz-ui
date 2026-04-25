@@ -123,7 +123,7 @@ export function UpdateExerciseForm({
                     name="type"
                     value={dto.type}
                     onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Object.values(ExerciseType).map((exerciseTypeValue, index) => (
                         <option key={`exercise-type-value-${index}`} value={exerciseTypeValue}>{camelToTitleCase(exerciseTypeValue)}</option>
@@ -137,7 +137,7 @@ export function UpdateExerciseForm({
                     name="difficulty"
                     value={dto.difficulty}
                     onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Object.values(ExerciseDifficulty).map((exerciseDifficultyValue, index) => (
                         <option key={`exercise-difficulty-value-${index}`} value={exerciseDifficultyValue}>{camelToTitleCase(exerciseDifficultyValue)}</option>

@@ -18,7 +18,7 @@ export function TrueFalseUpdateForm({ dto, setDto }: {
                             correctChoiceIndex: Number(e.currentTarget.value),
                         })
                     }
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     <option value={0}>False</option>
                     <option value={1}>True</option>

@@ -47,7 +47,7 @@ export function MultipleChoiceCreateForm({ dto, setDto }: {
                             correctChoiceIndex: Number(e.currentTarget.value),
                         })
                     }
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Array.from({ length: MULTIPLE_CHOICE_CHOICES_COUNT }).map((value, index) => (
                         <option key={`mcq-choice-${index}`} value={index}>{getAlphabetLetter(index)}</option>

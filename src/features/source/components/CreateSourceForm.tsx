@@ -125,7 +125,7 @@ export function CreateSourceForm({
                 <select
                     value={dto.type}
                     onChange={(e) => handleTypeChange(e.target.value as SourceType)}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Object.values(SourceType).map((value) => (
                         <option key={value} value={value}>
@@ -151,7 +151,7 @@ export function CreateSourceForm({
                     name='visibility'
                     value={dto.visibility ?? SourceVisibility.PRIVATE}
                     onChange={(e) => onChangeForEnum(e)}
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     <option value={SourceVisibility.PRIVATE}>Private</option>
                     <option value={SourceVisibility.PUBLIC}>Public</option>

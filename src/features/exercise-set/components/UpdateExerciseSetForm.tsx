@@ -106,7 +106,7 @@ export function UpdateExerciseSetForm({
                             visibility: e.currentTarget.value as ExerciseSetVisibility,
                         })
                     }
-                    className="py-[2px] px-2 border rounded-[10px]"
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     <option value={ExerciseSetVisibility.PUBLIC}>Public</option>
                     <option value={ExerciseSetVisibility.PRIVATE}>Private</option>

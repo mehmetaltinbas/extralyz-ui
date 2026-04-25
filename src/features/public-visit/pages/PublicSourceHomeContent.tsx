@@ -1,6 +1,6 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SourceTextRenderer } from 'src/features/source/components/SourceTextRenderer';
+import { usePublicSourcePopups } from 'src/features/source/hooks/use-public-source-popups.hook';
 import { PublicSourceService } from 'src/features/source/services/public-source.service';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Section } from 'src/features/workspace/enums/section.enum';
@@ -11,7 +11,7 @@ import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { storeAuthRedirectUrl } from 'src/shared/utils/auth-redirect/store-auth-redirect-url.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
-export function PublicSourceViewPageContent({
+export function PublicSourceHomePageContent({
     source,
     userName,
 }: {
@@ -23,6 +23,8 @@ export function PublicSourceViewPageContent({
 
     const user = useAppSelector((state) => state.user);
     const { isAuthenticated } = useAuth();
+
+    const { openCloneSourceForm } = usePublicSourcePopups();
 
     const content = JSON.parse(source.rawText) as object;
 
@@ -110,6 +112,10 @@ export function PublicSourceViewPageContent({
                     </Button>
 
                     <Button onClick={handleViewPdf}>View as PDF</Button>
+
+                    <Button onClick={openCloneSourceForm}>
+                        Clone to My Sources
+                    </Button>
 
                     <Button
                         variant={ButtonVariant.OUTLINE}

@@ -5,9 +5,9 @@ import { ResetPasswordPage } from 'src/features/auth/pages/ResetPasswordPage';
 import { SignInPage } from 'src/features/auth/pages/SignInPage';
 import { SignUpPage } from 'src/features/auth/pages/SignUpPage';
 import { Home } from 'src/features/public-visit/pages/Home';
-import { PublicExerciseSetViewPage } from 'src/features/public-visit/pages/PublicExerciseSetViewPage';
+import { PublicExerciseSetHomePage } from 'src/features/public-visit/pages/PublicExerciseSetHomePage';
 import { PublicProfilePage } from 'src/features/public-visit/pages/PublicProfilePage';
-import { PublicSourceViewPage } from 'src/features/public-visit/pages/PublicSourceViewPage';
+import { PublicSourceHomePage } from 'src/features/public-visit/pages/PublicSourceHomePage';
 import { BillingSettingsPage } from 'src/features/settings/pages/BillingSettingsPage';
 import { PasswordSettingsPage } from 'src/features/settings/pages/PasswordSettingsPage';
 import { ProfileSettingsPage } from 'src/features/settings/pages/ProfileSettingsPage';
@@ -30,8 +30,8 @@ function App() {
                     <Route path="/reset-password" element={<ResetPasswordPage />} />
                     <Route path="/verify-email" element={<VerifyEmailPage />} />
                     <Route path="/user/:userName" element={<PublicProfilePage />} />
-                    <Route path="/user/:userName/exercise-set/:title" element={<PublicExerciseSetViewPage />} />
-                    <Route path="/user/:userName/source/:title" element={<PublicSourceViewPage />} />
+                    <Route path="/user/:userName/exercise-set/:title" element={<PublicExerciseSetHomePage />} />
+                    <Route path="/user/:userName/source/:title" element={<PublicSourceHomePage />} />
 
                     {/* protected routes */}
                     <Route

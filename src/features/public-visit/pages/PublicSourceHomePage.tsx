@@ -1,13 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { PublicSourceHomePageContent } from 'src/features/public-visit/pages/PublicSourceHomeContent';
+import { PublicSourcePopupsProvider } from 'src/features/source/components/PublicSourcePopupsProvider';
 import { PublicSourceService } from 'src/features/source/services/public-source.service';
 import type { Source } from 'src/features/source/types/source.interface';
-import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
 import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
-import { PublicSourceViewPageContent } from 'src/features/public-visit/pages/PublicSourceViewPageContent';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
-export function PublicSourceViewPage() {
+export function PublicSourceHomePage() {
     const { userName, title } = useParams<{ userName: string; title: string }>();
 
     const [source, setSource] = React.useState<Source | null>(null);
@@ -38,18 +39,20 @@ export function PublicSourceViewPage() {
 
     return (
         <UserPopupsProvider>
-        <div className="w-full min-h-screen flex flex-col justify-start items-center">
-            <PublicPageHeader />
+            <div className="w-full min-h-screen flex flex-col justify-start items-center">
+                <PublicPageHeader />
 
-            {source && userName ? (
-                <PublicSourceViewPageContent
-                    source={source}
-                    userName={userName}
-                />
-            ) : (
-                <LoadingPage />
-            )}
-        </div>
+                {source && userName ? (
+                    <PublicSourcePopupsProvider source={source} ownerUserName={userName}>
+                        <PublicSourceHomePageContent
+                            source={source}
+                            userName={userName}
+                        />
+                    </PublicSourcePopupsProvider>
+                ) : (
+                    <LoadingPage />
+                )}
+            </div>
         </UserPopupsProvider>
     );
 }

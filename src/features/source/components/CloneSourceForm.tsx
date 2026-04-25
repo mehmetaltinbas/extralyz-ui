@@ -1,37 +1,38 @@
 import React from 'react';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
-import { PublicExerciseSetService } from 'src/features/exercise-set/services/public-exercise-set.service';
 import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
-import type { CloneExerciseSetDto } from 'src/features/exercise-set/types/dto/clone-exercise-set.dto';
-import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
+import { SourceVisibility } from 'src/features/source/enums/source-visibility.enum';
+import { PublicSourceService } from 'src/features/source/services/public-source.service';
+import type { CloneSourceDto } from 'src/features/source/types/dto/clone-source.dto';
+import type { Source } from 'src/features/source/types/source.interface';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
-export function CloneExerciseSetForm({
+export function CloneSourceForm({
     isHidden,
     setIsHidden,
     setIsPopUpActive,
     setIsLoadingPageHidden,
     onClose,
-    exerciseSet,
+    source,
 }: {
     isHidden: boolean;
     setIsHidden: React.Dispatch<React.SetStateAction<boolean>>;
     setIsPopUpActive: React.Dispatch<React.SetStateAction<boolean>>;
     setIsLoadingPageHidden: React.Dispatch<React.SetStateAction<boolean>>;
     onClose: () => void;
-    exerciseSet: ExerciseSet;
+    source: Source;
 }) {
     const dispatch = useAppDispatch();
 
-    const initialDto: CloneExerciseSetDto = {
-        title: `${exerciseSet.title} (clone)`,
-        visibility: ExerciseSetVisibility.PRIVATE,
+    const initialDto: CloneSourceDto = {
+        title: `${source.title} (clone)`,
+        visibility: SourceVisibility.PRIVATE,
     };
-    const [dto, setDto] = React.useState<CloneExerciseSetDto>(initialDto);
+    const [dto, setDto] = React.useState<CloneSourceDto>(initialDto);
 
     const isSubmittingRef = React.useRef(false);
 
@@ -39,7 +40,7 @@ export function CloneExerciseSetForm({
         if (isHidden && !isSubmittingRef.current) {
             setDto(initialDto);
         }
-    }, [isHidden, exerciseSet]);
+    }, [isHidden, source]);
 
     async function clone() {
         isSubmittingRef.current = true;
@@ -47,8 +48,8 @@ export function CloneExerciseSetForm({
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await PublicExerciseSetService.clone(
-                exerciseSet._id,
+            const response = await PublicSourceService.clone(
+                source._id,
                 dto
             );
 

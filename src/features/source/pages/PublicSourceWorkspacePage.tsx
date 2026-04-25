@@ -1,8 +1,9 @@
 import React from 'react';
-import { PublicSourcePageContent } from 'src/features/source/pages/PublicSourcePageContent';
+import { PublicSourcePopupsProvider } from 'src/features/source/components/PublicSourcePopupsProvider';
+import { PublicSourceWorkspacePageContent } from 'src/features/source/pages/PublicSourceWorkspacePageContent';
 import type { Source } from 'src/features/source/types/source.interface';
 
-export function PublicSourcePage({
+export function PublicSourceWorkspacePage({
     source,
     ownerUserName,
     isActiveComponent,
@@ -18,10 +19,12 @@ export function PublicSourcePage({
             ref={containerRef}
             className={`relative w-full h-full ${isActiveComponent ? 'block' : 'hidden'}`}
         >
-            <PublicSourcePageContent
-                source={source}
-                ownerUserName={ownerUserName}
-            />
+            <PublicSourcePopupsProvider source={source} ownerUserName={ownerUserName}>
+                <PublicSourceWorkspacePageContent
+                    source={source}
+                    ownerUserName={ownerUserName}
+                />
+            </PublicSourcePopupsProvider>
         </div>
     ) : (
         <div className={`${isActiveComponent ? 'block' : 'hidden'}`}>undefined</div>

@@ -3,10 +3,10 @@ import { ExerciseSetPage } from 'src/features/exercise-set/pages/ExerciseSetPage
 import { ExerciseSetPaperEvaluationPage } from 'src/features/exercise-set/pages/ExerciseSetPaperEvaluationPage';
 import { ExerciseSetPracticePage } from 'src/features/exercise-set/pages/ExerciseSetPracticePage';
 import { ExerciseSetsPage } from 'src/features/exercise-set/pages/ExerciseSetsPage';
-import { PublicExerciseSetPage } from 'src/features/exercise-set/pages/PublicExerciseSetPage';
 import { PublicExerciseSetPaperEvaluationPage } from 'src/features/exercise-set/pages/PublicExerciseSetPaperEvaluationPage';
 import { PublicExerciseSetPracticePage } from 'src/features/exercise-set/pages/PublicExerciseSetPracticePage';
-import { PublicSourcePage } from 'src/features/source/pages/PublicSourcePage';
+import { PublicExerciseSetWorkspacePage } from 'src/features/exercise-set/pages/PublicExerciseSetWorkspacePage';
+import { PublicSourceWorkspacePage } from 'src/features/source/pages/PublicSourceWorkspacePage';
 import { SourcePage } from 'src/features/source/pages/SourcePage';
 import { SourcesPage } from 'src/features/source/pages/SourcesPage';
 import { Section } from 'src/features/workspace/enums/section.enum';
@@ -18,8 +18,8 @@ export const SECTION_COMPONENTS: Record<Section, React.ComponentType<any>> = {
     [Section.EXERCISE_SET]: ExerciseSetPage,
     [Section.EXERCISE_SET_PRACTICE]: ExerciseSetPracticePage,
     [Section.EXERCISE_SET_PAPER_EVALUATION]: ExerciseSetPaperEvaluationPage,
-    [Section.PUBLIC_EXERCISE_SET]: PublicExerciseSetPage,
+    [Section.PUBLIC_EXERCISE_SET]: PublicExerciseSetWorkspacePage,
     [Section.PUBLIC_EXERCISE_SET_PRACTICE]: PublicExerciseSetPracticePage,
     [Section.PUBLIC_EXERCISE_SET_PAPER_EVALUATION]: PublicExerciseSetPaperEvaluationPage,
-    [Section.PUBLIC_SOURCE]: PublicSourcePage,
+    [Section.PUBLIC_SOURCE]: PublicSourceWorkspacePage,
 };

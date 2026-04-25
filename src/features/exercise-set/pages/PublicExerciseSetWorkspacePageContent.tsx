@@ -11,7 +11,7 @@ import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { useAppDispatch } from 'src/store/hooks';
 
-export function PublicExerciseSetPageContent({
+export function PublicExerciseSetWorkspacePageContent({
     exerciseSet,
     exercises,
     ownerUserName

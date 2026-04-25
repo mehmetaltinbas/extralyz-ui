@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import { SourceTextRenderer } from 'src/features/source/components/SourceTextRenderer';
+import { usePublicSourcePopups } from 'src/features/source/hooks/use-public-source-popups.hook';
 import { PublicSourceService } from 'src/features/source/services/public-source.service';
 import type { Source } from 'src/features/source/types/source.interface';
 import { Button } from 'src/shared/components/Button';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 
-export function PublicSourcePageContent({
+export function PublicSourceWorkspacePageContent({
     source,
     ownerUserName,
 }: {
@@ -13,6 +14,8 @@ export function PublicSourcePageContent({
     ownerUserName: string;
 }) {
     const navigate = useNavigate();
+
+    const { openCloneSourceForm } = usePublicSourcePopups();
 
     const content = JSON.parse(source.rawText) as object;
 
@@ -76,6 +79,10 @@ export function PublicSourcePageContent({
 
                 <div className="flex flex-wrap gap-2">
                     <Button onClick={handleViewPdf}>View as PDF</Button>
+
+                    <Button onClick={openCloneSourceForm}>
+                        Clone to My Sources
+                    </Button>
 
                     <Button variant={ButtonVariant.OUTLINE} onClick={handleCopyPublicLink}>
                         Copy Public Link

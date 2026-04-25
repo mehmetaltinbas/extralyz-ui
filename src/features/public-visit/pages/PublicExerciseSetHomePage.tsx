@@ -6,11 +6,11 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import { PublicExerciseService } from 'src/features/exercise/services/public-exercise.service';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 import { PublicPageHeader } from 'src/features/public-visit/components/PublicPageHeader';
+import { PublicExerciseSetHomeContent } from 'src/features/public-visit/pages/PublicExerciseSetHomeContent';
 import { UserPopupsProvider } from 'src/features/user/components/UserPopupsProvider';
-import { PublicExerciseSetViewPageContent } from 'src/features/public-visit/pages/PublicExerciseSetViewPageContent';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
 
-export function PublicExerciseSetViewPage() {
+export function PublicExerciseSetHomePage() {
     const containerRef = React.useRef<HTMLDivElement>(null);
 
     const { userName, title } = useParams<{ userName: string; title: string }>();
@@ -64,7 +64,7 @@ export function PublicExerciseSetViewPage() {
                                 exercises={exercises}
                                 ownerUserName={userName}
                             >
-                                <PublicExerciseSetViewPageContent
+                                <PublicExerciseSetHomeContent
                                     exerciseSet={exerciseSet}
                                     exercises={exercises}
                                     userName={userName}

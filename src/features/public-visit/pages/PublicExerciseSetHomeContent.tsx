@@ -12,7 +12,7 @@ import { useAuth } from 'src/shared/hooks/use-auth.hook';
 import { storeAuthRedirectUrl } from 'src/shared/utils/auth-redirect/store-auth-redirect-url.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
-export function PublicExerciseSetViewPageContent({
+export function PublicExerciseSetHomeContent({
     exerciseSet,
     exercises,
     userName

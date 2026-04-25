@@ -14,7 +14,7 @@ export function TrueFalseExerciseCard({
 
     return (
         <div className="w-full h-full flex flex-col gap-2">
-            <p className='whitespace-pre-wrap'><span className='font-bold'>{exercise.order + 1}</span> - {exercise.prompt}</p>
+            <p className='whitespace-pre-wrap'><span className='font-bold'>{exercise.order + 1}</span> - {exercise.stem}</p>
             
             {!isAnswersHidden && (
                 <p className="text-text-correct">

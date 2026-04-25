@@ -20,7 +20,7 @@ export function ExerciseEvaluationCard({
         >
             <p className="p-2 whitespace-pre-wrap">
                 <span className="font-serif font-semibold">Exercise {index + 1}</span> -{' '}
-                {exercise.prompt}
+                {exercise.stem}
             </p>
 
             {strategy?.getRestOfExerciseEvaluationCard(exercise, evaluation)}

@@ -24,7 +24,7 @@ export function ExercisePracticeCard({
         >
             <p className="border-b p-4">
                 <span className="font-serif font-semibold">Exercise {index + 1}</span> -{' '}
-                {exercise.prompt}
+                {exercise.stem}
             </p>
 
             {strategy?.getRestOfExercisePracticeCard(exercise, index, recordAnswer, shuffleChoices)}

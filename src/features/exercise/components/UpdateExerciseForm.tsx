@@ -32,7 +32,7 @@ export function UpdateExerciseForm({
     const initialDto: UpdateExerciseDto = {
         type: exercise.type,
         difficulty: exercise.difficulty,
-        stem: exercise.prompt,
+        stem: exercise.stem,
         solution: exercise.solution,
         choices: exercise.choices,
         correctChoiceIndex: exercise.correctChoiceIndex,

@@ -14,6 +14,7 @@ export function SignUpPage() {
         userName: '',
         email: '',
         password: '',
+        allowsMarketing: false,
     });
     const [isSignedUp, setIsSignedUp] = React.useState<boolean>(false);
     
@@ -69,6 +70,21 @@ export function SignUpPage() {
                     size={InputSize.LG}
                     placeholder={InputType.PASSWORD}
                 />
+
+                <div className='flex justify-start items-center gap-2'>
+                    <Input
+                        onChange={(event) =>
+                            setSignUpDto({
+                                ...signUpDto,
+                                allowsMarketing: Boolean(event.target.value),
+                            })
+                        }
+                        type={InputType.CHECKBOX}
+                        size={InputSize.LG}
+                    />
+
+                    <label className='whitespace-nowrap'>Send me study tips & updates</label>
+                </div>
                 
                 <Button variant={ButtonVariant.PRIMARY} onClick={signUp}>
                     Sign Up

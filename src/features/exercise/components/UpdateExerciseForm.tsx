@@ -32,7 +32,7 @@ export function UpdateExerciseForm({
     const initialDto: UpdateExerciseDto = {
         type: exercise.type,
         difficulty: exercise.difficulty,
-        prompt: exercise.prompt,
+        stem: exercise.prompt,
         solution: exercise.solution,
         choices: exercise.choices,
         correctChoiceIndex: exercise.correctChoiceIndex,
@@ -118,7 +118,7 @@ export function UpdateExerciseForm({
             </div>
 
             <div className="flex justify-start items-center gap-2">
-                <p>type: </p>
+                <p>Type: </p>
                 <select
                     name="type"
                     value={dto.type}
@@ -132,7 +132,7 @@ export function UpdateExerciseForm({
             </div>
 
             <div className="flex justify-start items-center gap-2">
-                <p>difficulty: </p>
+                <p>Difficulty: </p>
                 <select
                     name="difficulty"
                     value={dto.difficulty}
@@ -146,13 +146,13 @@ export function UpdateExerciseForm({
             </div>
 
             <div className="w-64 sm:w-96 flex justify-start items-center gap-2">
-                <p>prompt: </p>
+                <p>Stem: </p>
                 <Textarea
-                    value={dto.prompt}
+                    value={dto.stem}
                     onChange={(e) =>
                         setDto({
                             ...dto,
-                            prompt: e.currentTarget.value,
+                            stem: e.currentTarget.value,
                         })
                     }
                     rows={isMobile ? 1 : 2}

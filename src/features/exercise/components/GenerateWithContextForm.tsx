@@ -34,7 +34,7 @@ export function GenerateWithContextForm({
     const initialResultDto: CreateExerciseDto = {
         type: ExerciseType.OPEN_ENDED,
         difficulty: ExerciseDifficulty.MEDIUM,
-        prompt: '',
+        stem: '',
     };
     const initialContextDto: GenerateExerciseWithContextDto = {
         context: '',
@@ -78,7 +78,7 @@ export function GenerateWithContextForm({
                 setResultDto({
                     type: exercise.type,
                     difficulty: exercise.difficulty,
-                    prompt: exercise.prompt,
+                    stem: exercise.prompt,
                     solution: exercise.solution,
                     choices: exercise.choices,
                     correctChoiceIndex: exercise.correctChoiceIndex,
@@ -246,11 +246,11 @@ export function GenerateWithContextForm({
                     <div className="w-64 sm:w-96 flex justify-start items-center gap-2">
                         <p>prompt: </p>
                         <Textarea
-                            value={resultDto.prompt}
+                            value={resultDto.stem}
                             onChange={(e) =>
                                 setResultDto({
                                     ...resultDto,
-                                    prompt: e.currentTarget.value,
+                                    stem: e.currentTarget.value,
                                 })
                             }
                             rows={isMobile ? 1 : 2}

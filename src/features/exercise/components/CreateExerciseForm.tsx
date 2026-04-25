@@ -35,7 +35,7 @@ export function CreateExerciseForm({
     const initialDto: CreateExerciseDto = {
         type: exerciseSet.type === ExerciseSetType.MIX ? ExerciseType.MULTIPLE_CHOICE : exerciseSet.type as unknown as ExerciseType,
         difficulty: exerciseSet.difficulty === ExerciseSetDifficulty.MIX ? ExerciseDifficulty.MEDIUM : exerciseSet.difficulty as unknown as ExerciseDifficulty,
-        prompt: '',
+        stem: '',
         solution: undefined,
         choices: Array(MULTIPLE_CHOICE_CHOICES_COUNT).fill(''),
         correctChoiceIndex: 0,
@@ -117,7 +117,7 @@ export function CreateExerciseForm({
     return (
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex justify-start items-center gap-2">
-                <p>type: </p>
+                <p>Type: </p>
                 <select
                     name="type"
                     value={dto.type}
@@ -131,7 +131,7 @@ export function CreateExerciseForm({
             </div>
 
             <div className="flex justify-start items-center gap-2">
-                <p>difficulty: </p>
+                <p>Difficulty: </p>
                 <select
                     name="difficulty"
                     value={dto.difficulty}
@@ -145,13 +145,13 @@ export function CreateExerciseForm({
             </div>
 
             <div className="w-64 sm:w-96 flex justify-start items-center gap-2">
-                <p>prompt: </p>
+                <p>Stem: </p>
                 <Textarea
-                    value={dto.prompt}
+                    value={dto.stem}
                     onChange={(e) =>
                         setDto({
                             ...dto,
-                            prompt: e.currentTarget.value,
+                            stem: e.currentTarget.value,
                         })
                     }
                     rows={isMobile ? 1 : 2}

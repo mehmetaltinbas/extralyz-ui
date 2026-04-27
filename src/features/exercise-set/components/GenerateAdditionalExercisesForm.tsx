@@ -10,6 +10,10 @@ import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 import { Input } from 'src/shared/components/Input';
 import { InputType } from 'src/shared/enums/input-type.enum';
+import { ExerciseGenerationMode } from 'src/features/exercise-set/enums/exercise-generation-mode.enum';
+import { InformationText } from 'src/shared/components/InformationText';
+import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
+import { InformationTextSize } from 'src/shared/enums/information-text-size.enum';
 
 export function GenerateAdditionalExercisesForm({
     isHidden,
@@ -32,9 +36,12 @@ export function GenerateAdditionalExercisesForm({
         type: exerciseSet.type as ExerciseSetType,
         difficulty: exerciseSet.difficulty as ExerciseSetDifficulty,
         count: 5,
+        generationMode: ExerciseGenerationMode.DIRECT_RECALL
     };
     const [dto, setDto] = React.useState<GenerateAdditionalExercisesDto>(initialDto);
     const [countStr, setCountStr] = React.useState(String(initialDto.count));
+
+    const { isDesktop } = useBreakpoint();
 
     const isSubmittingRef = React.useRef(false);
 
@@ -122,6 +129,29 @@ export function GenerateAdditionalExercisesForm({
                     }}
                 />
             </div>
+
+            <div className="flex justify-start items-center gap-2">
+                <p>Focus: </p>
+                <select
+                    name="generationMode"
+                    value={dto.generationMode}
+                    onChange={(e) => setDto({ ...dto, generationMode: e.target.value as ExerciseGenerationMode })}
+                    className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
+                >
+                    {Object.values(ExerciseGenerationMode).map((value, index) => (
+                        <option key={`generation-mode-${index}`} value={value}>{camelToTitleCase(value)}</option>
+                    ))}
+                </select>
+            </div>
+
+            <InformationText
+                size={isDesktop ? InformationTextSize.MD : InformationTextSize.SM}
+                text={
+                    dto.generationMode === ExerciseGenerationMode.DIRECT_RECALL
+                        ? "Focuses on facts and definitions found directly in your source."
+                        : "Focuses on applying concepts to NEW examples and scenarios not in the text."
+                }
+            />
 
             <Button
                 variant={ButtonVariant.PRIMARY}

@@ -1,12 +1,12 @@
 import React from 'react';
+import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import { WEAK_POINT_PASS_THRESHOLD } from 'src/features/exercise/constants/weak-point-pass-threshold.constant';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
 
 export function useExerciseSetPractice(
-    exercises: Exercise[] | undefined,
-    evaluateService: (dto: EvaluateAnswersDto) => Promise<EvaluateAnswersResponse>,
+    exercises: Exercise[] | undefined
 ) {
     const [activeExerciseIndex, setActiveExerciseIndex] = React.useState<number>(0);
     const [evaluateAnswersDto, setEvaluateAnswersDto] = React.useState<EvaluateAnswersDto>({
@@ -48,7 +48,7 @@ export function useExerciseSetPractice(
     }
 
     async function evaluateAnswers() {
-        const response = await evaluateService(evaluateAnswersDto);
+        const response = await ExerciseSetService.evaluateAnswers(evaluateAnswersDto);
 
         if (response.isSuccess) {
             setEvaluation(response);

@@ -71,6 +71,8 @@ export function ExerciseSetPaperEvaluationPage({
 
         if (response.isSuccess) {
             setEvaluation(response);
+        } else if (!response.isSuccess) {
+            alert(response.message);
         }
 
         setIsSubmitting(false);

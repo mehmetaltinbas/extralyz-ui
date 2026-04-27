@@ -1,7 +1,6 @@
 import { ExerciseSetMode } from 'src/features/exercise-set/enums/exercise-set-mode.enum';
 import { useExerciseSetPractice } from 'src/features/exercise-set/hooks/use-exercise-set-practice.hook';
 import { ExerciseSetEvaluationPage } from 'src/features/exercise-set/pages/ExerciseSetEvaluationPage';
-import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { ExercisePracticeCard } from 'src/features/exercise/components/ExercisePracticeCard';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
@@ -27,7 +26,7 @@ export function ExerciseSetPracticePage({
     mode?: string;
 }) {
     const dispatch = useAppDispatch();
-    const practice = useExerciseSetPractice(exercises, ExerciseSetService.evaluateAnswers);
+    const practice = useExerciseSetPractice(exercises);
 
     return (
         <div className={`${isActiveComponent ? 'block' : 'hidden'} relative w-full h-full`}>

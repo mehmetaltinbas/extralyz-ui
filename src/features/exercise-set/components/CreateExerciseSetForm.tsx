@@ -1,4 +1,5 @@
 import React from 'react';
+import { ExerciseGenerationMode } from 'src/features/exercise-set/enums/exercise-generation-mode.enum';
 import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
@@ -47,6 +48,7 @@ export function CreateExerciseSetForm({
         difficulty: ExerciseSetDifficulty.MIX,
         count: 0,
         visibility: ExerciseSetVisibility.PRIVATE,
+        generationMode: ExerciseGenerationMode.DIRECT_RECALL
     };
 
     const [dto, setDto] = React.useState<CreateExerciseSetDto>(initialDto);
@@ -133,7 +135,8 @@ export function CreateExerciseSetForm({
         if (
             !(Object.values(ExerciseSetType) as string[]).includes(selectElement.value) &&
             !(Object.values(ExerciseSetDifficulty) as string[]).includes(selectElement.value) &&
-            !(Object.values(ExerciseSetVisibility) as string[]).includes(selectElement.value)
+            !(Object.values(ExerciseSetVisibility) as string[]).includes(selectElement.value) &&
+            !(Object.values(ExerciseGenerationMode) as string[]).includes(selectElement.value)
         ) {
             return;
         }
@@ -148,7 +151,7 @@ export function CreateExerciseSetForm({
         <Modal isHidden={isHidden} onClose={onClose}>
             <div className="flex flex-col justify-start items-center gap-2">
                 <div className="w-48 sm:w-72 flex justify-start items-center gap-2">
-                    <p>title: </p>
+                    <p>Title: </p>
                     <Input
                         name="title"
                         value={dto.title}
@@ -159,7 +162,7 @@ export function CreateExerciseSetForm({
                 {dto.contextType === ExerciseSetContextType.SOURCE && (
                     <>
                         <div className="flex justify-start items-center gap-2">
-                            <p>count: </p>
+                            <p>Count: </p>
                             <Input
                                 name="count"
                                 type={InputType.NUMBER}
@@ -182,7 +185,7 @@ export function CreateExerciseSetForm({
                 )}
 
                 <div className="flex justify-start items-center gap-2">
-                    <p>type: </p>
+                    <p>Type: </p>
                     <select
                         name="type"
                         value={dto.type}
@@ -196,7 +199,7 @@ export function CreateExerciseSetForm({
                 </div>
 
                 <div className="flex justify-start items-center gap-2">
-                    <p>difficulty: </p>
+                    <p>Difficulty: </p>
                     <select
                         name="difficulty"
                         value={dto.difficulty}
@@ -215,7 +218,7 @@ export function CreateExerciseSetForm({
                 />
 
                 <div className="flex justify-start items-center gap-2">
-                    <p>visibility: </p>
+                    <p>Visibility: </p>
                     <select
                         name="visibility"
                         value={dto.visibility}
@@ -230,7 +233,7 @@ export function CreateExerciseSetForm({
                 {!sourceId && (
                     <div className="flex flex-col justify-start items-center gap-4">
                         <div className="flex justify-start items-center gap-2">
-                            <p>association: </p>
+                            <p>Association: </p>
                             <select
                                 value={dto.contextType}
                                 onChange={(e) => handleAssociationTypeChange(e.currentTarget.value as ExerciseSetContextType)}
@@ -246,7 +249,7 @@ export function CreateExerciseSetForm({
 
                         {dto.contextType === ExerciseSetContextType.GROUP && (
                             <div className="flex justify-start items-center gap-2">
-                                <p>group: </p>
+                                <p>Group: </p>
                                 <select
                                     value={selectedContextId}
                                     onChange={(e) => setSelectedContextId(e.currentTarget.value)}
@@ -260,20 +263,49 @@ export function CreateExerciseSetForm({
                         )}
 
                         {dto.contextType === ExerciseSetContextType.SOURCE && (
-                            <div className="flex justify-start items-center gap-2">
-                                <p>source: </p>
-                                <select
-                                    value={selectedContextId}
-                                    onChange={(e) => setSelectedContextId(e.currentTarget.value)}
-                                    className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
-                                >
-                                    {sources.map((source) => (
-                                        <option key={source._id} value={source._id}>{source.title}</option>
-                                    ))}
-                                </select>
-                            </div>
+                            <>
+                                <div className="flex justify-start items-center gap-2">
+                                    <p>Source: </p>
+                                    <select
+                                        value={selectedContextId}
+                                        onChange={(e) => setSelectedContextId(e.currentTarget.value)}
+                                        className="w-48 sm:w-72 py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
+                                    >
+                                        {sources.map((source) => (
+                                            <option key={source._id} value={source._id}>{source.title}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </>
                         )}
                     </div>
+                )}
+
+                {(sourceId && dto.contextType === ExerciseSetContextType.SOURCE) && (
+                    <>
+                        <div className="flex justify-start items-center gap-2">
+                            <p>Focus: </p>
+                            <select
+                                name="generationMode"
+                                value={dto.generationMode}
+                                onChange={(e) => setDto({ ...dto, generationMode: e.target.value as ExerciseGenerationMode })}
+                                className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
+                            >
+                                {Object.values(ExerciseGenerationMode).map((value, index) => (
+                                    <option key={`generation-mode-${index}`} value={value}>{camelToTitleCase(value)}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <InformationText
+                            size={isDesktop ? InformationTextSize.MD : InformationTextSize.SM}
+                            text={
+                                dto.generationMode === ExerciseGenerationMode.DIRECT_RECALL
+                                    ? "Focuses on facts and definitions found directly in your source."
+                                    : "Focuses on applying concepts to NEW examples and scenarios not in the text."
+                            }
+                        />
+                    </>
                 )}
 
                 <Button variant={ButtonVariant.PRIMARY} onClick={createExerciseSet}>

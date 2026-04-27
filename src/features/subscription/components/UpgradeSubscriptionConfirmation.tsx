@@ -2,7 +2,7 @@ import React from 'react';
 import { PaymentMethodSelector } from 'src/features/payment-method/components/PaymentMethodSelector';
 import { paymentMethodActions } from 'src/features/payment-method/store/payment-method.slice';
 import { DEFAULT_CURRENCY } from 'src/features/payment/constants/default-currency.constant';
-import type { PlanName } from 'src/features/subscription/enums/plan-name.enum';
+import type { PlanName } from 'src/features/plan/enums/plan-name.enum';
 import { SubscriptionService } from 'src/features/subscription/services/subscription.service';
 import { subscriptionActions } from 'src/features/subscription/store/subscription.slice';
 import { userActions } from 'src/features/user/store/user.slice';

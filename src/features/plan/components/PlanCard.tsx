@@ -1,7 +1,6 @@
 import type React from 'react';
-import { PLAN_TIER_RANK } from 'src/features/subscription/constants/plan-tier-rank.constant';
-import { PLUS_FEATURES } from 'src/features/subscription/constants/plus-features.constant';
-import { PlanName } from 'src/features/subscription/enums/plan-name.enum';
+import { PLAN_FEATURE_MINIMUM_PLAN_NAME } from 'src/features/plan/constants/plan-feature-minimum-plan-name.constant';
+import { PLAN_ORDER } from 'src/features/plan/constants/plan-order.constant';
 import type { Plan } from 'src/features/subscription/types/plan.interface';
 import { formatLimit } from 'src/features/subscription/utils/format-limit.util';
 
@@ -14,7 +13,10 @@ export function PlanCard({
     isCurrentPlan: boolean;
     actionSlot: React.ReactNode;
 }) {
-    const showPlusFeatures = PLAN_TIER_RANK[plan.name] >= PLAN_TIER_RANK[PlanName.PLUS];
+    const planOrder = PLAN_ORDER[plan.name];
+    const planFeatures = Object.entries(PLAN_FEATURE_MINIMUM_PLAN_NAME)
+        .filter(([, planName]) => planOrder >= PLAN_ORDER[planName])
+        .map(([feature]) => feature);
 
     return (
         <div
@@ -38,9 +40,9 @@ export function PlanCard({
                 <p>{formatLimit(plan.maxExerciseSets)} exercise sets</p>
             </div>
 
-            {showPlusFeatures && (
+            {planFeatures.length > 0 && (
                 <div className="flex flex-col gap-1 text-sm border-t border-border pt-2">
-                    {PLUS_FEATURES.map((feature) => (
+                    {planFeatures.map((feature) => (
                         <p key={feature} className="text-text-secondary">
                             + {feature}
                         </p>

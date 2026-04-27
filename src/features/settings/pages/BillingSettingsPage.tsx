@@ -2,9 +2,9 @@ import React from 'react';
 import { PaymentMethodsSection } from 'src/features/payment-method/components/PaymentMethodsSection';
 import { CurrentPlanSection } from 'src/features/plan/components/CurrentPlanSection';
 import { PlansSection } from 'src/features/plan/components/PlansSection';
+import type { PlanName } from 'src/features/plan/enums/plan-name.enum';
 import { DowngradeConfirmation } from 'src/features/subscription/components/DowngradeConfirmation';
 import { UpgradeSubscriptionConfirmation } from 'src/features/subscription/components/UpgradeSubscriptionConfirmation';
-import type { PlanName } from 'src/features/subscription/enums/plan-name.enum';
 import { BodyModal } from 'src/shared/components/BodyModal';
 
 export function BillingSettingsPage() {

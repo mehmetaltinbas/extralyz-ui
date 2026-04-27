@@ -1,8 +1,8 @@
 import React from 'react';
 import { AddPaymentMethodForm } from 'src/features/payment-method/components/AddPaymentMethodForm';
 import { PaymentMethodRow } from 'src/features/payment-method/components/PaymentMethodRow';
+import { PlanName } from 'src/features/plan/enums/plan-name.enum';
 import { usePlans } from 'src/features/plan/hooks/use-plans.hook';
-import { PlanName } from 'src/features/subscription/enums/plan-name.enum';
 import { SubscriptionStatus } from 'src/features/subscription/enums/subscription-status.enum';
 import { Button } from 'src/shared/components/Button';
 import { ButtonSize } from 'src/shared/enums/button-size.enum';

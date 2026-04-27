@@ -1,3 +1,4 @@
+import { PlanName } from 'src/features/plan/enums/plan-name.enum';
 import { usePlans } from 'src/features/plan/hooks/use-plans.hook';
 import { SubscriptionStatus } from 'src/features/subscription/enums/subscription-status.enum';
 import { useAppSelector } from 'src/store/hooks';
@@ -9,7 +10,7 @@ export function CurrentPlanSection() {
 
     const { plans } = usePlans();
 
-    const planName = plans.find(plan => plan._id === subscription?.planId)?.name ?? 'free';
+    const planName = plans.find(plan => plan._id === subscription?.planId)?.name ?? PlanName.FREE;
     const nextBillingDate = subscription?.nextBillingDate
         ? new Date(subscription.nextBillingDate).toLocaleDateString()
         : '—';
@@ -38,7 +39,7 @@ export function CurrentPlanSection() {
 
                 <div className="flex flex-wrap gap-6 text-sm text-text-secondary">
                     <div>
-                        Next billing date:{' '}
+                        Next {planName === PlanName.FREE ? 'renewal' : 'billing'} date:{' '}
                         <span className="text-text-primary">{nextBillingDate}</span>
                     </div>
                     <div>

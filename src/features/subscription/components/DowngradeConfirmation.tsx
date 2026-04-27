@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PlanName } from 'src/features/subscription/enums/plan-name.enum';
+import type { PlanName } from 'src/features/plan/enums/plan-name.enum';
 import { SubscriptionService } from 'src/features/subscription/services/subscription.service';
 import { subscriptionActions } from 'src/features/subscription/store/subscription.slice';
 import { Button } from 'src/shared/components/Button';

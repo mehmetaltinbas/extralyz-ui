@@ -1,5 +1,5 @@
 import React from 'react';
-import { PLAN_ORDER } from 'src/features/subscription/constants/plan-order.constant';
+import { PLAN_ORDER } from 'src/features/plan/constants/plan-order.constant';
 import { PlanService } from 'src/features/subscription/services/plan.service';
 import type { Plan } from 'src/features/subscription/types/plan.interface';
 
@@ -15,7 +15,7 @@ export function usePlans(): { plans: Plan[]; isLoading: boolean } {
             if (!cancelled) {
                 if (response.isSuccess && response.plans) {
                     const sorted = [...response.plans].sort(
-                        (a, b) => PLAN_ORDER.indexOf(a.name) - PLAN_ORDER.indexOf(b.name)
+                        (a, b) => PLAN_ORDER[a.name] - PLAN_ORDER[b.name]
                     );
                     setPlans(sorted);
                 }

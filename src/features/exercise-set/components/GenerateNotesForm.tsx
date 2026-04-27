@@ -1,4 +1,5 @@
 import React from 'react';
+import { ExerciseSetEstimateService } from 'src/features/exercise-set/services/exercise-set-estimate.service';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { SourceType } from 'src/features/source/enums/source-type.enum';
@@ -56,7 +57,7 @@ export function GenerateNotesForm({
     }, [isHidden]);
 
     async function generateWithEstimate() {
-        const estimate = await ExerciseSetService.estimateGenerateNotes(exerciseSet._id);
+        const estimate = await ExerciseSetEstimateService.estimateGenerateNotes(exerciseSet._id);
 
         if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
             const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);

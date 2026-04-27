@@ -2,6 +2,7 @@ import React from 'react';
 import { MAX_PAPER_EVALUATION_UPLOAD_COUNT } from 'src/features/exercise-set/constants/max-paper-evaluation-upload-count.constant';
 import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import { ExerciseSetEvaluationPage } from 'src/features/exercise-set/pages/ExerciseSetEvaluationPage';
+import { ExerciseSetEstimateService } from 'src/features/exercise-set/services/exercise-set-estimate.service';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
@@ -52,7 +53,7 @@ export function ExerciseSetPaperEvaluationPage({
     async function handleSubmit() {
         if (!exerciseSet || files.length === 0) return;
 
-        const estimate = await ExerciseSetService.estimateEvaluatePaperAnswers(
+        const estimate = await ExerciseSetEstimateService.estimateEvaluatePaperAnswers(
             exerciseSet._id,
             { imageCount: files.length }
         );

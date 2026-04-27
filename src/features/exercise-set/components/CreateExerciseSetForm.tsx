@@ -4,6 +4,7 @@ import { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise
 import { ExerciseSetType } from 'src/features/exercise-set/enums/exercise-set-type.enum';
 import { ExerciseSetVisibility } from 'src/features/exercise-set/enums/exercise-set-visibility.enum';
 import { ExerciseSetDifficulty } from 'src/features/exercise-set/enums/exericse-set-difficulty.enum';
+import { ExerciseSetEstimateService } from 'src/features/exercise-set/services/exercise-set-estimate.service';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
@@ -95,7 +96,7 @@ export function CreateExerciseSetForm({
             : selectedContextId;
 
         if (resolvedContextId) {
-            const estimate = await ExerciseSetService.estimateCreate(resolvedContextId, dto);
+            const estimate = await ExerciseSetEstimateService.estimateCreate(resolvedContextId, dto);
 
             if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
                 const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);

@@ -14,6 +14,7 @@ import { ExerciseGenerationMode } from 'src/features/exercise-set/enums/exercise
 import { InformationText } from 'src/shared/components/InformationText';
 import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { InformationTextSize } from 'src/shared/enums/information-text-size.enum';
+import { ExerciseSetEstimateService } from 'src/features/exercise-set/services/exercise-set-estimate.service';
 
 export function GenerateAdditionalExercisesForm({
     isHidden,
@@ -53,7 +54,7 @@ export function GenerateAdditionalExercisesForm({
     }, [isHidden]);
 
     async function generate() {
-        const estimate = await ExerciseSetService.estimateAdditional(exerciseSet._id, dto);
+        const estimate = await ExerciseSetEstimateService.estimateAdditional(exerciseSet._id, dto);
 
         if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
             const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);

@@ -1,7 +1,6 @@
 import type { ExerciseSetContextType } from 'src/features/exercise-set/enums/exercise-set-context-type.enum';
 import type { ChangeExerciseSetContextDto } from 'src/features/exercise-set/types/dto/change-exercise-set-context.dto';
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
-import type { EstimateEvaluatePaperAnswersDto } from 'src/features/exercise-set/types/dto/estimate-evaluate-paper-answers.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { GenerateAdditionalExercisesDto } from 'src/features/exercise-set/types/dto/generate-additional-exercises.dto';
 import type { SaveGeneratedNotesDto } from 'src/features/exercise-set/types/dto/save-generated-notes.dto';
@@ -14,7 +13,6 @@ import type { ReadMultipleExerciseSetsResponse } from 'src/features/exercise-set
 import type { ReadSingleExerciseSetResponse } from 'src/features/exercise-set/types/response/read-single-exercise-set.response';
 import type { ReorderExercisesDto } from 'src/features/exercise/types/dto/reorder-exercises.dto';
 import { axiosInstance } from 'src/shared/api/axios-instance';
-import type { EstimateResponse } from 'src/shared/types/estimate.response';
 import type { ResponseBase } from 'src/shared/types/response-base.interface';
 import { handleServiceError } from 'src/shared/utils/handle-service-error.util';
 
@@ -190,54 +188,6 @@ export class ExerciseSetService {
                 await axiosInstance.get(`${baseUrl}/get-pdf/${id}?withAnswers=${withAnswers}`)
             ).data;
     
-            return response;
-        } catch (error) {
-            return handleServiceError(error);
-        }
-    } 
-
-    static async estimateCreate(contextId: string, dto: CreateExerciseSetDto): Promise<EstimateResponse> {
-        try {
-            const response = (
-                await axiosInstance.post(`${baseUrl}/estimate/${contextId}`, dto)
-            ).data;
-
-            return response;
-        } catch (error) {
-            return handleServiceError(error);
-        }
-    }
-
-    static async estimateAdditional(exerciseSetId: string, dto: GenerateAdditionalExercisesDto): Promise<EstimateResponse> {
-        try {
-            const response = (
-                await axiosInstance.post(`${baseUrl}/estimate-additional/${exerciseSetId}`, dto)
-            ).data;
-
-            return response;
-        } catch (error) {
-            return handleServiceError(error);
-        }
-    }
-
-    static async estimateEvaluatePaperAnswers(exerciseSetId: string, dto: EstimateEvaluatePaperAnswersDto): Promise<EstimateResponse> {
-        try {
-            const response = (
-                await axiosInstance.post(`${baseUrl}/estimate-evaluate-paper-answers/${exerciseSetId}`, dto)
-            ).data;
-
-            return response;
-        } catch (error) {
-            return handleServiceError(error);
-        }
-    }
-
-    static async estimateGenerateNotes(exerciseSetId: string): Promise<EstimateResponse> {
-        try {
-            const response = (
-                await axiosInstance.post(`${baseUrl}/estimate-generate-notes/${exerciseSetId}`)
-            ).data;
-
             return response;
         } catch (error) {
             return handleServiceError(error);

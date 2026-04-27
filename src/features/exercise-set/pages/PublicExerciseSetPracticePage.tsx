@@ -27,7 +27,7 @@ export function PublicExerciseSetPracticePage({
     mode?: string;
 }) {
     const dispatch = useAppDispatch();
-    const practice = useExerciseSetPractice(exercises, PublicExerciseSetService.evaluatePublicAnswers);
+    const practice = useExerciseSetPractice(exercises);
 
     return (
         <div className={`${isActiveComponent ? 'block' : 'hidden'} relative w-full h-full`}>

@@ -6,7 +6,7 @@ import { ExerciseSetGroupService } from 'src/features/exercise-set-group/service
 import { ChangeExerciseSetAssociationForm } from 'src/features/exercise-set/components/ChangeExerciseSetAssociationForm';
 import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
-import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
+import { GenerateNotesPopups } from 'src/features/exercise-set/components/GenerateNotesPopups';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetsPopupsContext } from 'src/features/exercise-set/contexts/exercise-sets-popups.context';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
@@ -277,8 +277,8 @@ export function ExerciseSetsPopupsProvider({
                         />
                     ],
                     ...[actionMenuExerciseSet &&
-                        <GenerateNotesForm
-                            key='generate-notes-form'
+                        <GenerateNotesPopups
+                            key='generate-notes-popups'
                             isHidden={isGenerateNotesFormHidden}
                             setIsHidden={setIsGenerateNotesFormHidden}
                             setIsPopUpActive={setIsPopUpActive}

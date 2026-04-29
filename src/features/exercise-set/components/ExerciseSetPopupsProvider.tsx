@@ -2,7 +2,7 @@ import React from 'react';
 import { ChangeExerciseSetAssociationForm } from 'src/features/exercise-set/components/ChangeExerciseSetAssociationForm';
 import { GenerateAdditionalExercisesForm } from 'src/features/exercise-set/components/GenerateAdditionalExercisesForm';
 import { GenerateExerciseDecision } from 'src/features/exercise-set/components/GenerateExerciseDecision';
-import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
+import { GenerateNotesPopups } from 'src/features/exercise-set/components/GenerateNotesPopups';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ViewPdfDecision } from 'src/features/exercise-set/components/ViewPdfDecision';
 import { ExerciseSetPopupsContext } from 'src/features/exercise-set/contexts/exercise-set-popups.context';
@@ -322,8 +322,8 @@ export function ExerciseSetPopupsProvider({
                         refreshData={refreshData}
                         exerciseSet={exerciseSet}
                     />,
-                    <GenerateNotesForm
-                        key='generate-notes-form'
+                    <GenerateNotesPopups
+                        key='generate-notes-popups'
                         isHidden={isGenerateNotesFormHidden}
                         setIsHidden={setIsGenerateNotesFormHidden}
                         setIsPopUpActive={setIsPopUpActive}

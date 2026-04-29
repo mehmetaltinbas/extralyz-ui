@@ -12,11 +12,13 @@ import { userActions } from 'src/features/user/store/user.slice';
 import { Button } from 'src/shared/components/Button';
 import { InformationText } from 'src/shared/components/InformationText';
 import { Input } from 'src/shared/components/Input';
+import { InsufficientCreditsNotice } from 'src/shared/components/InsufficientCreditsNotice';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InformationTextSize } from 'src/shared/enums/information-text-size.enum';
 import { InputType } from 'src/shared/enums/input-type.enum';
 import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
+import { useCreditEstimate } from 'src/shared/hooks/use-credit-estimate.hook';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
@@ -58,6 +60,23 @@ export function CreateExerciseSetForm({
 
     const isSubmittingRef = React.useRef(false);
 
+    const resolvedContextId = dto.contextType === ExerciseSetContextType.INDEPENDENT
+        ? undefined
+        : selectedContextId;
+
+    const {
+        credits,
+        creditBalance,
+        isEstimating,
+        isInsufficient,
+        buttonLabel,
+    } = useCreditEstimate({
+        isEnabled: !isHidden && !!resolvedContextId,
+        estimateFn: () => ExerciseSetEstimateService.estimateCreate(resolvedContextId!, dto),
+        actionLabel: 'Create',
+        deps: [resolvedContextId, dto.type, dto.difficulty, dto.count, dto.generationMode, dto.contextType],
+    });
+
     function resetForm() {
         setDto(initialDto);
         setCountStr(String(initialDto.count));
@@ -91,19 +110,6 @@ export function CreateExerciseSetForm({
     }
 
     async function createExerciseSet() {
-        const resolvedContextId = dto.contextType === ExerciseSetContextType.INDEPENDENT
-            ? undefined
-            : selectedContextId;
-
-        if (resolvedContextId) {
-            const estimate = await ExerciseSetEstimateService.estimateCreate(resolvedContextId, dto);
-
-            if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
-                const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
-                if (!confirmed) return;
-            }
-        }
-
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
@@ -111,6 +117,7 @@ export function CreateExerciseSetForm({
         const response = await ExerciseSetService.create(resolvedContextId, dto);
 
         setIsLoadingPageHidden(true);
+        dispatch(userActions.fetchData());
 
         if (!response.isSuccess) {
             alert(response.message);
@@ -122,7 +129,6 @@ export function CreateExerciseSetForm({
         isSubmittingRef.current = false;
         resetForm();
         dispatch(refreshExerciseSetsData());
-        dispatch(userActions.fetchData());
         setIsPopUpActive(false);
     }
 
@@ -309,9 +315,21 @@ export function CreateExerciseSetForm({
                     </>
                 )}
 
-                <Button variant={ButtonVariant.PRIMARY} onClick={createExerciseSet}>
-                    Create
-                </Button>
+                {isInsufficient ? (
+                    <InsufficientCreditsNotice
+                        needed={credits}
+                        balance={creditBalance}
+                        onBeforeNavigate={() => setIsPopUpActive(false)}
+                    />
+                ) : (
+                    <Button
+                        variant={ButtonVariant.PRIMARY}
+                        disabled={isEstimating}
+                        onClick={createExerciseSet}
+                    >
+                        {buttonLabel}
+                    </Button>
+                )}
             </div>
         </Modal>
     );

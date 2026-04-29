@@ -8,12 +8,15 @@ import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.i
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
 import { viewExerciseSetAsPdf } from 'src/features/exercise-set/utils/view-exercise-set-as-pdf.util';
 import type { Exercise } from 'src/features/exercise/types/exercise.interface';
+import { userActions } from 'src/features/user/store/user.slice';
 import { Button } from 'src/shared/components/Button';
 import { Input } from 'src/shared/components/Input';
+import { InsufficientCreditsNotice } from 'src/shared/components/InsufficientCreditsNotice';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputType } from 'src/shared/enums/input-type.enum';
+import { useCreditEstimate } from 'src/shared/hooks/use-credit-estimate.hook';
 import { LoadingPage } from 'src/shared/pages/LoadingPage';
-import { useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 
 export function ExerciseSetPaperEvaluationPage({
     exerciseSet,
@@ -24,12 +27,30 @@ export function ExerciseSetPaperEvaluationPage({
     exercises?: Exercise[];
     isActiveComponent: boolean;
 }) {
+    const dispatch = useAppDispatch();
+
     const [files, setFiles] = React.useState<File[]>([]);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [evaluation, setEvaluation] = React.useState<EvaluateAnswersResponse>();
     const [previewUrls, setPreviewUrls] = React.useState<string[]>([]);
 
     const sources = useAppSelector(state => state.sources);
+
+    const {
+        credits,
+        creditBalance,
+        isEstimating,
+        isInsufficient,
+        buttonLabel: submitLabel,
+    } = useCreditEstimate({
+        isEnabled: !!exerciseSet && files.length > 0,
+        estimateFn: () =>
+            ExerciseSetEstimateService.estimateEvaluatePaperAnswers(exerciseSet!._id, {
+                imageCount: files.length,
+            }),
+        actionLabel: 'Submit for Evaluation',
+        deps: [exerciseSet?._id, files.length],
+    });
 
     React.useEffect(() => {
         const urls = files.map((file) => URL.createObjectURL(file));
@@ -53,22 +74,14 @@ export function ExerciseSetPaperEvaluationPage({
     async function handleSubmit() {
         if (!exerciseSet || files.length === 0) return;
 
-        const estimate = await ExerciseSetEstimateService.estimateEvaluatePaperAnswers(
-            exerciseSet._id,
-            { imageCount: files.length }
-        );
-
-        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
-            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
-            if (!confirmed) return;
-        }
-
         setIsSubmitting(true);
 
         const response = await ExerciseSetService.evaluatePaperAnswers(
             exerciseSet._id,
             files
         );
+
+        dispatch(userActions.fetchData());
 
         if (response.isSuccess) {
             setEvaluation(response);
@@ -86,7 +99,7 @@ export function ExerciseSetPaperEvaluationPage({
 
     function viewPdf() {
         if (!exerciseSet) {
-            alert('exercise set is undefined'); 
+            alert('exercise set is undefined');
             return;
         }
 
@@ -178,13 +191,20 @@ export function ExerciseSetPaperEvaluationPage({
                             </div>
                         )}
 
-                        <Button
-                            variant={ButtonVariant.PRIMARY}
-                            onClick={handleSubmit}
-                            disabled={files.length === 0 || files.length > MAX_PAPER_EVALUATION_UPLOAD_COUNT}
-                        >
-                            Submit for Evaluation
-                        </Button>
+                        {isInsufficient ? (
+                            <InsufficientCreditsNotice
+                                needed={credits}
+                                balance={creditBalance}
+                            />
+                        ) : (
+                            <Button
+                                variant={ButtonVariant.PRIMARY}
+                                onClick={handleSubmit}
+                                disabled={files.length === 0 || files.length > MAX_PAPER_EVALUATION_UPLOAD_COUNT || isEstimating}
+                            >
+                                {submitLabel}
+                            </Button>
+                        )}
                     </div>
                 )}
             </div>

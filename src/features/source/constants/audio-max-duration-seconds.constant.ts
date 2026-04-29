@@ -1,0 +1,1 @@
+export const AUDIO_MAX_DURATION_SECONDS = 3600;

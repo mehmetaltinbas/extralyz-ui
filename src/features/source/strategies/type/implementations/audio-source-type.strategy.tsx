@@ -16,6 +16,9 @@ export class AudioSourceTypeStrategy implements SourceTypeStrategy {
         if (file) formData.append('file', file);
         if (dto.type) formData.append('type', dto.type);
         if (dto.title) formData.append('title', dto.title);
+        if (dto.durationSeconds !== undefined) {
+            formData.append('durationSeconds', String(dto.durationSeconds));
+        }
         return formData;
     }
 

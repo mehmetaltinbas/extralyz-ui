@@ -15,6 +15,10 @@ import { InformationText } from 'src/shared/components/InformationText';
 import { useBreakpoint } from 'src/shared/hooks/use-breakpoint.hook';
 import { InformationTextSize } from 'src/shared/enums/information-text-size.enum';
 import { ExerciseSetEstimateService } from 'src/features/exercise-set/services/exercise-set-estimate.service';
+import { InsufficientCreditsNotice } from 'src/shared/components/InsufficientCreditsNotice';
+import { useCreditEstimate } from 'src/shared/hooks/use-credit-estimate.hook';
+import { userActions } from 'src/features/user/store/user.slice';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function GenerateAdditionalExercisesForm({
     isHidden,
@@ -33,6 +37,8 @@ export function GenerateAdditionalExercisesForm({
     refreshData: () => void;
     exerciseSet: ExerciseSet;
 }) {
+    const dispatch = useAppDispatch();
+
     const initialDto: GenerateAdditionalExercisesDto = {
         type: exerciseSet.type as ExerciseSetType,
         difficulty: exerciseSet.difficulty as ExerciseSetDifficulty,
@@ -46,6 +52,19 @@ export function GenerateAdditionalExercisesForm({
 
     const isSubmittingRef = React.useRef(false);
 
+    const {
+        credits,
+        creditBalance,
+        isEstimating,
+        isInsufficient,
+        buttonLabel,
+    } = useCreditEstimate({
+        isEnabled: !isHidden,
+        estimateFn: () => ExerciseSetEstimateService.estimateAdditional(exerciseSet._id, dto),
+        actionLabel: 'Generate',
+        deps: [exerciseSet._id, dto.type, dto.difficulty, dto.count, dto.generationMode],
+    });
+
     React.useEffect(() => {
         if (isHidden && !isSubmittingRef.current) {
             setDto(initialDto);
@@ -54,13 +73,6 @@ export function GenerateAdditionalExercisesForm({
     }, [isHidden]);
 
     async function generate() {
-        const estimate = await ExerciseSetEstimateService.estimateAdditional(exerciseSet._id, dto);
-
-        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
-            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
-            if (!confirmed) return;
-        }
-
         isSubmittingRef.current = true;
         setIsHidden(true);
         setIsLoadingPageHidden(false);
@@ -86,6 +98,7 @@ export function GenerateAdditionalExercisesForm({
             setIsHidden(false);
         } finally {
             setIsLoadingPageHidden(true);
+            dispatch(userActions.fetchData());
         }
     }
 
@@ -154,12 +167,21 @@ export function GenerateAdditionalExercisesForm({
                 }
             />
 
-            <Button
-                variant={ButtonVariant.PRIMARY}
-                onClick={async () => await generate()}
-            >
-                Generate
-            </Button>
+            {isInsufficient ? (
+                <InsufficientCreditsNotice
+                    needed={credits}
+                    balance={creditBalance}
+                    onBeforeNavigate={() => setIsPopUpActive(false)}
+                />
+            ) : (
+                <Button
+                    variant={ButtonVariant.PRIMARY}
+                    disabled={isEstimating}
+                    onClick={async () => await generate()}
+                >
+                    {buttonLabel}
+                </Button>
+            )}
         </Modal>
     );
 }

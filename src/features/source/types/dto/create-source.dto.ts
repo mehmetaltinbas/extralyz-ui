@@ -6,4 +6,5 @@ export interface CreateSourceDto {
     rawText?: string;
     url?: string;
     visibility?: SourceVisibility;
+    durationSeconds?: number;
 }

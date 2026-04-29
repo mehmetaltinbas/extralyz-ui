@@ -4,12 +4,16 @@ import { SourceVisibility } from 'src/features/source/enums/source-visibility.en
 import { SourceService } from 'src/features/source/services/source.service';
 import { sourceTypeFactory } from 'src/features/source/strategies/type/source-type.factory';
 import type { CreateSourceDto } from 'src/features/source/types/dto/create-source.dto';
+import { userActions } from 'src/features/user/store/user.slice';
 import { Button } from 'src/shared/components/Button';
+import { InsufficientCreditsNotice } from 'src/shared/components/InsufficientCreditsNotice';
 import { Input } from 'src/shared/components/Input';
 import { Modal } from 'src/shared/components/Modal';
 import { ButtonVariant } from 'src/shared/enums/button-variant.enum';
 import { InputSize } from 'src/shared/enums/input-size.enum';
+import { useCreditEstimate } from 'src/shared/hooks/use-credit-estimate.hook';
 import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
+import { useAppDispatch } from 'src/store/hooks';
 
 export function CreateSourceForm({
     isHidden,
@@ -26,6 +30,8 @@ export function CreateSourceForm({
     onClose: () => void;
     updateSources: () => void;
 }) {
+    const dispatch = useAppDispatch();
+
     const defaultStrategy = sourceTypeFactory.resolveStrategy(SourceType.DOCUMENT)!;
     const [dto, setDto] = React.useState<CreateSourceDto>({
         ...defaultStrategy.buildInitialCreateSourceDto(),
@@ -36,6 +42,21 @@ export function CreateSourceForm({
     const isSubmittingRef = React.useRef(false);
 
     const strategy = sourceTypeFactory.resolveStrategy(dto.type as SourceType);
+
+    const {
+        credits,
+        creditBalance,
+        isEstimating,
+        isInsufficient,
+        buttonLabel,
+    } = useCreditEstimate({
+        isEnabled:
+            !isHidden &&
+            (dto.type !== SourceType.AUDIO || dto.durationSeconds !== undefined),
+        estimateFn: () => SourceService.estimate(dto),
+        actionLabel: 'Create',
+        deps: [uploadedFile, dto.type, dto.title, dto.rawText, dto.durationSeconds],
+    });
 
     function resetForm() {
         setUploadedFile(undefined);
@@ -54,21 +75,13 @@ export function CreateSourceForm({
 
         if (!newStrategy) return;
 
-        const currentVisibility = dto.visibility;
         setUploadedFile(undefined);
         setFileInputKey((prev) => prev + 1);
-        setDto({ ...newStrategy.buildInitialCreateSourceDto(), visibility: currentVisibility });
+        setDto({ ...newStrategy.buildInitialCreateSourceDto(), visibility: dto.visibility });
     }
 
     async function createSource() {
         if (!strategy) return;
-
-        const estimate = await SourceService.estimate(dto);
-
-        if (estimate.isSuccess && estimate.credits && estimate.credits > 0) {
-            const confirmed = confirm(`This will cost ${estimate.credits} credits. Proceed?`);
-            if (!confirmed) return;
-        }
 
         isSubmittingRef.current = true;
         setIsHidden(true);
@@ -77,6 +90,8 @@ export function CreateSourceForm({
         const formData = strategy.buildCreateSourceFormData(dto, uploadedFile);
         if (dto.visibility) formData.append('visibility', dto.visibility);
         const response = await SourceService.create(formData);
+
+        dispatch(userActions.fetchData());
 
         if (!response.isSuccess) {
             alert(response.message);
@@ -164,14 +179,23 @@ export function CreateSourceForm({
                 fileInputKey,
             })}
 
-            <Button
-                variant={ButtonVariant.PRIMARY}
-                onClick={async () => {
-                    await createSource();
-                }}
-            >
-                Create
-            </Button>
+            {isInsufficient ? (
+                <InsufficientCreditsNotice
+                    needed={credits}
+                    balance={creditBalance}
+                    onBeforeNavigate={() => setIsPopUpActive(false)}
+                />
+            ) : (
+                <Button
+                    variant={ButtonVariant.PRIMARY}
+                    disabled={isEstimating}
+                    onClick={async () => {
+                        await createSource();
+                    }}
+                >
+                    {buttonLabel}
+                </Button>
+            )}
         </Modal>
     );
 }

@@ -1,8 +1,8 @@
 import React from 'react';
-import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ChangeExerciseSetAssociationForm } from 'src/features/exercise-set/components/ChangeExerciseSetAssociationForm';
+import { CreateExerciseSetForm } from 'src/features/exercise-set/components/CreateExerciseSetForm';
 import { ExerciseSetActionMenu } from 'src/features/exercise-set/components/ExerciseSetActionMenu';
-import { GenerateNotesForm } from 'src/features/exercise-set/components/GenerateNotesForm';
+import { GenerateNotesPopups } from 'src/features/exercise-set/components/GenerateNotesPopups';
 import { UpdateExerciseSetForm } from 'src/features/exercise-set/components/UpdateExerciseSetForm';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
 import { refreshExerciseSetsData } from 'src/features/exercise-set/store/thunks/refresh-exercise-sets-data.thunk';
@@ -312,8 +312,8 @@ export function SidebarPopupsProvider({
                         />
                     ],
                     ...[actionMenuExerciseSet &&
-                        <GenerateNotesForm
-                            key='sidebar-generate-notes-form'
+                        <GenerateNotesPopups
+                            key='sidebar-generate-notes-popups'
                             isHidden={isGenerateNotesFormHidden}
                             setIsHidden={setIsGenerateNotesFormHidden}
                             setIsPopUpActive={setIsPopUpActive}

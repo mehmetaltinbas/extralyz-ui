@@ -3,4 +3,5 @@ export interface SignUpUserDto {
     email: string;
     password: string;
     allowsMarketing: boolean;
+    occupation: string;
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { GenerateNotesDecision } from 'src/features/exercise-set/components/GenerateNotesDecision';
+import { GenerateNotesDecisionForm } from 'src/features/exercise-set/components/GenerateNotesDecisionForm';
 import { SaveGeneratedNotesForm } from 'src/features/exercise-set/components/SaveGeneratedNotesForm';
 import { ExerciseSetService } from 'src/features/exercise-set/services/exercise-set.service';
+import type { GenerateNotesDto } from 'src/features/exercise-set/types/dto/generate-notes.dto';
 import type { ExerciseSet } from 'src/features/exercise-set/types/exercise-set.interface';
 import { userActions } from 'src/features/user/store/user.slice';
 import { useAppDispatch } from 'src/store/hooks';
@@ -38,12 +39,12 @@ export function GenerateNotesPopups({
         }
     }, [isHidden, isGenerating]);
 
-    async function handleConfirmDecision() {
+    async function handleConfirmDecision(dto: GenerateNotesDto) {
         setIsGenerating(true);
         setIsLoadingPageHidden(false);
 
         try {
-            const response = await ExerciseSetService.generateNotes(exerciseSet._id);
+            const response = await ExerciseSetService.generateNotes(exerciseSet._id, dto);
 
             if (!response.isSuccess || !response.title || !response.rawText) {
                 alert(response.message);
@@ -64,7 +65,7 @@ export function GenerateNotesPopups({
 
     return (
         <>
-            <GenerateNotesDecision
+            <GenerateNotesDecisionForm
                 isHidden={isHidden || step !== 'decision' || isGenerating}
                 onClose={onClose}
                 onConfirm={handleConfirmDecision}

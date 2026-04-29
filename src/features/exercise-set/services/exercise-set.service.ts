@@ -3,6 +3,7 @@ import type { ChangeExerciseSetContextDto } from 'src/features/exercise-set/type
 import type { CreateExerciseSetDto } from 'src/features/exercise-set/types/dto/create-exercise-set.dto';
 import type { EvaluateAnswersDto } from 'src/features/exercise-set/types/dto/evaluate-answers.dto';
 import type { GenerateAdditionalExercisesDto } from 'src/features/exercise-set/types/dto/generate-additional-exercises.dto';
+import type { GenerateNotesDto } from 'src/features/exercise-set/types/dto/generate-notes.dto';
 import type { SaveGeneratedNotesDto } from 'src/features/exercise-set/types/dto/save-generated-notes.dto';
 import type { UpdateExerciseSetDto } from 'src/features/exercise-set/types/dto/update-exercise-set.dto';
 import type { EvaluateAnswersResponse } from 'src/features/exercise-set/types/response/evaluate-answers.response';
@@ -35,9 +36,9 @@ export class ExerciseSetService {
         }
     }
 
-    static async generateNotes(exerciseSetId: string): Promise<GenerateNotesResponse> {
+    static async generateNotes(exerciseSetId: string, dto: GenerateNotesDto): Promise<GenerateNotesResponse> {
         try {
-            const response = (await axiosInstance.post(`${baseUrl}/generate-notes/${exerciseSetId}`)).data;
+            const response = (await axiosInstance.post(`${baseUrl}/generate-notes/${exerciseSetId}`, dto)).data;
 
             return response;
         } catch (error) {

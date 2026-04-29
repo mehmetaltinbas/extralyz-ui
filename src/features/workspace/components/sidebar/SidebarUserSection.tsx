@@ -65,13 +65,13 @@ export function SidebarUserSection({ layout }: { layout: 'vertical' | 'horizonta
                             {user.userName.charAt(0).toUpperCase() ?? '?'}
                         </div>
 
-                        <span className="text-sm text-text-secondary">
+                        <span className={`${!isVertical ? 'text-sm' : user.creditBalance / 10000 >= 1 ? 'text-xs' : 'text-sm'} text-text-secondary`}>
                             {user.creditBalance}
                         </span>
 
                         {subscription.currentSubscription?.planId && (
                             <span
-                                className="text-xs text-accent cursor-pointer capitalize hover:underline"
+                                className="text-sm text-accent cursor-pointer capitalize hover:underline"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     navigate('/settings/billing');

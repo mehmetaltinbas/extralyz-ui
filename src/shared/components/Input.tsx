@@ -47,7 +47,7 @@ export function Input({
             onChange={onChange}
             disabled={disabled}
             name={name}
-            className={`w-full border border-border focus:outline-none bg-surface text-text-primary cursor-text transition-colors ${sizeStyles}`}
+            className={`w-full border border-border focus:outline-none bg-surface text-text-primary ${type === InputType.CHECKBOX ? 'cursor-pointer' : 'cursor-text'} transition-colors ${sizeStyles}`}
         />
     );
 }

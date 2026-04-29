@@ -1,8 +1,10 @@
 import type React from 'react';
 import { PLAN_FEATURE_MINIMUM_PLAN_NAME } from 'src/features/plan/constants/plan-feature-minimum-plan-name.constant';
 import { PLAN_ORDER } from 'src/features/plan/constants/plan-order.constant';
+import { PlanName } from 'src/features/plan/enums/plan-name.enum';
 import type { Plan } from 'src/features/subscription/types/plan.interface';
 import { formatLimit } from 'src/features/subscription/utils/format-limit.util';
+import { camelToTitleCase } from 'src/shared/utils/camel-to-title-case.util';
 
 export function PlanCard({
     plan,
@@ -28,8 +30,8 @@ export function PlanCard({
                 <h3 className="text-base font-semibold capitalize">{plan.name}</h3>
                 <p className="text-xl font-bold">
                     {plan.monthlyPrice === 0
-                        ? 'Free'
-                        : `${plan.monthlyPrice} ${plan.currency}/mo`}
+                        ? camelToTitleCase(PlanName.FREE)
+                        : `${plan.monthlyPrice} ${plan.currency}/month`}
                 </p>
             </div>
 

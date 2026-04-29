@@ -51,7 +51,7 @@ export function PlansSection({
                     <button
                         type="button"
                         onClick={onManagePaymentMethodsClick}
-                        className="text-sm text-accent hover:underline"
+                        className="text-sm text-accent hover:underline cursor-pointer"
                     >
                         Manage payment methods
                     </button>

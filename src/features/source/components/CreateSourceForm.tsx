@@ -143,6 +143,7 @@ export function CreateSourceForm({
                     className="py-[2px] px-2 border rounded-[10px] bg-surface text-text-primary"
                 >
                     {Object.values(SourceType).map((value) => (
+                        value !== SourceType.YOUTUBE_VIDEO &&
                         <option key={value} value={value}>
                             {camelToTitleCase(value)}
                         </option>
